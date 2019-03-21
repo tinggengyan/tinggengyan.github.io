@@ -11,7 +11,7 @@ categories: [Mobile,Android]
 最近项目在接入华为推送的时候，遇到一个问题,我们的默认启动 Activity 是一个广告页,在从详情页返回到主页的时候,在主页再返回,出现了广告页.
 
 类似于如图.
-![效果图](http://o9mhbhxlj.bkt.clouddn.com/task_desc.png)
+![效果图](https://img2018.cnblogs.com/blog/651000/201903/651000-20190321232033497-771624775.png)
 
 <!-- more -->
 
@@ -22,15 +22,15 @@ categories: [Mobile,Android]
 A->B->C，在 C 中关闭虚拟机。
 
 这时候,栈中的信息如下.
-![正常栈信息](http://o9mhbhxlj.bkt.clouddn.com/task_abc.png)
+![正常栈信息](https://img2018.cnblogs.com/blog/651000/201903/651000-20190321232104884-668974724.png)
 
 
 此时在 C 中执行关闭虚拟机的操作,然后进程重启.下图是虚拟机重启之后的栈信息。发现,除了之前栈顶的 C 销往了,栈下的 B,C 都还在.并且 B 的状态信息还是重启之前的,除了 pid 不一样了.
-![进程重启栈信息](http://o9mhbhxlj.bkt.clouddn.com/task_ab.png)
+![进程重启栈信息](https://img2018.cnblogs.com/blog/651000/201903/651000-20190321232120531-72425138.png)
 
 
 这时候按下返回,栈信息如下.
-![重启按下返回键栈信息](http://o9mhbhxlj.bkt.clouddn.com/task_a.png)
+![重启按下返回键栈信息](https://img2018.cnblogs.com/blog/651000/201903/651000-20190321232134416-794810183.png)
 
 
 # Conclusion

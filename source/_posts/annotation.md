@@ -179,8 +179,8 @@ public class NameGenerateProcessor extends AbstractProcessor {
     }
 }
 ```
-![传统的结构第一步](http://o9mhbhxlj.bkt.clouddn.com/annotation_tradition_step1.png)
-![传统的结构第二步](http://o9mhbhxlj.bkt.clouddn.com/annotation_tradition_step2.png)
+![传统的结构第一步](https://img2018.cnblogs.com/blog/651000/201903/651000-20190321232520216-1213511430.png)
+![传统的结构第二步](https://img2018.cnblogs.com/blog/651000/201903/651000-20190321232536228-817600691.png)
 
 ### 关键方法 process 解释
 
@@ -257,7 +257,7 @@ targetCompatibility = "1.7"
 有一点需要说清楚，在 AndroidStudio 中用 javapoet 有问题，并不能完全的支持。[这个 jake 在 github 上有解释](https://github.com/square/javapoet/issues/139)。如果想要完整的使用，最好能使用 intellij idea。
 所以这里我们切换到 intellij idea 去开发。
 
-![AdnroidStudio上的报错](http://o9mhbhxlj.bkt.clouddn.com/annotation_error.png)
+![AdnroidStudio上的报错](https://img2018.cnblogs.com/blog/651000/201903/651000-20190321232557805-1097532522.png)
 
 3. 重点还是在注解处理器的处理
 需要注意一点的时，即使在注解处理这个看似特别的程序上，依旧是个 Java 程序，也就必然符合面向对象的原则。我将每个注解我需要的信息封装成一个对象，交给一个工具类，由工具类统一完成代码的生成。
@@ -344,7 +344,7 @@ javaFile.writeTo(filer); 输出到默认的目录下。
 
 和传统方式一样，运行 build 命令，在生成的目录下就可以看到生成的文件。
 
-![采用 auto-service和javapoet的结构图](http://o9mhbhxlj.bkt.clouddn.com/annotation_withautoservice.png)
+![采用 auto-service和javapoet的结构图](https://img2018.cnblogs.com/blog/651000/201903/651000-20190321232617505-364172916.png)
 
 ### 运行时注解
 

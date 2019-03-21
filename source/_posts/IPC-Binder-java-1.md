@@ -18,7 +18,7 @@ Binder 是工作在 Linux 层面，属于一个驱动，只是这个驱动是不
 ## Binder 框架：一种架构
 
 Binder 框架提供 服务端接口、Binder 驱动、客户端接口 三个模块。
-![Binder架构](http://o9mhbhxlj.bkt.clouddn.com/Binder%E6%A1%86%E6%9E%B6%E5%9B%BE.png)
+![Binder架构](https://img2018.cnblogs.com/blog/651000/201903/651000-20190321233117083-1420750355.png)
 
 1. 从服务端的角度来说，一个 Binder 服务端实际上就是一个 Binder 类的对象，该类一旦创建，内部就会启动一个隐藏线程。该线程接下来就用于接收 Binder 驱动发送来的消息，收到消息之后，会执行到 Binder 对象中的 onTransact 方法，在这个方法中，根据不同的参数，执行不同的服务代码。因此，要实现一个 Binder 服务，就必须重载 onTransact 方法。
 在 onTransact 方法中，会获取传递进来的参数，将其转换成服务函数的参数。onTransact  参数的来源于 客户端的调用  transact 方法。所以，如果  transact 方法的参数有固定的格式输入，那么 onTransact 就会有相应的固定格式输出。
@@ -101,7 +101,7 @@ public interface ServiceConnection {
 bindService 方法第一个参数是启动 service 的intent ，第二个参数是一个接口，接口中有个方法叫 onServiceConnected 这个方法含有两个参数，第二个参数就是 Binder 。
 具体的运行过程中，当客户端请求启动 service 的时候，请求就会通过 Ams 发出，若 service 正常去懂了，那么 Ams 就会远程调用 ActivityThread 类中的 ApplicationThread 对象，调用的参数就包含了 service 的 Binder  对象的引用，然后在 ApplicationThread  中回调 bindService 的第二个参数 ServiceConnection  的方法 onServiceConnected ，将 Binder 引用传递回客户端，这样客户端就拿到了远程服务的 Binder  对象引用，在实际操作中，常常可以这个 Binder 对象引用设置成一个全局变量，可以在客户端的任何地方都可以访问到。
 
-![Binder客户端和服务端的调用过程](http://o9mhbhxlj.bkt.clouddn.com/Binder%E5%AE%A2%E6%88%B7%E7%AB%AF%E5%92%8C%E6%9C%8D%E5%8A%A1%E7%AB%AF%E7%9A%84%E8%B0%83%E7%94%A8%E8%BF%87%E7%A8%8B.png)
+![Binder客户端和服务端的调用过程](https://img2018.cnblogs.com/blog/651000/201903/651000-20190321233155768-565865035.png)
 
 ## 保证参数顺序的工具-AIDL
 
@@ -128,11 +128,11 @@ aidl 文件中可以引用其他的 Java 类，但是需要遵循以下要求：
 -  在 Stub 内部还有一个内部静态类 proxy ， 该类具体实现了 AIDL 生成的接口，按照约定的顺序写入参数，可以注意到这里的顺序和 Stub 中重载的 onTransact  中读取的顺序是一致的。proxy 类中持有了一个 IBinder mRemote 对象，这个对象就是远程服务端的引用，Proxy 该类作为客户端访问服务端的代理，该类的代理产生的原因：主要是为了解决约定写入参数的顺序。
 -  内部有一个静态内部抽象类 Stub，这个类主要是由服务端使用 ，之所以是抽象类，因为具体的服务函数必须由程序员自己去实现。该类继承 Binder 类，并且实现 AIDL 生成的接口，但是没有具体的实现这个接口。该类也重载了 onTransact 方法，这个方法是去按照约定的顺序取参数中的值，因为是 ADIL 自己生成的，所以顺序，它自己很清楚；并且定义了服务函数对应的 int 值。asBinder 方法返回的就是 Stub 自身。它内部还有个非常重要的方法  asInterface ，这个方法根据参数 IBinder 对象是否是自身进程中的对象，返回不同的对象。因为我们知道，服务端的服务函数，不仅仅是别的进程可以使用，与 服务端在一个进程内部也可以调用，这种场景下，显然是不需要 IPC 的，而是直接调用。反之，则返回一个 proxy，交由跨进程的客户端引用。在 Binder 内部提供了 queryLocalInterface 方法根据描述符判断当前的 Binder 对象时不是本地的 Binder 引用。因为每当新创建一个 Binder 对象的时候，服务端进程内部会创建一个 Binder 对象，同时在 Binder 驱动中也会创建一个 Binder 对象。如若是跨进程调用，远程访问的时候，返回的 Binder 就会是 Binder 驱动中的 Binder 对象，如若是进程内部获取 Binder 对象，则会是服务端本身的 Binder 对象。所以，asInterface  是对外提供了一个 统一的接口，保证无论进程内还是进程外都能访问，返回的对象就两种，一个是 Proxy 类对象，一个就直接使用 Stub 本身，强制类型转换成 接口类型。
 
-![Binder架构](http://o9mhbhxlj.bkt.clouddn.com/Binder_3.png)
+![Binder架构](https://img2018.cnblogs.com/blog/651000/201903/651000-20190321233216861-1157588680.png)
 
 # 总结
 本篇最后,放一张图进行总结.
-![Binder绑定的流程](http://o9mhbhxlj.bkt.clouddn.com/Binder%E7%BB%91%E5%AE%9A%E7%9A%84%E6%B5%81%E7%A8%8B.png)
+![Binder绑定的流程](https://img2018.cnblogs.com/blog/651000/201903/651000-20190321233234688-642222116.png)
 
 
 # 感激,非常感激，万分的感激！
