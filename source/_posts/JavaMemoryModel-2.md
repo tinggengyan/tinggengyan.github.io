@@ -10,7 +10,7 @@ categories: [Programming,Java]
 
 # 内存区域是什么?
 Java 虚拟机在执行 Java 程序的过程中会把它所管理的内存划分为若干个不同的数据区域.这些区域都有各自的用于,以及创建和销毁的时间,有的区域随着虚拟机进程的启动而存在,有些区域则依赖用户县城的启动和结束而建立和销毁.
-![Java 运行时数据区域](https://img2018.cnblogs.com/blog/651000/201903/651000-20190321233542361-1636298834.png)
+![Java 运行时数据区域](https://github.com/tinggengyan/tinggengyan.github.io/blob/source/imgur/JMM_RunningTimeMemory.png?raw=true)
 
 上图展示了 JVM 虚拟机所管理的几个运行时数据区域.
 分为两类:

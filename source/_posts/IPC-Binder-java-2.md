@@ -48,15 +48,15 @@ Android作为一个开放式，拥有众多开发者的的平台，应用程序�
 
 
 ## 效率角度
-![IPC 内存拷贝次数对比](https://img2018.cnblogs.com/blog/651000/201903/651000-20190321233322632-1407162804.png)
+![IPC 内存拷贝次数对比](https://github.com/tinggengyan/tinggengyan.github.io/blob/source/imgur/IPC%E6%96%B9%E5%BC%8F%E6%95%B0%E6%8D%AE%E6%8B%B7%E8%B4%9D%E6%AC%A1%E6%95%B0.png?raw=true)
 从对比图可以看出,Binder 在效率上是有优势的.
 
 # What Binder 是什么
 
 因为 Binder 也是 CS 架构的一种,而 CS 架构最典型的就是 TCP/IP 请求了.下面做个对比,顺带类比以下 Binder 中的几个关键的概念.
-![TCP/IP访问过程](https://img2018.cnblogs.com/blog/651000/201903/651000-20190321233403638-851649500.png)
+![TCP/IP访问过程](https://github.com/tinggengyan/tinggengyan.github.io/blob/source/imgur/TCP%252FIP%E8%AE%BF%E9%97%AE%E8%BF%87%E7%A8%8B.png?raw=true)
 
-![Binder类比TCP请求](https://img2018.cnblogs.com/blog/651000/201903/651000-20190321233338727-2133490932.png)
+![Binder类比TCP请求](https://github.com/tinggengyan/tinggengyan.github.io/blob/source/imgur/Binder%E7%B1%BB%E6%AF%94TCP%E8%BF%87%E7%A8%8B.png?raw=true)
 
 
 # 背景

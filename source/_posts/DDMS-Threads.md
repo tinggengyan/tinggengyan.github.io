@@ -21,7 +21,7 @@ DDMS(Dalvik Debug Monitor Service),是 Android 开发的调试工具。
 
 ## 面板讲解
 
-![DDMS面板](http://o9mhbhxlj.bkt.clouddn.com/ddms_panel.png)
+![DDMS面板](https://github.com/tinggengyan/tinggengyan.github.io/blob/source/imgur/ddms_panel.png?raw=true)
 
 ### Threads
 在左侧选中想要监控的进程，点击上方左起第五个图标(Update Threads) ,在对应的右侧打开 Threads 面板，就可以看到当前进程中的 线程状态。

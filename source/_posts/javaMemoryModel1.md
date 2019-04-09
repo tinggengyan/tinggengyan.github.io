@@ -72,7 +72,7 @@ Java 线程之间的通信由 Java内存模型(JMM)控制,JMM 决定了一个线
 #### 如何避免重排序带来的问题
 三个重排序,都可能导致多线程出现内存可见性的问题.
 ##### 一个例子,说明重排序产生的问题
-![处理器指令](https://img2018.cnblogs.com/blog/651000/201903/651000-20190321233824751-1168204952.png)
+![处理器指令](https://github.com/tinggengyan/tinggengyan.github.io/blob/source/imgur/JMMprocessor_1.png?raw=true)
 
 假设处理器 A 和处理器 B 按程序的顺序并行执行内存访问，最终却可能得到 x = y = 0 的结果。具体的原因如下图所示：
 
@@ -95,7 +95,7 @@ Java 线程之间的通信由 Java内存模型(JMM)控制,JMM 决定了一个线
 
 缓冲区的这一特性是可以加速程序的运行,然而每个处理器的写缓冲区,仅仅对它所在的处理器可见.这个特性会对内存操作的执行顺序产生重要的影响:处理器对内存的读写操作的执行顺序,不一定与内存实际发生的读写顺序一致.
 
-![重排序类型](https://img2018.cnblogs.com/blog/651000/201903/651000-20190321233859985-1456112531.png)
+![重排序类型](https://github.com/tinggengyan/tinggengyan.github.io/blob/source/imgur/JMM_ReOrder.png?raw=true)
 
 上表单元格中的 “N” 表示处理器不允许两个操作重排序，“Y” 表示允许重排序。
 从上表我们可以看出：常见的处理器都允许 Store-Load 重排序；常见的处理器都不允许对存在数据依赖的操作做重排序。sparc-TSO 和 x86 拥有相对较强的处理器内存模型，它们仅允许对写-读操作做重排序（因为它们都使用了写缓冲区）。
@@ -108,7 +108,7 @@ Java 线程之间的通信由 Java内存模型(JMM)控制,JMM 决定了一个线
 ##### 内存屏障指令
 
 为了保证内存可见性，java 编译器在生成指令序列的适当位置会插入内存屏障指令来禁止特定类型的处理器重排序。JMM 把内存屏障指令分为下列四类：
-![内存屏障](https://img2018.cnblogs.com/blog/651000/201903/651000-20190321233918539-2039559076.png)
+![内存屏障](https://github.com/tinggengyan/tinggengyan.github.io/blob/source/imgur/JMM_Barriers.png?raw=true)
 
 StoreLoad Barriers 是一个“全能型”的屏障，它同时具有其他三个屏障的效果。现代的多处理器大都支持该屏障（其他类型的屏障不一定被所有处理器支持）。执行该屏障开销会很昂贵，因为当前处理器通常要把写缓冲区中的数据全部刷新到内存中（buffer fully flush）。
 
