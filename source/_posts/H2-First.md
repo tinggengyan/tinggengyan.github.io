@@ -26,7 +26,7 @@ HTTP/2 仍是对之前 HTTP 标准的扩展,而非替代.HTTP 的应用语义不
 # Binary framing layer: 二进制分帧层
 
 HTTP/2 所有性能增强的核心在于新的二进制分帧层，它定义了如何封装 HTTP 消息并在客户端与服务器之间传输。
-![二进制分帧层](https://img2018.cnblogs.com/blog/651000/201903/651000-20190303223158915-1255623350.png)
+![二进制分帧层](https://github.com/tinggengyan/tinggengyan.github.io/blob/source/imgur/H2_First/H2_first_framinglayer.png?raw=true)
 
 这里所谓的“层”，指的是位于**套接字接口与应用可见的高级HTTP API之间**一个经过优化的新编码机制:HTTP 的语义（包括各种动词、方法、标头）都不受影响，不同的是传输期间对它们的**编码方式变了**。
 
@@ -43,7 +43,7 @@ HTTP/1.x 协议以换行符作为纯文本的分隔符，而 HTTP/2 将所有传
 - 每条消息**都是**一条逻辑 HTTP 消息(例如请求或响应)，包含一个或多个帧。
 - 帧是最小的通信单位，承载着特定类型的数据，例如 HTTP 标头、消息负载等等.来自不同数据流的帧可以交错发送，然后再根据每个帧头的数据流标识符重新组装.
 
-![stream和connection之间的关系](https://img2018.cnblogs.com/blog/651000/201903/651000-20190303223241263-2131126149.png)
+![stream和connection之间的关系](https://github.com/tinggengyan/tinggengyan.github.io/blob/source/imgur/H2_First/H2_first_stream_connection.png?raw=true)
 
 HTTP/2 将 HTTP 协议通信分解为二进制编码帧的交换，这些帧对应着特定数据流中的消息。所有这些都在一个 TCP 连接内复用。
 
@@ -54,7 +54,7 @@ HTTP/2 将 HTTP 协议通信分解为二进制编码帧的交换，这些帧对�
 
 H2 中客户端和服务端将HTTP消息分解为互不依赖的帧,在**一条TCP连接**上交替发送,在最后一端进行重新组装.这样可以实现请求和相应复用.
 
-![请求响应多路复用](https://img2018.cnblogs.com/blog/651000/201903/651000-20190303223305536-423310459.png)
+![请求响应多路复用](https://raw.githubusercontent.com/tinggengyan/tinggengyan.github.io/source/imgur/H2_First/H2_first_%20multiplexing.png)
 
 图中展示了三个数据流正在并行传输.   
 客户端正在向服务器传输一个 DATA 帧（数据流 5）.
@@ -79,7 +79,7 @@ H2 允许:
 一个流的依赖关系通过引用另外一个流的唯一标识符作为parent,来达到依赖; 如果parent 被省略,则 parent就是root 流;
 声明流的依赖关系,意味着, parent 流资源分配优先级需要在依赖方之前;
 
-![权重和依赖关系展示](https://img2018.cnblogs.com/blog/651000/201903/651000-20190303223337624-1091823192.png)
+![权重和依赖关系展示](https://github.com/tinggengyan/tinggengyan.github.io/blob/source/imgur/H2_First/H2_first_%20streamprioritization.png?raw=true)
 
 如图:
 
@@ -141,7 +141,7 @@ H2未指定任何的流控制算法,替代的,提供了构建块将具体的算�
 
 H2可以实现向客户端发送多个响应. 即可实现无需客户端主动请求的情况,实现对客户端的推送.
 
-![服务器推送](https://img2018.cnblogs.com/blog/651000/201903/651000-20190303223443905-1913653830.png)
+![服务器推送](https://github.com/tinggengyan/tinggengyan.github.io/blob/source/imgur/H2_First/H2_first_%20serverpush.png?raw=true)
 
 如图所示,除了stream1 是主动请求,其他的都是服务端主动推送的.
 
@@ -174,7 +174,7 @@ H2使用了 *HPACK* 压缩方式,对请求头和响应头的元数据进行压�
 
 哈夫曼编码允许对单个值在传输的时候进行压缩, 对传输过的值进行索引,这样可以在传递重复的值时,只需索引值,根据索引值,可以快速的查找和重构完整的header 的 key 和 value.
 
-![header压缩](https://img2018.cnblogs.com/blog/651000/201903/651000-20190303223512320-365198032.png)
+![header压缩](https://github.com/tinggengyan/tinggengyan.github.io/blob/source/imgur/H2_First/H2_first_%20headercompression.png?raw=true)
 
 作为一个深远的优化,哈夫曼编码包含了动态表和静态表.
 - 静态表包含了一些常用的HTPP header字段,这些字段是所有连接都可能使用的.
