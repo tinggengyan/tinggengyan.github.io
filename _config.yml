@@ -43,6 +43,7 @@ highlight:
   line_number: true
   auto_detect: true
   tab_replace:
+mathjax: true
 
 # Category & Tag
 default_category: uncategorized
@@ -65,7 +66,7 @@ pagination_dir: page
 ## Plugins: http://hexo.io/plugins/
 ## Themes: http://hexo.io/themes/
 ## theme: landscape
-theme: vexo
+theme: maupassant
 stylus:
   compress: true
 # Deployment
