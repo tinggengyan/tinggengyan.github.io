@@ -39,7 +39,7 @@ catalog: true
 # uyan
 # if you want to use uyan as your blog comment, plz remove/comment out gitment config
 
-baidu_id: 
+baidu_id: 94c71fc4afacda3d2bffa4e863357892
 
 about: 
   avatar: /images/avatar.png
