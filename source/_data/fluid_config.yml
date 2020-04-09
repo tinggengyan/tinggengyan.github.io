@@ -361,3 +361,5 @@ links:
     Fluid Docs: [https://hexo.fluid-dev.com/docs/, 主题使用指南, /img/favicon.png]
     AndroidCodeOnline: [https://cs.android.com/, Android源码在线浏览, /img/favicon.png]
     LinuxkernelMan: [https://www.kernel.org/doc/man-pages/, Linux内核对应的Man文档, /img/favicon.png]
+    AndroidGithubGroup: [https://github.com/android?utf8=%E2%9C%93&q=&type=&language=, AndroidGithubGroup, /img/favicon.png]
+    jdksource: [http://hg.openjdk.java.net/jdk7/jdk7/hotspot/file, jdk7的hotspot源码, /img/favicon.png]
