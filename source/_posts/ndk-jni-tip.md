@@ -1,17 +1,15 @@
 ---
 title: NDK学习之JNI_Tip
 date: 2020-02-13 22:47:58
-tags:
+tags: [NDK,JNI]
 categories: [Android]
 ---
 # Override
-本篇是对于 Google NDK GUIDES 中 JNI tips 的总结,是关于 JNI **开发过程** 中的一些原则和注意点,没有原理. 所有的内容适用于 Java 和 Kotlin.
+本篇是对于 `Google NDK GUIDES` 中 JNI tips 的总结,是关于 JNI **开发过程** 中的一些原则和注意点,没有原理. 所有的内容适用于 Java 和 Kotlin.
 
-## 约定
+<p class="note note-primary">约定</p>
 - managed code (Java/kotlin编写的代码)
 - native code  (C/C++编写的代码)
-
-<!-- more -->
 
 # Tips
 ## General
