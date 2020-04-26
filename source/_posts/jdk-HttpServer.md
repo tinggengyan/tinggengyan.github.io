@@ -22,7 +22,8 @@ date: 2020-04-20 18:57:56
 # 分类
 ## HTTP 协议
 
-1. 自定义一个 HTTP 服务;
+### 自定义一个 HTTP 服务;
+
 ```java
         HttpsServer server = HttpsServer.create(new InetSocketAddress(8500), 0);
         HttpsConfigurator httpsConfigurator = new HttpsConfigurator(SSLContext.getDefault());
@@ -34,71 +35,69 @@ date: 2020-04-20 18:57:56
 
 该 Http 服务,是在本机的 `8500` 端口启动的; 根目录为 `example`. 所以,直接通过 `http://127.0.0.1:8500/example` 即可访问.
 
-2. Server 的行为定义
+### Server 的行为定义
+
 ```java
-public class CustomHttpHandler implements HttpHandler {
-    @Override
-    public void handle(HttpExchange exchange) throws IOException {
-        URI requestURI = exchange.getRequestURI();
-        printRequestInfo(exchange);
-        String response = "This is the response at " + requestURI;
+    public class CustomHttpHandler implements HttpHandler {
+        @Override
+        public void handle(HttpExchange exchange) throws IOException {
+            URI requestURI = exchange.getRequestURI();
+            printRequestInfo(exchange);
+            String response = "This is the response at " + requestURI;
 
-        exchange.sendResponseHeaders(200, 0);
+            exchange.sendResponseHeaders(200, 0);
 
-        OutputStream os = exchange.getResponseBody();
-        os.write(response.getBytes());
-        os.close();
-    }
-
-    private void printRequestInfo(HttpExchange exchange) {
-        System.out.println("-- headers --");
-        Headers requestHeaders = exchange.getRequestHeaders();
-        requestHeaders.entrySet().forEach(System.out::println);
-
-        System.out.println("-- principle --");
-        HttpPrincipal principal = exchange.getPrincipal();
-        System.out.println(principal);
-
-        System.out.println("-- HTTP method --");
-        String requestMethod = exchange.getRequestMethod();
-        System.out.println(requestMethod);
-
-        System.out.println("-- query --");
-        URI requestURI = exchange.getRequestURI();
-        String query = requestURI.getQuery();
-        System.out.println(query);
-
-
-        InputStream requestBody = exchange.getRequestBody();
-        if (requestBody == null) {
-            return;
+            OutputStream os = exchange.getResponseBody();
+            os.write(response.getBytes());
+            os.close();
         }
-        int available = 0;
-        try {
-            available = requestBody.available();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        System.out.println("request body available:" + available);
-        printMessage(requestBody);
-    }
-    private static void printMessage(InputStream requestBody) {
-        byte[] buffer = new byte[1024];
-        try {
-            while (true) {
-                int read = requestBody.read(buffer);
-                if (!(read > 0)) break;
-                System.out.println("body:::::" + new String(buffer));
+
+        private void printRequestInfo(HttpExchange exchange) {
+            System.out.println("-- headers --");
+            Headers requestHeaders = exchange.getRequestHeaders();
+            requestHeaders.entrySet().forEach(System.out::println);
+
+            System.out.println("-- principle --");
+            HttpPrincipal principal = exchange.getPrincipal();
+            System.out.println(principal);
+
+            System.out.println("-- HTTP method --");
+            String requestMethod = exchange.getRequestMethod();
+            System.out.println(requestMethod);
+
+            System.out.println("-- query --");
+            URI requestURI = exchange.getRequestURI();
+            String query = requestURI.getQuery();
+            System.out.println(query);
+
+
+            InputStream requestBody = exchange.getRequestBody();
+            if (requestBody == null) {
+                return;
             }
-        } catch (IOException e) {
-            e.printStackTrace();
+            int available = 0;
+            try {
+                available = requestBody.available();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            System.out.println("request body available:" + available);
+            printMessage(requestBody);
+        }
+        private static void printMessage(InputStream requestBody) {
+            byte[] buffer = new byte[1024];
+            try {
+                while (true) {
+                    int read = requestBody.read(buffer);
+                    if (!(read > 0)) break;
+                    System.out.println("body:::::" + new String(buffer));
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
-}
 ```
-
-
-
 
 ## Https
 
@@ -106,7 +105,8 @@ public class CustomHttpHandler implements HttpHandler {
 > keytool -genkey -alias alias -keyalg RSA -keystore keystore.jks -keysize 2048
 
 
-1. 自定义一个 Https 服务;
+### 自定义一个 Https 服务;
+
 ```java
         try {
             // setup the socket address
@@ -159,80 +159,81 @@ public class CustomHttpHandler implements HttpHandler {
             System.out.println("Failed to create HTTPS server on port " + 8500 + " of localhost");
             exception.printStackTrace();
         }
-
 ```
 
 
-2. 自定义Https服务处理
+### 自定义Https服务处理
+
 ```java
-public class SimpleHttpsServer {
+      public class SimpleHttpsServer {
 
-    public static class SimpleHandler implements HttpHandler {
-        @Override
-        public void handle(HttpExchange t) throws IOException {
-            printRequestInfo(t);
-            String response = "This is the response";
-            HttpsExchange httpsExchange = (HttpsExchange) t;
-            httpsExchange.getResponseHeaders().add("Access-Control-Allow-Origin", "*");
-            httpsExchange.sendResponseHeaders(200, response.getBytes().length);
-            OutputStream os = httpsExchange.getResponseBody();
-            os.write(response.getBytes());
-            os.close();
-        }
-    }
+          public static class SimpleHandler implements HttpHandler {
+              @Override
+              public void handle(HttpExchange t) throws IOException {
+                  printRequestInfo(t);
+                  String response = "This is the response";
+                  HttpsExchange httpsExchange = (HttpsExchange) t;
+                  httpsExchange.getResponseHeaders().add("Access-Control-Allow-Origin", "*");
+                  httpsExchange.sendResponseHeaders(200, response.getBytes().length);
+                  OutputStream os = httpsExchange.getResponseBody();
+                  os.write(response.getBytes());
+                  os.close();
+              }
+          }
 
-    private static void printRequestInfo(HttpExchange exchange) {
-        System.out.println("-- headers --");
-        Headers requestHeaders = exchange.getRequestHeaders();
-        requestHeaders.entrySet().forEach(System.out::println);
+          private static void printRequestInfo(HttpExchange exchange) {
+              System.out.println("-- headers --");
+              Headers requestHeaders = exchange.getRequestHeaders();
+              requestHeaders.entrySet().forEach(System.out::println);
 
-        System.out.println("-- protocol --");
-        String protocol = exchange.getProtocol();
-        System.out.println(protocol);
-
-
-        System.out.println("-- principle --");
-        HttpPrincipal principal = exchange.getPrincipal();
-        System.out.println(principal);
-
-        System.out.println("-- HTTP method --");
-        String requestMethod = exchange.getRequestMethod();
-        System.out.println(requestMethod);
-
-        System.out.println("-- query --");
-        URI requestURI = exchange.getRequestURI();
-        String query = requestURI.getQuery();
-        System.out.println(query);
+              System.out.println("-- protocol --");
+              String protocol = exchange.getProtocol();
+              System.out.println(protocol);
 
 
-        InputStream requestBody = exchange.getRequestBody();
-        if (requestBody == null) {
-            return;
-        }
-        int available = 0;
-        try {
-            available = requestBody.available();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        System.out.println("request body available:" + available);
-        printMessage(requestBody);
-    }
+              System.out.println("-- principle --");
+              HttpPrincipal principal = exchange.getPrincipal();
+              System.out.println(principal);
 
-    private static void printMessage(InputStream requestBody) {
-        byte[] buffer = new byte[1024];
-        try {
-            while (true) {
-                int read = requestBody.read(buffer);
-                if (!(read > 0)) break;
-                System.out.println("body content is: " + new String(buffer));
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-}
+              System.out.println("-- HTTP method --");
+              String requestMethod = exchange.getRequestMethod();
+              System.out.println(requestMethod);
+
+              System.out.println("-- query --");
+              URI requestURI = exchange.getRequestURI();
+              String query = requestURI.getQuery();
+              System.out.println(query);
+
+
+              InputStream requestBody = exchange.getRequestBody();
+              if (requestBody == null) {
+                  return;
+              }
+              int available = 0;
+              try {
+                  available = requestBody.available();
+              } catch (IOException e) {
+                  e.printStackTrace();
+              }
+              System.out.println("request body available:" + available);
+              printMessage(requestBody);
+          }
+
+          private static void printMessage(InputStream requestBody) {
+              byte[] buffer = new byte[1024];
+              try {
+                  while (true) {
+                      int read = requestBody.read(buffer);
+                      if (!(read > 0)) break;
+                      System.out.println("body content is: " + new String(buffer));
+                  }
+              } catch (IOException e) {
+                  e.printStackTrace();
+              }
+          }
+      }
 ```
 
 # 末尾
+
 如果知道实现了Http2的,还望告知.
