@@ -120,15 +120,15 @@ banner_parallax: true  # 头图滚动视差
 #---------------------------
 footer:
   statistics:  # 统计网站 PV、UV，使用的是不蒜子，显示在页脚  *不蒜子近期连接不稳定，谨慎开启
-    enable: false
+    enable: true
     pv_format: "总访问量 {} 次"  # 显示的文本，{}是数字的占位符（必须包含)，下同
     uv_format: "总访客数 {} 人"
 
   beian:  # The footer of China's website policy, other areas keep disable
-    enable: false
-    icp_text: 京ICP证123456号 # ICP证号
-    police_text: 京公网安备12345678号 # 公安备案号，不填则只显示ICP
-    police_code: 12345678 # 公安备案的编号，用于URL跳转查询
+    enable: true
+    icp_text: 苏ICP备19063668号 # ICP证号
+    police_text: 19063668 # 公安备案号，不填则只显示ICP
+    police_code: 19063668 # 公安备案的编号，用于URL跳转查询
     police_icon: /img/police_beian.png # 公安备案的图片. 为空时不显示备案图片
 
 scroll_top_arrow:  # 向顶部滚动的箭头
