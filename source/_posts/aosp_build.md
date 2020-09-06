@@ -89,7 +89,25 @@ make -j 4
 5. flash into nexus 6p
 
 ```shell
+cd /data/aosp/out/target/product/angler
 
+adb reboot bootloader
+
+fastboot devices
+
+#下面这条命令可选
+#fastboot flashall -w
+#-w 选项会清除设备上的 /data 分区；
+#该选项在您第一次刷写特定设备时非常有用，但在其他情况下则没必要使用。
+
+fastboot flash vendor vendor.img
+fastboot flash boot boot.img
+fastboot flash recovery recovery.img
+fastboot flash system system.img
+fastboot flash userdata userdata.img
+fastboot flash cache cache.img
+
+fastboot reboot
 
 ```
 
