@@ -216,5 +216,12 @@ $ ninja -C out/Cronet cronet_package
 
 ![abi_so](/img/cronet_build/abi_so.png)
 
+
+
+# 其他,iOS编译
+曾经也编译过iOS版本,步骤差不多,按照文档来,但是当时有个问题,在此记录下.
+1. 按照[iOS编译文档](https://chromium.googlesource.com/chromium/src/+/master/docs/ios/build_instructions.md) 操作执行,生成需要的文件夹;
+2. 如果当时fetch的时候,参数不是 iOS,则需要确认 .gclient ,最后一行有  target_os = [ "ios" ]   ,然后再执行 gclient sync,下载iOS的依赖; [文档说明](https://chromium.googlesource.com/chromium/src/+/0e94f26e8/docs/ios_build_instructions.md)
+
 # Ref
 1. [Cronet build instructions](https://chromium.googlesource.com/chromium/src/+/HEAD/components/cronet/build_instructions.md)
