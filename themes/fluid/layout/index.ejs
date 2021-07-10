@@ -4,55 +4,70 @@ if (theme.index.slogan.enable) {
 }
 page.banner_img = theme.index.banner_img
 page.banner_img_height = theme.index.banner_img_height
+page.banner_mask_alpha = theme.index.banner_mask_alpha
 %>
 
 <% page.posts.each(function (post) { %>
   <div class="row mx-auto index-card">
-    <% var post_url = url_for(post.path), index_img = post.index_img || theme.index.post_default_img %>
+    <% var post_url = url_for(post.path), index_img = post.index_img || theme.post.default_index_img %>
     <% if(index_img) { %>
-      <div class="col-12 col-md-4 m-auto">
+      <div class="col-12 col-md-4 m-auto index-img">
         <a href="<%- post_url %>" target="<%- theme.index.post_url_target %>">
-          <img src="<%- url_for(index_img) %>" alt="<%= post.title %>"
-               class="index-img img-fluid rounded index-thumbnails">
+          <img src="<%- url_for(index_img) %>" alt="<%= post.title %>">
         </a>
       </div>
     <% } %>
-    <div class="col-12 col-md-<%= index_img ? '8' : '12' %> mx-auto index-info">
-      <a href="<%- post_url %>">
-        <p class="h4 index-header"><%= post.title %></p>
-      </a>
-
-      <a href="<%- post_url %>">
-        <% var height_limit = '', excerpt = '' %>
-        <% if(post.excerpt && post.excerpt.length > 0) { %>
-          <% excerpt = strip_html(post.excerpt) + "..." %>
-          <% height_limit = 'style="max-height: none;"' %>
-        <% } else if(theme.index.auto_excerpt.enable){ %>
-          <% excerpt = strip_html(post.content).substr(0, 300) %>
+    <article class="col-12 col-md-<%= index_img ? '8' : '12' %> mx-auto index-info">
+      <h1 class="index-header">
+        <% if (theme.index.post_sticky && theme.index.post_sticky.enable && post.sticky > 0) { %>
+          <i class="index-pin <%= theme.index.post_sticky && theme.index.post_sticky.icon %>" title="Pin on top"></i>
         <% } %>
-        <div class="index-excerpt" <%- height_limit %>>
-          <div class="index-text mb-1"><%- excerpt %></div>
-        </div>
-      </a>
+        <a href="<%- post_url %>" target="<%- theme.index.post_url_target %>">
+          <%= post.title %>
+        </a>
+      </h1>
 
-      <div class="index-btm">
+      <p class="index-excerpt">
+        <a href="<%- post_url %>" target="<%- theme.index.post_url_target %>">
+          <% var excerpt = '' %>
+          <% if(post.description) { %>
+            <% excerpt = post.description %>
+          <% } else if(post.excerpt){ %>
+            <% excerpt = strip_html(post.excerpt).substr(0, 200) %>
+          <% } else if(theme.index.auto_excerpt.enable){ %>
+            <% excerpt = strip_html(post.content).substr(0, 200) %>
+          <% } %>
+          <%- excerpt %>
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
         <% if(theme.index.post_meta.date ) { %>
-          <i class="iconfont icon-riqi2"></i>&nbsp;<%- date(post.date, config.date_format) %>&nbsp;&nbsp;
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="<%= full_date(post.date, 'YYYY-MM-DD HH:mm') %>" pubdate>
+              <%- date(post.date, config.date_format) %>
+            </time>
+          </div>
         <% } %>
-        <% if(theme.index.post_meta.category && post.categories.length) { %>
-          <i class="iconfont icon-inbox"></i>
-          <% post.categories.each(function(cate){ %>
-            <a href="<%- url_for(cate.path) %>"><%= cate.name %></a>&nbsp;
-          <% }) %>&nbsp;
+        <% if(theme.index.post_meta.category && post.categories.length > 0) { %>
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            <% post.categories.each(function(cate){ %>
+              <a href="<%= url_for(cate.path) %>"><%- cate.name %></a>
+            <% }) %>
+          </div>
         <% } %>
-        <% if(theme.index.post_meta.tag && post.tags.length) { %>
-          <i class="iconfont icon-tag"></i>
-          <% post.tags.each(function(tag){ %>
-            <a href="<%- url_for(tag.path) %>"><%= tag.name %></a>&nbsp;
-          <% }) %>
+        <% if(theme.index.post_meta.tag && post.tags.length > 0) { %>
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            <% post.tags.each(function(tag){ %>
+              <a href="<%= url_for(tag.path) %>"><%- tag.name %></a>
+            <% }) %>
+          </div>
         <% } %>
       </div>
-    </div>
+    </article>
   </div>
 <% }) %>
 

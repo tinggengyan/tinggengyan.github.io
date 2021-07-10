@@ -1,3 +1,4 @@
+# fluid-1.8.11 版本的配置
 #---------------------------
 # Hexo Theme Fluid
 # Author: Fluid-dev
@@ -209,12 +210,12 @@ custom_html: ''
 # 网页访问统计
 # Analysis of website visitors
 web_analytics:  # 网页访问统计
-  enable: false
+  enable: true
 
   # 百度统计的 Key，值需要获取下方链接中 `hm.js?` 后边的字符串
   # Baidu analytics, get the string behind `hm.js?`
   # See: https://tongji.baidu.com/sc-web/10000033910/home/site/getjs?siteId=13751376
-  baidu:
+  baidu: 94c71fc4afacda3d2bffa4e863357892
 
   # Google 统计的 Tracking ID
   # Google analytics, set Tracking ID
@@ -230,8 +231,8 @@ web_analytics:  # 网页访问统计
   # Tencent analytics, set APP ID
   # See: https://mta.qq.com/h5/manage/ctr_app_manage
   tencent:
-    sid:
-    cid:
+    sid: 500716225
+    cid: 500716226
 
   # 51.la 站点统计 ID
   # 51.la analytics
@@ -431,7 +432,7 @@ index:
 
     # 为空则按 hexo config.subtitle 显示
     # If empty, text based on `subtitle` in hexo config
-    text: "An elegant Material-Design theme for Hexo"
+    text: 
 
     # 通过 API 接口作为首页副标题的内容，必须返回的是 JSON 格式，如果请求失败则按 text 字段显示，该功能必须先开启 typing 打字机功能
     # Subtitle of the homepage through the API, must be returned a JSON. If the request fails, it will be displayed in `text` value. This feature must first enable the typing animation
@@ -668,11 +669,11 @@ disqus:
 # Based on GitHub Issues
 # See: https://github.com/gitalk/gitalk#options
 gitalk:
-  clientID:
-  clientSecret:
-  repo:
-  owner:
-  admin: ['name']
+  clientID: d9ab60e9e0c4ecf24cc8
+  clientSecret: 9eaa84064ec9522eb6c74eb37fe211a4255d3927
+  repo: tinggengyan.github.io 
+  owner: tinggengyan
+  admin: tinggengyan
   language: zh-CN
   labels: ['Gitalk']
   perPage: 10
@@ -778,7 +779,7 @@ archive:
   banner_img: /img/default.png
   banner_img_height: 60
   banner_mask_alpha: 0.3
-  subtitle:
+  subtitle: 像小孩儿一样思考
 
 
 #---------------------------
@@ -840,8 +841,8 @@ about:
   banner_mask_alpha: 0.3
   subtitle:
   avatar: /img/avatar.png
-  name: "Fluid"
-  intro: "An elegant theme for Hexo"
+  name: "Tinggeng Yan"
+  intro: "Simple / Male / Androider"
   # 更多图标可从 https://hexo.fluid-dev.com/docs/icon/ 查找，`class` 代表图标的 css class，添加 `qrcode` 后，图标不再是链接而是悬浮二维码
   # More icons can be found from https://hexo.fluid-dev.com/docs/en/icon/  `class` is the css class of the icon. If adding `qrcode`, The icon is no longer a link, but a hovering QR code
   icons:
@@ -895,15 +896,27 @@ links:
       avatar: "/img/favicon.png"
     }
     - {
-      title: "Fluid Docs",
-      intro: "主题使用指南",
-      link: "https://hexo.fluid-dev.com/docs/",
+      title: "AndroidCodeOnline",
+      intro: "Android源码在线浏览",
+      link: "https://cs.android.com/",
       avatar: "/img/favicon.png"
     }
     - {
-      title: "Fluid Repo",
-      intro: "主题 GitHub 仓库",
-      link: "https://github.com/fluid-dev/hexo-theme-fluid",
+      title: "LinuxkernelMan",
+      intro: "Linux内核对应的Man文档",
+      link: "https://www.kernel.org/doc/man-pages/",
+      avatar: "/img/favicon.png"
+    }
+    - {
+      title: "AndroidGithubGroup",
+      intro: "AndroidGithubGroup",
+      link: "https://github.com/android?utf8=%E2%9C%93&q=&type=&language=",
+      avatar: "/img/favicon.png"
+    }
+    - {
+      title: "jdksource",
+      intro: "jdk7的hotspot源码",
+      link: "http://hg.openjdk.java.net/jdk7/jdk7/hotspot/file",
       avatar: "/img/favicon.png"
     }
 

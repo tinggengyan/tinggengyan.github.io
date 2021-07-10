@@ -12,21 +12,52 @@
     <!-- Collapsible content -->
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav ml-auto text-center">
-        <% for(const each in theme.navbar.menu) { %>
-          <% var link = theme.navbar.menu[each] %>
-          <% if (!link) continue %>
-          <% var text = __(each + '.title') || each %>
+        <% for(const each of theme.navbar.menu || []) { %>
+          <% if (!each.submenu && !each.link) continue %>
+          <% var text = each.name || __(each.key + '.title') %>
           <% if (text.indexOf('.title') !== -1) {
-            text = each
+            text = each.key
           } %>
-          <li class="nav-item">
-            <a class="nav-link" href="<%- url_for(link) %>"><%- text %></a>
-          </li>
+          <% if (each.submenu) { %>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" target="_self" role="button"
+                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <%- each.icon ? '<i class="' + each.icon + '"></i>' : '' %>
+                <%- text %>
+              </a>
+              <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <% for(const subEach of each.submenu || []) { %>
+                  <% if (!subEach.link) continue %>
+                  <% var subText = subEach.name || __(subEach.key + '.title') %>
+                  <% if (subText.indexOf('.title') !== -1) {
+                    subText = subEach.key
+                  } %>
+                  <a class="dropdown-item" href="<%= url_for(subEach.link) %>">
+                    <%- subEach.icon ? '<i class="' + subEach.icon + '"></i>' : '' %>
+                    <%- subText %>
+                  </a>
+                <% } %>
+              </div>
+            </li>
+          <% } else { %>
+            <li class="nav-item">
+              <a class="nav-link" href="<%= url_for(each.link) %>">
+                <%- each.icon ? '<i class="' + each.icon + '"></i>' : '' %>
+                <%- text %>
+              </a>
+            </li>
+          <% } %>
         <% } %>
         <% if(theme.search.enable) { %>
           <li class="nav-item" id="search-btn">
-            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;&nbsp;<i
-                class="iconfont icon-search"></i>&nbsp;&nbsp;</a>
+            <a class="nav-link" target="_self" data-toggle="modal" data-target="#modalSearch">&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;</a>
+          </li>
+        <% } %>
+        <% if(theme.dark_mode && theme.dark_mode.enable) { %>
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
           </li>
         <% } %>
       </ul>

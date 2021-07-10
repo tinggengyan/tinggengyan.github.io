@@ -13,6 +13,8 @@ paginator:
 
 post:
   toc: ディレクトリ
+  pre: 前の記事
+  next: 次の記事
 
 home:
   title: ホーム
@@ -38,5 +40,5 @@ page404:
   subtitle: ページが見つかりませんでした
 
 links:
-  title: 相互リンク
-  subtitle: 相互リンク
+  title: リンク
+  subtitle: リンク
