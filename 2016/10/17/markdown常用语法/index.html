@@ -1,0 +1,538 @@
+
+
+<!DOCTYPE html>
+<html lang="en" data-default-color-scheme=&#34;auto&#34;>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" href="/img/favicon.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="概述本文记录 Markdown 写作时常用的一些语法.">
+  <meta name="author" content="Tinggeng Yan">
+  <meta name="keywords" content="">
+  
+  <title>Markdown 常用语法 - 寒风飘雪,街灯残影</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10.7.2/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
+  
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.11","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>Fluid</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                Home
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                Archives
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                Categories
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                Tags
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                About
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" data-toggle="modal" data-target="#modalSearch">&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;</a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="Markdown 常用语法">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2016-10-17 23:38" pubdate>
+        October 17, 2016 pm
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      1.1k 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      11
+       分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">Markdown 常用语法</h1>
+            
+            <div class="markdown-body">
+              <h1 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h1><p>本文记录 Markdown 写作时常用的一些语法.</p>
+<span id="more"></span>
+
+<h1 id="Why"><a href="#Why" class="headerlink" title="Why"></a>Why</h1><p>平时人们都会进行一些简单的笔记记录，这些文字如果用 Word 就会感觉太复杂，用 txt 又显得单薄，一点格式都没有，不利于书写。自然人们希望有一种方法，能消除这两个缺点的方法，既能有常用的格式，又能方便记忆，简单快捷.<br>Markdown 是满足这种需要的，所以记录总结一些常用的 Markdown 符号，方便记忆.</p>
+<h1 id="What"><a href="#What" class="headerlink" title="What"></a>What</h1><p>Markdown 是一种轻量级的「标记语言」，Markdown 简单快捷，导出格式也随心所欲，你可以导出 HTML 格式的文件用来网站发布，也可以十分方便的导出 PDF 格式，方便阅读。</p>
+<h1 id="How"><a href="#How" class="headerlink" title="How"></a>How</h1><h2 id="1-标题级别的"><a href="#1-标题级别的" class="headerlink" title="1. 标题级别的"></a>1. 标题级别的</h2><p><strong>语法：</strong></p>
+<blockquote>
+<p># 一级标题<br>  ## 二级标题<br>  ### 三级标题<br>  #### 四级标题<br>  ##### 五级标题<br>  ###### 六级标题</p>
+</blockquote>
+<p>标题的级别根据#的个数来区分。正常的文本内容不需要取管，直接输入即可。</p>
+<p><strong>效果:</strong></p>
+<h1 id="一级标题"><a href="#一级标题" class="headerlink" title="一级标题"></a>一级标题</h1><h2 id="二级标题"><a href="#二级标题" class="headerlink" title="二级标题"></a>二级标题</h2><h3 id="三级标题"><a href="#三级标题" class="headerlink" title="三级标题"></a>三级标题</h3><h4 id="四级标题"><a href="#四级标题" class="headerlink" title="四级标题"></a>四级标题</h4><h5 id="五级标题"><a href="#五级标题" class="headerlink" title="五级标题"></a>五级标题</h5><h6 id="六级标题"><a href="#六级标题" class="headerlink" title="六级标题"></a>六级标题</h6><h2 id="2-序列效果"><a href="#2-序列效果" class="headerlink" title="2. 序列效果"></a>2. 序列效果</h2><p><strong>无序序列语法：</strong></p>
+<blockquote>
+</blockquote>
+<p>* 包含的要点<br>* 包含的要点<br>- 包含的要点<br>- 包含的要点</p>
+<p><strong>无序序列效果:</strong></p>
+<ul>
+<li>包含的要点</li>
+<li>包含的要点</li>
+</ul>
+<ul>
+<li>包含的要点</li>
+<li>包含的要点</li>
+</ul>
+<p><strong>有序序列语法：</strong></p>
+<blockquote>
+</blockquote>
+<p>\1. 第一点<br>\2. 第二点<br>\1. 第三点</p>
+<p><strong>无序序列效果:</strong></p>
+<ol>
+<li>第一点</li>
+<li>第二点</li>
+<li>第三点</li>
+</ol>
+<p>对于想输入一些知识点的结构的情况，需要以列表的形式展示的时候，可以采用这种标记。可以根据具体的情况才有无序的列表和有序的列表。<br>对于无序的情况，可以输入“-”也可以输入“*”，都可以。对于有序的情况，输入对于的数字加上英文符号的点，加上空格，紧跟文本内容。其中的数字可以随意,解析的时候自动累加哪怕都写的1，根据具体的解析平台可能存在差异，故而最好能按照顺序写这个数字。</p>
+<h2 id="3-强调文字"><a href="#3-强调文字" class="headerlink" title="3. 强调文字"></a>3. 强调文字</h2><p><strong>斜体语法:</strong></p>
+<blockquote>
+</blockquote>
+<p> *斜体文字,加载这两个星花之间都将以斜体的形式展现*</p>
+<p><strong>斜体效果:</strong></p>
+<p><em>斜体文字,加载这两个星花之间都将以斜体的形式展现</em></p>
+<p><strong>加粗语法:</strong></p>
+<blockquote>
+</blockquote>
+<p>*<em>需要加粗的文字写在这里</em>*</p>
+<p><strong>加粗效果:</strong></p>
+<p><strong>需要加粗的文字写在这里</strong></p>
+<p>文本中需要加粗来强调的内容和需要以斜体展示的内容，用星号包裹，区别就是星号的个数。</p>
+<h2 id="4-引用内容"><a href="#4-引用内容" class="headerlink" title="4. 引用内容"></a>4. 引用内容</h2><p><strong>引用语法:</strong></p>
+<blockquote>
+</blockquote>
+<p>&gt; 引用的内容，对于一些需要标注了引用了别人的信息的情况下需要以这种形式展示，可以写在这个大于号的后面即可。</p>
+<p><strong>引用效果:</strong></p>
+<blockquote>
+<p>引用的内容，对于一些需要标注了引用了别人的信息的情况下需要以这种形式展示，可以写在这个大于号的后面即可。</p>
+</blockquote>
+<h2 id="5-超链接"><a href="#5-超链接" class="headerlink" title="5. 超链接"></a>5. 超链接</h2><p><strong>超链接语法:</strong></p>
+<blockquote>
+</blockquote>
+<p>[展示的文本]( <a target="_blank" rel="noopener" href="http://www.baidu.com/">www.baidu.com</a> )</p>
+<p><strong>超链接效果:</strong></p>
+<p><a href="www.baidu.com">展示的文本</a></p>
+<p>对于文本需要有超链接的情况下，可以采用这种方式。</p>
+<h2 id="6-引用外部图片"><a href="#6-引用外部图片" class="headerlink" title="6. 引用外部图片"></a>6. 引用外部图片</h2><p><strong>引用外部图片语法:</strong></p>
+<blockquote>
+</blockquote>
+<p>![图片说明展示的文本](<a target="_blank" rel="noopener" href="http://pic.lvmama.com/img/v6/lv_jbr.png">http://pic.lvmama.com/img/v6/lv_jbr.png</a>)</p>
+<p><strong>引用外部图片效果:</strong></p>
+<p><img src="http://upload-images.jianshu.io/upload_images/706636-d83548cdf2353f55.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" srcset="/img/loading.gif" lazyload alt="图片说明展示的文本"></p>
+<p><strong>引用外部图片外加超链接语法:</strong></p>
+<blockquote>
+</blockquote>
+<p>[![图片说明展示的文本](<a target="_blank" rel="noopener" href="http://pic.lvmama.com/img/v6/lv_jbr.png)]/(http://www.lvmama.com)">http://pic.lvmama.com/img/v6/lv_jbr.png)]\(http://www.lvmama.com)</a></p>
+<p><strong>引用外部图片外加超链接效果:</strong><br><a target="_blank" rel="noopener" href="http://www.lvmama.com/"><img src="http://upload-images.jianshu.io/upload_images/706636-d83548cdf2353f55.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" srcset="/img/loading.gif" lazyload alt="图片说明展示的文本"></a></p>
+<h2 id="7-分割线"><a href="#7-分割线" class="headerlink" title="7. 分割线"></a>7. 分割线</h2><p><strong>分割线语法:</strong></p>
+<blockquote>
+</blockquote>
+<p>\ —-<br>\ ****</p>
+<p>三个横线和三个星号都表示分割线</p>
+<p><strong>分割线效果：</strong></p>
+<p>横线分割线</p>
+<hr>
+<p>星号分割线</p>
+<hr>
+<p>分割线可以用来分割段落和大的模块内容。</p>
+<h2 id="8-表格"><a href="#8-表格" class="headerlink" title="8. 表格"></a>8. 表格</h2><p><strong>表格语法：</strong></p>
+<blockquote>
+</blockquote>
+<p>| tab1 | tab2 | tab3 |<br>|-|-|-|<br>|内容1|内容2|内容3|</p>
+<p><strong>表格效果：</strong><br>| tab1 | tab2 | tab3 |<br>|-|-|-|<br>|内容1|内容2|内容3|</p>
+<p>用竖直的线和减号进行标示，就可以插入一个简单的表格。</p>
+<h2 id="9-引入代码块"><a href="#9-引入代码块" class="headerlink" title="9. 引入代码块"></a>9. 引入代码块</h2><p><strong>引入代码的语法：</strong></p>
+<blockquote>
+</blockquote>
+<p>```java<br>public class MainActivity extends Activity{<br>protected void onCreate(Bundle save){<br>}<br>}<br>```</p>
+<p><strong>引入代码的效果：</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MainActivity</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Activity</span></span>&#123;<br><span class="hljs-function"><span class="hljs-keyword">protected</span> <span class="hljs-keyword">void</span> <span class="hljs-title">onCreate</span><span class="hljs-params">(Bundle save)</span></span>&#123;<br>&#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h2 id="对于想输入代码的时候，直接替换上面的java-即可实现代码的高亮。"><a href="#对于想输入代码的时候，直接替换上面的java-即可实现代码的高亮。" class="headerlink" title="对于想输入代码的时候，直接替换上面的java 即可实现代码的高亮。"></a>对于想输入代码的时候，直接替换上面的java 即可实现代码的高亮。</h2>
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/Tool/">Tool</a>
+                    
+                      <a class="hover-with-bg" href="/categories/Tool/Editor/">Editor</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/Markdown/">Markdown</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2016/11/16/annotation/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Annotation 使用备忘</span>
+                        <span class="visible-mobile">Previous</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2016/10/15/git%E5%AE%9E%E8%B7%B5%E7%AC%94%E8%AE%B0/">
+                        <span class="hidden-mobile">git实践笔记</span>
+                        <span class="visible-mobile">Next</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;TOC</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">Search</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">keyword</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/tocbot@4.12.3/dist/tocbot.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4.3.1/anchor.min.js" ></script>
+
+
+
+  <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2.0.8/dist/clipboard.min.js" ></script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>

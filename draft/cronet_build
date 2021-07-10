@@ -1,0 +1,41 @@
+export all_proxy=socks5://127.0.0.1:1088
+
+
+git clone https://chromium.googlesource.com/chromium/tools/depot_tools.git
+
+
+
+export PATH="$PATH:/home/tinggengyan/ide/depot_tools"
+
+
+mkdir ~/chromium && cd ~/chromium
+fetch --nohooks --no-history android
+
+
+gclient sync
+
+cd src
+
+
+build/install-build-deps-android.sh
+
+
+gclient runhooks
+
+
+./components/cronet/tools/cr_cronet.py gn --out_dir=out/Cronet
+
+
+
+
+ninja -C out/Cronet cronet_package
+
+
+
+gn args {out_dir}   -> target_cpu="arm64"   target_cpu="x86"   target_cpu="x64"
+
+
+
+
+
+

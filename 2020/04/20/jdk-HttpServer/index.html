@@ -1,0 +1,464 @@
+
+
+<!DOCTYPE html>
+<html lang="en" data-default-color-scheme=&#34;auto&#34;>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" href="/img/favicon.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="概述记录一个意外发现的一个类 com.sun.net.httpserver.HttpsServer. 一个 Http 的 Server 端.">
+  <meta name="author" content="Tinggeng Yan">
+  <meta name="keywords" content="">
+  
+  <title>jdk携带的一个HttpServer实现 - 寒风飘雪,街灯残影</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10.7.2/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
+  
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.11","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>Fluid</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                Home
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                Archives
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                Categories
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                Tags
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                About
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" data-toggle="modal" data-target="#modalSearch">&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;</a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="jdk携带的一个HttpServer实现">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2020-04-20 18:57" pubdate>
+        April 20, 2020 pm
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      870 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      15
+       分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">jdk携带的一个HttpServer实现</h1>
+            
+            <div class="markdown-body">
+              <h1 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h1><p>记录一个意外发现的一个类 <code>com.sun.net.httpserver.HttpsServer</code>. 一个 Http 的 Server 端.</p>
+<span id="more"></span>
+
+<h1 id="用处"><a href="#用处" class="headerlink" title="用处"></a>用处</h1><ol>
+<li>适用于泛前端类开发者,在无后端服务的情况下,可以用来mock数据或者mock后端行为,非常灵活.</li>
+<li>适用于网络库的开发者,测试库的行为;</li>
+</ol>
+<h1 id="缺点"><a href="#缺点" class="headerlink" title="缺点"></a>缺点</h1><ol>
+<li>目前不支持<code>HTTP2</code>协议.</li>
+</ol>
+<h1 id="分类"><a href="#分类" class="headerlink" title="分类"></a>分类</h1><h2 id="HTTP-协议"><a href="#HTTP-协议" class="headerlink" title="HTTP 协议"></a>HTTP 协议</h2><h3 id="自定义一个-HTTP-服务"><a href="#自定义一个-HTTP-服务" class="headerlink" title="自定义一个 HTTP 服务;"></a>自定义一个 HTTP 服务;</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs java">HttpsServer server = HttpsServer.create(<span class="hljs-keyword">new</span> InetSocketAddress(<span class="hljs-number">8500</span>), <span class="hljs-number">0</span>);<br>HttpsConfigurator httpsConfigurator = <span class="hljs-keyword">new</span> HttpsConfigurator(SSLContext.getDefault());<br>server.setHttpsConfigurator(httpsConfigurator);<br>HttpContext context = server.createContext(<span class="hljs-string">&quot;/example&quot;</span>);<br>context.setHandler(<span class="hljs-keyword">new</span> CustomHttpHandler());<br>server.start();<br></code></pre></td></tr></table></figure>
+
+<p>该 Http 服务,是在本机的 <code>8500</code> 端口启动的; 根目录为 <code>example</code>. 所以,直接通过 <code>http://127.0.0.1:8500/example</code> 即可访问.</p>
+<h3 id="Server-的行为定义"><a href="#Server-的行为定义" class="headerlink" title="Server 的行为定义"></a>Server 的行为定义</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">CustomHttpHandler</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">HttpHandler</span> </span>&#123;<br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">handle</span><span class="hljs-params">(HttpExchange exchange)</span> <span class="hljs-keyword">throws</span> IOException </span>&#123;<br>        URI requestURI = exchange.getRequestURI();<br>        printRequestInfo(exchange);<br>        String response = <span class="hljs-string">&quot;This is the response at &quot;</span> + requestURI;<br><br>        exchange.sendResponseHeaders(<span class="hljs-number">200</span>, <span class="hljs-number">0</span>);<br><br>        OutputStream os = exchange.getResponseBody();<br>        os.write(response.getBytes());<br>        os.close();<br>    &#125;<br><br>    <span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">void</span> <span class="hljs-title">printRequestInfo</span><span class="hljs-params">(HttpExchange exchange)</span> </span>&#123;<br>        System.out.println(<span class="hljs-string">&quot;-- headers --&quot;</span>);<br>        Headers requestHeaders = exchange.getRequestHeaders();<br>        requestHeaders.entrySet().forEach(System.out::println);<br><br>        System.out.println(<span class="hljs-string">&quot;-- principle --&quot;</span>);<br>        HttpPrincipal principal = exchange.getPrincipal();<br>        System.out.println(principal);<br><br>        System.out.println(<span class="hljs-string">&quot;-- HTTP method --&quot;</span>);<br>        String requestMethod = exchange.getRequestMethod();<br>        System.out.println(requestMethod);<br><br>        System.out.println(<span class="hljs-string">&quot;-- query --&quot;</span>);<br>        URI requestURI = exchange.getRequestURI();<br>        String query = requestURI.getQuery();<br>        System.out.println(query);<br><br><br>        InputStream requestBody = exchange.getRequestBody();<br>        <span class="hljs-keyword">if</span> (requestBody == <span class="hljs-keyword">null</span>) &#123;<br>            <span class="hljs-keyword">return</span>;<br>        &#125;<br>        <span class="hljs-keyword">int</span> available = <span class="hljs-number">0</span>;<br>        <span class="hljs-keyword">try</span> &#123;<br>            available = requestBody.available();<br>        &#125; <span class="hljs-keyword">catch</span> (IOException e) &#123;<br>            e.printStackTrace();<br>        &#125;<br>        System.out.println(<span class="hljs-string">&quot;request body available:&quot;</span> + available);<br>        printMessage(requestBody);<br>    &#125;<br>    <span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">printMessage</span><span class="hljs-params">(InputStream requestBody)</span> </span>&#123;<br>        <span class="hljs-keyword">byte</span>[] buffer = <span class="hljs-keyword">new</span> <span class="hljs-keyword">byte</span>[<span class="hljs-number">1024</span>];<br>        <span class="hljs-keyword">try</span> &#123;<br>            <span class="hljs-keyword">while</span> (<span class="hljs-keyword">true</span>) &#123;<br>                <span class="hljs-keyword">int</span> read = requestBody.read(buffer);<br>                <span class="hljs-keyword">if</span> (!(read &gt; <span class="hljs-number">0</span>)) <span class="hljs-keyword">break</span>;<br>                System.out.println(<span class="hljs-string">&quot;body:::::&quot;</span> + <span class="hljs-keyword">new</span> String(buffer));<br>            &#125;<br>        &#125; <span class="hljs-keyword">catch</span> (IOException e) &#123;<br>            e.printStackTrace();<br>        &#125;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h2 id="Https"><a href="#Https" class="headerlink" title="Https"></a>Https</h2><blockquote>
+<p>生成自签的证书的命令如下:<br>keytool -genkey -alias alias -keyalg RSA -keystore keystore.jks -keysize 2048</p>
+</blockquote>
+<h3 id="自定义一个-Https-服务"><a href="#自定义一个-Https-服务" class="headerlink" title="自定义一个 Https 服务;"></a>自定义一个 Https 服务;</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">try</span> &#123;<br>    <span class="hljs-comment">// setup the socket address</span><br>    InetSocketAddress address = <span class="hljs-keyword">new</span> InetSocketAddress(<span class="hljs-number">8500</span>);<br><br>    <span class="hljs-comment">// initialise the HTTPS server</span><br>    HttpsServer httpsServer = HttpsServer.create(address, <span class="hljs-number">0</span>);<br>    SSLContext sslContext = SSLContext.getInstance(<span class="hljs-string">&quot;TLS&quot;</span>);<br><br>    <span class="hljs-comment">// initialise the keystore</span><br>    <span class="hljs-comment">// 记得替换密码</span><br>    <span class="hljs-keyword">char</span>[] password = <span class="hljs-string">&quot;123456&quot;</span>.toCharArray();<br>    KeyStore ks = KeyStore.getInstance(<span class="hljs-string">&quot;JKS&quot;</span>);<br>    FileInputStream fis = <span class="hljs-keyword">new</span> FileInputStream(<span class="hljs-string">&quot;keystore.jks&quot;</span>);<br>    ks.load(fis, password);<br><br>    <span class="hljs-comment">// setup the key manager factory</span><br>    KeyManagerFactory kmf = KeyManagerFactory.getInstance(<span class="hljs-string">&quot;SunX509&quot;</span>);<br>    kmf.init(ks, password);<br><br>    <span class="hljs-comment">// setup the trust manager factory</span><br>    TrustManagerFactory tmf = TrustManagerFactory.getInstance(<span class="hljs-string">&quot;SunX509&quot;</span>);<br>    tmf.init(ks);<br><br>    <span class="hljs-comment">// setup the HTTPS context and parameters</span><br>    sslContext.init(kmf.getKeyManagers(), tmf.getTrustManagers(), <span class="hljs-keyword">null</span>);<br>    httpsServer.setHttpsConfigurator(<span class="hljs-keyword">new</span> HttpsConfigurator(sslContext) &#123;<br>        <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">configure</span><span class="hljs-params">(HttpsParameters params)</span> </span>&#123;<br>            <span class="hljs-keyword">try</span> &#123;<br>                <span class="hljs-comment">// initialise the SSL context</span><br>                SSLContext context = getSSLContext();<br>                SSLEngine engine = context.createSSLEngine();<br>                params.setNeedClientAuth(<span class="hljs-keyword">false</span>);<br>                params.setCipherSuites(engine.getEnabledCipherSuites());<br>                params.setProtocols(engine.getEnabledProtocols());<br><br>                <span class="hljs-comment">// Set the SSL parameters</span><br>                SSLParameters sslParameters = context.getSupportedSSLParameters();<br>                params.setSSLParameters(sslParameters);<br><br>            &#125; <span class="hljs-keyword">catch</span> (Exception ex) &#123;<br>                System.out.println(<span class="hljs-string">&quot;Failed to create HTTPS port&quot;</span>);<br>            &#125;<br>        &#125;<br>    &#125;);<br>    httpsServer.createContext(<span class="hljs-string">&quot;/example&quot;</span>, <span class="hljs-keyword">new</span> SimpleHttpsServer.SimpleHandler());<br>    httpsServer.start();<br><br>&#125; <span class="hljs-keyword">catch</span> (Exception exception) &#123;<br>    System.out.println(<span class="hljs-string">&quot;Failed to create HTTPS server on port &quot;</span> + <span class="hljs-number">8500</span> + <span class="hljs-string">&quot; of localhost&quot;</span>);<br>    exception.printStackTrace();<br>&#125;<br></code></pre></td></tr></table></figure>
+
+
+<h3 id="自定义Https服务处理"><a href="#自定义Https服务处理" class="headerlink" title="自定义Https服务处理"></a>自定义Https服务处理</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">SimpleHttpsServer</span> </span>&#123;<br><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">SimpleHandler</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">HttpHandler</span> </span>&#123;<br>        <span class="hljs-meta">@Override</span><br>        <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">handle</span><span class="hljs-params">(HttpExchange t)</span> <span class="hljs-keyword">throws</span> IOException </span>&#123;<br>            printRequestInfo(t);<br>            String response = <span class="hljs-string">&quot;This is the response&quot;</span>;<br>            HttpsExchange httpsExchange = (HttpsExchange) t;<br>            httpsExchange.getResponseHeaders().add(<span class="hljs-string">&quot;Access-Control-Allow-Origin&quot;</span>, <span class="hljs-string">&quot;*&quot;</span>);<br>            httpsExchange.sendResponseHeaders(<span class="hljs-number">200</span>, response.getBytes().length);<br>            OutputStream os = httpsExchange.getResponseBody();<br>            os.write(response.getBytes());<br>            os.close();<br>        &#125;<br>    &#125;<br><br>    <span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">printRequestInfo</span><span class="hljs-params">(HttpExchange exchange)</span> </span>&#123;<br>        System.out.println(<span class="hljs-string">&quot;-- headers --&quot;</span>);<br>        Headers requestHeaders = exchange.getRequestHeaders();<br>        requestHeaders.entrySet().forEach(System.out::println);<br><br>        System.out.println(<span class="hljs-string">&quot;-- protocol --&quot;</span>);<br>        String protocol = exchange.getProtocol();<br>        System.out.println(protocol);<br><br><br>        System.out.println(<span class="hljs-string">&quot;-- principle --&quot;</span>);<br>        HttpPrincipal principal = exchange.getPrincipal();<br>        System.out.println(principal);<br><br>        System.out.println(<span class="hljs-string">&quot;-- HTTP method --&quot;</span>);<br>        String requestMethod = exchange.getRequestMethod();<br>        System.out.println(requestMethod);<br><br>        System.out.println(<span class="hljs-string">&quot;-- query --&quot;</span>);<br>        URI requestURI = exchange.getRequestURI();<br>        String query = requestURI.getQuery();<br>        System.out.println(query);<br><br><br>        InputStream requestBody = exchange.getRequestBody();<br>        <span class="hljs-keyword">if</span> (requestBody == <span class="hljs-keyword">null</span>) &#123;<br>            <span class="hljs-keyword">return</span>;<br>        &#125;<br>        <span class="hljs-keyword">int</span> available = <span class="hljs-number">0</span>;<br>        <span class="hljs-keyword">try</span> &#123;<br>            available = requestBody.available();<br>        &#125; <span class="hljs-keyword">catch</span> (IOException e) &#123;<br>            e.printStackTrace();<br>        &#125;<br>        System.out.println(<span class="hljs-string">&quot;request body available:&quot;</span> + available);<br>        printMessage(requestBody);<br>    &#125;<br><br>    <span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">printMessage</span><span class="hljs-params">(InputStream requestBody)</span> </span>&#123;<br>        <span class="hljs-keyword">byte</span>[] buffer = <span class="hljs-keyword">new</span> <span class="hljs-keyword">byte</span>[<span class="hljs-number">1024</span>];<br>        <span class="hljs-keyword">try</span> &#123;<br>            <span class="hljs-keyword">while</span> (<span class="hljs-keyword">true</span>) &#123;<br>                <span class="hljs-keyword">int</span> read = requestBody.read(buffer);<br>                <span class="hljs-keyword">if</span> (!(read &gt; <span class="hljs-number">0</span>)) <span class="hljs-keyword">break</span>;<br>                System.out.println(<span class="hljs-string">&quot;body content is: &quot;</span> + <span class="hljs-keyword">new</span> String(buffer));<br>            &#125;<br>        &#125; <span class="hljs-keyword">catch</span> (IOException e) &#123;<br>            e.printStackTrace();<br>        &#125;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h1 id="末尾"><a href="#末尾" class="headerlink" title="末尾"></a>末尾</h1><p>如果知道实现了Http2的,还望告知.</p>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/Android/">Android</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/Android/">Android</a>
+                    
+                      <a class="hover-with-bg" href="/tags/Java/">Java</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2020/06/19/tool-understand/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Mac下 Understand 的初步配置</span>
+                        <span class="visible-mobile">Previous</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2020/02/13/ndk-jni-tip/">
+                        <span class="hidden-mobile">NDK学习之JNI_Tip</span>
+                        <span class="visible-mobile">Next</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;TOC</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">Search</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">keyword</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/tocbot@4.12.3/dist/tocbot.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4.3.1/anchor.min.js" ></script>
+
+
+
+  <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2.0.8/dist/clipboard.min.js" ></script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>

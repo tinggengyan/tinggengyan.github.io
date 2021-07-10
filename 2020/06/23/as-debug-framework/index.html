@@ -1,0 +1,509 @@
+
+
+<!DOCTYPE html>
+<html lang="en" data-default-color-scheme=&#34;auto&#34;>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" href="/img/favicon.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="概述debug 是学习流程最快的方式,也是验证想法最好的方法.记录 Androidstudio 如何debug Android framework的代码.">
+  <meta name="author" content="Tinggeng Yan">
+  <meta name="keywords" content="">
+  
+  <title>AndroidStudio调试framework源码 - 寒风飘雪,街灯残影</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10.7.2/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
+  
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.11","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>Fluid</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                Home
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                Archives
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                Categories
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                Tags
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                About
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" data-toggle="modal" data-target="#modalSearch">&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;</a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="AndroidStudio调试framework源码">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2020-06-23 10:42" pubdate>
+        June 23, 2020 am
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      910 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      10
+       分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">AndroidStudio调试framework源码</h1>
+            
+            <div class="markdown-body">
+              <h1 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h1><p>debug 是学习流程最快的方式,也是验证想法最好的方法.记录 Androidstudio 如何debug Android framework的代码.</p>
+<span id="more"></span>
+<h2 id="使用无-AOSP-的代码-Java层"><a href="#使用无-AOSP-的代码-Java层" class="headerlink" title="使用无 AOSP 的代码(Java层)"></a>使用无 AOSP 的代码(Java层)</h2><p>这是最简单方便的方式了.</p>
+<ol>
+<li>下载某个版本的 Android Source code</li>
+</ol>
+<p><img src="/img/as_debug_framework/45b1b25e.png" srcset="/img/loading.gif" lazyload alt="45b1b25e.png"></p>
+<p>确认 <em>Source code</em> 正确下载了.</p>
+<p><img src="/img/as_debug_framework/c974a437.png" srcset="/img/loading.gif" lazyload alt="c974a437.png"></p>
+<ol start="2">
+<li>新建项目,所用的 <code>compile SDK </code> 版本为需要调试的代码版本</li>
+</ol>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs groovy">android &#123;<br>    <span class="hljs-comment">// 设置成需要需要分析的,且已下载源码的版本</span><br>    compileSdkVersion <span class="hljs-number">29</span><br>    ......<br>&#125;<br><br></code></pre></td></tr></table></figure>
+
+<ol start="3">
+<li>新建并启动对应版本的模拟器.</li>
+</ol>
+<p><img src="/img/as_debug_framework/d0be67cc.png" srcset="/img/loading.gif" lazyload alt="d0be67cc.png"></p>
+<ol start="4">
+<li>打断点;</li>
+</ol>
+<p>这里以系统的 <strong>ActivityManagerService</strong> 为例.<br>因为<strong>ActivityManagerService</strong> 并未导出到<strong>Android.jar</strong>,所以无法直接搜索定位到 <strong>.java</strong>文件,所以采用双击<strong>shift</strong>的方式,检索文件.<br><img src="/img/as_debug_framework/ee514167.png" srcset="/img/loading.gif" lazyload alt="ee514167.png"></p>
+<ol start="5">
+<li>attach 到对应的进程,运行,查看断点.</li>
+</ol>
+<p><strong>ActivityManagerService</strong>  这个类是在系统 <strong>system_process</strong> 进程中的,所以,需要对<strong>system_process</strong> 进程进行 <strong>attach</strong> 操作.<br><img src="/img/as_debug_framework/9e039bde.png" srcset="/img/loading.gif" lazyload alt="9e039bde.png"></p>
+<h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><p>至此,经过如上操作,就可以对某个类进行debug操作了.对于分析framework代码也是方便的很.</p>
+<h3 id="可能遇到的问题"><a href="#可能遇到的问题" class="headerlink" title="可能遇到的问题"></a>可能遇到的问题</h3><p>有时候还是会遇到代码行号不匹配,debug定位的代码行号不对,目前原因未知,应该是source code 和生成模拟器镜像的代码有出入.<br>没有好的解决办法,有个替代的方案.</p>
+<ol>
+<li>断点后,有明确的thread stack信息;</li>
+<li>找到最早一个可以定位准备行号的函数;</li>
+<li>针对这个函数进行 findByUsage,在查出的结果中,查找stack信息指引的函数.</li>
+</ol>
+<h1 id="使用-AOSP-的源码进行调试"><a href="#使用-AOSP-的源码进行调试" class="headerlink" title="使用 AOSP 的源码进行调试"></a>使用 AOSP 的源码进行调试</h1><p>上述的方法基本能满足常见的debug需求了.但是有个前提是,debug的设备基本只能是模拟器或者装了官方release镜像的亲儿子.<br>对于有修改ROM需求的情况下,debug 则需要导入 aosp 中framework 的代码. 对应的运行设备得是运行了自定义ROM的设备.</p>
+<h2 id="生成-android-ipr-文件"><a href="#生成-android-ipr-文件" class="headerlink" title="生成 android.ipr 文件"></a>生成 android.ipr 文件</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs shell">// 1. 编译 idegen模块<br>mmm development/tools/idegen/<br><br>// 2. 生成<br>./development/tools/idegen.sh<br><br></code></pre></td></tr></table></figure>
+
+<p>这个文件就代表了AS里的一个project.</p>
+<h2 id="修改-android-iml-文件"><a href="#修改-android-iml-文件" class="headerlink" title="修改 android.iml 文件"></a>修改 android.iml 文件</h2><p>同时还会生成一个 iml文件,代表了project的配置情况,可以用于配置加载哪些配置.<br>AOSP巨大,可以只加载需要关注的模块,如 framework 和 Package 部分.<br>所以需要修改 android.iml 文件,将不需要的文件进行exclude.</p>
+<h2 id="AS-打开-ipr-文件"><a href="#AS-打开-ipr-文件" class="headerlink" title="AS 打开 ipr 文件"></a>AS 打开 ipr 文件</h2><h3 id="可能遇到问题"><a href="#可能遇到问题" class="headerlink" title="可能遇到问题"></a>可能遇到问题</h3><p>导入可能遇到问题 <code>External file changes sync may be slow: The current inotify(7) watch limit is too low.</code></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs shell">sudo vim fs.inotify.max_user_watches = 524288<br><br>sudo sysctl -p --system<br><br></code></pre></td></tr></table></figure>
+<p>重启即可;</p>
+<h2 id="代码索引跳转"><a href="#代码索引跳转" class="headerlink" title="代码索引跳转"></a>代码索引跳转</h2><p>为了跳转到aosp的Java文件,而不是android.jar的class文件,需要调整 project struct.</p>
+<ol>
+<li>新建一个 jdk,此处为 jdk_none, 删除所有的path;</li>
+</ol>
+<p><img src="/img/as_debug_framework/create_jdk.png" srcset="/img/loading.gif" lazyload alt="create_jdk.png"></p>
+<ol start="2">
+<li><p>新建一个 android sdk,依赖 jdk_none;<br><img src="/img/as_debug_framework/create_sdk_with_jdk.png" srcset="/img/loading.gif" lazyload alt="create_sdk_with_jdk.png"></p>
+</li>
+<li><p>project 依赖的sdk切换成第2步新建的SDK即可;</p>
+</li>
+</ol>
+<h2 id="让模拟器使用自定义的ROM"><a href="#让模拟器使用自定义的ROM" class="headerlink" title="让模拟器使用自定义的ROM"></a>让模拟器使用自定义的ROM</h2><ol>
+<li>source ./build/envsetup.sh</li>
+<li>lunch ,选择对应的 模拟器需要的API</li>
+<li>emulator</li>
+</ol>
+<blockquote>
+<p>自己编译编译出的ROM位置” ……/aosp/out/target/product/generic_x86_64 </p>
+</blockquote>
+<h3 id="附-我还没试过"><a href="#附-我还没试过" class="headerlink" title="附,我还没试过"></a>附,我还没试过</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta">$</span><span class="bash"> emulator -avd Nexus5-API22 -verbose -no-boot-anim -system (the path of system.img)</span><br></code></pre></td></tr></table></figure>
+
+<h1 id="方案对比"><a href="#方案对比" class="headerlink" title="方案对比"></a>方案对比</h1><ol>
+<li>第一种自然是方便的,要求比较低,对机器的性能要求也不高.有个劣势: 对于AIDL编译生成的Java文件,无法进行索引和导航.但是,可以借助官方的代码搜索网站进行弥补,搜索网站可以索引soong编译期间生成的Java代码: <a target="_blank" rel="noopener" href="https://cs.android.com/android/platform/superproject">https://cs.android.com/android/platform/superproject</a> </li>
+<li>AOSP的方式是灵活性更大,中间代码索引也方便. 就是性能要求比较高.</li>
+</ol>
+<h2 id="Ref"><a href="#Ref" class="headerlink" title="Ref"></a>Ref</h2><ol>
+<li><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/a19dcb06cd53">导入AOSP</a></li>
+</ol>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/Tool/">Tool</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/Android/">Android</a>
+                    
+                      <a class="hover-with-bg" href="/tags/framework/">framework</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2020/07/23/activity-launch-process-1/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Activity启动流程概述</span>
+                        <span class="visible-mobile">Previous</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2020/06/19/tool-understand/">
+                        <span class="hidden-mobile">Mac下 Understand 的初步配置</span>
+                        <span class="visible-mobile">Next</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;TOC</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">Search</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">keyword</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/tocbot@4.12.3/dist/tocbot.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4.3.1/anchor.min.js" ></script>
+
+
+
+  <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2.0.8/dist/clipboard.min.js" ></script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>

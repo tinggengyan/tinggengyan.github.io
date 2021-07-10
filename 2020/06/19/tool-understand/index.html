@@ -1,0 +1,506 @@
+
+
+<!DOCTYPE html>
+<html lang="en" data-default-color-scheme=&#34;auto&#34;>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" href="/img/favicon.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="概述之前一直寻找一款类似于windows上的sourceinsight的软件,后来无意发现 Understand,感觉挺好,熟悉一下,可以用来看代码.体验不错.">
+  <meta name="author" content="Tinggeng Yan">
+  <meta name="keywords" content="">
+  
+  <title>Mac下 Understand 的初步配置 - 寒风飘雪,街灯残影</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10.7.2/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
+  
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.11","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>Fluid</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                Home
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                Archives
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                Categories
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                Tags
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                About
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" data-toggle="modal" data-target="#modalSearch">&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;</a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="Mac下 Understand 的初步配置">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2020-06-19 22:57" pubdate>
+        June 19, 2020 pm
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      790 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      8
+       分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">Mac下 Understand 的初步配置</h1>
+            
+            <div class="markdown-body">
+              <h1 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h1><p>之前一直寻找一款类似于windows上的sourceinsight的软件,后来无意发现 Understand,感觉挺好,熟悉一下,可以用来看代码.体验不错.</p>
+<span id="more"></span>
+
+<h2 id="导入流程"><a href="#导入流程" class="headerlink" title="导入流程"></a>导入流程</h2><p>和sourceinsight一样,都是新建一个project,在此基础上进行代码的阅读和修改;<br><img src="/img/efficiency_tool_understand/e5d3267c.png" srcset="/img/loading.gif" lazyload alt="e5d3267c.png"><br><img src="/img/efficiency_tool_understand/e34dd270.png" srcset="/img/loading.gif" lazyload alt="e34dd270.png"><br><img src="/img/efficiency_tool_understand/4ddef3ef.png" srcset="/img/loading.gif" lazyload alt="4ddef3ef.png"></p>
+<ol>
+<li>new project </li>
+<li>import project files</li>
+</ol>
+<h2 id="部分实用快捷键"><a href="#部分实用快捷键" class="headerlink" title="部分实用快捷键"></a>部分实用快捷键</h2><ol>
+<li>command + F:</li>
+</ol>
+<ul>
+<li>在侧边的文件栏可以按照文件名进行搜索;</li>
+<li>在打开的文件内可以搜索匹配的关键词;</li>
+</ul>
+<ol start="2">
+<li>command + G:</li>
+</ol>
+<p>在搜索的基础上可以查找匹配的结果的下一项;</p>
+<ol start="3">
+<li>command +shift + G:</li>
+</ol>
+<p>在搜索的基础上可以查找匹配的结果的上一项,即反向查找;</p>
+<ol start="4">
+<li>command + F3</li>
+</ol>
+<p>搜索选中的内容</p>
+<ol start="5">
+<li>command + option + p/n<br>返回前一个/下一个修改的地方</li>
+</ol>
+<h2 id="部分实用的操作"><a href="#部分实用的操作" class="headerlink" title="部分实用的操作"></a>部分实用的操作</h2><ol>
+<li>绘图能力<br><img src="/img/efficiency_tool_understand/a520cff1.png" srcset="/img/loading.gif" lazyload alt="a520cff1.png"></li>
+</ol>
+<ul>
+<li>uml 类图<br>在类名上右击,<code>Graphical Views</code> -&gt; <code>UML Class Diagram</code></li>
+<li>查看选中类调用其他类的关系图(单向的调用)<br>在类名上右击,<code>Graphical Views</code> -&gt; <code>Cluster call</code></li>
+<li>查看选中类和其他之间关系图(单向和双向的调用都会列出)<br>在类名上右击,<code>Graphical Views</code> -&gt; <code>Cluster callby Butterfly</code></li>
+<li>查看选中类内部的调用关系<br>在类名上右击,<code>Graphical Views</code> -&gt; <code>Cluster callby Internal</code></li>
+<li>查看选中类被哪些其他的类调用(单向的被调用)<br>在类名上右击,<code>Graphical Views</code> -&gt; <code>Cluster callby</code></li>
+</ul>
+<ol start="2">
+<li>预览能力,非常好用的功能<br><img src="/img/efficiency_tool_understand/8e21f7d4.png" srcset="/img/loading.gif" lazyload alt="8e21f7d4.png"></li>
+</ol>
+<p>在类名上,右击 <code>View Information</code> -&gt; <code>Reference by Flat List</code>: 查看类被引用的列表.<br>注: 如果选中的是方法名的话,这里展示的就是方法被引用的列表了.</p>
+<ol start="3">
+<li>文件搜索能力</li>
+</ol>
+<p><img src="/img/efficiency_tool_understand/aed73fba.png" srcset="/img/loading.gif" lazyload alt="aed73fba.png"><br>除了直接使用搜索以外,可以在 <code>Entity Filter</code> 里进行过滤文件.</p>
+<ol start="4">
+<li>收藏夹<br><img src="/img/efficiency_tool_understand/993c3f30.png" srcset="/img/loading.gif" lazyload alt="993c3f30.png"></li>
+</ol>
+<p>用以将需要分析的文件分组</p>
+<ol start="5">
+<li>查看调用链<br><img src="/img/efficiency_tool_understand/e2e50df5.png" srcset="/img/loading.gif" lazyload alt="e2e50df5.png"></li>
+</ol>
+<p>通过选中方法右击 <code>explore</code> -&gt; <code>explore called by/Calls</code>,可以看不到方法被谁调用,自身又调用了谁,非常非常实用.</p>
+<h2 id="缺陷"><a href="#缺陷" class="headerlink" title="缺陷"></a>缺陷</h2><ol>
+<li>文件的检索,快捷键<br>目前试用,有几个点比较不舒适,文件的检索能力,没有找到对应的快捷键,能迅速的搜索文件.<br>退而求其次,采用为<code>Entity Filter</code> 自定义快捷键的方式,来达到此目的.</li>
+</ol>
+<p><img src="/img/efficiency_tool_understand/5e5424bf.png" srcset="/img/loading.gif" lazyload alt="5e5424bf.png"></p>
+<p>当前我采用的是 <code>control + e</code>,目前看能满足需求.</p>
+<ol start="2">
+<li>在 <code>information</code> 里搜索关键词超级慢;</li>
+<li>没有不可编辑的选项<br>阅读代码的时候,有时不小心误触什么键,可能导致代码变更,需要设置全部文件均不可修改. 不过这点可以通过权限控制,或者干脆不设置,小问题.</li>
+<li>没办法快捷键检索类的属性和方法<br>目前可以查看属性只能通过<code>Information</code>. 方法可以通过菜单栏处的<code>scope list</code> 查看.没有快捷键进行关键词搜索,只能鼠标,这点太大的缺陷.关于这点,还是IDE或者VSC 比较方便.目前这个只能通过选中文件,在光标处于选中文件编辑区的情况下, <code>commnand + f</code> 进行检索,检索的顺序还不能模糊匹配.</li>
+</ol>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/Tool/">Tool</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/Understand/">Understand</a>
+                    
+                      <a class="hover-with-bg" href="/tags/Tool/">Tool</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2020/06/23/as-debug-framework/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">AndroidStudio调试framework源码</span>
+                        <span class="visible-mobile">Previous</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2020/04/20/jdk-HttpServer/">
+                        <span class="hidden-mobile">jdk携带的一个HttpServer实现</span>
+                        <span class="visible-mobile">Next</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;TOC</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">Search</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">keyword</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/tocbot@4.12.3/dist/tocbot.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4.3.1/anchor.min.js" ></script>
+
+
+
+  <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2.0.8/dist/clipboard.min.js" ></script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>
