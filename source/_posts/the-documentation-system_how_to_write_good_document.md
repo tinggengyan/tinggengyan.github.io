@@ -211,6 +211,7 @@ Guide 的标题很重要,标题必须能准确告诉读者,文章的内容具体
 ## Divio 中的 Guide 例子(Example from Divio’s documentation)
 
 看一下这个文档[our how-to guides](https://docs.divio.com/en/latest/how-to/).
+![Divio中的例子](https://documentation.divio.com/_images/django-how-to-example.png)
 
 这里的每个标题都是在说明内容是一个问题的答案. "how do I…? (如何解决…如何做到…)". 这些标题里都是在阐述类似的概念"how to ".  每一个都是一道菜的食谱,都会引导读者完成对应的菜.
 
