@@ -1,0 +1,781 @@
+
+
+<!DOCTYPE html>
+<html lang="en" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" href="/img/favicon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Tinggeng Yan">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="Why理解 JMM 就需要理解 JVM 中的运行时内存区域分为哪几部分,以及各个部分的区别. 内存区域是什么?Java 虚拟机在执行 Java 程序的过程中会把它所管理的内存划分为若干个不同的数据区域.这些区域都有各自的用于,以及创建和销毁的时间,有的区域随着虚拟机进程的启动而存在,有些区域则依赖用户县城的启动和结束而建立和销毁. 上图展示了 JVM 虚拟机所管理的几个运行时数据区域.分为两类:">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java 内存模型_2">
+<meta property="og:url" content="http://example.com/2017/01/28/JavaMemoryModel-2/index.html">
+<meta property="og:site_name" content="我的Code小窝">
+<meta property="og:description" content="Why理解 JMM 就需要理解 JVM 中的运行时内存区域分为哪几部分,以及各个部分的区别. 内存区域是什么?Java 虚拟机在执行 Java 程序的过程中会把它所管理的内存划分为若干个不同的数据区域.这些区域都有各自的用于,以及创建和销毁的时间,有的区域随着虚拟机进程的启动而存在,有些区域则依赖用户县城的启动和结束而建立和销毁. 上图展示了 JVM 虚拟机所管理的几个运行时数据区域.分为两类:">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://github.com/tinggengyan/tinggengyan.github.io/blob/source/imgur/JMM_RunningTimeMemory.png?raw=true">
+<meta property="article:published_time" content="2017-01-27T18:04:06.000Z">
+<meta property="article:modified_time" content="2023-05-17T16:34:55.913Z">
+<meta property="article:author" content="Tinggeng Yan">
+<meta property="article:tag" content="JMM">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://github.com/tinggengyan/tinggengyan.github.io/blob/source/imgur/JMM_RunningTimeMemory.png?raw=true">
+  
+  
+    <meta name="referrer" content="no-referrer-when-downgrade">
+  
+  
+  <title>Java 内存模型_2 - 我的Code小窝</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.2","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":"94c71fc4afacda3d2bffa4e863357892","google":null,"gtag":"G-EVHJQ5NV0G","tencent":{"sid":500716225,"cid":500716226},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+    <!-- Baidu Analytics -->
+    <script async>
+      if (!Fluid.ctx.dnt) {
+        var _hmt = _hmt || [];
+        (function() {
+          var hm = document.createElement("script");
+          hm.src = "https://hm.baidu.com/hm.js?94c71fc4afacda3d2bffa4e863357892";
+          var s = document.getElementsByTagName("script")[0];
+          s.parentNode.insertBefore(hm, s);
+        })();
+      }
+    </script>
+  
+
+  
+
+  
+    <!-- Google gtag.js -->
+    <script async>
+      if (!Fluid.ctx.dnt) {
+        Fluid.utils.createScript('https://www.googletagmanager.com/gtag/js?id=G-EVHJQ5NV0G', function() {
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', 'G-EVHJQ5NV0G');
+        });
+      }
+    </script>
+  
+
+  
+    <!-- Tencent Analytics -->
+    <script async>
+      if (!Fluid.ctx.dnt) {
+        var _mtac = {};
+        (function() {
+          var mta = document.createElement("script");
+          mta.src = "//pingjs.qq.com/h5/stats.js?v2.0.4";
+          mta.setAttribute("name", "MTAH5");
+          mta.setAttribute("sid", "500716225");
+          
+          mta.setAttribute("cid", "500716226");
+          
+          var s = document.getElementsByTagName("script")[0];
+          s.parentNode.insertBefore(mta, s);
+        })();
+      }
+    </script>
+  
+
+  
+
+  
+
+  
+
+
+
+  
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>我的Code小窝</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                Home
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                Archives
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                Categories
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                Tags
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                About
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="Java 内存模型_2"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2017-01-28 02:04" pubdate>
+          January 28, 2017 am
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          <!-- compatible with older versions-->
+          3.5k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          <!-- compatible with older versions-->
+          30 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">Java 内存模型_2</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="Why"><a href="#Why" class="headerlink" title="Why"></a>Why</h1><p>理解 JMM 就需要理解 JVM 中的运行时内存区域分为哪几部分,以及各个部分的区别.</p>
+<h1 id="内存区域是什么"><a href="#内存区域是什么" class="headerlink" title="内存区域是什么?"></a>内存区域是什么?</h1><p>Java 虚拟机在执行 Java 程序的过程中会把它所管理的内存划分为若干个不同的数据区域.这些区域都有各自的用于,以及创建和销毁的时间,有的区域随着虚拟机进程的启动而存在,有些区域则依赖用户县城的启动和结束而建立和销毁.<br><img src="https://github.com/tinggengyan/tinggengyan.github.io/blob/source/imgur/JMM_RunningTimeMemory.png?raw=true" srcset="/img/loading.gif" lazyload alt="Java 运行时数据区域"></p>
+<p>上图展示了 JVM 虚拟机所管理的几个运行时数据区域.<br>分为两类:</p>
+<ul>
+<li>所有线程都共享的,即 JVM 虚拟机就一份</li>
+<li>线程隔离的数据区,即每个线程所特有的一份,每份线程都会创建一份.它的生命周期与线程相同.</li>
+</ul>
+<span id="more"></span>
+
+<h2 id="1-程序计数器"><a href="#1-程序计数器" class="headerlink" title="1. 程序计数器"></a>1. 程序计数器</h2><p>程序计数器是一块儿较小的内存空间,它可以看做是当前线程所执行的字节码的行号指示器.在虚拟机的概念模型里,字节码解释器工作时就是通过改变这个计数器的值来选取下一条需要执行的字节码指令,分支,循环,跳转,异常处理,线程恢复等基础功能都需要依赖这个计数器来完成.</p>
+<p>Java 虚拟机的多线程是通过线程轮流切换并分配处理器执行时间的方式来实现的,在任何一个确定的时刻,一个处理器(对于多核处理器来说是一个内核)都会执行一条线程中的指令.因此,为了线程切换之后,能恢复到正确的执行位置,每条线程都需要一个独立的程序计数器,各条线程之间的计数器互不影响,独立存储,我们称这类内存区域为”线程私有”的内存.</p>
+<p>如果线程正在执行的是一个 Java 方法,这个计数器记录的是正在执行的虚拟机字节码指令的地址;如果执行的是 native 方法,这个计数器的值则为空.</p>
+<p>程序计数器是唯一一个在 Java 虚拟机规范中没有规定任何 OOM 情况的区域.</p>
+<h2 id="2-Java-虚拟机栈"><a href="#2-Java-虚拟机栈" class="headerlink" title="2. Java 虚拟机栈"></a>2. Java 虚拟机栈</h2><p>虚拟机栈描述的是 Java 方法执行的内存模型:每个方法在执行的同时都会创建一个栈帧,栈帧是用于存储 <strong>局部变量表,操作数栈,动态链接,方法出口等</strong> 信息.每个方法从调用直至执行完成的过程,就对应着一个栈帧在虚拟机栈中的入栈到出栈的过程.</p>
+<p>局部变量表存放编译器可知的各种基本数据类型(boolean、byte、char、short、int、float、long、double),对象引用(reference类型,它不等同于对象本身,可能是一个指向对象起始地址的引用指针,也可能是指向代表对象的句柄或者其他与次对象相关的位置) 和 returnAddress 类型(指向了一条字节码指令的地址).</p>
+<p>局部变量表所需要的内存空间在编译期完成分配,当进入一个方法时,这个方法需要在帧中分配多大的局部变量空间是完全确定的,在方法运行期间不会改变局部变量的大小.</p>
+<p>这个区域存在两种异常状况:如果线程的栈深度大于虚拟机允许的深度,讲抛出 StackOverflowError 异常;如果虚拟机栈是可以扩展的(当前大部分的 Java 虚拟机都可以动态扩展,只不过 Java 规范也允许固定长度的虚拟机栈),如果扩展时无法申请到足够的内存,就会抛出 OOM 异常.</p>
+<h2 id="3-本地方法栈"><a href="#3-本地方法栈" class="headerlink" title="3. 本地方法栈"></a>3. 本地方法栈</h2><p>本地方法栈的作用与虚拟机栈所发挥的作用是非常相似的,它们之间的区别不过是虚拟机栈为虚拟机执行 Java 方法(字节码) 服务,而本地方法栈则为虚拟机使用到 Native 方法服务.虚拟机规范中并未对本地方法栈中的使用的语言,使用方式与数据结果有强制规定,因此具体的虚拟机可以自由实现,甚至有的虚拟机直接将本地方法栈和虚拟机栈合二为一.</p>
+<p>本地方法栈也会抛出和虚拟机栈一样的异常: StackOverflowError 和 OutOfMemoryError 异常.</p>
+<h2 id="4-Java-堆"><a href="#4-Java-堆" class="headerlink" title="4. Java 堆"></a>4. Java 堆</h2><p>Java 堆是 JVM 虚拟机管理的内存中最大的一块儿.Java 堆是被<strong>所有的线程共享</strong>的一块儿内存区域,在虚拟机创建的时候就创建.这个区域的唯一目的: 存放对象的实例,几乎所有的对象实例都在这里分配.<br>虚拟机规范的描述: 所有的<strong>对象实例</strong>以及<strong>数组</strong>都要在堆上分配.<br>随着 JIT 编译器的发展与逃逸分析技术逐渐成熟,栈上分配,标量替换优化技术将会导致一些微妙的变化发生,所有的对象都在堆上分配也逐渐变得不是那么的”绝对”.</p>
+<p>Java 堆是垃圾收集器管理的主要区域,因此也会称 Java 堆为 “GC堆”.</p>
+<ul>
+<li>从<strong>内存回收</strong>的角度来看,由于现在的收集器基本都采用分代收集算法,所以 Java 堆还可以细分为: 新生代和老年代;再细致一点的有 Eden 空间、From Survivor 空间、To Survivor 空间等。</li>
+<li>从<strong>内存分配</strong>的角度来看,线程共享的 Java 堆中可能换分出多个线程私有的分配缓冲区(Thread Local Allocation Buffer,TLAB).</li>
+</ul>
+<p>不过无论怎么划分,都与存放内容无关,无论哪个区域,存储的都仍然是对象实例,进一步划分的目的是为了更好的内存回收,或者更快地分配内存.</p>
+<p>根据 Java 虚拟机规范的规定,Java 堆可以处于物理上不连续的内存空间中,只要逻辑上连续即可,就像我们的磁盘空间一样.在实现的时候,既可以实现成固定大小的,也可以是可扩展的,不过当前主流的虚拟机都是按照可扩展的来实现的.</p>
+<p>如果堆中没有内存完成实例分配,并且堆也无法再扩展时,将会抛出 OutOfMemoryError 异常.</p>
+<h2 id="5-方法区"><a href="#5-方法区" class="headerlink" title="5. 方法区"></a>5. 方法区</h2><p>方法区与 Java 堆一样,是各个线程共享的内存区域,它用于存储已被虚拟机加载的类信息,常量,静态变量,即时编译器编译后的代码等数据.虽然虚拟机规范把方法区描述成堆的一个逻辑部分,但是它却有一个叫做 Non-Heap(非堆)的名字,目的应该就是为了与堆区分开来.</p>
+<p>习惯了在 HotSpot 虚拟机上开发,部署程序的开发者来说,很多人都更愿意把方法区成为永久代,本质上两者并不等价,仅仅是因为 HotSpot 虚拟机的设计选择将 GC 分代收集扩展至方法区,或者说使用永久代来实现方法区而已,这样 HotSpot 的垃圾收集器可以像管理 Java 堆一样管理这部分内存,能够省去专门为方法区编写内存管理代码的工作了.对于其他虚拟机来说则是不存在永久代这个概念的.永久代现在看来并非是一个好主意,对于 HotSpot 虚拟机,正在放弃永久代,并逐步采用 Native Memory 来实现方法区的规划了,目前在 JDK1.7 中,,已经将原本放在永久代的字符串常量池移出.</p>
+<p>相对而言,垃圾收集行为在方法区是比较少见的,但并非数据进入方法就如永久代的名字一样,真的是永久的存在.这个区域的内存回收目标主要是针对常量池的回收和堆类型的卸载,一般来说,这个区域的内存回收是难以令人满意的,尤其是类型的卸载,条件相当苛刻,但是这个部分的内存回收却又不是非常必要的.</p>
+<p>方法区无法满足内存分配需求时,将抛出 OutOfMemoryError 异常.</p>
+<h2 id="6-运行时常量池"><a href="#6-运行时常量池" class="headerlink" title="6. 运行时常量池"></a>6. 运行时常量池</h2><p>运行时常量池是<strong>方法区的一部分</strong>! class 文件中除了有类的版本,字段,方法,接口等描述信息外,还有一项信息是常量池,用于存在编译期生成的各种字面量和符号引用,这部分内存将在类加载后进入方法区的运行时常量池中存放.</p>
+<p>Java 虚拟机对 class 文件每一部分的格式都有严格规定,每一个字节用于存储哪种数据都必须符合规范上的要求才会被虚拟机认可,装载和执行,但对于运行时常量池,Java 虚拟机规范没有做任何细节的要求,不同的虚拟机可以按照自己的需要来实现这个内存区域.一般来说,除了保存 class 文件中描述的<strong>符号引用</strong>外,还会把翻译出来的<strong>直接引用</strong>也存储在运行时常量池中.</p>
+<p>运行时常量池对于 class 文件常量池的另外一个重要特征是具备动态性,Java 语言并不要求敞亮一定只有编译期才能产生,也就是并非预置入 class 文件中常量池的内容才能进入方法区运行时常量池,运行期间也可能将<strong>新的常量</strong>放入常量池中,这种特性被开发人员利用得比较多的便是 String 类的 intern () 方法.</p>
+<p>既然运行时常量池是方法区的一部分,自然受到方法区内存的限制,当常量池无法再申请到内存的时候,就会抛出 OutOfMemoryError 异常.</p>
+<h2 id="7-直接内存"><a href="#7-直接内存" class="headerlink" title="7. 直接内存"></a>7. 直接内存</h2><p>直接内存并非是运行时数据区的一部分,也不是 Java 虚拟机规范中定义的内存区域.但是这部分内存也被频繁的使用,而且可能导致 OutOfMemoryError 异常出现.</p>
+<p>在 Java1.4 之后新加入了 NIO 类,引入了一种基于通道与缓存区的 I/O 方法,它可以使用 Native 函数库直接分配<strong>堆外内存</strong>,然后通过一个存储在 Java 堆中的 DirectByteBuffer 对象作为这块<strong>内存的引用</strong>进行操作.这样能在一些场景中显著的<strong>提高性能</strong>,因为<strong>避免</strong>了在 Java 堆中和 Native 堆中来<strong>回复制数据</strong>.</p>
+<p>显然,本机直接内存分配不会受到 Java 堆大小的限制,但是,既然是内存,肯定还是会受到本机总内存的大小和处理器寻址空间的限制.所以,也是会出现 OutOfMemoryError 异常.</p>
+<h2 id="感激-非常感激，万分的感激！"><a href="#感激-非常感激，万分的感激！" class="headerlink" title="感激,非常感激，万分的感激！"></a>感激,非常感激，万分的感激！</h2><p>感谢以下的文章以及其作者和翻译的开发者们,排名不分先后</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://book.douban.com/subject/24722612/">深入理解Java虚拟机（第2版）</a></li>
+</ul>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/Programming/" class="category-chain-item">Programming</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/Programming/Java/" class="category-chain-item">Java</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/JMM/">#JMM</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>Java 内存模型_2</div>
+      <div>http://example.com/2017/01/28/JavaMemoryModel-2/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>Author</div>
+          <div>Tinggeng Yan</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>Posted on</div>
+          <div>January 28, 2017</div>
+        </div>
+      
+      
+      <div class="license-meta-item">
+        <div>Licensed under</div>
+        <div>
+          
+            
+            
+              <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+              <span class="hint--top hint--rounded" aria-label="BY - Attribution">
+                <i class="iconfont icon-by"></i>
+              </span>
+              </a>
+            
+          
+        </div>
+      </div>
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2017/02/07/buildCache/" title="加快 AndroidStudio 编译速度之 build cache">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">加快 AndroidStudio 编译速度之 build cache</span>
+                        <span class="visible-mobile">Previous</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2017/01/15/javaMemoryModel1/" title="Java 内存模型_1">
+                        <span class="hidden-mobile">Java 内存模型_1</span>
+                        <span class="visible-mobile">Next</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;Table of Contents</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">Search</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">Keyword</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="busuanzi_container_site_pv" style="display: none">
+        总访问量 
+        <span id="busuanzi_value_site_pv"></span>
+         次
+      </span>
+    
+    
+      <span id="busuanzi_container_site_uv" style="display: none">
+        总访客数 
+        <span id="busuanzi_value_site_uv"></span>
+         人
+      </span>
+    
+    
+  
+</div>
+
+  
+  
+    <!-- 备案信息 ICP for China -->
+    <div class="beian">
+  <span>
+    <a href="http://beian.miit.gov.cn/" target="_blank" rel="nofollow noopener">
+      沪ICP备2022011786号-1
+    </a>
+  </span>
+  
+    
+      <span>
+        <a
+          href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=沪ICP备2022011786号-1"
+          rel="nofollow noopener"
+          class="beian-police"
+          target="_blank"
+        >
+          
+            <span style="visibility: hidden; width: 0">|</span>
+            <img src="/img/police_beian.png" srcset="/img/loading.gif" lazyload alt="police-icon"/>
+          
+          <span>沪ICP备2022011786号-1</span>
+        </a>
+      </span>
+    
+  
+</div>
+
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://cdn.jsdelivr.net/npm/tocbot@4.12.3/dist/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      headingSelector : CONFIG.toc.headingSelector || 'h1,h2,h3,h4,h5,h6',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      collapseDepth   : CONFIG.toc.collapseDepth || 0,
+      scrollSmooth    : true,
+      headingsOffset  : -boardTop
+    });
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+  });
+</script>
+
+
+  <script src=https://cdn.jsdelivr.net/npm/clipboard@2.0.8/dist/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://cdn.jsdelivr.net/npm/anchor-js@4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">Blog works best with JavaScript enabled</div>
+  </noscript>
+</body>
+</html>

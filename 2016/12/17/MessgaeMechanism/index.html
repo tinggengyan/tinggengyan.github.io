@@ -1,0 +1,835 @@
+
+
+<!DOCTYPE html>
+<html lang="en" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" href="/img/favicon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Tinggeng Yan">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="概述本文记录 Android 的消息机制在 java 层的原理分析.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android消息机制_Java层">
+<meta property="og:url" content="http://example.com/2016/12/17/MessgaeMechanism/index.html">
+<meta property="og:site_name" content="我的Code小窝">
+<meta property="og:description" content="概述本文记录 Android 的消息机制在 java 层的原理分析.">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2016-12-17T12:27:50.000Z">
+<meta property="article:modified_time" content="2023-05-17T16:34:55.913Z">
+<meta property="article:author" content="Tinggeng Yan">
+<meta property="article:tag" content="Message">
+<meta property="article:tag" content="Handler">
+<meta property="article:tag" content="消息机制">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+    <meta name="referrer" content="no-referrer-when-downgrade">
+  
+  
+  <title>Android消息机制_Java层 - 我的Code小窝</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.2","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":"94c71fc4afacda3d2bffa4e863357892","google":null,"gtag":"G-EVHJQ5NV0G","tencent":{"sid":500716225,"cid":500716226},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+    <!-- Baidu Analytics -->
+    <script async>
+      if (!Fluid.ctx.dnt) {
+        var _hmt = _hmt || [];
+        (function() {
+          var hm = document.createElement("script");
+          hm.src = "https://hm.baidu.com/hm.js?94c71fc4afacda3d2bffa4e863357892";
+          var s = document.getElementsByTagName("script")[0];
+          s.parentNode.insertBefore(hm, s);
+        })();
+      }
+    </script>
+  
+
+  
+
+  
+    <!-- Google gtag.js -->
+    <script async>
+      if (!Fluid.ctx.dnt) {
+        Fluid.utils.createScript('https://www.googletagmanager.com/gtag/js?id=G-EVHJQ5NV0G', function() {
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', 'G-EVHJQ5NV0G');
+        });
+      }
+    </script>
+  
+
+  
+    <!-- Tencent Analytics -->
+    <script async>
+      if (!Fluid.ctx.dnt) {
+        var _mtac = {};
+        (function() {
+          var mta = document.createElement("script");
+          mta.src = "//pingjs.qq.com/h5/stats.js?v2.0.4";
+          mta.setAttribute("name", "MTAH5");
+          mta.setAttribute("sid", "500716225");
+          
+          mta.setAttribute("cid", "500716226");
+          
+          var s = document.getElementsByTagName("script")[0];
+          s.parentNode.insertBefore(mta, s);
+        })();
+      }
+    </script>
+  
+
+  
+
+  
+
+  
+
+
+
+  
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>我的Code小窝</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                Home
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                Archives
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                Categories
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                Tags
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                About
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="Android消息机制_Java层"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2016-12-17 20:27" pubdate>
+          December 17, 2016 pm
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          <!-- compatible with older versions-->
+          17k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          <!-- compatible with older versions-->
+          140 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">Android消息机制_Java层</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h1><p>本文记录 Android 的消息机制在 java 层的原理分析.</p>
+<span id="more"></span>
+
+<h1 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h1><p>在学习 Binder,IPC 的时候,涉及到消息机制,顺带整理一下.</p>
+<h2 id="概述-1"><a href="#概述-1" class="headerlink" title="概述"></a>概述</h2><p>进程:系统进行资源分配和调度的基本单位.<br>在 Andrid 中,对于每个 App 运行时前,系统都会为其创建一个进程，App 就运行在一个进程中.</p>
+<p>线程: 作为程序执行的最小单元。<br>该线程与 App 所在进程之间资源共享，从 Linux 角度来说进程与线程除了是否共享资源外，并没有本质的区别，都是一个 task_struct 结构体，在 CPU 看来进程或线程无非就是一段可执行的代码.</p>
+<p>Android 主线程: 一个进程中就一个主线程,这个主线程负责更新 UI.</p>
+<h1 id="Why"><a href="#Why" class="headerlink" title="Why"></a>Why</h1><p>目前对为什么需要消息机制,还没认真的研究,个人觉得系统的运转和程序的运行说到底都是消息的传递,如何让这些程序的消息传递高效地的运转,于是产生了消息机制一说.</p>
+<h1 id="What"><a href="#What" class="headerlink" title="What"></a>What</h1><p>什么是消息机制?消息机制的三大要素:</p>
+<ul>
+<li>消息队列 </li>
+<li>消息循环</li>
+<li>消息类型</li>
+</ul>
+<h1 id="How"><a href="#How" class="headerlink" title="How"></a>How</h1><p>在 Android 中是如何使用消息机制的? Android 中典型的消息机制就是 Handler.<br>以下是我们平时使用 Handler 经常使用的方式.</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">private</span> Handler mHandler = <span class="hljs-keyword">new</span> Handler(<span class="hljs-keyword">new</span> Callback() &#123;<br>        <span class="hljs-meta">@Override</span><br>        <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">boolean</span> <span class="hljs-title">handleMessage</span><span class="hljs-params">(Message msg)</span> </span>&#123;<br>            System.out.println(<span class="hljs-string">&quot;截断消息&quot;</span>);<br>            <span class="hljs-keyword">return</span> <span class="hljs-keyword">true</span>;<br>        &#125;<br>    &#125;) &#123;<br>        <span class="hljs-meta">@Override</span><br>        <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">handleMessage</span><span class="hljs-params">(Message msg)</span> </span>&#123;<br>            System.out.println(<span class="hljs-string">&quot;再处理消息&quot;</span>);<br>        &#125;<br>    &#125;;<br><br>mHandler.post(<span class="hljs-keyword">new</span> Runnable() &#123;<br> <span class="hljs-meta">@Override</span><br> <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">run</span><span class="hljs-params">()</span> </span>&#123;<br>    System.out.println(<span class="hljs-string">&quot;second&quot;</span> + Thread.currentThread());<br>    textView.setText(<span class="hljs-string">&quot;upate&quot;</span>);<br>     &#125;<br>  &#125;);<br></code></pre></td></tr></table></figure>
+
+
+<h1 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h1><p>前面的概述中说到,对于系统而言,无论是线程还是进程,对其而言,都是一段可执行的代码而已,没有那么既然是可执行的代码,执行完,线程生命周期也就结束了.<br>在 Android 中,对于主线程，我们是绝不希望会被运行一段时间就结束了，我们希望它能一直的运行下去,直到用户主动的退出 APP 或者出现其他意外.<br>那如何才能实现这样的效果呢?不就是为了能一直运行吗?死循环便能保证不会被退出.</p>
+<p>但这里可能又引发了另一个问题，既然是死循环又如何去处理其他事务呢？通过创建新线程的方式。<br>我们看下在 ActivityThread 中的 main 方法：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>&#123;<br>....<br>Looper.prepareMainLooper();<br><br>ActivityThread thread = <span class="hljs-keyword">new</span> ActivityThread();<br><br>thread.attach(<span class="hljs-keyword">false</span>);<br><br>Looper.loop();<br><br><span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> RuntimeException(<span class="hljs-string">&quot;Main thread loop unexpectedly exited&quot;</span>);<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>ActivityThread 并不是线程，并没有真正继承 Thread 类，只是运行在主线程，其实承载 ActivityThread 的主线程就是由 Zygote fork 而创建的进程。</p>
+<p>从这里的代码可以看到,主线程是一个死循环,主线程的死循环一直运行是不是特别消耗 CPU 资源呢？ 其实不然，这里就涉及到 Linux pipe/epoll 机制.下面分析 loop 函数的时候遇到再说.<br>下面分别看下消息机制的三个要素.</p>
+<h2 id="Looper"><a href="#Looper" class="headerlink" title="Looper"></a>Looper</h2><p>对于 looper 的典型例子:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs java">Looper.prepare();<br>mHandler = <span class="hljs-keyword">new</span> Handler() &#123;<br>     <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">handleMessage</span><span class="hljs-params">(Message msg)</span> </span>&#123;<br>          <span class="hljs-comment">// handle message</span><br>     &#125;<br>&#125;;<br>Looper.loop();<br><br>上面就是一个典型的 Looper 的使用步骤<br>- 调用 prepare 方法<br>- 创建 Handler 对象<br>- 调用 loop 方法<br><br></code></pre></td></tr></table></figure>
+<p>对于 prepare 方法，每个线程只能执行一次，当检测到当前的线程已经执行过这个方法，则会抛出异常。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> ThreadLocal&lt;Looper&gt; sThreadLocal = <span class="hljs-keyword">new</span> ThreadLocal&lt;Looper&gt;();<br><span class="hljs-comment">// ..............</span><br><br><span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">prepare</span><span class="hljs-params">(<span class="hljs-keyword">boolean</span> quitAllowed)</span> </span>&#123;<br>    <span class="hljs-keyword">if</span> (sThreadLocal.get() != <span class="hljs-keyword">null</span>) &#123;<br>        <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> RuntimeException(<span class="hljs-string">&quot;Only one Looper may be created per thread&quot;</span>);<br>    &#125;<br>    sThreadLocal.set(<span class="hljs-keyword">new</span> Looper(quitAllowed));<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>对于 ThreadLocal 类，这个称为线程本地存储，以线程为单位，实现资源的共享。每个线程有自己的私有区域，线程间是不能互相访问的。有的地方也能看到用 ThreadLocal 实现线程内的单例。</p>
+<p>其中对应的 set 和 get 方法，这样就能实现一个线程只有一个 looper ，检查的时候只要判断当前的线程本地存储是否有 looper 就能确定当前的线程是否执行过 prepare 。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">set</span><span class="hljs-params">(T value)</span> </span>&#123;<br>    Thread t = Thread.currentThread();<br>    ThreadLocalMap map = getMap(t);<br>    <span class="hljs-keyword">if</span> (map != <span class="hljs-keyword">null</span>)<br>        map.set(<span class="hljs-keyword">this</span>, value);<br>    <span class="hljs-keyword">else</span><br>        createMap(t, value);<br>&#125;<br><br><span class="hljs-function"><span class="hljs-keyword">public</span> T <span class="hljs-title">get</span><span class="hljs-params">()</span> </span>&#123;<br>    Thread t = Thread.currentThread();<br>    ThreadLocalMap map = getMap(t);<br>    <span class="hljs-keyword">if</span> (map != <span class="hljs-keyword">null</span>) &#123;<br>        ThreadLocalMap.Entry e = map.getEntry(<span class="hljs-keyword">this</span>);<br>        <span class="hljs-keyword">if</span> (e != <span class="hljs-keyword">null</span>)<br>            <span class="hljs-keyword">return</span> (T)e.value;<br>    &#125;<br>    <span class="hljs-keyword">return</span> setInitialValue();<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>Looper 的构造方法中需要传递一个 boolean 值的参数，表示创建的这个 looper 是否可以被取消，直观上说就是是否可以调用 quit 方法。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-title">Looper</span><span class="hljs-params">(<span class="hljs-keyword">boolean</span> quitAllowed)</span> </span>&#123;<br>    mQueue = <span class="hljs-keyword">new</span> MessageQueue(quitAllowed);<br>    mThread = Thread.currentThread();<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>对于默认的 looper 构造传的是 true。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">/** Initialize the current thread as a looper.</span><br><span class="hljs-comment">  * This gives you a chance to create handlers that then reference</span><br><span class="hljs-comment">  * this looper, before actually starting the loop. Be sure to call</span><br><span class="hljs-comment">  * &#123;<span class="hljs-doctag">@link</span> #loop()&#125; after calling this method, and end it by calling</span><br><span class="hljs-comment">  * &#123;<span class="hljs-doctag">@link</span> #quit()&#125;.</span><br><span class="hljs-comment">  */</span><br><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">prepare</span><span class="hljs-params">()</span> </span>&#123;<br>    prepare(<span class="hljs-keyword">true</span>);<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>有个 looper 之后，就可以创建熟知的 handler 对象了。handler 在创建的时候，都是会检查当前的线程是否有 looper ，如果没有，则会抛出异常，不能正常的创建，毕竟这是一个消息机制必不可少的元素。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">Handler</span><span class="hljs-params">(Callback callback, <span class="hljs-keyword">boolean</span> async)</span> </span>&#123;<br>    <span class="hljs-keyword">if</span> (FIND_POTENTIAL_LEAKS) &#123;<br>        <span class="hljs-keyword">final</span> Class&lt;? extends Handler&gt; klass = getClass();<br>        <span class="hljs-keyword">if</span> ((klass.isAnonymousClass() || klass.isMemberClass() || klass.isLocalClass()) &amp;&amp;<br>                (klass.getModifiers() &amp; Modifier.STATIC) == <span class="hljs-number">0</span>) &#123;<br>            Log.w(TAG, <span class="hljs-string">&quot;The following Handler class should be static or leaks might occur: &quot;</span> +<br>                klass.getCanonicalName());<br>        &#125;<br>    &#125;<br><br>    mLooper = Looper.myLooper();<br>    <span class="hljs-keyword">if</span> (mLooper == <span class="hljs-keyword">null</span>) &#123;<br>        <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> RuntimeException(<br>            <span class="hljs-string">&quot;Can&#x27;t create handler inside thread that has not called Looper.prepare()&quot;</span>);<br>    &#125;<br>    mQueue = mLooper.mQueue;<br>    mCallback = callback;<br>    mAsynchronous = async;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>接下来就可以调用 loop 方法进入循环模式。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">loop</span><span class="hljs-params">()</span> </span>&#123;<br>    <span class="hljs-keyword">final</span> Looper me = myLooper();<br>    <span class="hljs-keyword">if</span> (me == <span class="hljs-keyword">null</span>) &#123;<br>        <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> RuntimeException(<span class="hljs-string">&quot;No Looper; Looper.prepare() wasn&#x27;t called on this thread.&quot;</span>);<br>    &#125;<br>    <span class="hljs-keyword">final</span> MessageQueue queue = me.mQueue;<br><br>    <span class="hljs-comment">// Make sure the identity of this thread is that of the local process,</span><br>    <span class="hljs-comment">// and keep track of what that identity token actually is.</span><br>    Binder.clearCallingIdentity();<br>    <span class="hljs-keyword">final</span> <span class="hljs-keyword">long</span> ident = Binder.clearCallingIdentity();<br><br>    <span class="hljs-keyword">for</span> (;;) &#123;<br>        Message msg = queue.next(); <span class="hljs-comment">// might block</span><br>        <span class="hljs-keyword">if</span> (msg == <span class="hljs-keyword">null</span>) &#123;<br>            <span class="hljs-comment">// No message indicates that the message queue is quitting.</span><br>            <span class="hljs-keyword">return</span>;<br>        &#125;<br><br>        <span class="hljs-comment">// This must be in a local variable, in case a UI event sets the logger</span><br>        <span class="hljs-keyword">final</span> Printer logging = me.mLogging;<br>        <span class="hljs-keyword">if</span> (logging != <span class="hljs-keyword">null</span>) &#123;<br>            logging.println(<span class="hljs-string">&quot;&gt;&gt;&gt;&gt;&gt; Dispatching to &quot;</span> + msg.target + <span class="hljs-string">&quot; &quot;</span> +<br>                    msg.callback + <span class="hljs-string">&quot;: &quot;</span> + msg.what);<br>        &#125;<br><br>        <span class="hljs-keyword">final</span> <span class="hljs-keyword">long</span> traceTag = me.mTraceTag;<br>        <span class="hljs-keyword">if</span> (traceTag != <span class="hljs-number">0</span>) &#123;<br>            Trace.traceBegin(traceTag, msg.target.getTraceName(msg));<br>        &#125;<br>        <span class="hljs-keyword">try</span> &#123;<br>            msg.target.dispatchMessage(msg);<br>        &#125; <span class="hljs-keyword">finally</span> &#123;<br>            <span class="hljs-keyword">if</span> (traceTag != <span class="hljs-number">0</span>) &#123;<br>                Trace.traceEnd(traceTag);<br>            &#125;<br>        &#125;<br><br>        <span class="hljs-keyword">if</span> (logging != <span class="hljs-keyword">null</span>) &#123;<br>            logging.println(<span class="hljs-string">&quot;&lt;&lt;&lt;&lt;&lt; Finished to &quot;</span> + msg.target + <span class="hljs-string">&quot; &quot;</span> + msg.callback);<br>        &#125;<br><br>        <span class="hljs-comment">// Make sure that during the course of dispatching the</span><br>        <span class="hljs-comment">// identity of the thread wasn&#x27;t corrupted.</span><br>        <span class="hljs-keyword">final</span> <span class="hljs-keyword">long</span> newIdent = Binder.clearCallingIdentity();<br>        <span class="hljs-keyword">if</span> (ident != newIdent) &#123;<br>            Log.wtf(TAG, <span class="hljs-string">&quot;Thread identity changed from 0x&quot;</span><br>                    + Long.toHexString(ident) + <span class="hljs-string">&quot; to 0x&quot;</span><br>                    + Long.toHexString(newIdent) + <span class="hljs-string">&quot; while dispatching to &quot;</span><br>                    + msg.target.getClass().getName() + <span class="hljs-string">&quot; &quot;</span><br>                    + msg.callback + <span class="hljs-string">&quot; what=&quot;</span> + msg.what);<br>        &#125;<br><br>        msg.recycleUnchecked();<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>直观上我们就可以看到这是一个死循环，不断的通过 queue.next() 取出消息，而后通过 msg.target.dispatchMessage(msg); 去分发，处理消息。最后会通过 msg.recycleUnchecked(); 回收消息以备循环使用。<br>上面的消息处理是一个死循环，我们知道在主线程也有个 looper 这样不停的死循环执行，怎么就不会卡死呢？CPU 怎么不会爆表呢。<br>注意 Message msg = queue.next(); // might block 这里的注释，说可能产生 block （阻塞）。这个涉及到 MessageQueue，native 层 和 epoll 机制，当队列中没有消息的时候，这个时候，就会被阻塞挂起，直到下个消息到达,或者被唤醒,这个下面分析队列的时候再看,这时候 CPU 就会被释放，去做其他任务，这样就不会浪费 CPU 资源。</p>
+<h2 id="MessageQueue"><a href="#MessageQueue" class="headerlink" title="MessageQueue:"></a>MessageQueue:</h2><p>对于期初构造 looper 的时候传递了一个参数，表示了是否可以退出，在构造 looper 的时候 ，这个参数，也会传递到 MessageQueue  的构造方法中。<br>looper 中的 quit 方法最终调用的是 MessageQueue 中的 quit 方法，在 quit 方法中，假如当初传递的参数是 false，则会抛出异常，即表示不能退出的含义。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><code class="hljs java">MessageQueue(<span class="hljs-keyword">boolean</span> quitAllowed) &#123;<br>    mQuitAllowed = quitAllowed;<br>    mPtr = nativeInit();<br>&#125;<br><br><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">quit</span><span class="hljs-params">(<span class="hljs-keyword">boolean</span> safe)</span> </span>&#123;<br>    <span class="hljs-keyword">if</span> (!mQuitAllowed) &#123;<br>        <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> IllegalStateException(<span class="hljs-string">&quot;Main thread not allowed to quit.&quot;</span>);<br>    &#125;<br><br>    <span class="hljs-keyword">synchronized</span> (<span class="hljs-keyword">this</span>) &#123;<br>        <span class="hljs-keyword">if</span> (mQuitting) &#123;<br>            <span class="hljs-keyword">return</span>;<br>        &#125;<br>        mQuitting = <span class="hljs-keyword">true</span>;<br><br>        <span class="hljs-keyword">if</span> (safe) &#123;<br>            removeAllFutureMessagesLocked();<br>        &#125; <span class="hljs-keyword">else</span> &#123;<br>            removeAllMessagesLocked();<br>        &#125;<br><br>        <span class="hljs-comment">// We can assume mPtr != 0 because mQuitting was previously false.</span><br>        nativeWake(mPtr);<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>在quit 方法中也区分了 safe 和 unsafe。安全的方式只移除那些还未开始的消息，非安全的方式是移除所有的消息。</p>
+<p>再细看 MessageQueue 的构造方法中有个 nativeInit();说明这里有涉及 native 方法。这里注下,在整个消息机制中 只有 MessageQueue 是涉及 Java 层和 Native 层的。<br>当 MessageQueue 没有消息的时候,便阻塞在 nativePollOnce() 方法里，此时主线程会释放 CPU 资源进入休眠状态，直到下个消息到达或者有事务发生，通过往 pipe 管道写端写入数据来唤醒主线程工作,看 native 代码的话,是一个 “w” 字符.上面说过,这叫做 epoll 机制，是一种 IO 多路复用机制，可以同时监控多个描述符，当某个描述符就绪(读或写就绪)，则立刻通知相应程序进行读或写操作，本质同步 I/O，即读写是阻塞的。所以,当消息队列中没有消息的时候,主线程就会释放 CPU ,不会继续占用 CPU ,这里就解释了为什么主线程是个死循环,还能继续处理其他事情.</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-function">Message <span class="hljs-title">next</span><span class="hljs-params">()</span> </span>&#123;<br>    <span class="hljs-comment">// Return here if the message loop has already quit and been disposed.</span><br>    <span class="hljs-comment">// This can happen if the application tries to restart a looper after quit</span><br>    <span class="hljs-comment">// which is not supported.</span><br>    <span class="hljs-keyword">final</span> <span class="hljs-keyword">long</span> ptr = mPtr;<br>    <span class="hljs-keyword">if</span> (ptr == <span class="hljs-number">0</span>) &#123;<br>        <span class="hljs-keyword">return</span> <span class="hljs-keyword">null</span>;<br>    &#125;<br><br>    <span class="hljs-keyword">int</span> pendingIdleHandlerCount = -<span class="hljs-number">1</span>; <span class="hljs-comment">// -1 only during first iteration</span><br>    <span class="hljs-keyword">int</span> nextPollTimeoutMillis = <span class="hljs-number">0</span>;<br>    <span class="hljs-keyword">for</span> (;;) &#123;<br>        <span class="hljs-keyword">if</span> (nextPollTimeoutMillis != <span class="hljs-number">0</span>) &#123;<br>            Binder.flushPendingCommands();<br>        &#125;<br><br>        nativePollOnce(ptr, nextPollTimeoutMillis);<br><br>        <span class="hljs-keyword">synchronized</span> (<span class="hljs-keyword">this</span>) &#123;<br>            <span class="hljs-comment">// Try to retrieve the next message.  Return if found.</span><br>            <span class="hljs-keyword">final</span> <span class="hljs-keyword">long</span> now = SystemClock.uptimeMillis();<br>            Message prevMsg = <span class="hljs-keyword">null</span>;<br>            Message msg = mMessages;<br>            <span class="hljs-keyword">if</span> (msg != <span class="hljs-keyword">null</span> &amp;&amp; msg.target == <span class="hljs-keyword">null</span>) &#123;<br>                <span class="hljs-comment">// Stalled by a barrier.  Find the next asynchronous message in the queue.</span><br>                <span class="hljs-keyword">do</span> &#123;<br>                    prevMsg = msg;<br>                    msg = msg.next;<br>                &#125; <span class="hljs-keyword">while</span> (msg != <span class="hljs-keyword">null</span> &amp;&amp; !msg.isAsynchronous());<br>            &#125;<br>            <span class="hljs-keyword">if</span> (msg != <span class="hljs-keyword">null</span>) &#123;<br>                <span class="hljs-keyword">if</span> (now &lt; msg.when) &#123;<br>                    <span class="hljs-comment">// Next message is not ready.  Set a timeout to wake up when it is ready.</span><br>                    nextPollTimeoutMillis = (<span class="hljs-keyword">int</span>) Math.min(msg.when - now, Integer.MAX_VALUE);<br>                &#125; <span class="hljs-keyword">else</span> &#123;<br>                    <span class="hljs-comment">// Got a message.</span><br>                    mBlocked = <span class="hljs-keyword">false</span>;<br>                    <span class="hljs-keyword">if</span> (prevMsg != <span class="hljs-keyword">null</span>) &#123;<br>                        prevMsg.next = msg.next;<br>                    &#125; <span class="hljs-keyword">else</span> &#123;<br>                        mMessages = msg.next;<br>                    &#125;<br>                    msg.next = <span class="hljs-keyword">null</span>;<br>                    <span class="hljs-keyword">if</span> (DEBUG) Log.v(TAG, <span class="hljs-string">&quot;Returning message: &quot;</span> + msg);<br>                    msg.markInUse();<br>                    <span class="hljs-keyword">return</span> msg;<br>                &#125;<br>            &#125; <span class="hljs-keyword">else</span> &#123;<br>                <span class="hljs-comment">// No more messages.</span><br>                nextPollTimeoutMillis = -<span class="hljs-number">1</span>;<br>            &#125;<br><br>            <span class="hljs-comment">// Process the quit message now that all pending messages have been handled.</span><br>            <span class="hljs-keyword">if</span> (mQuitting) &#123;<br>                dispose();<br>                <span class="hljs-keyword">return</span> <span class="hljs-keyword">null</span>;<br>            &#125;<br><br>            <span class="hljs-comment">// If first time idle, then get the number of idlers to run.</span><br>            <span class="hljs-comment">// Idle handles only run if the queue is empty or if the first message</span><br>            <span class="hljs-comment">// in the queue (possibly a barrier) is due to be handled in the future.</span><br>            <span class="hljs-keyword">if</span> (pendingIdleHandlerCount &lt; <span class="hljs-number">0</span><br>                    &amp;&amp; (mMessages == <span class="hljs-keyword">null</span> || now &lt; mMessages.when)) &#123;<br>                pendingIdleHandlerCount = mIdleHandlers.size();<br>            &#125;<br>            <span class="hljs-keyword">if</span> (pendingIdleHandlerCount &lt;= <span class="hljs-number">0</span>) &#123;<br>                <span class="hljs-comment">// No idle handlers to run.  Loop and wait some more.</span><br>                mBlocked = <span class="hljs-keyword">true</span>;<br>                <span class="hljs-keyword">continue</span>;<br>            &#125;<br><br>            <span class="hljs-keyword">if</span> (mPendingIdleHandlers == <span class="hljs-keyword">null</span>) &#123;<br>                mPendingIdleHandlers = <span class="hljs-keyword">new</span> IdleHandler[Math.max(pendingIdleHandlerCount, <span class="hljs-number">4</span>)];<br>            &#125;<br>            mPendingIdleHandlers = mIdleHandlers.toArray(mPendingIdleHandlers);<br>        &#125;<br><br>        <span class="hljs-comment">// Run the idle handlers.</span><br>        <span class="hljs-comment">// We only ever reach this code block during the first iteration.</span><br>        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; pendingIdleHandlerCount; i++) &#123;<br>            <span class="hljs-keyword">final</span> IdleHandler idler = mPendingIdleHandlers[i];<br>            mPendingIdleHandlers[i] = <span class="hljs-keyword">null</span>; <span class="hljs-comment">// release the reference to the handler</span><br><br>            <span class="hljs-keyword">boolean</span> keep = <span class="hljs-keyword">false</span>;<br>            <span class="hljs-keyword">try</span> &#123;<br>                keep = idler.queueIdle();<br>            &#125; <span class="hljs-keyword">catch</span> (Throwable t) &#123;<br>                Log.wtf(TAG, <span class="hljs-string">&quot;IdleHandler threw exception&quot;</span>, t);<br>            &#125;<br><br>            <span class="hljs-keyword">if</span> (!keep) &#123;<br>                <span class="hljs-keyword">synchronized</span> (<span class="hljs-keyword">this</span>) &#123;<br>                    mIdleHandlers.remove(idler);<br>                &#125;<br>            &#125;<br>        &#125;<br><br>        <span class="hljs-comment">// Reset the idle handler count to 0 so we do not run them again.</span><br>        pendingIdleHandlerCount = <span class="hljs-number">0</span>;<br><br>        <span class="hljs-comment">// While calling an idle handler, a new message could have been delivered</span><br>        <span class="hljs-comment">// so go back and look again for a pending message without waiting.</span><br>        nextPollTimeoutMillis = <span class="hljs-number">0</span>;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>这里稍微记录下这个方法，怎么看这个方法可能都是消息机制在 Java 层相对难以理解的一个。</p>
+<ol>
+<li>MessageQueue 通过 next 方法从消息队列中取出 消息执行，nativePollOnce 可以看出这里又牵扯到 native 方法 ，nativePollOnce  是一个阻塞操作，为什么会这样呢？因为在 native 层也有消息机制，从这里能看出 Android 系统中，native 层的消息优先级比 Java 层的高。注意: native 层的消息机制和 Java 层的<strong>没有任何关系</strong>。顺带说下参数 mPtr 是在构造参数里调用 native 方法初始化的，这个参数是 NativeMessageQueue 的指针。nextPollTimeoutMillis 代表了超时的时间，这个是用来描述当消息队列中没有新的消息需要处理的时候，当前线程需要进入睡眠等待状态的时间。</li>
+</ol>
+<ul>
+<li>这个可以取值 -1 ，代表了队列中没有消息需要处理，需要一直休眠阻塞下去，直到被其他线程唤醒为止。</li>
+<li>取值为0，表示当前的线程不需要进入等待状态，即使当前的消息队列中没有新的消息需要处理。</li>
+<li>取值为大于0，表示当消息队列中没有新的消息的时候，等待大于0的时间就返回。</li>
+</ul>
+<ol start="2">
+<li>mMessages 表示当前处理的消息， 通过循环取出有 Handler 并且是异步的消息然后返回。如果没有找到就将  nextPollTimeoutMillis 置为 -1 表示队列中没有消息，需要一直休眠了。</li>
+<li>mIdleHandlers 表示的是空闲处理器，当消息队列中没有需要处理的消息的时候，做的一些工作，例如垃圾回收等，完成这部分操作之后就会重置 pendingIdleHandlerCount 的值为0，保证整个循环中只执行一次，这个值为 0 还对 nextPollTimeoutMillis 有影响，在上半部分有个 nextPollTimeoutMillis  的判断。同时 nextPollTimeoutMillis 也被置为 0 ，表示不需要进入等待状态，立即检查消息队列。</li>
+</ol>
+<p>在这里，nextPollTimeoutMillis 置为 0 可能会造成一定的干扰，理解立即检查不难，似乎每次都会被置为 0 ，那么 -1 是不是就没有意义了呢？注意另外一个值  pendingIdleHandlerCount 也被置为了0 ，注意取消息的时候关于这个 pendingIdleHandlerCount 的检查，当为 0 的时候，是直接 continue 了。</p>
+<p>看下往队列中添加消息的方法。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-function"><span class="hljs-keyword">boolean</span> <span class="hljs-title">enqueueMessage</span><span class="hljs-params">(Message msg, <span class="hljs-keyword">long</span> when)</span> </span>&#123;<br>    <span class="hljs-keyword">if</span> (msg.target == <span class="hljs-keyword">null</span>) &#123;<br>        <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> IllegalArgumentException(<span class="hljs-string">&quot;Message must have a target.&quot;</span>);<br>    &#125;<br>    <span class="hljs-keyword">if</span> (msg.isInUse()) &#123;<br>        <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> IllegalStateException(msg + <span class="hljs-string">&quot; This message is already in use.&quot;</span>);<br>    &#125;<br><br>    <span class="hljs-keyword">synchronized</span> (<span class="hljs-keyword">this</span>) &#123;<br>        <span class="hljs-keyword">if</span> (mQuitting) &#123;<br>            IllegalStateException e = <span class="hljs-keyword">new</span> IllegalStateException(<br>                    msg.target + <span class="hljs-string">&quot; sending message to a Handler on a dead thread&quot;</span>);<br>            Log.w(TAG, e.getMessage(), e);<br>            msg.recycle();<br>            <span class="hljs-keyword">return</span> <span class="hljs-keyword">false</span>;<br>        &#125;<br><br>        msg.markInUse();<br>        msg.when = when;<br>        Message p = mMessages;<br>        <span class="hljs-keyword">boolean</span> needWake;<br>        <span class="hljs-keyword">if</span> (p == <span class="hljs-keyword">null</span> || when == <span class="hljs-number">0</span> || when &lt; p.when) &#123;<br>            <span class="hljs-comment">// New head, wake up the event queue if blocked.</span><br>            msg.next = p;<br>            mMessages = msg;<br>            needWake = mBlocked;<br>        &#125; <span class="hljs-keyword">else</span> &#123;<br>            <span class="hljs-comment">// Inserted within the middle of the queue.  Usually we don&#x27;t have to wake</span><br>            <span class="hljs-comment">// up the event queue unless there is a barrier at the head of the queue</span><br>            <span class="hljs-comment">// and the message is the earliest asynchronous message in the queue.</span><br>            needWake = mBlocked &amp;&amp; p.target == <span class="hljs-keyword">null</span> &amp;&amp; msg.isAsynchronous();<br>            Message prev;<br>            <span class="hljs-keyword">for</span> (;;) &#123;<br>                prev = p;<br>                p = p.next;<br>                <span class="hljs-keyword">if</span> (p == <span class="hljs-keyword">null</span> || when &lt; p.when) &#123;<br>                    <span class="hljs-keyword">break</span>;<br>                &#125;<br>                <span class="hljs-keyword">if</span> (needWake &amp;&amp; p.isAsynchronous()) &#123;<br>                    needWake = <span class="hljs-keyword">false</span>;<br>                &#125;<br>            &#125;<br>            msg.next = p; <span class="hljs-comment">// invariant: p == prev.next</span><br>            prev.next = msg;<br>        &#125;<br><br>        <span class="hljs-comment">// We can assume mPtr != 0 because mQuitting is false.</span><br>        <span class="hljs-keyword">if</span> (needWake) &#123;<br>            nativeWake(mPtr);<br>        &#125;<br>    &#125;<br>    <span class="hljs-keyword">return</span> <span class="hljs-keyword">true</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>这个方法的目的是找到当前加入的这个消息在消息队列中合适的位置，是立即执行，亦或者插入到消息队列中。<br>其中会根据当前的消息循环 next 是否被阻塞，决定是否执行唤醒操作。</p>
+<h2 id="Handler"><a href="#Handler" class="headerlink" title="Handler:"></a>Handler:</h2><p>看下 Handler 的构造函数</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">Handler</span><span class="hljs-params">(Callback callback, <span class="hljs-keyword">boolean</span> async)</span> </span>&#123;<br>    <span class="hljs-keyword">if</span> (FIND_POTENTIAL_LEAKS) &#123;<br>        <span class="hljs-keyword">final</span> Class&lt;? extends Handler&gt; klass = getClass();<br>        <span class="hljs-keyword">if</span> ((klass.isAnonymousClass() || klass.isMemberClass() || klass.isLocalClass()) &amp;&amp;<br>                (klass.getModifiers() &amp; Modifier.STATIC) == <span class="hljs-number">0</span>) &#123;<br>            Log.w(TAG, <span class="hljs-string">&quot;The following Handler class should be static or leaks might occur: &quot;</span> +<br>                klass.getCanonicalName());<br>        &#125;<br>    &#125;<br><br>    mLooper = Looper.myLooper();<br>    <span class="hljs-keyword">if</span> (mLooper == <span class="hljs-keyword">null</span>) &#123;<br>        <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> RuntimeException(<br>            <span class="hljs-string">&quot;Can&#x27;t create handler inside thread that has not called Looper.prepare()&quot;</span>);<br>    &#125;<br>    mQueue = mLooper.mQueue;<br>    mCallback = callback;<br>    mAsynchronous = async;<br>&#125;<br><br><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">Handler</span><span class="hljs-params">(Looper looper, Callback callback, <span class="hljs-keyword">boolean</span> async)</span> </span>&#123;<br>    mLooper = looper;<br>    mQueue = looper.mQueue;<br>    mCallback = callback;<br>    mAsynchronous = async;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>主要是这两种构造函数，第一种可以可以指定回调函数和消息的处理方式(是否是异步处理)。第二种可以指定 Looper ，回调函数 和消息的处理方式。</p>
+<p>上面说到 Looper 的 loop 方法在循环取出消息和处理的时候提到一个  msg.target.dispatchMessage(msg); 分发处理。平时的使用经验让我们知道这个 target 其实是个 Handler 。<br>所以接下来看下这个 dispatchMessage 分发消息的方法。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">dispatchMessage</span><span class="hljs-params">(Message msg)</span> </span>&#123;<br>    <span class="hljs-keyword">if</span> (msg.callback != <span class="hljs-keyword">null</span>) &#123;<br>        handleCallback(msg);<br>    &#125; <span class="hljs-keyword">else</span> &#123;<br>        <span class="hljs-keyword">if</span> (mCallback != <span class="hljs-keyword">null</span>) &#123;<br>            <span class="hljs-keyword">if</span> (mCallback.handleMessage(msg)) &#123;<br>                <span class="hljs-keyword">return</span>;<br>            &#125;<br>        &#125;<br>        handleMessage(msg);<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>从代码中可以，假如 Message 有回调的情况下， 优先执行的是 Message 的回调方法。其次，如果没有回调的情况下，检查 Handler 构造的时候是否有设置回调，如果有优先调用这个回调。再次，才会去调用子类覆写的 handleMessage 方法。我们平时使用的时候，常常就是使用的这个再次的方式。</p>
+<p>上面有说过消息队列是负责消息的排队的，接下来看下到底是怎么产生消息，怎么进入队列的。<br>首先看下几个常用的产生消息的方式。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">final</span> Message <span class="hljs-title">obtainMessage</span><span class="hljs-params">()</span></span><br><span class="hljs-function"></span>&#123;<br>    <span class="hljs-keyword">return</span> Message.obtain(<span class="hljs-keyword">this</span>);<br>&#125;<br><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">final</span> <span class="hljs-keyword">boolean</span> <span class="hljs-title">sendMessage</span><span class="hljs-params">(Message msg)</span></span><br><span class="hljs-function"></span>&#123;<br>    <span class="hljs-keyword">return</span> sendMessageDelayed(msg, <span class="hljs-number">0</span>);<br>&#125;<br><br><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">final</span> <span class="hljs-keyword">boolean</span> <span class="hljs-title">sendEmptyMessage</span><span class="hljs-params">(<span class="hljs-keyword">int</span> what)</span></span><br><span class="hljs-function"></span>&#123;<br>    <span class="hljs-keyword">return</span> sendEmptyMessageDelayed(what, <span class="hljs-number">0</span>);<br>&#125;<br><br><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">final</span> <span class="hljs-keyword">boolean</span> <span class="hljs-title">post</span><span class="hljs-params">(Runnable r)</span></span><br><span class="hljs-function"></span>&#123;<br>  <span class="hljs-keyword">return</span>  sendMessageDelayed(getPostMessage(r), <span class="hljs-number">0</span>);<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>平时常用的就这四种种方式产生消息并且发送消息，对于 Message 的 sendToTarget 方法，本质上还是调用的 sendMessage 这个后面再说，这个几个方法最后都会走 sendMessageAtTime 方法。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">boolean</span> <span class="hljs-title">sendMessageAtTime</span><span class="hljs-params">(Message msg, <span class="hljs-keyword">long</span> uptimeMillis)</span> </span>&#123;<br>    MessageQueue queue = mQueue;<br>    <span class="hljs-keyword">if</span> (queue == <span class="hljs-keyword">null</span>) &#123;<br>        RuntimeException e = <span class="hljs-keyword">new</span> RuntimeException(<br>                <span class="hljs-keyword">this</span> + <span class="hljs-string">&quot; sendMessageAtTime() called with no mQueue&quot;</span>);<br>        Log.w(<span class="hljs-string">&quot;Looper&quot;</span>, e.getMessage(), e);<br>        <span class="hljs-keyword">return</span> <span class="hljs-keyword">false</span>;<br>    &#125;<br>    <span class="hljs-keyword">return</span> enqueueMessage(queue, msg, uptimeMillis);<br>&#125;<br><br><span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">boolean</span> <span class="hljs-title">enqueueMessage</span><span class="hljs-params">(MessageQueue queue, Message msg, <span class="hljs-keyword">long</span> uptimeMillis)</span> </span>&#123;<br>    msg.target = <span class="hljs-keyword">this</span>;<br>    <span class="hljs-keyword">if</span> (mAsynchronous) &#123;<br>        msg.setAsynchronous(<span class="hljs-keyword">true</span>);<br>    &#125;<br>    <span class="hljs-keyword">return</span> queue.enqueueMessage(msg, uptimeMillis);<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>在  sendMessageAtTime 方法中进行了一些检查，检查是否已经有  MessageQueue ，如果没有则抛出异常， 毕竟 MessageQueue 也是消息机制不可或缺的元素。<br>检查通过之后就会进入  enqueueMessage  方法， 这个方法中会调用 MessageQueue  的 enqueueMessage  方法将消息添加入队列中(这个方法后面详细再说)，同时会根据构造 Handler 的时候设置的消息处理方式来为 message 设置相应的属性。</p>
+<p>从分析中可以看出，Handler 本身没有太多实质性的操作，都是借助于 Meesage ，MessageQueue ，Looper 这个几个类。说明 Handler 只是一个很强的辅助类而已，方便开发者 产生消息-&gt;发送消息-&gt;处理消息。</p>
+<h2 id="其他"><a href="#其他" class="headerlink" title="其他:"></a>其他:</h2><h3 id="IdleHandler"><a href="#IdleHandler" class="headerlink" title="IdleHandler:"></a>IdleHandler:</h3><p>空闲时处理器，这个只有在 looper 执行消息循环的第一次会执行。</p>
+<h3 id="Message："><a href="#Message：" class="headerlink" title="Message："></a>Message：</h3><p>作为消息的封装类，是消息的载体。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">Message</span><span class="hljs-params">()</span> </span>&#123;<br>&#125;<br><br><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">int</span> what;<br><span class="hljs-keyword">public</span> <span class="hljs-keyword">int</span> arg1;<br><span class="hljs-keyword">public</span> <span class="hljs-keyword">int</span> arg2;<br><span class="hljs-keyword">public</span> Object obj;<br><span class="hljs-keyword">public</span> Messenger replyTo;<br><span class="hljs-keyword">long</span> when;<br>Handler target;<br>Runnable callback;<br><span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> Message sPool;<br><span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> <span class="hljs-keyword">int</span> MAX_POOL_SIZE = <span class="hljs-number">50</span>;<br></code></pre></td></tr></table></figure>
+<p>以上是 Message 的构造方法和比较重要的属性。<br>静态变量 sPool 的数据类型为 Message，通过 next 成员变量，维护一个消息池；静态变量 MAX_POOL_SIZE 代表消息池的可用大小；消息池的默认大小为50。</p>
+<p>看下几个比较重要的方法</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> Message <span class="hljs-title">obtain</span><span class="hljs-params">()</span> </span>&#123;<br>    <span class="hljs-keyword">synchronized</span> (sPoolSync) &#123;<br>        <span class="hljs-keyword">if</span> (sPool != <span class="hljs-keyword">null</span>) &#123;<br>            Message m = sPool;<br>            sPool = m.next;<br>            m.next = <span class="hljs-keyword">null</span>;<br>            m.flags = <span class="hljs-number">0</span>; <span class="hljs-comment">// clear in-use flag</span><br>            sPoolSize--;<br>            <span class="hljs-keyword">return</span> m;<br>        &#125;<br>    &#125;<br>    <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> Message();<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>还有其他几个带参 的 obtain 方法，但是都需要调用这个无参的，可以看到 从静态变量 sPool  中取出一个 Message 即返回，若是 sPool 为空，则新建一个 Message 返回。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">recycle</span><span class="hljs-params">()</span> </span>&#123;<br>    <span class="hljs-keyword">if</span> (isInUse()) &#123;<br>        <span class="hljs-keyword">if</span> (gCheckRecycle) &#123;<br>            <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> IllegalStateException(<span class="hljs-string">&quot;This message cannot be recycled because it &quot;</span><br>                    + <span class="hljs-string">&quot;is still in use.&quot;</span>);<br>        &#125;<br>        <span class="hljs-keyword">return</span>;<br>    &#125;<br>    recycleUnchecked();<br>&#125;<br><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">recycleUnchecked</span><span class="hljs-params">()</span> </span>&#123;<br>    <span class="hljs-comment">// Mark the message as in use while it remains in the recycled object pool.</span><br>    <span class="hljs-comment">// Clear out all other details.</span><br>    flags = FLAG_IN_USE;<br>    what = <span class="hljs-number">0</span>;<br>    arg1 = <span class="hljs-number">0</span>;<br>    arg2 = <span class="hljs-number">0</span>;<br>    obj = <span class="hljs-keyword">null</span>;<br>    replyTo = <span class="hljs-keyword">null</span>;<br>    sendingUid = -<span class="hljs-number">1</span>;<br>    when = <span class="hljs-number">0</span>;<br>    target = <span class="hljs-keyword">null</span>;<br>    callback = <span class="hljs-keyword">null</span>;<br>    data = <span class="hljs-keyword">null</span>;<br><br>    <span class="hljs-keyword">synchronized</span> (sPoolSync) &#123;<br>        <span class="hljs-keyword">if</span> (sPoolSize &lt; MAX_POOL_SIZE) &#123;<br>            next = sPool;<br>            sPool = <span class="hljs-keyword">this</span>;<br>            sPoolSize++;<br>        &#125;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>当调用回收方法的时候，就会将当前的消息插入到静态变量 sPool 的头部，实现循环利用。</p>
+<h2 id="期待"><a href="#期待" class="headerlink" title="期待"></a>期待</h2><p>下次总结 Binder 在 Java 层的知识.</p>
+<h1 id="感激-非常感激，万分的感激！"><a href="#感激-非常感激，万分的感激！" class="headerlink" title="感激,非常感激，万分的感激！"></a>感激,非常感激，万分的感激！</h1><p>感谢以下的文章以及其作者和翻译的开发者们,排名不分先后</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://book.douban.com/subject/6811238/">柯元旦</a></li>
+<li><a target="_blank" rel="noopener" href="http://gityuan.com/2015/12/26/handler-message-framework/">gityuan</a></li>
+</ul>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/Mobile/" class="category-chain-item">Mobile</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/Mobile/Android/" class="category-chain-item">Android</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/Message/">#Message</a>
+      
+        <a href="/tags/Handler/">#Handler</a>
+      
+        <a href="/tags/%E6%B6%88%E6%81%AF%E6%9C%BA%E5%88%B6/">#消息机制</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>Android消息机制_Java层</div>
+      <div>http://example.com/2016/12/17/MessgaeMechanism/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>Author</div>
+          <div>Tinggeng Yan</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>Posted on</div>
+          <div>December 17, 2016</div>
+        </div>
+      
+      
+      <div class="license-meta-item">
+        <div>Licensed under</div>
+        <div>
+          
+            
+            
+              <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+              <span class="hint--top hint--rounded" aria-label="BY - Attribution">
+                <i class="iconfont icon-by"></i>
+              </span>
+              </a>
+            
+          
+        </div>
+      </div>
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2017/01/03/IPC-Binder-java-1/" title="IPC_Binder_java_1">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">IPC_Binder_java_1</span>
+                        <span class="visible-mobile">Previous</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2016/11/16/annotation/" title="Annotation 使用备忘">
+                        <span class="hidden-mobile">Annotation 使用备忘</span>
+                        <span class="visible-mobile">Next</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;Table of Contents</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">Search</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">Keyword</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="busuanzi_container_site_pv" style="display: none">
+        总访问量 
+        <span id="busuanzi_value_site_pv"></span>
+         次
+      </span>
+    
+    
+      <span id="busuanzi_container_site_uv" style="display: none">
+        总访客数 
+        <span id="busuanzi_value_site_uv"></span>
+         人
+      </span>
+    
+    
+  
+</div>
+
+  
+  
+    <!-- 备案信息 ICP for China -->
+    <div class="beian">
+  <span>
+    <a href="http://beian.miit.gov.cn/" target="_blank" rel="nofollow noopener">
+      沪ICP备2022011786号-1
+    </a>
+  </span>
+  
+    
+      <span>
+        <a
+          href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=沪ICP备2022011786号-1"
+          rel="nofollow noopener"
+          class="beian-police"
+          target="_blank"
+        >
+          
+            <span style="visibility: hidden; width: 0">|</span>
+            <img src="/img/police_beian.png" srcset="/img/loading.gif" lazyload alt="police-icon"/>
+          
+          <span>沪ICP备2022011786号-1</span>
+        </a>
+      </span>
+    
+  
+</div>
+
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://cdn.jsdelivr.net/npm/tocbot@4.12.3/dist/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      headingSelector : CONFIG.toc.headingSelector || 'h1,h2,h3,h4,h5,h6',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      collapseDepth   : CONFIG.toc.collapseDepth || 0,
+      scrollSmooth    : true,
+      headingsOffset  : -boardTop
+    });
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+  });
+</script>
+
+
+  <script src=https://cdn.jsdelivr.net/npm/clipboard@2.0.8/dist/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://cdn.jsdelivr.net/npm/anchor-js@4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">Blog works best with JavaScript enabled</div>
+  </noscript>
+</body>
+</html>

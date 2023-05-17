@@ -1,0 +1,915 @@
+
+
+<!DOCTYPE html>
+<html lang="en" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" href="/img/favicon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Tinggeng Yan">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="概述本文记录 RxJava 的概念.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="RxAndroid入门分享(一)">
+<meta property="og:url" content="http://example.com/2016/02/08/RxAndroidIntroduction1/index.html">
+<meta property="og:site_name" content="我的Code小窝">
+<meta property="og:description" content="概述本文记录 RxJava 的概念.">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2016-02-08T13:44:26.000Z">
+<meta property="article:modified_time" content="2023-05-17T16:34:55.913Z">
+<meta property="article:author" content="Tinggeng Yan">
+<meta property="article:tag" content="RxJava">
+<meta property="article:tag" content="Android">
+<meta property="article:tag" content="RxAndroid">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+    <meta name="referrer" content="no-referrer-when-downgrade">
+  
+  
+  <title>RxAndroid入门分享(一) - 我的Code小窝</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.2","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":"94c71fc4afacda3d2bffa4e863357892","google":null,"gtag":"G-EVHJQ5NV0G","tencent":{"sid":500716225,"cid":500716226},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+    <!-- Baidu Analytics -->
+    <script async>
+      if (!Fluid.ctx.dnt) {
+        var _hmt = _hmt || [];
+        (function() {
+          var hm = document.createElement("script");
+          hm.src = "https://hm.baidu.com/hm.js?94c71fc4afacda3d2bffa4e863357892";
+          var s = document.getElementsByTagName("script")[0];
+          s.parentNode.insertBefore(hm, s);
+        })();
+      }
+    </script>
+  
+
+  
+
+  
+    <!-- Google gtag.js -->
+    <script async>
+      if (!Fluid.ctx.dnt) {
+        Fluid.utils.createScript('https://www.googletagmanager.com/gtag/js?id=G-EVHJQ5NV0G', function() {
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', 'G-EVHJQ5NV0G');
+        });
+      }
+    </script>
+  
+
+  
+    <!-- Tencent Analytics -->
+    <script async>
+      if (!Fluid.ctx.dnt) {
+        var _mtac = {};
+        (function() {
+          var mta = document.createElement("script");
+          mta.src = "//pingjs.qq.com/h5/stats.js?v2.0.4";
+          mta.setAttribute("name", "MTAH5");
+          mta.setAttribute("sid", "500716225");
+          
+          mta.setAttribute("cid", "500716226");
+          
+          var s = document.getElementsByTagName("script")[0];
+          s.parentNode.insertBefore(mta, s);
+        })();
+      }
+    </script>
+  
+
+  
+
+  
+
+  
+
+
+
+  
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>我的Code小窝</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                Home
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                Archives
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                Categories
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                Tags
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                About
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="RxAndroid入门分享(一)"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2016-02-08 21:44" pubdate>
+          February 8, 2016 pm
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          <!-- compatible with older versions-->
+          11k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          <!-- compatible with older versions-->
+          92 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">RxAndroid入门分享(一)</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h1><p>本文记录 RxJava 的概念.</p>
+<span id="more"></span>
+
+<h1 id="RxJava-以及响应式函数思想篇"><a href="#RxJava-以及响应式函数思想篇" class="headerlink" title="RxJava 以及响应式函数思想篇"></a>RxJava 以及响应式函数思想篇</h1><h2 id="Why-技术产生的背景"><a href="#Why-技术产生的背景" class="headerlink" title="Why 技术产生的背景"></a>Why 技术产生的背景</h2><p>在编程中，经常需要切换线程，为了能对结果进行相应处理，经常需要进行回调，随着业务需求的增加，嵌套的回调也会随之增加，不仅增加了代码量，也增加了逻辑的复杂性，增加了理解和维护的难度。<br>所以就需要一种</p>
+<ul>
+<li>既能方便切换线程</li>
+<li>又能即是相应变化</li>
+<li>又可以简化代码的逻辑，方便维护，</li>
+<li>还不需要回调。</li>
+</ul>
+<h2 id="What-ReactiveX是什么"><a href="#What-ReactiveX是什么" class="headerlink" title="What ReactiveX是什么"></a>What ReactiveX是什么</h2><p>Reactive Extensions,简称 RX，原来只是微软开发的一个 LINQ 的一个扩展。</p>
+<p>微软给的定义是，Rx 是一个函数库，让开发者可以利用<strong>可观察序列</strong>和<strong>LINQ风格查询操作符</strong>来编写<strong>异步</strong>和基于<strong>事件</strong>的程序，使用 Rx，开发者可以用Observables 表示异步数据流，用 LINQ 操作符查询异步数据流，用 Schedulers 参数化异步数据流的并发处理，Rx 可以这样定义：<strong>Rx = Observables + LINQ + Schedulers。</strong></p>
+<p>ReactiveX.io 给的定义是，Rx 是一个使用可观察数据流进行异步编程的<strong>编程接口</strong>，ReactiveX 结合了观察者模式、迭代器模式和函数式编程的精华。</p>
+<p>看完微软给的定义已经很详细了，开源组织给的更加精简，里面提到了数据流还有事件，我们来自己看看怎么理解。</p>
+<p>这里得提到响应式编程的概念，其中有两个关键点，</p>
+<ul>
+<li>事件，事件可以被观察，等待，过滤，响应，也可以触发其他的事件，事件通过数据流的形式对外呈现。</li>
+<li>数据流，数据流就像一条河：它可以<strong>被观测，被过滤，被操作，或者与另外一条流合并为一条新的流来给新的消费者消费</strong>。</li>
+</ul>
+<p>所以，响应式编程就是一种基于异步<strong>数据流</strong>概念的编程模式。其实 EventBus 还有其他的点击事件一样，本质上就是异步的数据流，我们可以为任何的事件创建数据流。比如我们可以为登录操作创建数据流，然后监听这个数据流，进行登录验证这样的响应操作。</p>
+<p>主要特点有：</p>
+<ul>
+<li>易于并发从而更好的利用服务器的能力。</li>
+<li>易于有条件的异步执行。</li>
+<li>一种更好的方式来避免回调地狱。</li>
+<li>一种响应式方法。</li>
+</ul>
+<h2 id="RxJava与传统的Java的不同"><a href="#RxJava与传统的Java的不同" class="headerlink" title="RxJava与传统的Java的不同"></a>RxJava与传统的Java的不同</h2><p>在 Rx 中，开发者用 Observables 模拟可被观察的异步数据流，从纯 Java 的观点看，RxJava 的 Observable 类源自于经典的 Gang Of Four 的观察者模式。</p>
+<h3 id="与传统观察者的不同"><a href="#与传统观察者的不同" class="headerlink" title="与传统观察者的不同"></a>与传统观察者的不同</h3><p>它添加了三个缺少的功能：</p>
+<ul>
+<li>生产者在没有更多数据可用时能够发出信号通知：onCompleted()事件。</li>
+<li>生产者在发生错误时能够发出信号通知：onError()事件。</li>
+<li>RxJava Observables 能够组合而不是嵌套，从而避免开发者陷入回调地狱。</li>
+</ul>
+<h3 id="与传统的Iterable的不同"><a href="#与传统的Iterable的不同" class="headerlink" title="与传统的Iterable的不同"></a>与传统的Iterable的不同</h3><p>Observables 和 IterablesAPI 是很相似的：我们在 Iterable 可以执行的许多操作也都同样可以在 Observables 上执行。当然，由于 Observables 流的本质，没有如Iterable.remove() 这样相应的方法,因为数据可能已经发射出去了，remove 也没有任何意义。</p>
+<p>使用 Iterable 时，消费者从生产者那里以同步的方式得到值，在这些值得到之前线程处于阻塞状态。相反，使用 Observable 时，生产者以异步的方式把值 push 给观察者，无论何时，这些值都是可用的。这种方法之所以更灵活是因为即便值是同步或异步方式到达，消费者在这两种场景都可以根据自己的需要来处理。</p>
+<table>
+<thead>
+<tr>
+<th>Pattern</th>
+<th align="right">一个返回值</th>
+<th align="center">多个返回值</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Synchronous</td>
+<td align="right">T getData()</td>
+<td align="center">Iterable<T></td>
+</tr>
+<tr>
+<td>Asynchronous</td>
+<td align="right">Future<T> getData()</td>
+<td align="center">Observable<T> getData()</td>
+</tr>
+</tbody></table>
+<p>Observable 的生命周期包含了三种可能的易于与 Iterable 生命周期事件相比较的事件，下表展示了如何将 Observable async/push 与 Iterable sync/pull 相关联起来。</p>
+<table>
+<thead>
+<tr>
+<th>Event</th>
+<th align="right">Iterable(pull)</th>
+<th align="center">Observable(push)</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>检索数据</td>
+<td align="right">T next()</td>
+<td align="center">onNext(T)</td>
+</tr>
+<tr>
+<td>发现错误</td>
+<td align="right">throws Exception</td>
+<td align="center">onError(Throwable)</td>
+</tr>
+<tr>
+<td>完成</td>
+<td align="right">!hasNext()</td>
+<td align="center">onCompleted()</td>
+</tr>
+</tbody></table>
+<p>所以，由以上这些新增的特点，开发者只要简单的去请求，当请求完成的时候，会得到一个通知。开发者需要对可能发生的每个事件提供一个清晰的响应链。</p>
+<h3 id="举个例子："><a href="#举个例子：" class="headerlink" title="举个例子："></a>举个例子：</h3><p>用户提交完用户名和密码，我们可以用 observable 模拟这个登录的数据流，而后我们需要对可能发生的情况进行定义；</p>
+<ul>
+<li>用户名密码正确，登录成功，转到登录成功界面。</li>
+<li>用户名和密码匹配不成功，登录失败，给用户个提示。</li>
+</ul>
+<p>这样，我们不需要等待结果，等到有结果的时候，会有通知，这个过程是异步的。这中间可以做很多其他的事情，保存到缓存，显示进度条等等。</p>
+<h2 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h2><h3 id="Observable"><a href="#Observable" class="headerlink" title="Observable"></a>Observable</h3><p>当我们异步执行一些复杂的事情，Java 提供了传统的类，例如 Thread、Future、FutureTask、CompletableFuture 来处理这些问题。当复杂度提升，这些方案就会变得麻烦和难以维护。最糟糕的是，它们都不支持链式调用。RxJava Observables 可以解决这些问题。它可以作用于单个结果程序上，也可以作用于序列上。无论何时你想发射单个标量值，或者一连串值，甚至是无穷个数值流，你都可以使用 Observable。和传统的观察者模式一样，也有冷热之分。</p>
+<ul>
+<li>热的 observable，只要创建了 observable，就开始发射数据了，所以，后续订阅他的 observer 可能从中间某个位置开始接收数据。</li>
+<li>冷的 observable，等到有订阅的时候才开始发射数据。</li>
+</ul>
+<h3 id="Observer"><a href="#Observer" class="headerlink" title="Observer"></a>Observer</h3><p>观察者，订阅 observable 发射的数据，对其做出相应，对可能出现的情况的定义就在这里。</p>
+<p>三个重要的回调方法 (onNext, onCompleted, onError)<br>通过Subscribe方法可以将观察者连接到 Observable，观察者需要实现以下方法的一个子集:</p>
+<ul>
+<li>onNext(T item):Observable 调用这个方法发射数据，方法的参数就是 Observable 发射的数据，这个方法可能会被调用多次，取决于你的实现。</li>
+<li>onError(Exception ex):当 Observable 遇到错误或者无法返回期望的数据时会调用这个方法，这个调用会终止 Observable，后续不会再调用 onNext 和 onCompleted，onError 方法的参数是抛出的异常。</li>
+<li>onComplete:正常终止，如果没有遇到错误，Observable 在最后一次调用 onNext 之后调用此方法。</li>
+</ul>
+<p>根据 Observable 协议的定义，onNext 可能会被调用<strong>零次或者很多次</strong>，最后会有一次 onCompleted 或 onError 调用（不会同时），传递数据给 onNext 通常被称作发射，onCompleted 和 onError 被称作通知。</p>
+<h3 id="Subscriber"><a href="#Subscriber" class="headerlink" title="Subscriber"></a>Subscriber</h3><p>Observers 和 Subscribers 是两个“消费”实体。Subscriber 是一个实现了 Observer 的一个抽象类。相对于基本的 Observer，提供了手动解开订阅的方法 unsubscribe 和在 subscribe 刚开始，而事件还未发送之前被调用的方法 onStart。其他的使用方式是一样的。</p>
+<h3 id="Subjects"><a href="#Subjects" class="headerlink" title="Subjects"></a>Subjects</h3><p>Subject = Observable + Observer。<br>subject 是一个神奇的对象，它可以是一个 Observable 同时也可以是一个 Observer：它作为连接这两个世界的一座桥梁。一个 Subject 可以订阅一个 Observable，就像一个观察者，并且它可以发射新的数据，或者传递它接受到的数据，就像一个 Observable。很明显，作为一个 Observable，观察者们或者其它 Subject 都可以订阅它。<br>一旦 Subject 订阅了 Observable，它将会触发 Observable 开始发射。如果原始的 Observable 是“冷”的，这将会对订阅一个“热”的 Observable 变量产生影响。</p>
+<h2 id="How怎么使用"><a href="#How怎么使用" class="headerlink" title="How怎么使用"></a>How怎么使用</h2><p>接下来讨论他的具体使用方法。首先是需要搭建环境，我们就以 AS 为例。</p>
+<ul>
+<li>因为就是为了 Android 开发所学的，在 module 的 gradle 中添加 RxAndroid 的仓库地址,RxAndroid 本身是依赖 RxJava 的，所以会自动下载 RxJava 的依赖包。<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs groovy">compile <span class="hljs-string">&#x27;io.reactivex:rxandroid:1.1.0&#x27;</span><br></code></pre></td></tr></table></figure></li>
+</ul>
+<h3 id="创建Observable"><a href="#创建Observable" class="headerlink" title="创建Observable"></a>创建Observable</h3><h4 id="Create之从头创建"><a href="#Create之从头创建" class="headerlink" title="Create之从头创建"></a>Create之从头创建</h4><p>这个操作符传递一个<strong>含有观察者作为参数的函数</strong>的对象，编写这个函数让它的行为表现为一个 Observable –恰当的调用观察者的 onNext，onError 和 onCompleted 方法。下面是个非常简单的一个例子，先有个直观的大致的认识。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><code class="hljs Java">Observable.OnSubscribe&lt;String&gt; f = <span class="hljs-keyword">new</span> Observable.OnSubscribe&lt;String&gt;() &#123;<br>            <span class="hljs-meta">@Override</span><br>            <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">call</span><span class="hljs-params">(Subscriber&lt;? <span class="hljs-keyword">super</span> String&gt; o)</span> </span>&#123;<br>                <span class="hljs-comment">//完全自己决定发射数据给subscriber和通知subscriber的时机以及方式</span><br>                o.onNext(<span class="hljs-string">&quot;发射的数据&quot;</span>);<br>                o.onCompleted();<br>            &#125;<br>        &#125;;<br>        Observable observable = Observable.create(f);<br>        <span class="hljs-comment">//创建订阅者</span><br>        Subscriber subscriber = <span class="hljs-keyword">new</span> Subscriber() &#123;<br>            <span class="hljs-meta">@Override</span><br>            <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">onCompleted</span><span class="hljs-params">()</span> </span>&#123;<br>                <span class="hljs-comment">//正常结束，收到发射的通知</span><br>            &#125;<br><br>            <span class="hljs-meta">@Override</span><br>            <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">onError</span><span class="hljs-params">(Throwable e)</span> </span>&#123;<br>                <span class="hljs-comment">//出现了错误的通知</span><br>            &#125;<br><br>            <span class="hljs-meta">@Override</span><br>            <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">onNext</span><span class="hljs-params">(Object o)</span> </span>&#123;<br>                <span class="hljs-comment">//收到observable发射的数据</span><br>            &#125;<br>        &#125;;<br>        <span class="hljs-comment">//订阅，一旦订阅发生，observable将开始发射数据</span><br>        observable.subscribe(subscriber);<br></code></pre></td></tr></table></figure>
+
+<h4 id="From"><a href="#From" class="headerlink" title="From"></a>From</h4><p>这个操作符需要传入数组或者列表等可以迭代的类型，将会返回一个 Observable 对象，这个 Observable 会迭代列表里的数据，然后将数据一个一个的发射出去。</p>
+<h4 id="Just"><a href="#Just" class="headerlink" title="Just"></a>Just</h4><p>这个操作符会返回一个 Observable，这个 Observable 将传入的对象直接发射出去。这个操作符对于进行旧版本的改造非常有用，对于暂时不想做过多操作的函数，可以直接传入到 just 操作符中，这样就自动构造出了一个数据流。</p>
+<h4 id="Repeat"><a href="#Repeat" class="headerlink" title="Repeat"></a>Repeat</h4><p>这个操作符需要一个整形数字作为参数，代表了重复发射的次数，比如发射“123”三次，就会变成发射”123123123”。</p>
+<h4 id="defer"><a href="#defer" class="headerlink" title="defer"></a>defer</h4><p>这个操作符可以延迟 Observable 的创建，当有订阅者的时候才开始创建，这个对于一些不是每次都需要创建的数据流而言，很有用。怎么理解呢，我们简单的看个例子。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><code class="hljs Java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MainActivity</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">AppCompatActivity</span> </span>&#123;<br><br>    <span class="hljs-keyword">private</span> Subscriber subscriber;<br>    <span class="hljs-keyword">private</span> Observable simpleObservable;<br><br>    <span class="hljs-function"><span class="hljs-keyword">private</span> String <span class="hljs-title">doSomeThing</span><span class="hljs-params">()</span> </span>&#123;<br>        System.out.println(<span class="hljs-string">&quot;在执行just的时候，这里需要执行的操作已经执行结束了。。。&quot;</span>);<br>        <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;SteveYan&quot;</span>;<br>    &#125;<br><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-function"><span class="hljs-keyword">protected</span> <span class="hljs-keyword">void</span> <span class="hljs-title">onCreate</span><span class="hljs-params">(Bundle savedInstanceState)</span> </span>&#123;<br>        <span class="hljs-keyword">super</span>.onCreate(savedInstanceState);<br>        setContentView(R.layout.activity_main);<br>        simpleObservable = Observable.just(doSomeThing());<br>        subscriber = <span class="hljs-keyword">new</span> Subscriber() &#123;<br>            <span class="hljs-meta">@Override</span><br>            <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">onCompleted</span><span class="hljs-params">()</span> </span>&#123;<br>                <span class="hljs-comment">//正常结束，收到发射的通知</span><br>                System.out.println(<span class="hljs-string">&quot;onCompleted&quot;</span>);<br>            &#125;<br><br>            <span class="hljs-meta">@Override</span><br>            <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">onError</span><span class="hljs-params">(Throwable e)</span> </span>&#123;<br>                <span class="hljs-comment">//出现了错误的通知</span><br>            &#125;<br><br>            <span class="hljs-meta">@Override</span><br>            <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">onNext</span><span class="hljs-params">(Object o)</span> </span>&#123;<br>                <span class="hljs-comment">//收到observable发射的数据</span><br>                System.out.println(<span class="hljs-string">&quot;Receive &quot;</span> + o.toString());<br>            &#125;<br>        &#125;;<br>        init();<br>    &#125;<br><br>    <span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">void</span> <span class="hljs-title">init</span><span class="hljs-params">()</span> </span>&#123;<br>        findViewById(R.id.button).setOnClickListener(<span class="hljs-keyword">new</span> View.OnClickListener() &#123;<br>            <span class="hljs-meta">@Override</span><br>            <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">onClick</span><span class="hljs-params">(View v)</span> </span>&#123;<br>                <span class="hljs-comment">//每次点击的时候都进行订阅</span><br>                simpleObservable.subscribe(subscriber);<br>            &#125;<br>        &#125;);<br>    &#125;<br><br>&#125;<br></code></pre></td></tr></table></figure>
+<p>在上面的例子中，每次点击就进行一次订阅，在 onCreate 方法里，在执行 just 的时候，doSomeThing 已经执行完了，<br>但是并未发射数据，但是假如使用 defer 操作符的话，doSomeThing 则会等到点击的时候才执行。<br>修改成的 defer 操作符的</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><code class="hljs Java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MainActivity</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">AppCompatActivity</span> </span>&#123;<br><br>    <span class="hljs-keyword">private</span> Subscriber subscriber;<br>    <span class="hljs-keyword">private</span> Observable simpleObservable;<br><br>    <span class="hljs-function"><span class="hljs-keyword">private</span> String <span class="hljs-title">doSomeThing</span><span class="hljs-params">()</span> </span>&#123;<br>        System.out.println(<span class="hljs-string">&quot;Do Some&quot;</span>);<br>        <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;SteveYan&quot;</span>;<br>    &#125;<br><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-function"><span class="hljs-keyword">protected</span> <span class="hljs-keyword">void</span> <span class="hljs-title">onCreate</span><span class="hljs-params">(Bundle savedInstanceState)</span> </span>&#123;<br>        <span class="hljs-keyword">super</span>.onCreate(savedInstanceState);<br>        setContentView(R.layout.activity_main);<br>        simpleObservable = Observable.defer(<span class="hljs-keyword">new</span> Func0&lt;Observable&lt;String&gt;&gt;() &#123;<br>            <span class="hljs-meta">@Override</span><br>            <span class="hljs-function"><span class="hljs-keyword">public</span> Observable&lt;String&gt; <span class="hljs-title">call</span><span class="hljs-params">()</span> </span>&#123;<br>                <span class="hljs-keyword">return</span> Observable.just(doSomeThing());<br>            &#125;<br>        &#125;);<br>        subscriber = <span class="hljs-keyword">new</span> Subscriber() &#123;<br>            <span class="hljs-meta">@Override</span><br>            <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">onCompleted</span><span class="hljs-params">()</span> </span>&#123;<br>                <span class="hljs-comment">//正常结束，收到发射的通知</span><br>                System.out.println(<span class="hljs-string">&quot;onCompleted&quot;</span>);<br>            &#125;<br><br>            <span class="hljs-meta">@Override</span><br>            <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">onError</span><span class="hljs-params">(Throwable e)</span> </span>&#123;<br>                <span class="hljs-comment">//出现了错误的通知</span><br>            &#125;<br><br>            <span class="hljs-meta">@Override</span><br>            <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">onNext</span><span class="hljs-params">(Object o)</span> </span>&#123;<br>                <span class="hljs-comment">//收到observable发射的数据</span><br>                System.out.println(<span class="hljs-string">&quot;Receive &quot;</span> + o.toString());<br>            &#125;<br>        &#125;;<br>        init();<br>    &#125;<br><br>    <span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">void</span> <span class="hljs-title">init</span><span class="hljs-params">()</span> </span>&#123;<br>        findViewById(R.id.button).setOnClickListener(<span class="hljs-keyword">new</span> View.OnClickListener() &#123;<br>            <span class="hljs-meta">@Override</span><br>            <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">onClick</span><span class="hljs-params">(View v)</span> </span>&#123;<br>                <span class="hljs-comment">//每次点击的时候都进行订阅</span><br>                simpleObservable.subscribe(subscriber);<br>            &#125;<br>        &#125;);<br>    &#125;<br><br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h4 id="range-从一个指定的数字X开始发射N个数字"><a href="#range-从一个指定的数字X开始发射N个数字" class="headerlink" title="range 从一个指定的数字X开始发射N个数字"></a>range 从一个指定的数字X开始发射N个数字</h4><p>range() 函数用两个数字作为参数：第一个是起始点，第二个是我们想发射数字的个数。目前未发现在实际项目中的用处。</p>
+<h4 id="interval-重复轮训操作"><a href="#interval-重复轮训操作" class="headerlink" title="interval  重复轮训操作"></a>interval  重复轮训操作</h4><p>interval() 函数的两个参数：一个指定两次发射的时间间隔，另一个是用到的时间单位。需要创建一个轮询程序时非常好用</p>
+<h4 id="timer-一段时间之后才发射的Observable"><a href="#timer-一段时间之后才发射的Observable" class="headerlink" title="timer 一段时间之后才发射的Observable"></a>timer 一段时间之后才发射的Observable</h4><p>接受两个参数，一个是延迟发射的时间，第二个参数是时间的。</p>
+<h3 id="可观测序列的本质：过滤"><a href="#可观测序列的本质：过滤" class="headerlink" title="可观测序列的本质：过滤"></a>可观测序列的本质：过滤</h3><p>过滤：如何从发射的 Observable 中选取我们想要的值，如何获取有限个数的值，如何处理溢出的场景，以及更多的有用的技巧。</p>
+<h4 id="filter函数，进行内容的过滤"><a href="#filter函数，进行内容的过滤" class="headerlink" title="filter函数，进行内容的过滤"></a>filter函数，进行内容的过滤</h4><p>接受一个参数，对数据流中的每个数据进行过滤。</p>
+<h4 id="Take-取序列的前N个元素"><a href="#Take-取序列的前N个元素" class="headerlink" title="Take,取序列的前N个元素"></a>Take,取序列的前N个元素</h4><p>take() 函数用整数N来作为一个参数，从原始的序列中发射前 N 个元素</p>
+<h4 id="takeLast-取序列的最后的N个元素"><a href="#takeLast-取序列的最后的N个元素" class="headerlink" title="takeLast,取序列的最后的N个元素"></a>takeLast,取序列的最后的N个元素</h4><p>如果我们想要最后 N 个元素，接给 takeLast<br>函数传入 N 作为参数。有一点值得注意，为了得到最后的数据，所以 takeLast 方法只能作用于一组有限的序列（发射元素），它只能应用于一个完整的序列。否则他无从知晓最后到哪。</p>
+<h4 id="Distinct-有且仅有一个"><a href="#Distinct-有且仅有一个" class="headerlink" title="Distinct 有且仅有一个"></a>Distinct 有且仅有一个</h4><p>distinct 函数去掉重复的。就像 takeLast 一样，distinct 也必须作用于一个完整的序列，然后得到重复的过滤项，它需要记录每一个发射的值。如果你在处理一大堆序列或者大的数据记得关注内存使用情况。</p>
+<h4 id="DistinctUntilsChanged-改变的时候就记录"><a href="#DistinctUntilsChanged-改变的时候就记录" class="headerlink" title="DistinctUntilsChanged 改变的时候就记录"></a>DistinctUntilsChanged 改变的时候就记录</h4><p>如果我们想在一个可观测序列发射一个不同于之前的一个新值时，让我们得到通知，就可以用这个操作符。</p>
+<h4 id="First-And-Last"><a href="#First-And-Last" class="headerlink" title="First And Last"></a>First And Last</h4><p>从 Observable 中只发射第一个元素或者最后一个元素。这两个都可以传 Func1 作为参数，：一个可以确定我们感兴趣的第一个或者最后一个的谓词。<br>与 first()和 last()相似的变量有：firstOrDefault() 和 lastOrDefault().这两个函数当可观测序列完成时不再发射任何值时用得上。在这种场景下，如果 Observable 不再发射任何值时我们可以指定发射一个默认的值</p>
+<h4 id="Skip-And-SkipLast"><a href="#Skip-And-SkipLast" class="headerlink" title="Skip And SkipLast"></a>Skip And SkipLast</h4><p>它们用整数 N 作参数，从本质上来说，它们不让 Observable 发射前 N 个或者后 N 个值。这个和上面的 First 和 Last 正好相反。</p>
+<h4 id="elementAt-观察指定位置的数据"><a href="#elementAt-观察指定位置的数据" class="headerlink" title="elementAt 观察指定位置的数据"></a>elementAt 观察指定位置的数据</h4><p>elementAt() 函数仅从一个序列中发射第 n 个元素然后就完成了。<br>如果我们想查找第五个元素但是可观测序列只有三个元素可供发射时该怎么办？我们可以使用 elementAtOrDefault()。</p>
+<h4 id="sample-每隔一段时间取最近的数据"><a href="#sample-每隔一段时间取最近的数据" class="headerlink" title="sample 每隔一段时间取最近的数据"></a>sample 每隔一段时间取最近的数据</h4><p>创建一个新的可观测序列，它将在一个指定的时间间隔里由 Observable 发射最近一次的数值。<br>如果我们想让它定时发射第一个元素而不是最近的一个元素，我们可以使用 throttleFirst()。</p>
+<h4 id="timeout-超时操作"><a href="#timeout-超时操作" class="headerlink" title="timeout 超时操作"></a>timeout 超时操作</h4><p>使用 timeout() 函数来监听源可观测序列,就是在我们设定的时间间隔内如果没有得到一个值则发射一个错误。</p>
+<h4 id="debounce-除去发射过快的数据"><a href="#debounce-除去发射过快的数据" class="headerlink" title="debounce 除去发射过快的数据"></a>debounce 除去发射过快的数据</h4><p>debounce() 函数过滤掉由 Observable 发射的速率过快的数据；如果在一个指定的时间间隔过去了仍旧没有发射一个，那么它将发射最后的那个。</p>
+<h3 id="转换Observables"><a href="#转换Observables" class="headerlink" title="转换Observables"></a>转换Observables</h3><h4 id="Map"><a href="#Map" class="headerlink" title="Map"></a>Map</h4><p>转换发射的数据，将发射数据 A 的 Observable 变换成发射数据 B 的 Observable。适用于对数据的再加工场景。</p>
+<h4 id="FlatMap-铺平序列"><a href="#FlatMap-铺平序列" class="headerlink" title="FlatMap 铺平序列"></a>FlatMap 铺平序列</h4><p>这样的 Observable：它发射一个数据序列，这些数据本身也可以发射 Observable。等于是说发射的数据可以再发射数据。flatMap 函数提供一种铺平序列的方式，然后合并这些 Observables 发射的数据，最后将合并后的结果作为最终的 Observable.</p>
+<p>当我们在处理可能有大量的 Observables 时，重要是记住任何一个 Observables 发生错误的情况，flatMap 将会触发它自己的 onError 函数并放弃整个链。</p>
+<p>重要的一点提示是关于合并部分：它允许交叉。正如上图所示，这意味着 flatMap 不能够保证在最终生成的 Observable 中源 Observables 确切的发射顺序。</p>
+<h4 id="ConcatMap-保证有序的铺平"><a href="#ConcatMap-保证有序的铺平" class="headerlink" title="ConcatMap 保证有序的铺平"></a>ConcatMap 保证有序的铺平</h4><p>和上面的 FlatMap 一样，就是弥补了交叉这个一个特点。</p>
+<h4 id="FlatMapIterable"><a href="#FlatMapIterable" class="headerlink" title="FlatMapIterable"></a>FlatMapIterable</h4><p>它将源数据两两结成对并生成 Iterable，而不是原始数据项和生成的 Observables。</p>
+<h4 id="SwitchMap-切换数据流-喜新厌旧"><a href="#SwitchMap-切换数据流-喜新厌旧" class="headerlink" title="SwitchMap 切换数据流(喜新厌旧)"></a>SwitchMap 切换数据流(喜新厌旧)</h4><p>switchMap() 和 flatMap() 很像，除了一点：每当源 Observable 发射一个新的数据项（Observable）时，它将取消订阅并停止监视之前那个数据项产生的 Observable，并开始监视当前发射的这一个。</p>
+<h4 id="Scan"><a href="#Scan" class="headerlink" title="Scan"></a>Scan</h4><p>RxJava 的 scan() 函数可以看做是一个累积函数。scan 函数对原始 Observable 发射的每一项数据都应用一个函数，计算出函数的结果值，并将该值填充回可观测序列，等待和下一次发射的数据一起使用。简单的说是每次可以处理的数据有本次的和上次的数据。</p>
+<h4 id="groupBy-分组"><a href="#groupBy-分组" class="headerlink" title="groupBy 分组"></a>groupBy 分组</h4><p>接受一个方法，在方法里进行分组操作，返回一个自定义的值，系统将根据这个值将进行分组。</p>
+<h4 id="buffer"><a href="#buffer" class="headerlink" title="buffer"></a>buffer</h4><p>每次发射一组值，是一个列表，而不是一个个的发射。接受一个整形参数 N，表示 N 个一组进行发射。也可以接受两个参数，SKIP，表示 SKIP 个值中取 N 个一组进行发射。</p>
+<h4 id="window"><a href="#window" class="headerlink" title="window"></a>window</h4><p>和 buffer 类似，但是他发射的不是一个列表，而是一个 Observable。</p>
+<h4 id="cast"><a href="#cast" class="headerlink" title="cast"></a>cast</h4><p>和 map 类似，不同的是将数据进行转换成一个新的类型。TODO 目前测试未发现怎么使用。</p>
+<h3 id="组合Observable"><a href="#组合Observable" class="headerlink" title="组合Observable"></a>组合Observable</h3><p>以上的内容是对 Observable 的发射数据进行过滤，接下来谈谈怎么组合数据流。</p>
+<h4 id="merge"><a href="#merge" class="headerlink" title="merge"></a>merge</h4><p>将多个 Observable 发射的值进行合并成一个新的 Observable 然后再发射。中途合并的时候出现任何一个错误都会导致链条断裂，如果想延迟这样的错误处理，可以用 mergeDelayError。</p>
+<h4 id="zip"><a href="#zip" class="headerlink" title="zip"></a>zip</h4><p>这个操作符和 merge 一样，也是合并两个 Observable 的数据；不一样的是，他是将两个未进行打包的数据根据传入的谓词规则进行合并成一个新的数据,再进行发射。值得注意的是，两个数据流的长度必须一样，多余的数据将会因为不能打包而得不到发射。</p>
+<h4 id="join-TODO-待详细验证用途"><a href="#join-TODO-待详细验证用途" class="headerlink" title="join TODO 待详细验证用途"></a>join TODO 待详细验证用途</h4><p>有四个参数，</p>
+<ul>
+<li>第一个参数为，Observable，表示和源 Observable 结合的数据流。</li>
+<li>Func1参数：在指定的由时间窗口定义时间间隔内，源 Observable 发射的数据和从第二个 Observable 发射的数据相互配合返回的 Observable。</li>
+<li>Func1参数：在指定的由时间窗口定义时间间隔内，第二个 Observable 发射的数据和从源 Observable 发射的数据相互配合返回的 Observable。</li>
+<li>Func2参数：定义已发射的数据如何与新发射的数据项相结合。</li>
+</ul>
+<h4 id="combineLatest"><a href="#combineLatest" class="headerlink" title="combineLatest"></a>combineLatest</h4><p>和 Zip 一样，去组合两个数据流发射的数据，并且进行组合，合并成一个新的数据进行发射，不同的是，Zip 发射的是最近未进行打包的，而 combineLatest 走的是相反的路线，打包最近发射的数据，不管是否已经打包过了。这样的话，就会弥补 Zip 的长度限制，全部得到发射。</p>
+<h4 id="startWith"><a href="#startWith" class="headerlink" title="startWith"></a>startWith</h4><p>Observable 开始发射他们的数据之前， startWith() 通过传递一个参数来先发射一个数据序列。 表示发射之前先将传入的参数法发射出去。</p>
+<h3 id="Schedulers-随时切换运行的线程"><a href="#Schedulers-随时切换运行的线程" class="headerlink" title="Schedulers 随时切换运行的线程"></a>Schedulers 随时切换运行的线程</h3><p>这里大致说一下有哪几种情况，因为在 Java 中的情况和 Android 稍有差异，并且必须结合实例才能明白这个好处。</p>
+<h4 id="RxJava提供的五种调度器"><a href="#RxJava提供的五种调度器" class="headerlink" title="RxJava提供的五种调度器"></a>RxJava提供的五种调度器</h4><ul>
+<li>.io()<br>这个调度器时用于 I/O 操作。它基于根据需要，增长或缩减来自适应的线程池。由于它专用于 I/O 操作，所以并不是 RxJava 的默认方法；正确的使用它是由开发者决定的。重点需要注意的是线程池是无限制的，大量的 I/O 调度操作将创建许多个线程并占用内存。</li>
+<li>.computation()<br>这个是计算工作默认的调度器，与I/O 操作无关。也是许多 RxJava 方法的默认调度器：buffer(),debounce(),delay(),interval(),sample(),skip()。所以可以将一些耗时的，但是与 IO 无关的一些操作。</li>
+<li>.immediate()<br>这个调度器允许你立即在当前线程执行你指定的工作。它是 timeout(),timeInterval(),以及 timestamp() 方法默认的调度器。</li>
+<li>.newThread()<br>这个调度器正如它所看起来的那样：它为指定任务启动一个新的线程。</li>
+<li>.trampoline()<br>当我们想在当前线程执行一个任务时，并不是立即，我们可以用<br>.trampoline 将它入队。这个调度器将会处理它的队列并且按序运行队列中每一个任务。它是 repeat()和 retry() 方法默认的调度器。</li>
+</ul>
+<h4 id="SubscribeOn-and-ObserveOn，指定线程，线程切换"><a href="#SubscribeOn-and-ObserveOn，指定线程，线程切换" class="headerlink" title="SubscribeOn and ObserveOn，指定线程，线程切换"></a>SubscribeOn and ObserveOn，指定线程，线程切换</h4><p>subscribeOn() 方法来用于每个 Observable 对象。subscribeOn() 方法用 Scheduler 来作为参数并在这个 Scheduler 上执行 Observable 调用。<br>observeOn() 方法将会在指定的调度器上返回结果。observeOn() 方法用 Scheduler 来作为参数，在指定的线程上返回结果，观察者在返回结果的线程上消费这个结果。</p>
+<h3 id="Retrofit"><a href="#Retrofit" class="headerlink" title="Retrofit"></a>Retrofit</h3><p>Retrofit 完美的支持 Rx 编程，可以完美的结合。</p>
+<p>##感激,非常感激，万分的感激！</p>
+<p>感谢以下的文章以及其作者和翻译的开发者们,排名不分先后</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="http://rxjava.yuxingxin.com/">RxJava Essentials 中文翻译版</a></li>
+<li><a target="_blank" rel="noopener" href="https://mcxiaoke.gitbooks.io/rxdocs/content/">ReactiveX文档中文翻译</a></li>
+<li><a target="_blank" rel="noopener" href="http://gank.io/post/560e15be2dca930e00da1083">给 Android 开发者的 RxJava 详解</a></li>
+</ul>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/Mobile/" class="category-chain-item">Mobile</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/Mobile/Android/" class="category-chain-item">Android</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/RxJava/">#RxJava</a>
+      
+        <a href="/tags/Android/">#Android</a>
+      
+        <a href="/tags/RxAndroid/">#RxAndroid</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>RxAndroid入门分享(一)</div>
+      <div>http://example.com/2016/02/08/RxAndroidIntroduction1/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>Author</div>
+          <div>Tinggeng Yan</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>Posted on</div>
+          <div>February 8, 2016</div>
+        </div>
+      
+      
+      <div class="license-meta-item">
+        <div>Licensed under</div>
+        <div>
+          
+            
+            
+              <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+              <span class="hint--top hint--rounded" aria-label="BY - Attribution">
+                <i class="iconfont icon-by"></i>
+              </span>
+              </a>
+            
+          
+        </div>
+      </div>
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2016/02/20/DataBinding/" title="DataBinding 入门简介">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">DataBinding 入门简介</span>
+                        <span class="visible-mobile">Previous</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2016/02/07/hello-world/" title="标题：Hello World">
+                        <span class="hidden-mobile">标题：Hello World</span>
+                        <span class="visible-mobile">Next</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;Table of Contents</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">Search</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">Keyword</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="busuanzi_container_site_pv" style="display: none">
+        总访问量 
+        <span id="busuanzi_value_site_pv"></span>
+         次
+      </span>
+    
+    
+      <span id="busuanzi_container_site_uv" style="display: none">
+        总访客数 
+        <span id="busuanzi_value_site_uv"></span>
+         人
+      </span>
+    
+    
+  
+</div>
+
+  
+  
+    <!-- 备案信息 ICP for China -->
+    <div class="beian">
+  <span>
+    <a href="http://beian.miit.gov.cn/" target="_blank" rel="nofollow noopener">
+      沪ICP备2022011786号-1
+    </a>
+  </span>
+  
+    
+      <span>
+        <a
+          href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=沪ICP备2022011786号-1"
+          rel="nofollow noopener"
+          class="beian-police"
+          target="_blank"
+        >
+          
+            <span style="visibility: hidden; width: 0">|</span>
+            <img src="/img/police_beian.png" srcset="/img/loading.gif" lazyload alt="police-icon"/>
+          
+          <span>沪ICP备2022011786号-1</span>
+        </a>
+      </span>
+    
+  
+</div>
+
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://cdn.jsdelivr.net/npm/tocbot@4.12.3/dist/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      headingSelector : CONFIG.toc.headingSelector || 'h1,h2,h3,h4,h5,h6',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      collapseDepth   : CONFIG.toc.collapseDepth || 0,
+      scrollSmooth    : true,
+      headingsOffset  : -boardTop
+    });
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+  });
+</script>
+
+
+  <script src=https://cdn.jsdelivr.net/npm/clipboard@2.0.8/dist/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://cdn.jsdelivr.net/npm/anchor-js@4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">Blog works best with JavaScript enabled</div>
+  </noscript>
+</body>
+</html>
