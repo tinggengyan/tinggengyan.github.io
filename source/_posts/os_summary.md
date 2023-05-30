@@ -12,6 +12,15 @@ date: 2022-07-17 16:29:04
 ![java](/img/os/os_summary.png)
 
 
+<p style="text-align:center;color:#8EC0E4;font-size:1.5em;font-weight: bold;">
+下面是一些常见的知识,将会慢慢补充进思维导图内
+</p>
+
+{% note info %}
+我是分割线
+{% endnote %}
+
+# linux 整体结构图
 - makelinux：[makelinux](https://makelinux.github.io/kernel/map/)
 
 # 解释器 & 编译器 & JIT & AOT 

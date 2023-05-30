@@ -11,6 +11,15 @@ date: 2021-07-03 16:29:04
 
 ![java](/img/java/java_summary.png)
 
+<p style="text-align:center;color:#8EC0E4;font-size:1.5em;font-weight: bold;">
+下面是一些常见的知识,将会慢慢补充进思维导图内
+</p>
+
+{% note info %}
+我是分割线
+{% endnote %}
+
+
 # HashMap 原理
 可参考的文章
 - [HashMap原理，循环链表是如何产生的](https://zhuanlan.zhihu.com/p/200997545)

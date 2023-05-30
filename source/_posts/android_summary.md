@@ -12,6 +12,15 @@ date: 2022-04-03 16:19:04
 ![Android](/img/android/Android_summary.png)
 
 
+<p style="text-align:center;color:#8EC0E4;font-size:1.5em;font-weight: bold;">
+下面是一些常见的知识,将会慢慢补充进思维导图内
+</p>
+
+{% note info %}
+我是分割线
+{% endnote %}
+
+
 # Handler 与 Binder
 
 handler 处理的是 App 进程内的通信；

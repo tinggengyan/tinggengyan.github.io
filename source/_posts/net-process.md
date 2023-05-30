@@ -13,6 +13,15 @@ date: 2022-05-17 16:09:59
 
 ![网络请求过程](/img/net/net_proceed_process.png)
 
+
+<p style="text-align:center;color:#8EC0E4;font-size:1.5em;font-weight: bold;">
+下面是一些常见的知识,将会慢慢补充进思维导图内
+</p>
+
+{% note info %}
+我是分割线
+{% endnote %}
+
 # 输入 url 到页面展示，经历的过程
 - [参考链接1](https://xiaolincoding.com/network/3_tcp/tcp_interview.html#%E4%B8%BA%E4%BB%80%E4%B9%88%E6%98%AF%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B-%E4%B8%8D%E6%98%AF%E4%B8%A4%E6%AC%A1%E3%80%81%E5%9B%9B%E6%AC%A1)
 - [参考链接2](https://mp.weixin.qq.com/s?__biz=MzUxODAzNDg4NQ==&mid=2247483989&idx=1&sn=7e2ed852770743d3955ef9d5561fcef3&scene=21#wechat_redirect)
