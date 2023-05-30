@@ -1,0 +1,1298 @@
+
+
+<!DOCTYPE html>
+<html lang="en" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" href="/img/favicon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Tinggeng Yan">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="概述总结自己的 Android 知识，按照编码 -&gt; 运行，画了一张图，xmind 导出的图比较大，后续持续更新，迭代这部分的内容。  下面是一些常见的知识,将会慢慢补充进思维导图内  Handler 与 Binderhandler 处理的是 App 进程内的通信；binder 处理的是，App 进程间、application 和 framework 之间的通信； 任务启动管理 -  启动框">
+<meta property="og:type" content="article">
+<meta property="og:title" content="一张思维导图看 Android【持续迭代】">
+<meta property="og:url" content="http://example.com/2022/04/03/android_summary/index.html">
+<meta property="og:site_name" content="我的Code小窝">
+<meta property="og:description" content="概述总结自己的 Android 知识，按照编码 -&gt; 运行，画了一张图，xmind 导出的图比较大，后续持续更新，迭代这部分的内容。  下面是一些常见的知识,将会慢慢补充进思维导图内  Handler 与 Binderhandler 处理的是 App 进程内的通信；binder 处理的是，App 进程间、application 和 framework 之间的通信； 任务启动管理 -  启动框">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://example.com/img/android/Android_summary.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/sucese/android-open-source-project-analysis/master/art/app/component/activity_start_flow.png">
+<meta property="og:image" content="https://camo.githubusercontent.com/11c57b4fbb9ff82426792bac32fe8de173949dccc19a4f0c0278ef62bf67203f/687474703a2f2f696d672e6d702e6974632e636e2f75706c6f61642f32303137303332392f63613935363763653362663034633461626462346431323463656266656537365f74682e6a706567">
+<meta property="og:image" content="https://static001.geekbang.org/infoq/fc/fce9147eea433965e4becfb9bc2e067c.webp?x-oss-process=image/resize,p_80/format,png">
+<meta property="og:image" content="http://gityuan.com/images/binder/java_binder/java_binder.jpg">
+<meta property="og:image" content="https://github.com/guoxiaoxing/android-open-source-project-analysis/raw/master/art/native/process/android_handler_structure.png">
+<meta property="og:image" content="https://github.com/guoxiaoxing/android-open-source-project-analysis/raw/master/art/native/process/android_handler_class.png">
+<meta property="article:published_time" content="2022-04-03T08:19:04.000Z">
+<meta property="article:modified_time" content="2023-05-30T07:28:33.219Z">
+<meta property="article:author" content="Tinggeng Yan">
+<meta property="article:tag" content="Android">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://example.com/img/android/Android_summary.png">
+  
+  
+    <meta name="referrer" content="no-referrer-when-downgrade">
+  
+  
+  <title>一张思维导图看 Android【持续迭代】 - 我的Code小窝</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.2","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":"94c71fc4afacda3d2bffa4e863357892","google":null,"gtag":"G-EVHJQ5NV0G","tencent":{"sid":500716225,"cid":500716226},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+    <!-- Baidu Analytics -->
+    <script async>
+      if (!Fluid.ctx.dnt) {
+        var _hmt = _hmt || [];
+        (function() {
+          var hm = document.createElement("script");
+          hm.src = "https://hm.baidu.com/hm.js?94c71fc4afacda3d2bffa4e863357892";
+          var s = document.getElementsByTagName("script")[0];
+          s.parentNode.insertBefore(hm, s);
+        })();
+      }
+    </script>
+  
+
+  
+
+  
+    <!-- Google gtag.js -->
+    <script async>
+      if (!Fluid.ctx.dnt) {
+        Fluid.utils.createScript('https://www.googletagmanager.com/gtag/js?id=G-EVHJQ5NV0G', function() {
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', 'G-EVHJQ5NV0G');
+        });
+      }
+    </script>
+  
+
+  
+    <!-- Tencent Analytics -->
+    <script async>
+      if (!Fluid.ctx.dnt) {
+        var _mtac = {};
+        (function() {
+          var mta = document.createElement("script");
+          mta.src = "//pingjs.qq.com/h5/stats.js?v2.0.4";
+          mta.setAttribute("name", "MTAH5");
+          mta.setAttribute("sid", "500716225");
+          
+          mta.setAttribute("cid", "500716226");
+          
+          var s = document.getElementsByTagName("script")[0];
+          s.parentNode.insertBefore(mta, s);
+        })();
+      }
+    </script>
+  
+
+  
+
+  
+
+  
+
+
+
+  
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>我的Code小窝</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                Home
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                Archives
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                Categories
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                Tags
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                About
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="一张思维导图看 Android【持续迭代】"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2022-04-03 16:19" pubdate>
+          April 3, 2022 pm
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          <!-- compatible with older versions-->
+          29k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          <!-- compatible with older versions-->
+          242 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">一张思维导图看 Android【持续迭代】</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h1><p>总结自己的 Android 知识，按照编码 -&gt; 运行，画了一张图，xmind 导出的图比较大，后续持续更新，迭代这部分的内容。</p>
+<p><img src="/img/android/Android_summary.png" srcset="/img/loading.gif" lazyload alt="Android"></p>
+<p style="text-align:center">下面是一些常见的知识,将会慢慢补充进思维导图内</p>
+
+<h1 id="Handler-与-Binder"><a href="#Handler-与-Binder" class="headerlink" title="Handler 与 Binder"></a>Handler 与 Binder</h1><p>handler 处理的是 App 进程内的通信；<br>binder 处理的是，App 进程间、application 和 framework 之间的通信；</p>
+<h1 id="任务启动管理-启动框架"><a href="#任务启动管理-启动框架" class="headerlink" title="任务启动管理 -  启动框架"></a>任务启动管理 -  启动框架</h1><ul>
+<li>抽象任务 task；<ul>
+<li>优先级 ；</li>
+<li>countdownlatch 数值为依赖 task 的数量；</li>
+<li>运行的 executor ；</li>
+<li>被依赖的 task 列表；</li>
+<li>toWait 方法；</li>
+<li>notify 方法，countdownlatch 减一；</li>
+</ul>
+</li>
+<li>构造 task 的有向无环图；</li>
+<li>TaskManager：<ul>
+<li>管理所有的 task，及其拓扑关系；</li>
+<li>管理需要执行的 task；</li>
+<li>countdownlatch 值为 </li>
+</ul>
+</li>
+</ul>
+<h1 id="Activity-跳转的生命周期"><a href="#Activity-跳转的生命周期" class="headerlink" title="Activity 跳转的生命周期"></a>Activity 跳转的生命周期</h1><ul>
+<li><p>ActivityA跳转到ActivityB：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs java">Activity A：onPause<br>Activity B：onCreate<br>Activity B：onStart<br>Activity B：onResume<br>Activity A：onStop<br></code></pre></td></tr></table></figure></li>
+<li><p>ActivityB返回ActivityA：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs java">Activity B：onPause<br>Activity A：onRestart<br>Activity A：onStart<br>Activity A：onResume<br>Activity B：onStop<br>Activity B：onDestroy<br></code></pre></td></tr></table></figure></li>
+</ul>
+<h2 id="旋转屏幕"><a href="#旋转屏幕" class="headerlink" title="旋转屏幕"></a>旋转屏幕</h2><ul>
+<li>不改配置，默认配置<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs java">onPause--&gt;<br>onStop--&gt;<br>onDestroy--&gt;<br>onCreate--&gt;<br>onStart--&gt;<br>onRestoreInstanceState--&gt;<br>onResume--&gt;<br><br></code></pre></td></tr></table></figure></li>
+</ul>
+<ul>
+<li>修改配置<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs java">onConfigChanged--&gt;<br></code></pre></td></tr></table></figure></li>
+</ul>
+<h1 id="Activity-的启动模式"><a href="#Activity-的启动模式" class="headerlink" title="Activity 的启动模式"></a>Activity 的启动模式</h1><p><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/b3a95747ee91">参考链接1</a></p>
+<p><strong>仅仅适用于Activity启动Activity，并且采用的都是默认Intent，没有额外添加任何Flag</strong></p>
+<ul>
+<li>  standard：标准启动模式（默认启动模式），每次都会启动一个新的activity实例。</li>
+<li>  singleTop：单独使用使用这种模式时，如果<strong>Activity实例位于当前任务栈顶</strong>，就重用栈顶实例，而不新建，并回调该实例onNewIntent()方法，否则走新建流程。</li>
+<li>  singleTask：这种模式启动的Activity<strong>只会存在相应的Activity的taskAffinit任务栈中</strong>，同一时刻系统中只会存在一个实例，已存在的实例被再次启动时，会重新唤起该实例，并清理当前Task任务栈该实例之上的所有Activity，同时回调onNewIntent()方法。</li>
+<li>  singleInstance：这种模式启动的Activity独自占用一个Task任务栈，同一时刻系统中只会存在一个实例，已存在的实例被再次启动时，只会唤起原实例，并回调onNewIntent()方法。</li>
+</ul>
+<h2 id="Intent-FLAG-ACTIVITY-NEW-TASK分析"><a href="#Intent-FLAG-ACTIVITY-NEW-TASK分析" class="headerlink" title="Intent.FLAG_ACTIVITY_NEW_TASK分析"></a>Intent.FLAG_ACTIVITY_NEW_TASK分析</h2><p>当我们用ApplicationContext去启动standard模式的Activity会报错，这是因为standard模式的Activity默认会进入启动它的Activity所属的任务栈中，但是由于非Activity类型的Context(如ApplicationContext)并没有所谓的任务栈，这就是问题所在。解决这个问题的方法是为待启动Activity指定FLAG_ACTIVITY_NEW_TASK标记位，这样启动的时候就会为它创建一个新的任务栈，如果设置待启动的Activity的taskAffinity时，这个时候待启动Activity实际上是以singleTask模式启动的。</p>
+<h2 id="FLAG-ACTIVITY-SINGLE-TOP"><a href="#FLAG-ACTIVITY-SINGLE-TOP" class="headerlink" title="FLAG_ACTIVITY_SINGLE_TOP"></a>FLAG_ACTIVITY_SINGLE_TOP</h2><p>为Activity指定singleTop启动模式，效果和在xml中指定该模式相同。</p>
+<h2 id="FLAG-ACTIVITY-CLEAR-TOP"><a href="#FLAG-ACTIVITY-CLEAR-TOP" class="headerlink" title="FLAG_ACTIVITY_CLEAR_TOP"></a>FLAG_ACTIVITY_CLEAR_TOP</h2><p>具有此标记的Activity，当它启动时，在同一个任务栈中所有位于它上面的Activity都要出栈。</p>
+<h2 id="FLAG-ACTIVITY-CLEAR-TASK"><a href="#FLAG-ACTIVITY-CLEAR-TASK" class="headerlink" title="FLAG_ACTIVITY_CLEAR_TASK"></a>FLAG_ACTIVITY_CLEAR_TASK</h2><p>FLAG_ACTIVITY_CLEAR_TASK只能和FLAG_ACTIVITY_NEW_TASK配合使用哦</p>
+<h2 id="FLAG-ACTIVITY-EXCLUDE-FROM-RECENTS"><a href="#FLAG-ACTIVITY-EXCLUDE-FROM-RECENTS" class="headerlink" title="FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS"></a>FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS</h2><p>具有这个标记的Activity不会出现在历史Activity的列表中，在某些情况下我们不希望用户通过历史列表回到我们的Activity的时候这个标记比较有用。它等同于在xml中指定Activity的属性<code>android``:excludeFromRecents=&quot;true&quot;</code></p>
+<h1 id="Activity-的启动流程"><a href="#Activity-的启动流程" class="headerlink" title="Activity 的启动流程"></a>Activity 的启动流程</h1><ul>
+<li><a target="_blank" rel="noopener" href="https://linguanghua.github.io/Programming-Tech-Books/advanced/Activity%E5%90%AF%E5%8A%A8%E6%B5%81%E7%A8%8B.html">参考链接1</a></li>
+</ul>
+<p><img src="https://raw.githubusercontent.com/sucese/android-open-source-project-analysis/master/art/app/component/activity_start_flow.png" srcset="/img/loading.gif" lazyload alt="启动流程图"></p>
+<p>点击应用图标后会去启动应用的Launcher Activity，如果Launcer Activity所在的进程没有创建，还会创建新进程，整体的流程就是一个Activity的启动流程。</p>
+<ul>
+<li>  Instrumentation: 监控应用与系统相关的交互行为。</li>
+<li>  AMS：组件管理调度中心，什么都不干，但是什么都管。</li>
+<li>ActivityStarter：Activity启动的控制器，处理Intent与Flag对Activity启动的影响，具体说来有：<ul>
+<li>1 寻找符合启动条件的Activity，如果有多个，让用户选择；</li>
+<li>2 校验启动参数的合法性；</li>
+<li>3 返回int参数，代表Activity是否启动成功。</li>
+</ul>
+</li>
+<li>  ActivityStackSupervisior：这个类的作用你从它的名字就可以看出来，它用来管理任务栈。</li>
+<li>  ActivityStack：用来管理任务栈里的Activity。</li>
+<li>  ActivityThread：最终干活的人，Activity、Service、BroadcastReceiver的启动、切换、调度等各种操作都在这个类里完成。</li>
+</ul>
+<p>注：这里单独提一下ActivityStackSupervisior，这是高版本才有的类，它用来管理多个ActivityStack，早期的版本只有一个ActivityStack对应着手机屏幕，后来高版本支持多屏以后，就有了多个ActivityStack，于是就引入了ActivityStackSupervisior用来管理多个ActivityStack。</p>
+<p>有了以上的理解，整个流程可以概括如下：</p>
+<ul>
+<li>1、点击桌面应用图标，Launcher 进程将启动 Activity（MainActivity）的请求以 Binder 的方式发送给了 AMS。</li>
+<li>2、AMS 接收到启动请求后，交付 ActivityStarter 处理 Intent 和 Flag 等信息，然后再交给 ActivityStackSupervisior/ActivityStack 处理 Activity 进栈相关流程。同时以 Socket 方式请求 Zygote 进程 fork 新进程。</li>
+<li>3、Zygote 接收到新进程创建请求后 fork 出新进程。</li>
+<li>4、在新进程里创建 ActivityThread 对象，新创建的进程就是应用的主线程，在主线程里开启 Looper 消息循环，开始处理创建 Activity。</li>
+<li>5、ActivityThread 利用 ClassLoader 去加载 Activity、创建 Activity 实例，并回调 Activity 的 onCreate() 方法，这样便完成了Activity 的启动。</li>
+</ul>
+<p><img src="https://camo.githubusercontent.com/11c57b4fbb9ff82426792bac32fe8de173949dccc19a4f0c0278ef62bf67203f/687474703a2f2f696d672e6d702e6974632e636e2f75706c6f61642f32303137303332392f63613935363763653362663034633461626462346431323463656266656537365f74682e6a706567" srcset="/img/loading.gif" lazyload alt="详细的交互图"></p>
+<ul>
+<li>从开发层面来看，启动另一个 activity 通常会使用 context.startActivity()，最终去到Instrumentation 的 execStartActivitiesAsUser 方法中。<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">int</span> result = ActivityManagerNative.getDefault()<br>    .startActivities(whoThread, who.getBasePackageName(), intents, resolvedTypes,token, options, userId);<br></code></pre></td></tr></table></figure></li>
+<li>ActivityManagerNative 获取 AMS 进程代理，进而告知 AMS 将要启动另一个 activity。<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-function"><span class="hljs-keyword">static</span> <span class="hljs-keyword">public</span> IActivityManager <span class="hljs-title">getDefault</span><span class="hljs-params">()</span> </span>&#123;<br>    <span class="hljs-keyword">return</span> gDefault.get();<br>&#125;<br><br><span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> Singleton&lt;IActivityManager&gt; gDefault = <span class="hljs-keyword">new</span> Singleton&lt;IActivityManager&gt;() &#123;<br>    <span class="hljs-function"><span class="hljs-keyword">protected</span> IActivityManager <span class="hljs-title">create</span><span class="hljs-params">()</span> </span>&#123;<br>        IBinder b = ServiceManager.getService(<span class="hljs-string">&quot;activity&quot;</span>);<br>        <span class="hljs-keyword">if</span> (<span class="hljs-keyword">false</span>) &#123;<br>            Log.v(<span class="hljs-string">&quot;ActivityManager&quot;</span>, <span class="hljs-string">&quot;default service binder = &quot;</span> + b);<br>        &#125;<br>        IActivityManager am = asInterface(b);<br>        <span class="hljs-keyword">if</span> (<span class="hljs-keyword">false</span>) &#123;<br>            Log.v(<span class="hljs-string">&quot;ActivityManager&quot;</span>, <span class="hljs-string">&quot;default service = &quot;</span> + am);<br>        &#125;<br>        <span class="hljs-keyword">return</span> am;<br>    &#125;<br>&#125;;<br></code></pre></td></tr></table></figure></li>
+<li>启动如此，Activity 的生命周期又是如何被 AMS 进程管理的呢？在 ActivityThread 的 attach 方法中<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">final</span> IActivityManager mgr = ActivityManagerNative.getDefault();<br><span class="hljs-keyword">try</span> &#123;<br>    mgr.attachApplication(mAppThread);<br>&#125; <span class="hljs-keyword">catch</span> (RemoteException ex) &#123;<br>    <span class="hljs-keyword">throw</span> ex.rethrowFromSystemServer();<br>&#125;<br></code></pre></td></tr></table></figure></li>
+<li>ActivityManagerNative 把 ApplicationThread 的代理写给了AMS进程<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">attachApplication</span><span class="hljs-params">(IApplicationThread app)</span> <span class="hljs-keyword">throws</span> RemoteException</span><br><span class="hljs-function"></span>&#123;<br>    Parcel data = Parcel.obtain();<br>    Parcel reply = Parcel.obtain();<br>    data.writeInterfaceToken(IActivityManager.descriptor);<br>    data.writeStrongBinder(app.asBinder());<br>    mRemote.transact(ATTACH_APPLICATION_TRANSACTION, data, reply, <span class="hljs-number">0</span>);<br>    reply.readException();<br>    data.recycle();<br>    reply.recycle();<br>&#125;<br></code></pre></td></tr></table></figure></li>
+</ul>
+<p>进而会有一系列scheduleXXXActivity回调。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">final</span> <span class="hljs-keyword">void</span> <span class="hljs-title">schedulePauseActivity</span><span class="hljs-params">(IBinder token, <span class="hljs-keyword">boolean</span> finished,</span></span><br><span class="hljs-params"><span class="hljs-function">        <span class="hljs-keyword">boolean</span> userLeaving, <span class="hljs-keyword">int</span> configChanges, <span class="hljs-keyword">boolean</span> dontReport)</span> </span>&#123;<br>    <span class="hljs-keyword">int</span> seq = getLifecycleSeq();<br>    <span class="hljs-keyword">if</span> (DEBUG_ORDER) Slog.d(TAG, <span class="hljs-string">&quot;pauseActivity &quot;</span> + ActivityThread.<span class="hljs-keyword">this</span><br>            + <span class="hljs-string">&quot; operation received seq: &quot;</span> + seq);<br>    sendMessage(<br>            finished ? H.PAUSE_ACTIVITY_FINISHING : H.PAUSE_ACTIVITY,<br>            token,<br>            (userLeaving ? USER_LEAVING : <span class="hljs-number">0</span>) | (dontReport ? DONT_REPORT : <span class="hljs-number">0</span>),<br>            configChanges,<br>            seq);<br>&#125;<br></code></pre></td></tr></table></figure>
+
+
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><h3 id="第一部分-上半场"><a href="#第一部分-上半场" class="headerlink" title="第一部分 -  上半场"></a>第一部分 -  上半场</h3><blockquote>
+<p>当启动Activity的过程中且在AMS处理之前的操作，称之为”上半场”。</p>
+</blockquote>
+<p>Activity -&gt; Instrumentation</p>
+<h3 id="第二部分-下半场"><a href="#第二部分-下半场" class="headerlink" title="第二部分 - 下半场"></a>第二部分 - 下半场</h3><blockquote>
+<p>AMS处理完成，并开始回调App 进程的过程到Activity启动大的操作，称之为”下半场”。</p>
+</blockquote>
+<p>ActivityStarter -&gt; ActivityStackSupervisor -&gt; ActivityThread -&gt; ActivityThread.java#H -&gt; handleLaunchActivity -&gt; performLaunchActivity </p>
+<h1 id="Context-的区别"><a href="#Context-的区别" class="headerlink" title="Context 的区别"></a>Context 的区别</h1><p>Context 的关联类采用了装饰模式，主要有以下的优点：</p>
+<ul>
+<li>  使用者（比如 Service ）能够方便的使用 Context。</li>
+<li>  如果 ContextImpl 发生变化，它的装饰类 ContextWrapper 不需要做任何修改。</li>
+<li>  ContextImpl 的实现不会暴露给使用者，使用者也不必关心 ContextImpl 的实现。</li>
+<li>  通过组合而非继承的方式，拓展 ContextImpl 的功能，在运行时选择不同的装饰类，实现不同的功能。</li>
+</ul>
+<p><img src="https://static001.geekbang.org/infoq/fc/fce9147eea433965e4becfb9bc2e067c.webp?x-oss-process=image/resize,p_80/format,png" srcset="/img/loading.gif" lazyload alt="Context Summary"></p>
+<p>Context的数量等于Activity的个数 + Service的个数 +1，这个1为Application。</p>
+<p>这还涉及 application  启动 activity 的时候，需要加 Intent.FLAG_ACTIVITY_NEW_TASK flag；</p>
+<p>application 的 context 是在启动进程的时候创建的。</p>
+<h1 id="Android-的内存管理-回收策略"><a href="#Android-的内存管理-回收策略" class="headerlink" title="Android 的内存管理/回收策略"></a>Android 的内存管理/回收策略</h1><blockquote>
+<p>对Android系统有较好理解，知道AMS与Kennel层LMK相结合的方式(Adj)去管理和查杀或回收进程；<br>以及LMK的内存统计策略，当系统内存不足时，AMS会遍历App进程并通知进程进行内存释放(onTrimMemoryLevel)，以及触发各个进程进行GC等。<br>需要有一些纵向层次的理解，涉及LMK，AMS，APP多层的协同机制，其中每个层面又都有一套自己的策略。</p>
+</blockquote>
+<h2 id="AMS"><a href="#AMS" class="headerlink" title="AMS"></a>AMS</h2><p>AMS 在进程管理这块儿做两件事</p>
+<ul>
+<li><strong>进程LRU列表动态更新</strong>：动态调整进程在mLruProcesses列表的位置</li>
+<li>进程优先级动态调整：实际是调整进程oom_adj的值。</li>
+</ul>
+<h2 id="LMK机制"><a href="#LMK机制" class="headerlink" title="LMK机制"></a>LMK机制</h2><p><strong>在Android中，即使当用户退出应用程序后，应用进程也还会存在内存中，方便下次可以快速进入应用而不需要重新创建进程</strong>。 这样带来的直接影响就是<strong>由于进程数量越来越多，系统内存会越来越少，这个时候就需要杀死一部分进程来缓解内存压力。</strong> <strong>至于哪些进程会被杀死，这个时候就需要用到Low Memory Killer机制来进行判定。</strong></p>
+<p><strong>Android的Low Memory Killer基于Linux的OOM机制</strong>， 在Linux中，内存是以页面为单位分配的，当申请页面分配时如果内存不足会通过以下流程选择 bad 进程来杀掉从而释放内存</p>
+<p><strong>LMK驱动层在用户空间指定了一组内存临界值及与之一一对应的一组 oom_adj 值，</strong> <strong>当系统剩余内存位于内存临界值中的一个范围内时，如果一个进程的 oom_adj 值大于或等于这个临界值对应的oom_adj值就会被杀掉。</strong></p>
+<h1 id="Binder"><a href="#Binder" class="headerlink" title="Binder"></a>Binder</h1><ul>
+<li><a target="_blank" rel="noopener" href="http://gityuan.com/2015/11/28/binder-summary/">可参考链接</a></li>
+</ul>
+<ol>
+<li> 从IPC角度来说：Binder是Android中的一种跨进程通信方式，该通信方式在linux中没有，是Android独有；</li>
+<li> 从 Android Driver 层：Binder 还可以理解为一种虚拟的物理设备，它的设备驱动是 /dev/binder；</li>
+<li> 从 Android Native 层：Binder 是创建 ServiceManager 以及 BpBinder/BBinder 模型，搭建与binder 驱动的桥梁；</li>
+<li> 从 Android Framework 层：Binder 是各种 Manager（ActivityManager、WindowManager等）和相应 xxxManagerService 的桥梁；</li>
+<li> 从 Android APP 层：Binder 是客户端和服务端进行通信的媒介，当 bindService 的时候，服务端会返回一个包含了服务端业务调用的 Binder对象，通过这个Binder对象，客户端就可以获取服务端提供的服务或者数据，这里的服务包括普通服务和基于AIDL的服务。</li>
+</ol>
+<p>Binder 是基于 C/S 架构设计的。由 Client、Server、ServiceManager 和 Binder 驱动组成。Client、Server负责自各的业务、ServiceManager 运行在<strong>用户空间</strong>负责代理业务，Binder 驱动运行在内核空间真正对接业务细节。其中 ServiceManager 和 Binder 驱动由系统提供，而 Client、Server 由应用程序来实现。</p>
+<p><img src="http://gityuan.com/images/binder/java_binder/java_binder.jpg" srcset="/img/loading.gif" lazyload alt="binder 的framework架构图"></p>
+<h2 id="一次通信的过程"><a href="#一次通信的过程" class="headerlink" title="一次通信的过程"></a>一次通信的过程</h2><ol>
+<li> Server 进程向 Binder 驱动发送 Binder 实体请求注册服务， Binder 驱动将请求转发到 ServiceManager 注册后把名字和 Binder 实体等信息填入查找表中。</li>
+<li> Client 进程在 Binder 驱动的帮助下通过名字从 ServiceManager 中获取到 Server Binder 实体的引用，至此，Client 与 Server 总算是勾搭上了。</li>
+<li> 与此同时，Binder 驱动开始创建数据缓冲区并通过 ServiceManager 提供的 Server 进程信息地址使用 mmap 函数将 Server 进程用户空间地址映射到创建好的缓冲区上，为跨进程通信做好了准备。</li>
+<li> Client 进程调用 copy_from_user 函数将数据拷贝到数据缓冲区后 Binder 驱动再通知 Server 进程进行解包。</li>
+<li> Server 进程收到通知后进行解包和方法调用，并将结果写到自己的有映射的内存中。</li>
+<li> 由于内核缓冲区与 Server进程用户空间地址存在映射关系的，这就相当于目标方法的结果直接传递到了内核数据缓冲区，Binder 驱动通知 Client 进程调用 copy_to_user 函数将缓冲区的目标结果拷贝到自己的用户空间中。</li>
+</ol>
+<h2 id="为什么要使用-Binder？"><a href="#为什么要使用-Binder？" class="headerlink" title="为什么要使用 Binder？"></a>为什么要使用 Binder？</h2><p>性能：移动设备中如果广泛的使用跨进程通信机制肯定会对通信机制提出严格的要求，而 Binder 相比较传统的进程通信方式更加的高效。<br>安全：由于传统进程通信方式没有对通信的双方和身方做出严格的验证，只有上层协议才会去架构，如 socket 连接的 IP 地址可以人为的伪造。而 Binder 身份校验也是 android 权限模式的基础。</p>
+<h2 id="Binder-的线程管理"><a href="#Binder-的线程管理" class="headerlink" title="Binder 的线程管理"></a>Binder 的线程管理</h2><p>每个 Binder 的 Server 进程会创建很多线程来处理 Binder 请求，可以简单的理解为创建了一个 Binder 的线程池吧（虽然实际上并不完全是这样简单的线程管理方式），而真正管理这些线程并不是由这个 Server 端来管理的，而是由 Binder 驱动进行管理的。</p>
+<h2 id="Binder-有什么优势？"><a href="#Binder-有什么优势？" class="headerlink" title="Binder 有什么优势？"></a>Binder 有什么优势？</h2><p>性能方面</p>
+<ul>
+<li>共享内存 0 次数据拷贝</li>
+<li>Binder 1 次数据拷贝</li>
+<li>Socket/管道/消息队列 2 次数据拷贝</li>
+</ul>
+<p>稳定性方面</p>
+<ul>
+<li>Binder：基于 C/S 架构，客户端（Client）有什么需求就丢给服务端（Server）去完成，架构清晰、职责明确又相互独立，自然稳定性更好</li>
+<li>共享内存：虽然无需拷贝，但是控制复杂，难以使用</li>
+<li>从稳定性的角度讲，Binder 机制是优于内存共享的。</li>
+</ul>
+<p>安全性方面</p>
+<ul>
+<li>传统的 IPC 没有任何安全措施，安全依赖上层协议来确保。</li>
+<li>传统的 IPC 方法无法获得对方可靠的进程用户 ID/进程 UI（UID/PID），从而无法鉴别对方身份。 binder 的 uid 是由 driver 保证；</li>
+<li>传统的 IPC 只能由用户在数据包中填入 UID/PID，容易被恶意程序利用。</li>
+<li>传统的 IPC 访问接入点是开放的，无法阻止恶意程序通过猜测接收方地址获得连接。</li>
+<li>Binder 既支持实名 Binder，又支持匿名 Binder，安全性高。</li>
+</ul>
+<h2 id="Binder-是如何做到一次拷贝的？"><a href="#Binder-是如何做到一次拷贝的？" class="headerlink" title="Binder 是如何做到一次拷贝的？"></a>Binder 是如何做到一次拷贝的？</h2><p>主要是因为 Linux 是使用的虚拟内存寻址方式，它有如下特性：</p>
+<ul>
+<li>  用户空间的虚拟内存地址是映射到物理内存中的；</li>
+<li>  对虚拟内存的读写实际上是对物理内存的读写，这个过程就是内存映射；</li>
+<li>  这个内存映射过程是通过系统调用 mmap() 来实现的；</li>
+</ul>
+<p><strong>Binder 借助了内存映射的方法，在内核空间和接收方用户空间的数据缓存区之间做了一层内存映射，就相当于直接拷贝到了接收方用户空间的数据缓存区，从而减少了一次数据拷贝</strong></p>
+<h2 id="Binder-机制是如何跨进程的？"><a href="#Binder-机制是如何跨进程的？" class="headerlink" title="Binder 机制是如何跨进程的？"></a>Binder 机制是如何跨进程的？</h2><ul>
+<li>Binder 驱动<ul>
+<li>在内核空间创建一块接收缓存区；</li>
+<li>实现地址映射：将内核缓存区、接收进程用户空间映射到同一接收缓存区</li>
+</ul>
+</li>
+<li>发送进程通过系统调用（copy_from_user）将数据发送到内核缓存区。<br>由于内核缓存区和接收进程用户空间存在映射关系，故相当于也发送了接收进程的用户空间，实现了跨进程通信。</li>
+</ul>
+<h2 id="为什么-Intent-不能传递大数据？"><a href="#为什么-Intent-不能传递大数据？" class="headerlink" title="为什么 Intent 不能传递大数据？"></a>为什么 Intent 不能传递大数据？</h2><p>Intent 携带信息的大小其实是受 Binder 限制。数据以 Parcel 对象的形式存放在 Binder 传递缓存中。如果数据或返回值比传递 buffer 大，则此次传递调用失败并抛出 TransactionTooLargeException 异常。</p>
+<p>Binder 传递缓存有一个限定大小，通常是 1Mb。但同一个进程中所有的传输共享缓存空间。多个地方在进行传输时，即时它们各自传输的数据不超出大小限制，TransactionTooLargeException 异常也可能会被抛出。在使用 Intent 传递数据时，1Mb 并不是安全上限。因为 Binder 中可能正在处理其它的传输工作。不同的机型和系统版本，这个上限值也可能会不同。</p>
+<h2 id="Binder-IPC-实现原理"><a href="#Binder-IPC-实现原理" class="headerlink" title="Binder IPC 实现原理"></a>Binder IPC 实现原理</h2><p>Binder IPC 正是基于内存映射（mmap）来实现的，但是 mmap() 通常是用在有物理介质的文件系统上的。</p>
+<p>比如进程中的用户区域是不能直接和物理设备打交道的，如果想要把磁盘上的数据读取到进程的用户区域，需要两次拷贝（磁盘–&gt;内核空间–&gt;用户空间）；通常在这种场景下 mmap() 就能发挥作用，通过在物理介质和用户空间之间建立映射，减少数据的拷贝次数，用内存读写取代 I/O 读写，提高文件读取效率。</p>
+<p>而 Binder 并不存在物理介质，因此 Binder 驱动使用 mmap() 并不是为了在物理介质和用户空间之间建立映射，而是用来在内核空间创建数据接收的缓存空间。</p>
+<h3 id="一次完整的-Binder-IPC-通信过程通常是这样："><a href="#一次完整的-Binder-IPC-通信过程通常是这样：" class="headerlink" title="一次完整的 Binder IPC 通信过程通常是这样："></a>一次完整的 Binder IPC 通信过程通常是这样：</h3><ul>
+<li>首先 Binder 驱动在内核空间创建一个数据接收缓存区；</li>
+<li>接着在内核空间开辟一块内核缓存区，建立内核缓存区和内核中数据接收缓存区之间的映射关系，以及内核中数据接收缓存区和接收进程用户空间地址的映射关系；</li>
+<li>发送方进程通过系统调用 copyfromuser() 将数据 copy 到内核中的内核缓存区，由于内核缓存区和接收进程的用户空间存在内存映射，因此也就相当于把数据发送到了接收进程的用户空间，这样便完成了一次进程间的通信。</li>
+</ul>
+<h1 id="Oneway-关键词"><a href="#Oneway-关键词" class="headerlink" title="Oneway 关键词"></a>Oneway 关键词</h1><p>非阻塞式调用。<br>Oneway 表示客户端不关服务端的返回值，甚至也不关系执行是否正常或者异常。只管通知一下。 代码层面也可以看出来，我们仔细看 initASVE 和 initASVEOneway 这两个方法在aidl内的实现。</p>
+<p>oneway 关键词是用在 AIDL 中的，目的是实现异步调用， IPC 调用的时候，不用等待 server 的 reply 就返回。</p>
+<p>Client端，判断如果是 ONEWAY，在会在transaction发送到binder驱动后（收到BR_TRANSACTION_COMPLETE），马上退出等待。</p>
+<h2 id="坑点"><a href="#坑点" class="headerlink" title="坑点"></a>坑点</h2><p>oneway 默认处理异常不返回。发现为oneway直接吃掉了异常，仅仅打印一行日志。 也没有任何机制可以给上层通知。</p>
+<h1 id="Handler机制"><a href="#Handler机制" class="headerlink" title="Handler机制"></a>Handler机制</h1><p><img src="https://github.com/guoxiaoxing/android-open-source-project-analysis/raw/master/art/native/process/android_handler_structure.png" srcset="/img/loading.gif" lazyload alt="handler的示意图"></p>
+<p>主要涉及的角色如下所示：</p>
+<ul>
+<li> Message：消息。</li>
+<li>MessageQueue：消息队列，负责消息的存储与管理，负责管理由 Handler 发送过来的 Message。读取会自动删除消息，单链表维护，插入和删除上有优势。在其next()方法中会无限循环，不断判断是否有消息，有就返回这条消息并移除。</li>
+<li>Looper：消息循环器，负责关联线程以及消息的分发，在该线程下从 MessageQueue获取 Message，分发给Handler，Looper创建的时候会创建一个 MessageQueue，调用loop()方法的时候消息循环开始，其中会不断调用messageQueue的next()方法，当有消息就处理，否则阻塞在messageQueue的next()方法中。当Looper的quit()被调用的时候会调用messageQueue的quit()，此时next()会返回null，然后loop()方法也就跟着退出。</li>
+<li>Handler：消息处理器，负责发送并处理消息，面向开发者，提供 API，并隐藏背后实现的细节。</li>
+</ul>
+<p>整个消息的循环流程还是比较清晰的，具体说来：</p>
+<ul>
+<li>1、Handler通过sendMessage()发送消息Message到消息队列MessageQueue。</li>
+<li>2、Looper通过loop()不断提取触发条件的Message，并将Message交给对应的target handler来处理。</li>
+<li>3、target handler调用自身的handleMessage()方法来处理Message。</li>
+</ul>
+<p>事实上，在整个消息循环的流程中，并不只有Java层参与，很多重要的工作都是在C++层来完成的。我们来看下这些类的调用关系。</p>
+<p><img src="https://github.com/guoxiaoxing/android-open-source-project-analysis/raw/master/art/native/process/android_handler_class.png" srcset="/img/loading.gif" lazyload></p>
+<p>注：虚线表示关联关系，实线表示调用关系。</p>
+<p>在这些类中MessageQueue是Java层与C++层维系的桥梁，MessageQueue与Looper相关功能都通过MessageQueue的Native方法来完成，而其他虚线连接的类只有关联关系，并没有直接调用的关系，它们发生关联的桥梁是MessageQueue。</p>
+<h5 id="总结-1"><a href="#总结-1" class="headerlink" title="总结"></a>总结</h5><ul>
+<li>Handler 发送的消息由 MessageQueue 存储管理，并由 Looper 负责回调消息到 handleMessage()。</li>
+<li>线程的转换由 Looper 完成，handleMessage() 所在线程由 Looper.loop() 调用者所在线程决定。</li>
+</ul>
+<h2 id="Handler-引起的内存泄露原因以及最佳解决方案"><a href="#Handler-引起的内存泄露原因以及最佳解决方案" class="headerlink" title="Handler 引起的内存泄露原因以及最佳解决方案"></a>Handler 引起的内存泄露原因以及最佳解决方案</h2><p>Handler 允许我们发送延时消息，如果在延时期间用户关闭了 Activity，那么该 Activity 会泄露。 这个泄露是因为 Message 会持有 Handler，而又因为 Java 的特性，内部类会持有外部类，使得 Activity 会被 Handler 持有，这样最终就导致 Activity 泄露。</p>
+<p>解决：将 Handler 定义成静态的内部类，在内部持有 Activity 的弱引用，并在Acitivity的onDestroy()中调用handler.removeCallbacksAndMessages(null)及时移除所有消息。</p>
+<h2 id="为什么我们能在主线程直接使用-Handler，而不需要创建-Looper-？"><a href="#为什么我们能在主线程直接使用-Handler，而不需要创建-Looper-？" class="headerlink" title="为什么我们能在主线程直接使用 Handler，而不需要创建 Looper ？"></a>为什么我们能在主线程直接使用 Handler，而不需要创建 Looper ？</h2><p>通常我们认为 ActivityThread 就是主线程。事实上它并不是一个线程，而是主线程操作的管理者。在 ActivityThread.main() 方法中调用了 Looper.prepareMainLooper() 方法创建了 主线程的 Looper ,并且调用了 loop() 方法，所以我们就可以直接使用 Handler 了。</p>
+<h2 id="Handler-里藏着的-Callback-能干什么？"><a href="#Handler-里藏着的-Callback-能干什么？" class="headerlink" title="Handler 里藏着的 Callback 能干什么？"></a>Handler 里藏着的 Callback 能干什么？</h2><p>Handler.Callback 有优先处理消息的权利 ，当一条消息被 Callback 处理并拦截（返回 true），那么 Handler 的 handleMessage(msg) 方法就不会被调用了；如果 Callback 处理了消息，但是并没有拦截，那么就意味着一个消息可以同时被 Callback 以及 Handler 处理。</p>
+<h2 id="创建-Message-实例的最佳方式"><a href="#创建-Message-实例的最佳方式" class="headerlink" title="创建 Message 实例的最佳方式"></a>创建 Message 实例的最佳方式</h2><p>为了节省开销，Android 给 Message 设计了回收机制，所以我们在使用的时候尽量复用 Message ，减少内存消耗：</p>
+<pre><code class="hljs">通过 Message 的静态方法 Message.obtain()；
+通过 Handler 的公有方法 handler.obtainMessage()。
+</code></pre>
+<h2 id="主线程的死循环一直运行是不是特别消耗CPU资源呢？"><a href="#主线程的死循环一直运行是不是特别消耗CPU资源呢？" class="headerlink" title="主线程的死循环一直运行是不是特别消耗CPU资源呢？"></a>主线程的死循环一直运行是不是特别消耗CPU资源呢？</h2><p>并不是，这里就涉及到Linux pipe/epoll机制，简单说就是在主线程的MessageQueue没有消息时，便阻塞在loop的queue.next()中的nativePollOnce()方法里，此时主线程会释放CPU资源进入休眠状态，直到下个消息到达或者有事务发生，通过往pipe管道写端写入数据来唤醒主线程工作。这里采用的epoll机制，是一种IO多路复用机制，可以同时监控多个描述符，当某个描述符就绪(读或写就绪)，则立刻通知相应程序进行读或写操作，本质是同步I/O，即读写是阻塞的。所以说，主线程大多数时候都是处于休眠状态，并不会消耗大量CPU资源。</p>
+<h2 id="handler-postDelay这个延迟是怎么实现的？"><a href="#handler-postDelay这个延迟是怎么实现的？" class="headerlink" title="handler postDelay这个延迟是怎么实现的？"></a>handler postDelay这个延迟是怎么实现的？</h2><p>handler.postDela y并不是先等待一定的时间再放入到 MessageQueu e中，而是直接进入MessageQueue，以 MessageQueue 的时间顺序排列和唤醒的方式结合实现的。</p>
+<p>next 方法中，有计算下次唤醒的时间间隔；</p>
+<h2 id="如何保证在msg-postDelay情况下保证消息次序？"><a href="#如何保证在msg-postDelay情况下保证消息次序？" class="headerlink" title="如何保证在msg.postDelay情况下保证消息次序？"></a>如何保证在msg.postDelay情况下保证消息次序？</h2><p>入队的时候，会按照时间顺序进行排序。</p>
+<h1 id="AMS-1"><a href="#AMS-1" class="headerlink" title="AMS"></a>AMS</h1><ul>
+<li><a target="_blank" rel="noopener" href="https://cloud.tencent.com/developer/article/1466430">参考链接1</a></li>
+</ul>
+<h2 id="关键的类"><a href="#关键的类" class="headerlink" title="关键的类"></a>关键的类</h2><ol>
+<li>ActivityManagerServices，简称AMS，服务端对象，负责系统中所有Activity的生命周期。</li>
+<li>ActivityThread，App 的真正入口。当开启 App 之后，调用 main() 开始运行，开启消息循环队列，这就是传说的 UI 线程或者叫主线程。与 ActivityManagerService 一起完成Activity的管理工作。</li>
+<li>ApplicationThread，用来实现 ActivityManagerServie 与 ActivityThread 之间的交互。在ActivityManagerSevice 需要管理相关 Application 中的 Activity 的生命周期时，通过 ApplicationThread 的代理对象与 ActivityThread 通信。</li>
+<li>ApplicationThreadProxy，是 ApplicationThread 在服务器端的代理，负责和客户端的 ApplicationThread 通信。AMS 就是通过该代理与 ActivityThread 进行通信的。</li>
+<li>Instrumentation，每一个应用程序只有一个 Instrumetation 对象，每个 Activity 内都有一个对该对象的引用，Instrumentation 可以理解为应用进程的管家，ActivityThread 要创建或暂停某个 Activity 时，都需要通过 Instrumentation 来进行具体的操作。</li>
+<li>ActivityStack，Activity 在 AMS 的栈管理，用来记录经启动的 Activity 的先后关系，状态信息等。通过 ActivtyStack 决定是否需要启动新的进程。</li>
+<li>ActivityRecord，ActivityStack 的管理对象，每个 Acivity 在 AMS 对应一个 ActivityRecord，来记录 Activity 状态以及其他的管理信息。<strong>其实就是服务器端的 Activity 对象的映像</strong>。</li>
+<li>TaskRecord，AMS 抽象出来的一个“任务”的概念，是记录 ActivityRecord 的栈，一个“Task”包含若干个ActivityRecord。AMS 用 TaskRecord 确保 Activity 启动和退出的顺序。如果你清楚 Activity 的4种launchMode，那么对这概念应该不陌生。</li>
+</ol>
+<h2 id="简述ActivityManagerService的作用，什么时候初始化？"><a href="#简述ActivityManagerService的作用，什么时候初始化？" class="headerlink" title="简述ActivityManagerService的作用，什么时候初始化？"></a>简述ActivityManagerService的作用，什么时候初始化？</h2><p>ActivityManagerService 主要负责系统中四大组件的启动、切换、调度及应用进程的管理和调度等工作，其职责与操作系统中的进程管理和调度模块类似。</p>
+<p>ActivityManagerService进行初始化的时机很明确，就是在SystemServer进程开启的时候，就会初始化ActivityManagerService， 可以在SystemServer类中找到相关的启动代码。</p>
+<h2 id="简述ActivityThread和ApplicationThread，以及关系和区别"><a href="#简述ActivityThread和ApplicationThread，以及关系和区别" class="headerlink" title="简述ActivityThread和ApplicationThread，以及关系和区别"></a>简述ActivityThread和ApplicationThread，以及关系和区别</h2><p><strong>ActivityThread</strong></p>
+<p>ActivityThread在Android中代表Android的主线程，但是并不是一个Thread类。ActivityThread类是Android 进程的初始类，它的main函数是这个App进程的入口。当创建完新进程之后，main函数被加载，然后执行一个loop的循环使当前线程进入消息循环。</p>
+<p><strong>ApplicationThread</strong></p>
+<p>ApplicationThread是ActivityThread的内部类， 是一个Binder对象。在此处它是作为IApplicationThread对象的server端等待client端的请求然后进行处理，最大的client就是AMS。</p>
+<p>首先，我们看一下Activity的启动逻辑过程：Applicationthread的ScheduleActivity通过一个叫H的Handler发送了一个启动Activity信息。handleLaunchActivity接收了这个消息，然后做处理，处理的逻辑是让PreformLaunchActivity处理，并最终执行Activity的启动。</p>
+<h2 id="Instrumentation是什么，和ActivityThread是什么关系"><a href="#Instrumentation是什么，和ActivityThread是什么关系" class="headerlink" title="Instrumentation是什么，和ActivityThread是什么关系"></a>Instrumentation是什么，和ActivityThread是什么关系</h2><p>Instrumentation 是Android系统中一系列控制方法的集合(hook),这些方法可以在正常的生命周期之外控制Android控件的运行，也可以控制Andoroid如何加载应用程序。</p>
+<p>事实上，AMS与ActivityThread之间诸如Activity的创建、暂停等的交互工作都是由Instrumentation操作的。并且每个Activity都持有一个Instrumentation对象的一个引用， 整个进程中是只有一个Instrumentation。当startActivityForResult()调用之后，实际上还是调用了mInstrumentation.execStartActivity()。</p>
+<p>它们之间的关系如下： <strong>AMS是大BOSS资本，负责指挥和调度的，ActivityThread是企业老板，虽然说企业的事自己说了算，但是需要听从AMS的指挥，而Instrumentation则是CTO，负责项目的大事小事，但是一般不抛头露面，听老板ActivityThread的安排。</strong></p>
+<h2 id="ActivityManagerService和zygote进程通信是如何实现的"><a href="#ActivityManagerService和zygote进程通信是如何实现的" class="headerlink" title="ActivityManagerService和zygote进程通信是如何实现的"></a>ActivityManagerService和zygote进程通信是如何实现的</h2><p>应用启动时，Launcher进程请求 AMS，AMS 发送创建应用进程请求，Zygote进程接受请求并fork应用进程。而AMS发送创建应用进程请求调用的是 ZygoteState.connect() 方法，ZygoteState 是 ZygoteProcess 的内部类。</p>
+<p>Zygote 处理客户端请求：Zygote 服务端接收到参数之后调用 ZygoteConnection.processOneCommand() 处理参数，并 fork 进程。</p>
+<p>最后通过 findStaticMain() 找到 ActivityThread 类的 main() 方法并执行，子进程就这样启动了。</p>
+<p><strong>怎么用</strong><br>Context.getSystemService()方法获取AMS的实例，然后调用其提供的API。</p>
+<h1 id="WMS"><a href="#WMS" class="headerlink" title="WMS"></a>WMS</h1><h2 id="WMS-的作用"><a href="#WMS-的作用" class="headerlink" title="WMS 的作用"></a>WMS 的作用</h2><p>Android中的window机制的出现就是为了统一管理屏幕上的显示View，让程序有条不紊的执行。</p>
+<ul>
+<li>WMS 管理的是窗口，负责窗口的添加、删除、顺序的调整；</li>
+<li>WMS 不负责洁面的合成和绘制，合成和绘制是由 SurfaceFlinger 完成；</li>
+<li>View 必须被添加到窗口中，才可以被绘制；</li>
+<li>View 有自己的 onDraw 回调，在这个回调里进行视图的绘制操作；</li>
+<li>View 每个视图都是一个图层，就是一个 surface，这块的内存是由 SurfaceFlinger 申请的；<ul>
+<li>这块内存是通过内存共享的方式在 SurfaceFlinger 和 App 进程之间进行共享的；</li>
+<li>具体的感知方式：SurfaceFlinger 申请了 surface 的内存后，通过 binder 的方式将内存相关信息传递给 App 进程，App 向内存中写入绘制内容，绘制完毕，通知 SurfaceFlinger 进行图层的混排，再将数据渲染到屏幕上；</li>
+<li>为什么使用共享内存的方式，而不是 binder 呢？因为图像的数据太大了，binder 和 socket 效率都太低了；</li>
+</ul>
+</li>
+</ul>
+<h2 id="关键的类-1"><a href="#关键的类-1" class="headerlink" title="关键的类"></a>关键的类</h2><ol>
+<li>PhoneWindow：Window我们应该很熟悉，它是一个抽象类，具体的实现类为PhoneWindow，它对View进行管理。</li>
+<li>WindowManagerImpl  ：WindowManager是一个接口类，继承自接口ViewManager, 它是用来管理Window的，它的实现类为WindowManagerImpl。</li>
+<li>ViewManager中定义了三个方法：ViewManager中定义了三个方法，分别用来添加、更新和删除View </li>
+<li>DecorView：窗口内的真实视图；最高层的视图；</li>
+<li>ViewRootImpl：View 的最高层级，实现 view 和 WindowManager 之间的一些协议；可以触发视图的绘制；可以理解成一个桥梁；内部持有 DecorView 实例的引用；</li>
+<li>WindowSession：</li>
+<li>windowstate：WindowState是系统进程层面管理的window对象，windowState通过InputChannel与IMS获取联系。</li>
+<li>W，IWindow.Stub 的 binder 服务对象，主要的作用是接收 WMS 的 IPC 调用；</li>
+<li>想要对Window进行添加和删除就可以使用WindowManager，具体的工作都是由WMS来处理的，WindowManager和WMS通过Binder来进行跨进程通信，WMS作为系统服务有很多API是不会暴露给WindowManager的，这一点与ActivityManager和AMS的关系有些类似。</li>
+</ol>
+<h2 id="创建图层的流程"><a href="#创建图层的流程" class="headerlink" title="创建图层的流程"></a>创建图层的流程</h2><ol>
+<li> 首先APP端新建一个Surface图层的容器壳子，</li>
+<li> APP通过Binder通信将这个Surface的壳子传递给WMS，</li>
+<li> WMS为了填充Surface去向SurfaceFlinger申请真正的图层，</li>
+<li> SurfaceFlinger收到WMS请求为APP端的Surface分配真正图层</li>
+<li> 将图层相关的关键信息Handle及Producer传递给WMS</li>
+<li> WMS利用Handle和Producer创建一个SurfaceControl对象，之后再利用其创建Surface</li>
+<li> 至此，WMS端的Surface创建并填充完毕，然后返回给APP端，APP端就获得了直接和SurfaceFlinger通信的能力</li>
+</ol>
+<h2 id="View-的绘制原理"><a href="#View-的绘制原理" class="headerlink" title="View 的绘制原理"></a>View 的绘制原理</h2><ul>
+<li><a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=1iaHxmfZGGc">参考链接1</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV19V4y1V79X/?spm_id_from=333.337.search-card.all.click&vd_source=2383886846e4aa5e7cf6fd52f9d0a367">参考链接2</a></li>
+</ul>
+<h3 id="屏幕的刷新机制："><a href="#屏幕的刷新机制：" class="headerlink" title="屏幕的刷新机制："></a>屏幕的刷新机制：</h3><ol>
+<li>在一个典型的显示系统中，一般包括 CPU、GPU、Display 三个部分， CPU负责计算帧数据，把计算好的数据交给GPU，GPU会对图形数据进行渲染，渲染好后放到buffer(图像缓冲区)里存起来，然后Display（屏幕或显示器）负责把buffer里的数据呈现到屏幕上。</li>
+<li>画面撕裂：由于上述谈到的，缓冲生产出的视图数据和绘制数据的数据源，使用的是同一个 buffer，就可能出现在屏幕刷新的时候，数据不一致，进而导致不是一个完整的一帧画面的问题；</li>
+<li>为了解决画面撕裂的问题<ol>
+<li>双缓冲：一个绘制数据的缓冲；一个显示数据的缓冲；二者互不干扰；</li>
+<li>VSync：发出该信号时，就是两个缓冲区交换内存地址的时机；</li>
+</ol>
+</li>
+</ol>
+<h3 id="两个概念"><a href="#两个概念" class="headerlink" title="两个概念"></a>两个概念</h3><ol>
+<li>刷新频率，refresh rate：屏幕在一秒内，可以刷新的次数；比如 60Hz；</li>
+<li>帧率，frame rate：GPU 每秒可以画的帧数；比如</li>
+<li>帧率比刷新频率快的时候，就会出现画面撕裂；</li>
+<li>屏幕的显示，是由上至下扫描展示的；当屏幕扫描完，到最后一行的时候，放松 vsync 信号，通知缓冲期交换地址指针；</li>
+</ol>
+<h3 id="API-16-后新增的优化机制"><a href="#API-16-后新增的优化机制" class="headerlink" title="API 16 后新增的优化机制"></a>API 16 后新增的优化机制</h3><p>VSync 的引入，还残留一个问题没解决：刷新依赖于 VSync 信号，没有 VSync 不能刷新，如果 VSync 来时，缓冲区的数据没有准备好，就会显示上一帧的内容，就会出现卡顿。</p>
+<ul>
+<li>解决方案：新增一个缓冲期，变成 三缓冲区。能保证帧是连续的。</li>
+<li>本质原因，是帧的生成时间太长导致的。</li>
+</ul>
+<h3 id="重绘"><a href="#重绘" class="headerlink" title="重绘"></a>重绘</h3><ol>
+<li>调用 requestLayout 会导致该 view 已经其递归上去的父 view都会重新走一遍measure、layout、draw三大流程。 </li>
+<li>调用invalidate只会导致draw流程的重走。</li>
+</ol>
+<h2 id="SurfaceView-与-TextureView"><a href="#SurfaceView-与-TextureView" class="headerlink" title="SurfaceView 与 TextureView"></a>SurfaceView 与 TextureView</h2><h3 id="SurfaceView"><a href="#SurfaceView" class="headerlink" title="SurfaceView"></a>SurfaceView</h3><p>我们知道每个窗口在SurfaceFlinger服务中都对应有一个layer，用来描述它的绘制表面surface。<strong>对于那些具有SurfaceView的窗口来说，每个SurfaceFlinger服务中还对应一个独立的Layer或者LayerBuffer</strong>，用来单独描述它的绘制表面，以区别它的宿主窗口的绘制表面。<br>surfaceView在其宿主Activity窗口上挖了一个“洞”，这个“洞”实际上只不过是在其宿主Activity窗口上设置了一块透明区域</p>
+<p>优缺点</p>
+<ul>
+<li>  <strong>优点：</strong>由于在系统中（WMS和SF）中，它与宿主窗口是分离的。因此：Surface的渲染可以放到单独线程去做，渲染时可以有自己的GL context。这对于一些游戏、视频等性能相关的应用非常有益，因为它不会影响主线程对事件的响应。</li>
+<li>  <strong>缺点:</strong> 因为这个Surface不在View hierachy中，它的显示也不受View的属性控制，所以不能进行平移，缩放等变换，也不能放在其它ViewGroup中，一些View中的特性也无法使用</li>
+</ul>
+<h3 id="TextureView"><a href="#TextureView" class="headerlink" title="TextureView"></a>TextureView</h3><p>在4.0(API level 14)中引入，与SurfaceView一样继承View，它可以将内容流直接投影到View中，它可以将内容流直接投影到View中，可以用于实现Live preview等功能。</p>
+<ol>
+<li>它不会在WMS中单独创建窗口，而是作为View hierachy中的一个普通View，因此可以和其它普通View一样进行移动，旋转，缩放，动画等变化。</li>
+<li>值得注意的是TextureView必须在硬件加速的窗口中。它显示的内容流数据可以来自App进程或是远端进程。</li>
+</ol>
+<h1 id="各种-token"><a href="#各种-token" class="headerlink" title="各种 token"></a>各种 token</h1><h2 id="ActivityRecord-中的-token-是啥时候创建的？作用是什么？"><a href="#ActivityRecord-中的-token-是啥时候创建的？作用是什么？" class="headerlink" title="ActivityRecord 中的 token 是啥时候创建的？作用是什么？"></a>ActivityRecord 中的 token 是啥时候创建的？作用是什么？</h2><ul>
+<li><p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/mingfeng002/p/10951883.html">可参考的链接1</a> ，这个文章写得很好。</p>
+</li>
+<li><p>时机：在创建 ActivityRecord 对象的时候，就会创建 token。</p>
+</li>
+<li><p>作用：启动一个Activity的时候会为这个 Activity 生成一个 ActivityRecord 对象，该对象用于 AMS 管理跟踪，而 Token 就在这里诞生了。Token 类实现了 IApplicationToken.Stub，也就是作为 Binder 的服务端，那么它自然的接收客户端的请求，那它主要提供什么样的服务呢?</p>
+</li>
+</ul>
+<p><em>android/view/IApplicationToken.aidl</em></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-class"><span class="hljs-keyword">interface</span> <span class="hljs-title">IApplicationToken</span></span><br><span class="hljs-class"></span>&#123;<br>    <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">windowsDrawn</span><span class="hljs-params">()</span></span>;<br>    <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">windowsVisible</span><span class="hljs-params">()</span></span>;<br>    <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">windowsGone</span><span class="hljs-params">()</span></span>;<br>    <span class="hljs-function"><span class="hljs-keyword">boolean</span> <span class="hljs-title">keyDispatchingTimedOut</span><span class="hljs-params">(String reason)</span></span>;<br>    <span class="hljs-function"><span class="hljs-keyword">long</span> <span class="hljs-title">getKeyDispatchingTimeout</span><span class="hljs-params">()</span></span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>可以看出，大部分是用于接收 WindowManagerService 通知 ActivityManagerService 的关于 Window 的消息，也有 key 的相关消息。</p>
+<h2 id="WMS-中的-token-是什么时候创建的？作用是什么？"><a href="#WMS-中的-token-是什么时候创建的？作用是什么？" class="headerlink" title="WMS 中的 token 是什么时候创建的？作用是什么？"></a>WMS 中的 token 是什么时候创建的？作用是什么？</h2><ul>
+<li><p>是什么：WMS专为Activity实现了一个 WindowToken 的子类：AppWindowToken</p>
+</li>
+<li><p>时机：具体位置为 ActivityStack.startActivityLocked()，也就是启动 Activity 的时候，通过 WMS 根据  ActivityRecord 中的 token，一起创建了 AppWindowToken。</p>
+</li>
+<li><p>作用：WindowManagerService 中 AppWindowToken 保存着 ActivityManagerService Binder 对象，用来向AMS 传递 Window 和按键的一些信息.</p>
+</li>
+</ul>
+<p> wms 中有与  ams 中一一对应的 stack 和 task；</p>
+<h2 id="App-中的-token"><a href="#App-中的-token" class="headerlink" title="App 中的 token"></a>App 中的 token</h2><p>ActivityClientRecord 是 activity 在 App 应用进程中的代表。其中保存了 AMS  这个 server 的 token 引用。</p>
+<ul>
+<li>时机：scheduleLaunchActivity 方法中，进行了 ActivityClientRecord 的构建。这里 scheduleLaunchActivity 方法是通过 binder 进行 IPC 方法调用的。   </li>
+<li>作用：这个 ActivityClientRecord 类是 Activity 在 ActivityThread 中一一对应的，一个APP有多个Activity, 也就是说有多个ActivityClientRecord， 那么当 AMS 要启动一个 Activity 的时候，怎么样找到 APP 中正确的那个Activity呢？答案就是通过Token,先通过token找到ActivityClientRecord,然后再通过ActivityClientRecord中的activity就找到了正确的Activity了。Activity中Token主要用于在请求AMS服务时用于定位到具体到AMS中正确的 ActivityRecord。</li>
+</ul>
+<h2 id="WindowManager-LayoutParams里的token"><a href="#WindowManager-LayoutParams里的token" class="headerlink" title="WindowManager.LayoutParams里的token"></a>WindowManager.LayoutParams里的token</h2><ul>
+<li>时机：setView 的时候，构建 WindowManager.LayoutParams 的 token 时，用 Window 中的 mAppToken 也就是AMS中ActivityRecord中的Token。</li>
+<li>作用：WindowManager.LayoutParams中的 token传递给WMS,另外它的大部分作用是一致性判断。</li>
+</ul>
+<h1 id="badToken-问题案例"><a href="#badToken-问题案例" class="headerlink" title="badToken 问题案例"></a>badToken 问题案例</h1><p>那为什么窗口显示的时候会出现BadTokenException？</p>
+<p>很明显是WindowManagerService 的<a target="_blank" rel="noopener" href="http://androidxref.com/8.0.0_r4/xref/frameworks/base/services/core/java/com/android/server/wm/WindowManagerService.java#mWindowMap">mWindowMap</a> 已经找不到对应的token，那为什么会出现这种情况呢？从表面上看那肯定是addview的时候，activity或者toast生成的token，已经被清除了。</p>
+<p>我们来分析上述的问题，BadTokenException能够产生的情形蛮多的，就当前的调用栈看，是在handleResumeActivity的时候出现问题。</p>
+<ol>
+<li>情况一<br>ActivityManagerService 里面成员变量 mHandler 的 Looper，不会被Client-Side（即APP进程的操作所影响）。它在调用 destroyActivityLocked 的时候会先给Handler发一个延迟的DESTROY_TIMEOUT_MSG，如果client端顺利执行完了destroy，则会通知ActivityStack移除这个MSG，否则它就会被执行。<br>系统在调用 Activity 的 destroy 操作的时候，出现超时导致系统 mHandler 执行 DESTROY_TIMEOUT_MSG，测试log：<br>那什么情况下，在没有调用这些生命周期的情况就直接调用了destory。</li>
+</ol>
+<p>1）还未完成resume的情况下，主动调用clean task;<br>2）在manifest中注明了activity是noHistory=true，则会在切换activity的时候，当前activity stop 的时候会执行requestFinishActivityLocked：<br>3）Intent 启动参数，设置FLAG_ACTIVITY_CLEAR_TOP，跳转到之前到activity；</p>
+<p>解决方案<br><strong>主线程里面不能有大量耗时操作，这个DESTROY_TIMEOUT为10s</strong><br><strong>1.避免在Application与Activity的onCreate及onActivityResult阶段做耗时操作。</strong><br><strong>2.尽量把noHistory去掉，stop不强制触发finish，不发送DESTROY_TIMEOUT，AMS不再删除WindowToken。</strong><br><strong>3.根据业务逻辑判断较早的基于FLAG_ACTIVITY_CLEAR_TOP启动Activity后当前Activity是否具有耗时操作，进一步优化。</strong></p>
+<ol start="2">
+<li>情况二<br>延迟addView<br>目前最常见的堆栈，也是日常编码极其容易触发的BadTokenException就是多线程操作 Dialog，在执行窗口显示的时候Activity已经被销毁了，可以看下边的调用栈：</li>
+</ol>
+<p>能够很清晰的看到Dialog.show的时候找不到token，这类问题一般有两种情形导致：</p>
+<p>1.多线程操作，未准确判断生命周期直接进行窗口展示，当Activity已经destroy后，线程回调继续使用该context进行页面展示。<br>2.通过hanlder发送Runnable，而该runnable中有ui操作的流程, 在onPause之后没有及时清理掉这些未处理的消息导致destory后又触发了ui操作。</p>
+<p>解决方案</p>
+<ol>
+<li>线程回调中执行需要判断context，currentActivity.isFinishing()，能够部分拦截；</li>
+<li>在show的时候catch (WindowManager.BadTokenException e)；</li>
+</ol>
+<h1 id="热修复"><a href="#热修复" class="headerlink" title="热修复"></a>热修复</h1><p><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s?__biz=MzAwNDY1ODY2OQ==&amp;mid=2649286384&amp;idx=1&amp;sn=f1aff31d6a567674759be476bcd12549&amp;scene=4#wechat_redirect">https://mp.weixin.qq.com/s?__biz=MzAwNDY1ODY2OQ==&amp;mid=2649286384&amp;idx=1&amp;sn=f1aff31d6a567674759be476bcd12549&amp;scene=4#wechat_redirect</a></p>
+<h2 id="类加载"><a href="#类加载" class="headerlink" title="类加载"></a>类加载</h2><h3 id="Android中ClassLoader的种类-amp-特点"><a href="#Android中ClassLoader的种类-amp-特点" class="headerlink" title="Android中ClassLoader的种类&amp;特点"></a>Android中ClassLoader的种类&amp;特点</h3><ul>
+<li>  BootClassLoader（Java的BootStrap ClassLoader）： 用于加载Android Framework层class文件。</li>
+<li>  PathClassLoader（Java的App ClassLoader）： 用于加载已经安装到系统中的apk中的class文件。</li>
+<li>  DexClassLoader（Java的Custom ClassLoader）： 用于加载指定目录中的class文件。</li>
+<li>  BaseDexClassLoader： 是PathClassLoader和DexClassLoader的父类。</li>
+</ul>
+<h2 id="热修复的原理"><a href="#热修复的原理" class="headerlink" title="热修复的原理"></a>热修复的原理</h2><p>在app重启时，通过classloader抢先加载补丁的类，由于app在运行时需要修复的类已经被加载，运行时无法对类卸载，因此必须需要重启才能生效。</p>
+<h3 id="Dalvik下的类校验问题"><a href="#Dalvik下的类校验问题" class="headerlink" title="Dalvik下的类校验问题"></a>Dalvik下的类校验问题</h3><p>当dex加载到内存时，如果不存在odex文件会做dexopt将其转换成odex，在dexopt的过程中会做dvmClassVerify，如果某个类及其直接引用的类都在同一个dex的情况下，该类会被打上CLASS_ISPREVERIFIED标志，在dvmResolveClass的时候会做校验，也就是以下的代码，当补丁类加载的时候，如果满足这三个条件，就会校验失败抛出异常</p>
+<ul>
+<li>  fromUnverifiedConstant=false，非const-class/instance-of指令引用补丁类</li>
+<li>  IS_CLASS_FLAG_SET(referrer, CLASS_ISPREVERIFIED)，补丁类被打上CLASS_ISPREVERIFIED</li>
+<li>  referrer-&gt;pDvmDex != resClassCheck-&gt;pDvmDex，补丁类和引用类不在同一个dex</li>
+</ul>
+<h2 id="方案分类"><a href="#方案分类" class="headerlink" title="方案分类"></a>方案分类</h2><h3 id="【native修复】Andfix"><a href="#【native修复】Andfix" class="headerlink" title="【native修复】Andfix"></a>【native修复】Andfix</h3><h4 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h4><p>通过env-&gt;FromReflectMethod可以得到Method对象的ArtMethod起始地址，然后将其强转为ArtMethod指针，从而对方法结构进行修改。</p>
+<h4 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h4><ul>
+<li>不能对原有类进行方法和字段的增减，都会导致索引发生变化，从而破坏原有类的结构，访问时就无法索引到正确的方法和字段</li>
+<li>依赖Android底层源码，如果厂商修改了虚拟机方法，替换机制就可能出问题。</li>
+</ul>
+<h3 id="【native-修复】Sophix"><a href="#【native-修复】Sophix" class="headerlink" title="【native 修复】Sophix"></a>【native 修复】Sophix</h3><p><a target="_blank" rel="noopener" href="https://developer.aliyun.com/article/103527">https://developer.aliyun.com/article/103527</a></p>
+<h4 id="原理-1"><a href="#原理-1" class="headerlink" title="原理"></a>原理</h4><p>Sophix在Andfix基础上提出了一种新的思路，通过计算地址偏移对ArtMethod整体做替换，从而解决了底层结构兼容性问题。从方法创建的源码上看，类的方法数组是通过开辟连续的空间，然后逐个new出来。也就是说ArtMethod的内存地址排列是连续的，因此可以通过两个方法的地址的差计算出。ArtMethod的大小，然后通过memcpy直接拷贝即可完成方法的替换。</p>
+<h4 id="问题-1"><a href="#问题-1" class="headerlink" title="问题"></a>问题</h4><ul>
+<li>依赖ArtMethod的内存排列结构；</li>
+<li>不能对原有类进行方法和字段的增减；</li>
+<li>非静态修复类不能被反射调用，由于反射的对象是运行时的，而修复方法的类新加载的，不一致导致校验失败；</li>
+</ul>
+<h3 id="【Instant-Run方案】Robust"><a href="#【Instant-Run方案】Robust" class="headerlink" title="【Instant Run方案】Robust"></a>【Instant Run方案】Robust</h3><h4 id="原理-2"><a href="#原理-2" class="headerlink" title="原理"></a>原理</h4><p>通过gradle的transform在编译期插桩，对每个类中插入一个变量changeQuickRedirect，并且在所有方法预置一段逻辑，如果changeQuickRedirect不为空，则重定向到补丁方法执行，否则执行原来的方法。</p>
+<p>补丁下发后通过DexClassLoader加载patch.dex，反射拿到 PatchesInfoImpl 类，里面保存了混淆前后的名字，比如说上面的 <em>com.meituan.sample.State</em> 被混淆成 <em>com.meituan.sample.d</em></p>
+<p>通过反射拿到com.meituan.sample.d，将changeQuickRedirect字段赋值用patch.dex中加载出来的StatePatch对象。</p>
+<h4 id="问题-2"><a href="#问题-2" class="headerlink" title="问题"></a>问题</h4><ul>
+<li>  包体积问题，插桩会导致包体积变大</li>
+<li>  dex中method id不能超过65536限制，主要原因是小函数插桩函数变大，容易导致无法内联，解决方式通过配置黑名单过滤小函数</li>
+<li>  super调用问题，补丁类无法直接通过super调用父类方法</li>
+</ul>
+<p>解决方法：修改原始类的调用指令，改成invoke-super，由于invoke-super在调用时会校验当前类，补丁类需要继承原始类的父类，举个例子解释一下</p>
+<h3 id="【类加载】QQ-空间"><a href="#【类加载】QQ-空间" class="headerlink" title="【类加载】QQ 空间"></a>【类加载】QQ 空间</h3><h4 id="原理-3"><a href="#原理-3" class="headerlink" title="原理"></a>原理</h4><p>QZone的思路是绕过第二个条件，预先在apk里面增加一个辅助类并单独打成一个dex，通过插桩的方式给所有类增加对辅助类的引用，从而让所有类不被打上CLASS_ISPREVERIFIED标志</p>
+<h4 id="问题-3"><a href="#问题-3" class="headerlink" title="问题"></a>问题</h4><ul>
+<li>  Dalvik下绕过dexopt导致在类加载的时候才做校验，影响加载性能</li>
+<li>  art下dex2oat时同dex的类存在内联优化可能，如果补丁原来的类被内联了，且补丁类新增方法，内联类调用补丁类时方法、字段索引都是原来的，从而导致内存地址错乱，解决办法是将补丁类的父类和调用类都打到补丁包，但这样会导致补丁包变得很大。</li>
+</ul>
+<h3 id="【类加载】QFIX"><a href="#【类加载】QFIX" class="headerlink" title="【类加载】QFIX"></a>【类加载】QFIX</h3><h4 id="原理-4"><a href="#原理-4" class="headerlink" title="原理"></a>原理</h4><p>QFix的思路是绕过第一个条件，在加载补丁类的时候，手动在jni层调用dvmResolveClass，设置fromUnverifiedConstant=true，提前调用后会有缓存，下次执行就直接从缓存获取从而绕过校验。</p>
+<h4 id="问题-4"><a href="#问题-4" class="headerlink" title="问题"></a>问题</h4><ul>
+<li>  不支持多态，由于时机在dexopt之后，optimize阶段会将invoke-virtual指令替换成invoke-virtual-quick，也就是将方法直接替换成vtable里面的索引，当新增virtual方法后会导致vtable索引错乱，从而导致方法调用异常</li>
+</ul>
+<p><strong>多态是怎么实现的</strong></p>
+<ul>
+<li>  每个类在解析之后对所有的虚方法会生成会有一个vtable表，子类的vtable表会与父类的vtable表合并，通过比对方法签名，优先删去父类的保留子类的，否则添加到末尾，而invoke-virtual指令是通过遍历类的vtable表找到方法索引，然后通过索引在对象的vtable找到实际方法调用</li>
+</ul>
+<h3 id="【类加载】Tinker"><a href="#【类加载】Tinker" class="headerlink" title="【类加载】Tinker"></a>【类加载】Tinker</h3><h4 id="原理-5"><a href="#原理-5" class="headerlink" title="原理"></a>原理</h4><p>Tinker的思路是绕过第三个条件，自研了一套DexDiff算法，通过差量的方式打出补丁包下发，然后将patch.dex和应用变更的classN.dex合并成完整的dex，然后对完整的dex进行替换。<br><strong>合并dex</strong><br>app启动后开启独立进程，自研了一套算法进行合并</p>
+<ul>
+<li>  Dalvik：对每个需要修复的dex合成新dex，然后做dexopt</li>
+<li>  Art：多个dex打包成zip包，由于动态加载的dex2oat默认是speed模式全量编译，为了避免耗时过长导致anr，通过命令先做quiken/interpret-only模式的dex2oat，通过解释模式先运行，然后后台再做全量编译</li>
+</ul>
+<h4 id="问题-5"><a href="#问题-5" class="headerlink" title="问题"></a>问题</h4><ul>
+<li>  dex合并在vm heap上进行，容易oom，可以优化成在native进行，native内存不受vm限制</li>
+</ul>
+<h3 id="【类加载】JVMTI"><a href="#【类加载】JVMTI" class="headerlink" title="【类加载】JVMTI"></a>【类加载】JVMTI</h3><p>JVMTI：JVM Tool Interface，Java虚拟机定义的开发和监控JVM使用的接口，通过该接口可以探查JVM内部的运行状态，以及控制JVM应用程序的执行。</p>
+<h2 id="So修复"><a href="#So修复" class="headerlink" title="So修复"></a>So修复</h2><h3 id="原理-6"><a href="#原理-6" class="headerlink" title="原理"></a>原理</h3><p><strong>替换加载方式</strong></p>
+<p>android提供了两个方法加载so</p>
+<figure class="highlight reasonml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs reasonml"><span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">System</span>.</span></span>load(String filename);<span class="hljs-comment">//可以加载自定义路径下的so</span><br><span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">System</span>.</span></span>load<span class="hljs-constructor">Libaray(String <span class="hljs-params">filename</span>)</span>;<span class="hljs-comment">//用来加载已经安装APK中的so</span><br></code></pre></td></tr></table></figure>
+
+<p>最简单的方式就是包装一下这两个方法，如果有补丁so则通过<code>System.load</code>加载，否则通过<code>System.loadLibaray</code>加载，不过该方式对代码有侵入性，无法修复三方库的so</p>
+<p><strong>反射替换加载路径</strong></p>
+<p>类似类加载的方式，so加载的时候实际也是从classloader中查找路径，可以把补丁so库的路径插入到nativeLibraryDirectories数组的最前面，优先加载补丁库达到修复的目的。</p>
+<h1 id="插件化"><a href="#插件化" class="headerlink" title="插件化"></a>插件化</h1><ul>
+<li><a target="_blank" rel="noopener" href="https://bytedance.feishu.cn/wiki/wikcnwJbYjeGOIEtWLlGGFBZzhe">参考链接1</a></li>
+</ul>
+<h2 id="目的"><a href="#目的" class="headerlink" title="目的"></a>目的</h2><p>插件一般也是以一个apk的文件形式存在，然后被宿主apk动态加载并运行。这么做的好处是：</p>
+<ol>
+<li>减小包大小。例如用户不常用的功能可以单独打包成一个插件apk，这样可以减小宿主apk的大小。</li>
+<li>插件apk可以独立更新。</li>
+<li>宿主和插件分开编译，提升开发效率。</li>
+</ol>
+<h2 id="classloader-相关的内容"><a href="#classloader-相关的内容" class="headerlink" title="classloader 相关的内容"></a>classloader 相关的内容</h2><p>类加载原理和”父委托”查找机制，大致分为三步，简单作如下说明：</p>
+<ul>
+<li>  第一步：当前ClassLoader.findLoadedClass()，尝试从已经加载过的缓存中读取。有则直接返回，无则进入下一步；</li>
+<li>  第二步：如果存在parent，则委托parentClassLoader.loadClass()，自低向上依次委托，一致到BootClassLoader；</li>
+<li>  第三步：自顶向下依次findClass()。</li>
+</ul>
+<h2 id="SO-文件的安装处理"><a href="#SO-文件的安装处理" class="headerlink" title="SO 文件的安装处理"></a>SO 文件的安装处理</h2><ul>
+<li><a target="_blank" rel="noopener" href="https://cloud.tencent.com/developer/article/1199441">APK安装流程详解4——安装中关于so库的那些事</a><h3 id="ClassLoader与SO的关系"><a href="#ClassLoader与SO的关系" class="headerlink" title="ClassLoader与SO的关系"></a>ClassLoader与SO的关系</h3></li>
+<li>  加载：System.load(path)/System.loadLibrary(name)，能否成功，取决于目标so文件能否找到，或由当前ClassLoader.nativeElements[]内部找到，或由外部传入。</li>
+<li>  打开：能否成功，一个so只能被同一个ClassLoader打开，打开次数不限制。否则报错：already opened by ClassLoader xxx, can’t open in ClassLoader xxx</li>
+<li>  native方法调用：如果是JNI调用，能否成功，取决于当前JNI接口类的classLoader是否是打开它的classLoader，否则报错：No implementation found for xxx。</li>
+<li>  dlopen/dlsym/dlclose：如果是dlopen形式的打开、方法调用、关闭，取决与加载依赖它的so的ClassLoader的能否找到被依赖的so，如果找不到，主动调用System.load()，然后在dlopen也行。但是这个so库只能被同一个ClassLoader load一次。</li>
+</ul>
+<h2 id="插件的整体的流程"><a href="#插件的整体的流程" class="headerlink" title="插件的整体的流程"></a>插件的整体的流程</h2><ol>
+<li>时机<ol>
+<li>主动：业务方主动调用加载方法；</li>
+<li>被动：业务方调用了插件中的类；</li>
+</ol>
+</li>
+<li>核心操作：hook Instrumentation，创建自己的 Instrumentation，代理原有ActivityThread.mInstrumentation；</li>
+<li>流程详解<ol>
+<li>创建 applicationinfo；</li>
+<li>创建 loadapk；</li>
+<li>创建 plugin 的 classloader；</li>
+<li>替换资源；</li>
+<li>注册广播；</li>
+<li>安装 ContentProvider；</li>
+<li>创建 application；</li>
+<li>替换 packageManager；</li>
+<li>回调 application 的 oncreate；</li>
+</ol>
+</li>
+</ol>
+<h2 id="Activity-组件化的处理方式"><a href="#Activity-组件化的处理方式" class="headerlink" title="Activity 组件化的处理方式"></a>Activity 组件化的处理方式</h2><p>对于Activity的插件化来说主要是两步：</p>
+<ul>
+<li>如何让未在AndroidMainfest.xml注册的Activity通过AMS的校验</li>
+<li>如何让未注册的Activity正常启动</li>
+</ul>
+<h3 id="业内方案"><a href="#业内方案" class="headerlink" title="业内方案"></a>业内方案</h3><h4 id="Qigsaw"><a href="#Qigsaw" class="headerlink" title="Qigsaw"></a>Qigsaw</h4><p><code>Qigsaw</code>对于第一步来说它的处理是将插件和宿主编译的时候，将插件内<code>AndroidMainfest.xml</code>的<code>Activity</code>信息复制到宿主的<code>AndroidMainfest.xml</code>内，从而第一步通过校验。</p>
+<p>对于第二步来说，<code>Qigsaw</code>插件化框架修改了<code>Classloader</code>的实现，添加了插件相关的<code>Path</code>，从而导致即使是插件内的类也可以加载,从而实现<code>Activity</code>插件化。</p>
+<p><strong>优点：</strong></p>
+<ul>
+<li>  稳定且兼容性强</li>
+<li>  未使用<code>Hidden Api</code></li>
+<li>  <code>Hook</code> 少</li>
+<li>  改动少</li>
+</ul>
+<p><strong>缺点：</strong></p>
+<ul>
+<li>  宿主和插件要在同仓下编译</li>
+<li>  无法动态新增<code>Activity</code>（宿主的<code>AndroidMainfest.xml</code>是编译时修改，无法通过更新插件升级）</li>
+</ul>
+<h4 id="Replugin"><a href="#Replugin" class="headerlink" title="Replugin"></a>Replugin</h4><p><code>Replugin</code>对于第一步来说，它是编译期间将生成<code>Activity</code>的基类，然后强制插件内的<code>Activity</code>继承此<code>Activity</code>,然后重写了其<code>startActivity</code>的方法，改为使用<code>Replugin</code>内的实现。这样可以按照一般插件化的方案来处理第一步，优点是没有<code>Hook</code>系统类。</p>
+<p>对于第二步来说，<code>Replugin Hook</code> 了<code>Classloader</code> ,所以其可以在<code>Activity</code>创建的时候，将第一步中存储的插件的<code>Activity</code>的类名和占桩的<code>Activity</code>的类名读取出来，然后返回真正的插件的<code>Activity</code>的类即可。</p>
+<p><strong>优点：</strong></p>
+<ul>
+<li>  稳定且兼容性强</li>
+<li>  未使用<code>Hidden Api</code></li>
+<li>  <code>Hook</code> 少</li>
+<li>  改动少</li>
+</ul>
+<p><strong>缺点：</strong></p>
+<ul>
+<li>  需要生成代码和修改原代码</li>
+</ul>
+<h4 id="Mira"><a href="#Mira" class="headerlink" title="Mira"></a>Mira</h4><p>对于<code>Mira</code>来说，其第一步<code>Hook</code>了<code>Instrumentation</code>，当你执行了<code>Activity#startActivity</code>的时候，内部执行了<code>Instrumentation#execStartActivity</code>方法，所以目前<code>Hook</code>了这个方法，用于存储插件<code>Activity</code> 和 占桩<code>Activity</code>的关系，并将插件<code>Activity</code>替换成占桩<code>Activity</code>，完成第一步。</p>
+<p>对于第二步来说，<code>Hook</code> 了<code>ActivityThread</code>的内部类<code>H</code>,它是个<code>Handle.Callback</code>，</p>
+<p>这个地方需要注意，在<code>Android 7</code> 以上会触发<code>ActivityThread.H.EXECUTE_TRANSACTION</code> 消息，以下则会触发<code>ActivityThread.H.LAUNCH_ACTIVITY</code> 消息，版本不同消息类型不同，然后针对这俩消息中<code>Intent</code>存储的占桩<code>Activity</code>信息还原成插件<code>Activity</code>的信息。且此时也需要修改<code>Classloader</code>,用于加载插件<code>Activity</code>。</p>
+<p><strong>优点：</strong></p>
+<ul>
+<li>  稳定性强</li>
+</ul>
+<p><strong>缺点：</strong></p>
+<ul>
+<li>  兼容性一般（需要针对<code>Android7.0</code>前后版本做适配）</li>
+<li>  使用了<code>Hidden Api</code></li>
+<li>  <code>Hook</code>稍多</li>
+<li>  改动稍多</li>
+</ul>
+<h2 id="Resource-资源的插件化"><a href="#Resource-资源的插件化" class="headerlink" title="Resource 资源的插件化"></a>Resource 资源的插件化</h2><p>资源插件化的过程可总结为三步：</p>
+<ol>
+<li>第一步，Application启动时hook替换Application及LoadedApk的resouces到我们自定义的 WrapperResources 上来；<ol>
+<li>反射调用AssetManager.addAssetPath(String path)方法，我们把插件APK的路径传递进去，就可实现访问插件的资源。App中有多少插件就调用多少次，把所有插件的资源都add进去，构造出一个”超级Resources”为全局共用，查找引用，把宿主与插件中需要使用资源的地方都替换为这个”超级Resources”即是。这是资源插件化的第一步。</li>
+</ol>
+</li>
+<li>第二步，插件启动时把插件的资源add到全局资源中，分配不同的段位与resId；</li>
+<li>第三步，Activity在启动时hook替换resouces到MiraWrapperResources实例上。</li>
+</ol>
+<p>在以下几个时机需要注意替换 resource 引用、AssetManager 引用</p>
+<ul>
+<li>application 启动</li>
+<li>activity configuration 变化</li>
+<li>新建 activity 的时候；</li>
+</ul>
+<h3 id="ID-冲突的解决方案"><a href="#ID-冲突的解决方案" class="headerlink" title="ID 冲突的解决方案"></a>ID 冲突的解决方案</h3><p>每个资源都有一个对应的 ID 值 0xPPTTEEEE，由于宿主和插件都是各自打包，开发插件 App 和开宿主App的流程基本是一样的。所以在合并插件资源到宿主时，某个资源 ID 值有可能与宿主资源的 ID 是相同的，即资源 ID 冲突，Mira 的解决方案是通过修改 AAPT 打包工具为插件资源 ID 分配新段位，和固定宿主 App 中需要共享给插件的资源 ID。</p>
+<h2 id="service-的插件化"><a href="#service-的插件化" class="headerlink" title="service 的插件化"></a>service 的插件化</h2><p>整体的流程和 activity 的插件化很像，分为上半场和下半场。</p>
+<ul>
+<li>上半场一样；</li>
+<li>区别在于下半场；<ul>
+<li>因为 start 就是简单的启动一个 Service 组件，所以可以简单理解为只有一次交互消息，而bindService 执行时会有两次消息传递，第一次是 AMS 通知 ActivityThread 创建Service的消息，第二次是 AMS 传递 ServiceConnection 对象到 ActivityThread 的消息。</li>
+<li>因为 stop 是简单的停止一个 Service 组件，只有一次交互消息，且消息体中包含了Intent 信息；而 unbind 有两次交互消息，且 stopService 消息体中没有 Intent 信息，只有 IBinder token 信息。</li>
+</ul>
+</li>
+</ul>
+<h3 id="具体步骤"><a href="#具体步骤" class="headerlink" title="具体步骤"></a>具体步骤</h3><ul>
+<li>  上半场我们选择hook AMN，即创建IActivityManagerProxy作为AMN的代理对象。我们只要”欺骗AMS”要start/stop、bind/unBinder的Service已在AndroidManifest中存在就好。在经过AMN发送Intent信息到AMS之前，把该Intent上的targetService替换为一个在AndroidManifest中声明的StubService，把原来的targetService信息存放在Bundle的扩展字段位上即可。</li>
+<li>下半场我们选择hook ActivityThread.H.mCallback，拦截AMS通知App启动或绑定StubService的消息。在即将启动或绑定StubService之前，把StubService换回原先保存在Bundle扩展位上的targetService。</li>
+</ul>
+<h2 id="Receiver的插件化"><a href="#Receiver的插件化" class="headerlink" title="Receiver的插件化"></a>Receiver的插件化</h2><p>静态广播需要在AndroidManifest中声明，应用安装和Android系统重启时，PMS都会解析App的Manifest，所以静态广播的注册信息位于PMS中。动态广播是在代码中调用Context.registerReceiver() –&gt; AMN.getDefault().registerReceiver()手动注册的，所以注册信息存在于AMS中。二者区别仅在于注册方式不同，之后就都一样了。<br>我们就可以把静态广播都改为动态广播，避免在AndroidManifest中声明，也就避免了AMS检查。这就是Receiver的插件化思路。</p>
+<p>动态广播不需要和AMS打交道，所以它就是一个普通类。我们只要确保宿主App能加载插件中的这个动态广播类即是。在ClassLoader相关章节中介绍过全局的类加载器，有它作保证，我们可以加载任一插件中的任何一个类。这样，插件中的动态广播就可以被宿主App正常调用了。</p>
+<ul>
+<li>  时机：Mira 在使用一个插件前，都必须要preload()预加载。其中包括很重要的一步是将插件中的静态广播转为动态广播注册在宿主中。即插件初始化调用之前，我们取得插件中的静态广播列表，调用相应插件的PluginClassLoader创建实例，以动态广播的形式注册进宿主中。</li>
+</ul>
+<p>这种方案使得丧失了静态广播的特性，体现在不需要启动App就可以启动一个静态广播。当然这里我们不能浅显的认为，App的启动一定是打开某个Activity，通常情况下启动首页的MainActivity只是启动App的一种。Receiver作为四大组件之一，也支持外部调起，进而创建进程，启动应用，接收到广播。尤其推送Push场景下，当App进程已死后，其它伙伴应用可通过发送静态广播来唤醒App。当采用了这种静态转动态的方案后，插件中的所有静态广播特性丧失，即不在支持在App没启动和插件没就绪的情况下，接收到广播。后续我们会对此方案持续改进。</p>
+<h2 id="ContentProvider的插件化"><a href="#ContentProvider的插件化" class="headerlink" title="ContentProvider的插件化"></a>ContentProvider的插件化</h2><h3 id="主进程插件化"><a href="#主进程插件化" class="headerlink" title="主进程插件化"></a>主进程插件化</h3><p>比较简单。类似Receiver的插件化解决方案，把插件中声明在Manifest的静态广播转动态广播”注册”在宿主中。其实Provider也可以这么实现，这时不叫”注册”，叫”安装”。该方法位于 <a target="_blank" rel="noopener" href="http://aosp.opersys.com/xref/android-8.0.0_r1/xref/frameworks/base/core/java/android/app/ActivityThread.java#5838">ActivityThread.installContentProvider</a>方法中，我们可以反射调用该方法，把插件中的Providers作为第二个参数填充进去即可。</p>
+<ul>
+<li>时机：越早越好。因为Provider更多场景是给第三方App用得，插件中的Provider必须要安装在宿主中才能生效，越早安装，第三方App等待的时间就越短。App安装自身Provider时机是ActivityThread.installContentProvider()方法执行，会在App进程启动时立刻执行，比Application.onCreate()早，略晚于Application.attchBaseContext()。Mira在使用一个插件前，都必须要preload()预加载。其中包括很重要的一步是将插件中的Provider安装在宿主中。即插件初始化调用之前，我们取得插件中的Provider列表，修改providerInfo.applicationInfo.packageName包名为宿主包名，反射调用ActivityThread.installContentProvider()方法安装即可。所以如果可能，尽可能早得preload()插件。</li>
+<li>  参照PMS通过PackageParser解析Apk，Mira中PluginPackangeManager用于管理插件安装包相关内容，包括解析插件Apk，解析Manifest，创建Package，提取四大组件等。在此调用getProviders()获取插件中的Provider列表。</li>
+</ul>
+<h3 id="子进程插件化"><a href="#子进程插件化" class="headerlink" title="子进程插件化"></a>子进程插件化</h3><p>有跨进程IPC操作，工作在本进程，主要为其它进程App提供数据的Provider，这类Provider的插件化方案比较复杂。直接让外界App或其它进程直接调用本进程插件里定义的Provider，并不是一个理想的解决方案，我们定义了一个StubContentProvider作为中转，让外界App先访问到中转Provider，进而分发到插件里的Provider上，这种设计得益于Provider独有的URI authority作为唯一定位符机制，URI是资源统一定位符，按照既定协议唯一标识一个确定的资源，但它本身就是一个字符串，所以非常适合用于这种转发机制。</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/Android/" class="category-chain-item">Android</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/Android/">#Android</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>一张思维导图看 Android【持续迭代】</div>
+      <div>http://example.com/2022/04/03/android_summary/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>Author</div>
+          <div>Tinggeng Yan</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>Posted on</div>
+          <div>April 3, 2022</div>
+        </div>
+      
+      
+      <div class="license-meta-item">
+        <div>Licensed under</div>
+        <div>
+          
+            
+            
+              <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+              <span class="hint--top hint--rounded" aria-label="BY - Attribution">
+                <i class="iconfont icon-by"></i>
+              </span>
+              </a>
+            
+          
+        </div>
+      </div>
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2022/05/17/net-process/" title="一张思维导图看网络【持续迭代】">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">一张思维导图看网络【持续迭代】</span>
+                        <span class="visible-mobile">Previous</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2021/10/03/the-documentation-system_how_to_write_good_document/" title="文档系统_程序员如何写好文档 (The documentation system)">
+                        <span class="hidden-mobile">文档系统_程序员如何写好文档 (The documentation system)</span>
+                        <span class="visible-mobile">Next</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;Table of Contents</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">Search</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">Keyword</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="busuanzi_container_site_pv" style="display: none">
+        总访问量 
+        <span id="busuanzi_value_site_pv"></span>
+         次
+      </span>
+    
+    
+      <span id="busuanzi_container_site_uv" style="display: none">
+        总访客数 
+        <span id="busuanzi_value_site_uv"></span>
+         人
+      </span>
+    
+    
+  
+</div>
+
+  
+  
+    <!-- 备案信息 ICP for China -->
+    <div class="beian">
+  <span>
+    <a href="http://beian.miit.gov.cn/" target="_blank" rel="nofollow noopener">
+      沪ICP备2022011786号-1
+    </a>
+  </span>
+  
+    
+      <span>
+        <a
+          href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=沪ICP备2022011786号-1"
+          rel="nofollow noopener"
+          class="beian-police"
+          target="_blank"
+        >
+          
+            <span style="visibility: hidden; width: 0">|</span>
+            <img src="/img/police_beian.png" srcset="/img/loading.gif" lazyload alt="police-icon"/>
+          
+          <span>沪ICP备2022011786号-1</span>
+        </a>
+      </span>
+    
+  
+</div>
+
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://cdn.jsdelivr.net/npm/tocbot@4.12.3/dist/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      headingSelector : CONFIG.toc.headingSelector || 'h1,h2,h3,h4,h5,h6',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      collapseDepth   : CONFIG.toc.collapseDepth || 0,
+      scrollSmooth    : true,
+      headingsOffset  : -boardTop
+    });
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+  });
+</script>
+
+
+  <script src=https://cdn.jsdelivr.net/npm/clipboard@2.0.8/dist/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://cdn.jsdelivr.net/npm/anchor-js@4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">Blog works best with JavaScript enabled</div>
+  </noscript>
+</body>
+</html>
