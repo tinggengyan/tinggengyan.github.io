@@ -1,0 +1,22 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+    <channel>
+        <title>aar - Tag - Tinggeng</title>
+        <link>https://tinggengyan.github.io/tags/aar/</link>
+        <description>aar - Tag - Tinggeng</description>
+        <generator>Hugo -- gohugo.io</generator><language>en</language><managingEditor>tinggengyan@gmail.com (Tinggeng)</managingEditor>
+            <webMaster>tinggengyan@gmail.com (Tinggeng)</webMaster><lastBuildDate>Wed, 10 Aug 2016 00:25:57 &#43;0000</lastBuildDate><atom:link href="https://tinggengyan.github.io/tags/aar/" rel="self" type="application/rss+xml" /><item>
+    <title>AndroidStudio引入AAR依赖</title>
+    <link>https://tinggengyan.github.io/2016/08/androidstudio%E5%BC%95%E5%85%A5aar%E4%BE%9D%E8%B5%96/</link>
+    <pubDate>Wed, 10 Aug 2016 00:25:57 &#43;0000</pubDate>
+    <author>Tinggeng</author>
+    <guid>https://tinggengyan.github.io/2016/08/androidstudio%E5%BC%95%E5%85%A5aar%E4%BE%9D%E8%B5%96/</guid>
+    <description><![CDATA[概述 本文介绍 AndroidStudio 项目如何如何进行 aar 包依赖.
+AndroidStudio如何引用aar依赖 未成功方案 google 了一圈，网上的方法基本都是以下这种，在 module/build.gradle 文件中添加如下代码.同时将 aar 文件 copy 到 libs 文件夹下.
+1 2 3 4 5 repositories { flatDir { dirs &#39;libs&#39; } } compile(name:&#39;aarName&#39;, ext:&#39;aar&#39;) 我尝试了很多次,没有成功.
+亲测有效方案 采用了以下方法成功了,和上面的内容一致,只是位置不一样.
+project 目录下新建一个目录 aars(名字应该随意),新建的 aars 文件夹是用来存放需要 aar 包的.
+在 project 下的 build.gradle 中添加代码.
+1 2 3 4 5 6 7 8 9 allprojects { repositories { jcenter() //为了添加aar依赖 flatDir { dirs &#39;../aars&#39; } } } 注意: 是在根目录下的 build.]]></description>
+</item>
+</channel>
+</rss>

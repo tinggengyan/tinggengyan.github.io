@@ -1,0 +1,88 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+    <channel>
+        <title>Categories - Category - Tinggeng</title>
+        <link>https://tinggengyan.github.io/categories/</link>
+        <description>Categories - Category - Tinggeng</description>
+        <generator>Hugo -- gohugo.io</generator><language>en</language><managingEditor>tinggengyan@gmail.com (Tinggeng)</managingEditor>
+            <webMaster>tinggengyan@gmail.com (Tinggeng)</webMaster><lastBuildDate>Sun, 17 Jul 2022 16:29:04 &#43;0000</lastBuildDate><atom:link href="https://tinggengyan.github.io/categories/" rel="self" type="application/rss+xml" /><item>
+    <title>OS</title>
+    <link>https://tinggengyan.github.io/categories/os/</link>
+    <pubDate>Sun, 17 Jul 2022 16:29:04 &#43;0000</pubDate>
+    <author>Tinggeng</author>
+    <guid>https://tinggengyan.github.io/categories/os/</guid>
+    <description><![CDATA[]]></description>
+</item>
+<item>
+    <title>Network</title>
+    <link>https://tinggengyan.github.io/categories/network/</link>
+    <pubDate>Tue, 17 May 2022 16:09:59 &#43;0000</pubDate>
+    <author>Tinggeng</author>
+    <guid>https://tinggengyan.github.io/categories/network/</guid>
+    <description><![CDATA[]]></description>
+</item>
+<item>
+    <title>Android</title>
+    <link>https://tinggengyan.github.io/categories/android/</link>
+    <pubDate>Sun, 03 Apr 2022 16:19:04 &#43;0000</pubDate>
+    <author>Tinggeng</author>
+    <guid>https://tinggengyan.github.io/categories/android/</guid>
+    <description><![CDATA[]]></description>
+</item>
+<item>
+    <title>Other</title>
+    <link>https://tinggengyan.github.io/categories/other/</link>
+    <pubDate>Sun, 03 Oct 2021 10:25:55 &#43;0000</pubDate>
+    <author>Tinggeng</author>
+    <guid>https://tinggengyan.github.io/categories/other/</guid>
+    <description><![CDATA[]]></description>
+</item>
+<item>
+    <title>Java</title>
+    <link>https://tinggengyan.github.io/categories/java/</link>
+    <pubDate>Sat, 03 Jul 2021 16:29:04 &#43;0000</pubDate>
+    <author>Tinggeng</author>
+    <guid>https://tinggengyan.github.io/categories/java/</guid>
+    <description><![CDATA[]]></description>
+</item>
+<item>
+    <title>Tool</title>
+    <link>https://tinggengyan.github.io/categories/tool/</link>
+    <pubDate>Tue, 23 Jun 2020 10:42:04 &#43;0000</pubDate>
+    <author>Tinggeng</author>
+    <guid>https://tinggengyan.github.io/categories/tool/</guid>
+    <description><![CDATA[]]></description>
+</item>
+<item>
+    <title>HTTP</title>
+    <link>https://tinggengyan.github.io/categories/http/</link>
+    <pubDate>Mon, 14 Oct 2019 13:51:08 &#43;0000</pubDate>
+    <author>Tinggeng</author>
+    <guid>https://tinggengyan.github.io/categories/http/</guid>
+    <description><![CDATA[]]></description>
+</item>
+<item>
+    <title>Engineering</title>
+    <link>https://tinggengyan.github.io/categories/engineering/</link>
+    <pubDate>Sat, 13 Apr 2019 16:08:36 &#43;0000</pubDate>
+    <author>Tinggeng</author>
+    <guid>https://tinggengyan.github.io/categories/engineering/</guid>
+    <description><![CDATA[]]></description>
+</item>
+<item>
+    <title>H2</title>
+    <link>https://tinggengyan.github.io/categories/h2/</link>
+    <pubDate>Tue, 09 Apr 2019 23:16:32 &#43;0000</pubDate>
+    <author>Tinggeng</author>
+    <guid>https://tinggengyan.github.io/categories/h2/</guid>
+    <description><![CDATA[]]></description>
+</item>
+<item>
+    <title>Mobile</title>
+    <link>https://tinggengyan.github.io/categories/mobile/</link>
+    <pubDate>Thu, 26 Apr 2018 23:05:57 &#43;0000</pubDate>
+    <author>Tinggeng</author>
+    <guid>https://tinggengyan.github.io/categories/mobile/</guid>
+    <description><![CDATA[]]></description>
+</item>
+</channel>
+</rss>

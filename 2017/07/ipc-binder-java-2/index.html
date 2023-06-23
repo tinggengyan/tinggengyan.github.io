@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <title>IPC_Binder_java_2 - Tinggeng</title><meta name="Description" content="Tinggeng"><meta property="og:title" content="IPC_Binder_java_2" />
+<meta property="og:description" content="概述 本文作为第一篇的补充,补充一下第一篇遗漏的内容,主要谈一下,缺少的概念,技术背景等内容.
+Why为什么需要Binder Binder 是 Android 系统进程间通信（IPC）方式之一。Android 是基于 Linux 内核的,Linux 已经有很多 IPC 方式,为何还需要一个新的 IPC 方式. Linux已经拥有
+管道 system V IPC Socket 等IPC手段。 却还要倚赖Binder来实现进程间通信。
+Binder具有无可比拟的优势。 或者可以说，Android系统对进程间有什么特殊的需求是传统其他 IPC 无法完成或者无法很好完成。 基于Client-Server的通信方式广泛应用于从互联网和数据库访问到嵌入式手持设备内部通信等各个领域。
+智能手机平台特别是Android系统中，为了向应用开发者提供丰富多样的功能，这种通信方式更是无处不在，诸如媒体播放，视音频频捕获，到各种让手机更智能的传感器（加速度，方位，温度，光亮度等）都由不同的Server负责管理，应用程序只需做为Client与这些Server建立连接便可以使用这些服务，花很少的时间和精力就能开发出令人眩目的功能。
+Client-Server 方式的广泛采用对进程间通信（IPC）机制是一个挑战。
+只有socket支持Client-Server的通信方式。当然也可以在这些底层机制上架设一套协议来实现Client-Server通信，但这样增加了系统的复杂性，在手机这种条件复杂，资源稀缺的环境下可靠性也难以保证.
+传输性能角度： socket作为一款通用接口，其传输效率低，开销大，主要用在跨网络的进程间通信和本机上进程间的低速通信。
+消息队列和管道采用存储-转发方式，即数据先从发送方缓存区拷贝到内核开辟的缓存区中，然后再从内核缓存区拷贝到接收方缓存区，至少有两次拷贝过程。
+共享内存虽然无需拷贝，但控制复杂，难以使用。
+安全性角度： Android作为一个开放式，拥有众多开发者的的平台，应用程序的来源广泛，确保智能终端的安全是非常重要的。终端用户不希望从网上下载的程序在不知情的情况下偷窥隐私数据，连接无线网络，长期操作底层设备导致电池很快耗尽等等。
+传统IPC没有任何安全措施，完全依赖上层协议来确保。 传统IPC的接收方无法获得对方进程可靠的UID/PID（用户ID/进程ID），从而无法鉴别对方身份。Android为每个安装好的应用程序分配了自己的UID，故进程的UID是鉴别进程身份的重要标志。使用传统IPC只能由用户在数据包里填入UID/PID，但这样不可靠，容易被恶意程序利用。可靠的身份标记只有由IPC机制本身在内核中添加才能确保安全性。 传统IPC访问接入点是开放的，无法建立私有通道。比如命名管道的名称，system V的键值，socket的ip地址或文件名都是开放的，只要知道这些接入点的程序都可以和对端建立连接，不管怎样都无法阻止恶意程序通过猜测接收方地址获得连接。 效率角度 从对比图可以看出,Binder 在效率上是有优势的.
+What Binder 是什么 因为 Binder 也是 CS 架构的一种,而 CS 架构最典型的就是 TCP/IP 请求了.下面做个对比,顺带类比以下 Binder 中的几个关键的概念. 背景 在开发中，经常需要通过 getSystemService 的方式获取一个系统服务,那么这些系统服务的 Binder 引用是如何传递给客户端的呢？要知道，系统服务并不是通过 startService() 启动的。
+ServiceManager 管理的服务 ServiceManager 是一个独立进程，其作用如名称所示，管理各种系统服务." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://tinggengyan.github.io/2017/07/ipc-binder-java-2/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2017-07-04T14:47:55+00:00" />
+<meta property="article:modified_time" content="2017-07-04T14:47:55+00:00" /><meta property="og:site_name" content="Tinggeng" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="IPC_Binder_java_2"/>
+<meta name="twitter:description" content="概述 本文作为第一篇的补充,补充一下第一篇遗漏的内容,主要谈一下,缺少的概念,技术背景等内容.
+Why为什么需要Binder Binder 是 Android 系统进程间通信（IPC）方式之一。Android 是基于 Linux 内核的,Linux 已经有很多 IPC 方式,为何还需要一个新的 IPC 方式. Linux已经拥有
+管道 system V IPC Socket 等IPC手段。 却还要倚赖Binder来实现进程间通信。
+Binder具有无可比拟的优势。 或者可以说，Android系统对进程间有什么特殊的需求是传统其他 IPC 无法完成或者无法很好完成。 基于Client-Server的通信方式广泛应用于从互联网和数据库访问到嵌入式手持设备内部通信等各个领域。
+智能手机平台特别是Android系统中，为了向应用开发者提供丰富多样的功能，这种通信方式更是无处不在，诸如媒体播放，视音频频捕获，到各种让手机更智能的传感器（加速度，方位，温度，光亮度等）都由不同的Server负责管理，应用程序只需做为Client与这些Server建立连接便可以使用这些服务，花很少的时间和精力就能开发出令人眩目的功能。
+Client-Server 方式的广泛采用对进程间通信（IPC）机制是一个挑战。
+只有socket支持Client-Server的通信方式。当然也可以在这些底层机制上架设一套协议来实现Client-Server通信，但这样增加了系统的复杂性，在手机这种条件复杂，资源稀缺的环境下可靠性也难以保证.
+传输性能角度： socket作为一款通用接口，其传输效率低，开销大，主要用在跨网络的进程间通信和本机上进程间的低速通信。
+消息队列和管道采用存储-转发方式，即数据先从发送方缓存区拷贝到内核开辟的缓存区中，然后再从内核缓存区拷贝到接收方缓存区，至少有两次拷贝过程。
+共享内存虽然无需拷贝，但控制复杂，难以使用。
+安全性角度： Android作为一个开放式，拥有众多开发者的的平台，应用程序的来源广泛，确保智能终端的安全是非常重要的。终端用户不希望从网上下载的程序在不知情的情况下偷窥隐私数据，连接无线网络，长期操作底层设备导致电池很快耗尽等等。
+传统IPC没有任何安全措施，完全依赖上层协议来确保。 传统IPC的接收方无法获得对方进程可靠的UID/PID（用户ID/进程ID），从而无法鉴别对方身份。Android为每个安装好的应用程序分配了自己的UID，故进程的UID是鉴别进程身份的重要标志。使用传统IPC只能由用户在数据包里填入UID/PID，但这样不可靠，容易被恶意程序利用。可靠的身份标记只有由IPC机制本身在内核中添加才能确保安全性。 传统IPC访问接入点是开放的，无法建立私有通道。比如命名管道的名称，system V的键值，socket的ip地址或文件名都是开放的，只要知道这些接入点的程序都可以和对端建立连接，不管怎样都无法阻止恶意程序通过猜测接收方地址获得连接。 效率角度 从对比图可以看出,Binder 在效率上是有优势的.
+What Binder 是什么 因为 Binder 也是 CS 架构的一种,而 CS 架构最典型的就是 TCP/IP 请求了.下面做个对比,顺带类比以下 Binder 中的几个关键的概念. 背景 在开发中，经常需要通过 getSystemService 的方式获取一个系统服务,那么这些系统服务的 Binder 引用是如何传递给客户端的呢？要知道，系统服务并不是通过 startService() 启动的。
+ServiceManager 管理的服务 ServiceManager 是一个独立进程，其作用如名称所示，管理各种系统服务."/>
+<meta name="application-name" content="Tinggeng">
+<meta name="apple-mobile-web-app-title" content="Tinggeng"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="https://tinggengyan.github.io/2017/07/ipc-binder-java-2/" /><link rel="prev" href="https://tinggengyan.github.io/2017/03/webviewlocalcookie/" /><link rel="next" href="https://tinggengyan.github.io/2017/08/webview-judge-302/" /><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/normalize.css@8.0.1/normalize.min.css"><link rel="stylesheet" href="/css/style.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css"><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "IPC_Binder_java_2",
+        "inLanguage": "en",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https:\/\/tinggengyan.github.io\/2017\/07\/ipc-binder-java-2\/"
+        },"image": ["https:\/\/tinggengyan.github.io\/images\/Apple-Devices-Preview.png"],"genre": "posts","keywords": "IPC, Binder","wordcount":  742 ,
+        "url": "https:\/\/tinggengyan.github.io\/2017\/07\/ipc-binder-java-2\/","datePublished": "2017-07-04T14:47:55+00:00","dateModified": "2017-07-04T14:47:55+00:00","publisher": {
+            "@type": "Organization",
+            "name": "xxxx","logo": "https:\/\/tinggengyan.github.io\/img\/avatar.png"},"author": {
+                "@type": "Person",
+                "name": "Tinggeng"
+            },"description": ""
+    }
+    </script></head>
+    <body data-header-desktop="fixed" data-header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="Tinggeng"><span class="header-title-pre"><i class='far fa-kiss-wink-heart fa-fw' aria-hidden='true'></i></span>Tinggeng</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/" title="posts"> Posts </a><a class="menu-item" href="/tags/"> Tags </a><a class="menu-item" href="/categories/"> Categories </a><a class="menu-item" href="/daily_notes/" title="flemo"> flemo </a><span class="menu-item delimiter"></span><span class="menu-item search" id="search-desktop">
+                        <input type="text" placeholder="Search titles or contents..." id="search-input-desktop">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="Search">
+                            <i class="fas fa-search fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="Clear">
+                            <i class="fas fa-times-circle fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-desktop">
+                            <i class="fas fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+                        </span>
+                    </span><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                    <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="Tinggeng"><span class="header-title-pre"><i class='far fa-kiss-wink-heart fa-fw' aria-hidden='true'></i></span>Tinggeng</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><div class="search-wrapper">
+                    <div class="search mobile" id="search-mobile">
+                        <input type="text" placeholder="Search titles or contents..." id="search-input-mobile">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="Search">
+                            <i class="fas fa-search fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="Clear">
+                            <i class="fas fa-times-circle fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-mobile">
+                            <i class="fas fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+                        </span>
+                    </div>
+                    <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+                        Cancel
+                    </a>
+                </div><a class="menu-item" href="/posts/" title="posts">Posts</a><a class="menu-item" href="/tags/" title="">Tags</a><a class="menu-item" href="/categories/" title="">Categories</a><a class="menu-item" href="/daily_notes/" title="flemo">flemo</a><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+            </a></div>
+    </div>
+</header><div class="search-dropdown desktop">
+        <div id="search-dropdown-desktop"></div>
+    </div>
+    <div class="search-dropdown mobile">
+        <div id="search-dropdown-mobile"></div>
+    </div><main class="main">
+                <div class="container"><div class="toc" id="toc-auto">
+            <h2 class="toc-title">Contents</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">IPC_Binder_java_2</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Tinggeng</a>
+</span>&nbsp;<span class="post-category">included in <a href="/categories/mobile/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Mobile</a>&nbsp;<a href="/categories/android/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Android</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2017-07-04">2017-07-04</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;742 words&nbsp;
+                <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;4 minutes&nbsp;<span id="/2017/07/ipc-binder-java-2/" class="leancloud_visitors" data-flag-title="IPC_Binder_java_2">
+                        <i class="far fa-eye fa-fw" aria-hidden="true"></i>&nbsp;<span class=leancloud-visitors-count></span>&nbsp;views
+                    </span>&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  data-kept="">
+                <div class="details-summary toc-title">
+                    <span>Contents</span>
+                    <span><i class="details-icon fas fa-angle-right" aria-hidden="true"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#传输性能角度">传输性能角度：</a></li>
+    <li><a href="#安全性角度">安全性角度：</a></li>
+    <li><a href="#效率角度">效率角度</a></li>
+  </ul>
+
+  <ul>
+    <li><a href="#理解-manager">理解 Manager</a></li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><h1 id="概述">概述</h1>
+<p>本文作为第一篇的补充,补充一下第一篇遗漏的内容,主要谈一下,缺少的概念,技术背景等内容.</p>
+<!-- more -->
+<h1 id="why为什么需要binder">Why为什么需要Binder</h1>
+<p>Binder 是 Android 系统进程间通信（IPC）方式之一。Android 是基于 Linux 内核的,Linux 已经有很多 IPC 方式,为何还需要一个新的 IPC 方式.
+Linux已经拥有</p>
+<ul>
+<li>管道</li>
+<li>system V IPC</li>
+<li>Socket 等IPC手段。</li>
+</ul>
+<p>却还要倚赖Binder来实现进程间通信。</p>
+<ul>
+<li>Binder具有无可比拟的优势。</li>
+<li>或者可以说，Android系统对进程间有什么特殊的需求是传统其他 IPC 无法完成或者无法很好完成。</li>
+</ul>
+<p>基于Client-Server的通信方式广泛应用于从互联网和数据库访问到嵌入式手持设备内部通信等各个领域。</p>
+<p>智能手机平台特别是Android系统中，为了向应用开发者提供丰富多样的功能，这种通信方式更是无处不在，诸如媒体播放，视音频频捕获，到各种让手机更智能的传感器（加速度，方位，温度，光亮度等）都由不同的Server负责管理，应用程序只需做为Client与这些Server建立连接便可以使用这些服务，花很少的时间和精力就能开发出令人眩目的功能。</p>
+<p>Client-Server 方式的广泛采用对进程间通信（IPC）机制是一个挑战。</p>
+<p>只有socket支持Client-Server的通信方式。当然也可以在这些底层机制上架设一套协议来实现Client-Server通信，但这样增加了系统的复杂性，在手机这种条件复杂，资源稀缺的环境下可靠性也难以保证.</p>
+<h2 id="传输性能角度">传输性能角度：</h2>
+<ul>
+<li>
+<p>socket作为一款通用接口，其传输效率低，开销大，主要用在跨网络的进程间通信和本机上进程间的低速通信。</p>
+</li>
+<li>
+<p>消息队列和管道采用存储-转发方式，即数据先从发送方缓存区拷贝到内核开辟的缓存区中，然后再从内核缓存区拷贝到接收方缓存区，至少有两次拷贝过程。</p>
+</li>
+<li>
+<p>共享内存虽然无需拷贝，但控制复杂，难以使用。</p>
+</li>
+</ul>
+<h2 id="安全性角度">安全性角度：</h2>
+<p>Android作为一个开放式，拥有众多开发者的的平台，应用程序的来源广泛，确保智能终端的安全是非常重要的。终端用户不希望从网上下载的程序在不知情的情况下偷窥隐私数据，连接无线网络，长期操作底层设备导致电池很快耗尽等等。</p>
+<ol>
+<li>传统IPC没有任何安全措施，完全依赖上层协议来确保。</li>
+<li>传统IPC的接收方无法获得对方进程可靠的UID/PID（用户ID/进程ID），从而无法鉴别对方身份。Android为每个安装好的应用程序分配了自己的UID，故进程的UID是鉴别进程身份的重要标志。使用传统IPC只能由用户在数据包里填入UID/PID，但这样不可靠，容易被恶意程序利用。可靠的身份标记只有由IPC机制本身在内核中添加才能确保安全性。</li>
+<li>传统IPC访问接入点是开放的，无法建立私有通道。比如命名管道的名称，system V的键值，socket的ip地址或文件名都是开放的，只要知道这些接入点的程序都可以和对端建立连接，不管怎样都无法阻止恶意程序通过猜测接收方地址获得连接。</li>
+</ol>
+<h2 id="效率角度">效率角度</h2>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="https://github.com/tinggengyan/tinggengyan.github.io/blob/source/imgur/IPC%E6%96%B9%E5%BC%8F%E6%95%B0%E6%8D%AE%E6%8B%B7%E8%B4%9D%E6%AC%A1%E6%95%B0.png?raw=true"
+        data-srcset="https://github.com/tinggengyan/tinggengyan.github.io/blob/source/imgur/IPC%E6%96%B9%E5%BC%8F%E6%95%B0%E6%8D%AE%E6%8B%B7%E8%B4%9D%E6%AC%A1%E6%95%B0.png?raw=true, https://github.com/tinggengyan/tinggengyan.github.io/blob/source/imgur/IPC%E6%96%B9%E5%BC%8F%E6%95%B0%E6%8D%AE%E6%8B%B7%E8%B4%9D%E6%AC%A1%E6%95%B0.png?raw=true 1.5x, https://github.com/tinggengyan/tinggengyan.github.io/blob/source/imgur/IPC%E6%96%B9%E5%BC%8F%E6%95%B0%E6%8D%AE%E6%8B%B7%E8%B4%9D%E6%AC%A1%E6%95%B0.png?raw=true 2x"
+        data-sizes="auto"
+        alt="https://github.com/tinggengyan/tinggengyan.github.io/blob/source/imgur/IPC%E6%96%B9%E5%BC%8F%E6%95%B0%E6%8D%AE%E6%8B%B7%E8%B4%9D%E6%AC%A1%E6%95%B0.png?raw=true"
+        title="IPC 内存拷贝次数对比" />
+从对比图可以看出,Binder 在效率上是有优势的.</p>
+<h1 id="what-binder-是什么">What Binder 是什么</h1>
+<p>因为 Binder 也是 CS 架构的一种,而 CS 架构最典型的就是 TCP/IP 请求了.下面做个对比,顺带类比以下 Binder 中的几个关键的概念.
+<img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="https://github.com/tinggengyan/tinggengyan.github.io/blob/source/imgur/TCP%252FIP%E8%AE%BF%E9%97%AE%E8%BF%87%E7%A8%8B.png?raw=true"
+        data-srcset="https://github.com/tinggengyan/tinggengyan.github.io/blob/source/imgur/TCP%252FIP%E8%AE%BF%E9%97%AE%E8%BF%87%E7%A8%8B.png?raw=true, https://github.com/tinggengyan/tinggengyan.github.io/blob/source/imgur/TCP%252FIP%E8%AE%BF%E9%97%AE%E8%BF%87%E7%A8%8B.png?raw=true 1.5x, https://github.com/tinggengyan/tinggengyan.github.io/blob/source/imgur/TCP%252FIP%E8%AE%BF%E9%97%AE%E8%BF%87%E7%A8%8B.png?raw=true 2x"
+        data-sizes="auto"
+        alt="https://github.com/tinggengyan/tinggengyan.github.io/blob/source/imgur/TCP%252FIP%E8%AE%BF%E9%97%AE%E8%BF%87%E7%A8%8B.png?raw=true"
+        title="TCP/IP访问过程" /></p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="https://github.com/tinggengyan/tinggengyan.github.io/blob/source/imgur/Binder%E7%B1%BB%E6%AF%94TCP%E8%BF%87%E7%A8%8B.png?raw=true"
+        data-srcset="https://github.com/tinggengyan/tinggengyan.github.io/blob/source/imgur/Binder%E7%B1%BB%E6%AF%94TCP%E8%BF%87%E7%A8%8B.png?raw=true, https://github.com/tinggengyan/tinggengyan.github.io/blob/source/imgur/Binder%E7%B1%BB%E6%AF%94TCP%E8%BF%87%E7%A8%8B.png?raw=true 1.5x, https://github.com/tinggengyan/tinggengyan.github.io/blob/source/imgur/Binder%E7%B1%BB%E6%AF%94TCP%E8%BF%87%E7%A8%8B.png?raw=true 2x"
+        data-sizes="auto"
+        alt="https://github.com/tinggengyan/tinggengyan.github.io/blob/source/imgur/Binder%E7%B1%BB%E6%AF%94TCP%E8%BF%87%E7%A8%8B.png?raw=true"
+        title="Binder类比TCP请求" /></p>
+<h1 id="背景">背景</h1>
+<p>在开发中，经常需要通过 getSystemService 的方式获取一个系统服务,那么这些系统服务的 Binder 引用是如何传递给客户端的呢？要知道，系统服务并不是通过 startService() 启动的。</p>
+<h1 id="servicemanager-管理的服务">ServiceManager 管理的服务</h1>
+<p>ServiceManager 是一个独立进程，其作用如名称所示，管理各种系统服务.</p>
+<p>ServiceManager 本身也是一个 Service ，Framework 提供了一个系统函数，可以获取该 Service 对应的 Binder 引用，那就是 BinderInternal.getContextObject().该静态函数返回 ServiceManager 后，就可以通过 ServiceManager 提供的方法获取其他系统 Service 的 Binder 引用。这种涉及模式在日常中是可见的，
+ServiceManager 就像一个公司的总机，这个号码是公开的，系统中任何进程都可以使用 BinderInternal.getContextObject() 获取该总机的 Binder 对象，而当用户想联系公司中的其他任何人(服务),则要警告总机再获得分机号。这种设计的好处是系统中仅暴露了一个全局 Binder 引用 (ServiceManager),而其他系统服务则可以隐藏起来，从而有助于系统服务的扩展，以及调用系统服务的安全检查。其他系统服务在启动时，首先把自己的 Binder 对象传递给 ServiceManager,即所谓的注册(addService).</p>
+<p>举个具体的例子:</p>
+<ul>
+<li>ContextImpl.java</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span><span class="lnt">51
+</span><span class="lnt">52
+</span><span class="lnt">53
+</span><span class="lnt">54
+</span><span class="lnt">55
+</span><span class="lnt">56
+</span><span class="lnt">57
+</span><span class="lnt">58
+</span><span class="lnt">59
+</span><span class="lnt">60
+</span><span class="lnt">61
+</span><span class="lnt">62
+</span><span class="lnt">63
+</span><span class="lnt">64
+</span><span class="lnt">65
+</span><span class="lnt">66
+</span><span class="lnt">67
+</span><span class="lnt">68
+</span><span class="lnt">69
+</span><span class="lnt">70
+</span><span class="lnt">71
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"> <span class="nd">@Override</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="n">Object</span> <span class="nf">getSystemService</span><span class="o">(</span><span class="n">String</span> <span class="n">name</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="o">(</span><span class="n">WINDOW_SERVICE</span><span class="o">.</span><span class="na">equals</span><span class="o">(</span><span class="n">name</span><span class="o">))</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="k">return</span> <span class="n">WindowManagerImpl</span><span class="o">.</span><span class="na">getDefault</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">        <span class="o">}</span> <span class="k">else</span> <span class="k">if</span> <span class="o">(</span><span class="n">LAYOUT_INFLATER_SERVICE</span><span class="o">.</span><span class="na">equals</span><span class="o">(</span><span class="n">name</span><span class="o">))</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="kd">synchronized</span> <span class="o">(</span><span class="n">mSync</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">                <span class="n">LayoutInflater</span> <span class="n">inflater</span> <span class="o">=</span> <span class="n">mLayoutInflater</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">                <span class="k">if</span> <span class="o">(</span><span class="n">inflater</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">                    <span class="k">return</span> <span class="n">inflater</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">                <span class="o">}</span>
+</span></span><span class="line"><span class="cl">                <span class="n">mLayoutInflater</span> <span class="o">=</span> <span class="n">inflater</span> <span class="o">=</span>
+</span></span><span class="line"><span class="cl">                    <span class="n">PolicyManager</span><span class="o">.</span><span class="na">makeNewLayoutInflater</span><span class="o">(</span><span class="n">getOuterContext</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl">                <span class="k">return</span> <span class="n">inflater</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">            <span class="o">}</span>
+</span></span><span class="line"><span class="cl">        <span class="o">}</span> <span class="k">else</span> <span class="k">if</span> <span class="o">(</span><span class="n">ACTIVITY_SERVICE</span><span class="o">.</span><span class="na">equals</span><span class="o">(</span><span class="n">name</span><span class="o">))</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="k">return</span> <span class="n">getActivityManager</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">        <span class="o">}</span> <span class="k">else</span> <span class="k">if</span> <span class="o">(</span><span class="n">INPUT_METHOD_SERVICE</span><span class="o">.</span><span class="na">equals</span><span class="o">(</span><span class="n">name</span><span class="o">))</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="k">return</span> <span class="n">InputMethodManager</span><span class="o">.</span><span class="na">getInstance</span><span class="o">(</span><span class="k">this</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">        <span class="o">}</span> <span class="k">else</span> <span class="k">if</span> <span class="o">(</span><span class="n">ALARM_SERVICE</span><span class="o">.</span><span class="na">equals</span><span class="o">(</span><span class="n">name</span><span class="o">))</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="k">return</span> <span class="n">getAlarmManager</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">        <span class="o">}</span> <span class="k">else</span> <span class="k">if</span> <span class="o">(</span><span class="n">ACCOUNT_SERVICE</span><span class="o">.</span><span class="na">equals</span><span class="o">(</span><span class="n">name</span><span class="o">))</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="k">return</span> <span class="n">getAccountManager</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">        <span class="o">}</span> <span class="k">else</span> <span class="k">if</span> <span class="o">(</span><span class="n">POWER_SERVICE</span><span class="o">.</span><span class="na">equals</span><span class="o">(</span><span class="n">name</span><span class="o">))</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="k">return</span> <span class="n">getPowerManager</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">        <span class="o">}</span> <span class="k">else</span> <span class="k">if</span> <span class="o">(</span><span class="n">CONNECTIVITY_SERVICE</span><span class="o">.</span><span class="na">equals</span><span class="o">(</span><span class="n">name</span><span class="o">))</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="k">return</span> <span class="n">getConnectivityManager</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">        <span class="o">}</span> <span class="k">else</span> <span class="k">if</span> <span class="o">(</span><span class="n">THROTTLE_SERVICE</span><span class="o">.</span><span class="na">equals</span><span class="o">(</span><span class="n">name</span><span class="o">))</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="k">return</span> <span class="n">getThrottleManager</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">        <span class="o">}</span> <span class="k">else</span> <span class="k">if</span> <span class="o">(</span><span class="n">WIFI_SERVICE</span><span class="o">.</span><span class="na">equals</span><span class="o">(</span><span class="n">name</span><span class="o">))</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="k">return</span> <span class="n">getWifiManager</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">        <span class="o">}</span> <span class="k">else</span> <span class="k">if</span> <span class="o">(</span><span class="n">NOTIFICATION_SERVICE</span><span class="o">.</span><span class="na">equals</span><span class="o">(</span><span class="n">name</span><span class="o">))</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="k">return</span> <span class="n">getNotificationManager</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">        <span class="o">}</span> <span class="k">else</span> <span class="k">if</span> <span class="o">(</span><span class="n">KEYGUARD_SERVICE</span><span class="o">.</span><span class="na">equals</span><span class="o">(</span><span class="n">name</span><span class="o">))</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="k">return</span> <span class="k">new</span> <span class="n">KeyguardManager</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">        <span class="o">}</span> <span class="k">else</span> <span class="k">if</span> <span class="o">(</span><span class="n">ACCESSIBILITY_SERVICE</span><span class="o">.</span><span class="na">equals</span><span class="o">(</span><span class="n">name</span><span class="o">))</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="k">return</span> <span class="n">AccessibilityManager</span><span class="o">.</span><span class="na">getInstance</span><span class="o">(</span><span class="k">this</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">        <span class="o">}</span> <span class="k">else</span> <span class="k">if</span> <span class="o">(</span><span class="n">LOCATION_SERVICE</span><span class="o">.</span><span class="na">equals</span><span class="o">(</span><span class="n">name</span><span class="o">))</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="k">return</span> <span class="n">getLocationManager</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">        <span class="o">}</span> <span class="k">else</span> <span class="k">if</span> <span class="o">(</span><span class="n">SEARCH_SERVICE</span><span class="o">.</span><span class="na">equals</span><span class="o">(</span><span class="n">name</span><span class="o">))</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="k">return</span> <span class="n">getSearchManager</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">        <span class="o">}</span> <span class="k">else</span> <span class="k">if</span> <span class="o">(</span><span class="n">SENSOR_SERVICE</span><span class="o">.</span><span class="na">equals</span><span class="o">(</span><span class="n">name</span><span class="o">))</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="k">return</span> <span class="n">getSensorManager</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">        <span class="o">}</span> <span class="k">else</span> <span class="k">if</span> <span class="o">(</span><span class="n">STORAGE_SERVICE</span><span class="o">.</span><span class="na">equals</span><span class="o">(</span><span class="n">name</span><span class="o">))</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="k">return</span> <span class="n">getStorageManager</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">        <span class="o">}</span> <span class="k">else</span> <span class="k">if</span> <span class="o">(</span><span class="n">VIBRATOR_SERVICE</span><span class="o">.</span><span class="na">equals</span><span class="o">(</span><span class="n">name</span><span class="o">))</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="k">return</span> <span class="n">getVibrator</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">        <span class="o">}</span> <span class="k">else</span> <span class="k">if</span> <span class="o">(</span><span class="n">STATUS_BAR_SERVICE</span><span class="o">.</span><span class="na">equals</span><span class="o">(</span><span class="n">name</span><span class="o">))</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="kd">synchronized</span> <span class="o">(</span><span class="n">mSync</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">                <span class="k">if</span> <span class="o">(</span><span class="n">mStatusBarManager</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">                    <span class="n">mStatusBarManager</span> <span class="o">=</span> <span class="k">new</span> <span class="n">StatusBarManager</span><span class="o">(</span><span class="n">getOuterContext</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl">                <span class="o">}</span>
+</span></span><span class="line"><span class="cl">                <span class="k">return</span> <span class="n">mStatusBarManager</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">            <span class="o">}</span>
+</span></span><span class="line"><span class="cl">        <span class="o">}</span> <span class="k">else</span> <span class="k">if</span> <span class="o">(</span><span class="n">AUDIO_SERVICE</span><span class="o">.</span><span class="na">equals</span><span class="o">(</span><span class="n">name</span><span class="o">))</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="k">return</span> <span class="n">getAudioManager</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">        <span class="o">}</span> <span class="k">else</span> <span class="k">if</span> <span class="o">(</span><span class="n">TELEPHONY_SERVICE</span><span class="o">.</span><span class="na">equals</span><span class="o">(</span><span class="n">name</span><span class="o">))</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="k">return</span> <span class="n">getTelephonyManager</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">        <span class="o">}</span> <span class="k">else</span> <span class="k">if</span> <span class="o">(</span><span class="n">CLIPBOARD_SERVICE</span><span class="o">.</span><span class="na">equals</span><span class="o">(</span><span class="n">name</span><span class="o">))</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="k">return</span> <span class="n">getClipboardManager</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">        <span class="o">}</span> <span class="k">else</span> <span class="k">if</span> <span class="o">(</span><span class="n">WALLPAPER_SERVICE</span><span class="o">.</span><span class="na">equals</span><span class="o">(</span><span class="n">name</span><span class="o">))</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="k">return</span> <span class="n">getWallpaperManager</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">        <span class="o">}</span> <span class="k">else</span> <span class="k">if</span> <span class="o">(</span><span class="n">DROPBOX_SERVICE</span><span class="o">.</span><span class="na">equals</span><span class="o">(</span><span class="n">name</span><span class="o">))</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="k">return</span> <span class="n">getDropBoxManager</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">        <span class="o">}</span> <span class="k">else</span> <span class="k">if</span> <span class="o">(</span><span class="n">DEVICE_POLICY_SERVICE</span><span class="o">.</span><span class="na">equals</span><span class="o">(</span><span class="n">name</span><span class="o">))</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="k">return</span> <span class="n">getDevicePolicyManager</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">        <span class="o">}</span> <span class="k">else</span> <span class="k">if</span> <span class="o">(</span><span class="n">UI_MODE_SERVICE</span><span class="o">.</span><span class="na">equals</span><span class="o">(</span><span class="n">name</span><span class="o">))</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="k">return</span> <span class="n">getUiModeManager</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">        <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="kc">null</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>InputMethodManager.java</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl">   <span class="cm">/**
+</span></span></span><span class="line"><span class="cl"><span class="cm">     * Retrieve the global InputMethodManager instance, creating it if it
+</span></span></span><span class="line"><span class="cl"><span class="cm">     * doesn&#39;t already exist.
+</span></span></span><span class="line"><span class="cl"><span class="cm">     * @hide
+</span></span></span><span class="line"><span class="cl"><span class="cm">     */</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">static</span> <span class="kd">public</span> <span class="n">InputMethodManager</span> <span class="nf">getInstance</span><span class="o">(</span><span class="n">Context</span> <span class="n">context</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">getInstance</span><span class="o">(</span><span class="n">context</span><span class="o">.</span><span class="na">getMainLooper</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="cm">/**
+</span></span></span><span class="line"><span class="cl"><span class="cm">     * Internally, the input method manager can&#39;t be context-dependent, so
+</span></span></span><span class="line"><span class="cl"><span class="cm">     * we have this here for the places that need it.
+</span></span></span><span class="line"><span class="cl"><span class="cm">     * @hide
+</span></span></span><span class="line"><span class="cl"><span class="cm">     */</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">static</span> <span class="kd">public</span> <span class="n">InputMethodManager</span> <span class="nf">getInstance</span><span class="o">(</span><span class="n">Looper</span> <span class="n">mainLooper</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="kd">synchronized</span> <span class="o">(</span><span class="n">mInstanceSync</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="k">if</span> <span class="o">(</span><span class="n">mInstance</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">                <span class="k">return</span> <span class="n">mInstance</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">            <span class="o">}</span>
+</span></span><span class="line"><span class="cl">            <span class="n">IBinder</span> <span class="n">b</span> <span class="o">=</span> <span class="n">ServiceManager</span><span class="o">.</span><span class="na">getService</span><span class="o">(</span><span class="n">Context</span><span class="o">.</span><span class="na">INPUT_METHOD_SERVICE</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">            <span class="n">IInputMethodManager</span> <span class="n">service</span> <span class="o">=</span> <span class="n">IInputMethodManager</span><span class="o">.</span><span class="na">Stub</span><span class="o">.</span><span class="na">asInterface</span><span class="o">(</span><span class="n">b</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">            <span class="n">mInstance</span> <span class="o">=</span> <span class="k">new</span> <span class="n">InputMethodManager</span><span class="o">(</span><span class="n">service</span><span class="o">,</span> <span class="n">mainLooper</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">        <span class="o">}</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">mInstance</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>ServiceManager.java</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl">    <span class="cm">/**
+</span></span></span><span class="line"><span class="cl"><span class="cm">     * Returns a reference to a service with the given name.
+</span></span></span><span class="line"><span class="cl"><span class="cm">     * 
+</span></span></span><span class="line"><span class="cl"><span class="cm">     * @param name the name of the service to get
+</span></span></span><span class="line"><span class="cl"><span class="cm">     * @return a reference to the service, or &lt;code&gt;null&lt;/code&gt; if the service doesn&#39;t exist
+</span></span></span><span class="line"><span class="cl"><span class="cm">     */</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kd">static</span> <span class="n">IBinder</span> <span class="nf">getService</span><span class="o">(</span><span class="n">String</span> <span class="n">name</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">try</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="n">IBinder</span> <span class="n">service</span> <span class="o">=</span> <span class="n">sCache</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">name</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">            <span class="k">if</span> <span class="o">(</span><span class="n">service</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">                <span class="k">return</span> <span class="n">service</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">            <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">                <span class="k">return</span> <span class="n">getIServiceManager</span><span class="o">().</span><span class="na">getService</span><span class="o">(</span><span class="n">name</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">            <span class="o">}</span>
+</span></span><span class="line"><span class="cl">        <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">RemoteException</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="n">Log</span><span class="o">.</span><span class="na">e</span><span class="o">(</span><span class="n">TAG</span><span class="o">,</span> <span class="s">&#34;error in getService&#34;</span><span class="o">,</span> <span class="n">e</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">        <span class="o">}</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="kc">null</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>通过 ServiceManager 获取 InputMethod Service 对应的 Binder 对象 b,然后再将该 Binder 对象作为 IInputMethodManager.Stub.asInterface 的参数，返回一个 IInputMethodManager 的统一接口。</p>
+<p>ServiceManager 的 getService 方法，首先从 sCache 缓存中查看是否有对应的 Binder 对象，有则返回，没有则调用 getIServiceManager().getService().</p>
+<p>getIServiceManager()用于返回系统中唯一的 ServiceManager 对应的 Binder。</p>
+<p>对应的代码:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">private</span> <span class="kd">static</span> <span class="n">IServiceManager</span> <span class="nf">getIServiceManager</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="o">(</span><span class="n">sServiceManager</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="k">return</span> <span class="n">sServiceManager</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">        <span class="o">}</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">// Find the service manager
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="n">sServiceManager</span> <span class="o">=</span> <span class="n">ServiceManagerNative</span><span class="o">.</span><span class="na">asInterface</span><span class="o">(</span><span class="n">BinderInternal</span><span class="o">.</span><span class="na">getContextObject</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">sServiceManager</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>BinderInternal.getContextObject() 方法就是用于获取 ServiceManager 对应的全局 Binder  对象。</p>
+<p>至于关于 注册 服务，等到分析 Framework 启动过程的时候描述。</p>
+<h2 id="理解-manager">理解 Manager</h2>
+<p>ServiceManager 所管理的所有 Service 都是以相应的 Manager 返回给客户端，所以简述下 Framework 层对于 Manager 的定义。在Android 中，Manager 的含义类似于现实生活中的经纪人，Manager 所 manage 的对象是服务本身，因为每个具体的服务一般都会提供多个 API 接口，而 manager 所 manage 的正式这些 API。客户端一般不能直接通过  Binder  引用去访问具体的服务，而是要警告一个 Manager，相应的 Manager 类对客户端是可见的，而远程的服务端对客户端来说则是隐藏的。</p>
+<p>而这些 Manager 的类内部都会有一个远程服务 Binder 的变量，而且在一般情况下，这些 Manager 的构造函数参数中都会包含这个 Binder  对象。简单讲，即先通过 ServiceManager 获取远程服务的 Binder 引用，然后使用这个 Binder 引用构造一个客户端本地可以访问的经纪人，然后客户端就可以通过该经纪人访问远程的服务了。</p>
+<p>这种设计的作用是屏蔽了直接访问远程服务，从而给应用程序提供灵活的，可控的 API 接口，比如 AMS ，吸引不希望用户直接访问 AMS，而是经过 ActivityManager 类去访问，而 ActivityManager 内部提供了一些更具可操作性的数据结构化，不如 RecentTaskInfo 数据类封装了最近访问过的 Task 列表；MemoryInfo  数据类封装了和内存相关的信息。</p>
+<h1 id="感激非常感激万分的感激">感激,非常感激，万分的感激！</h1>
+<ul>
+<li><a href="https://book.douban.com/subject/6811238/" target="_blank" rel="noopener noreffer">柯元旦</a>
+</li>
+</ul>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>Updated on 2017-07-04</span>
+            </div></div>
+        <div class="post-info-line">
+            <div class="post-info-md"><span>
+                            <a class="link-to-markdown" href="/2017/07/ipc-binder-java-2/index.md" target="_blank">Read Markdown</a>
+                        </span></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="Share on Twitter" data-sharer="twitter" data-url="https://tinggengyan.github.io/2017/07/ipc-binder-java-2/" data-title="IPC_Binder_java_2" data-hashtags="IPC,Binder"><i class="fab fa-twitter fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Facebook" data-sharer="facebook" data-url="https://tinggengyan.github.io/2017/07/ipc-binder-java-2/" data-hashtag="IPC"><i class="fab fa-facebook-square fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Hacker News" data-sharer="hackernews" data-url="https://tinggengyan.github.io/2017/07/ipc-binder-java-2/" data-title="IPC_Binder_java_2"><i class="fab fa-hacker-news fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Line" data-sharer="line" data-url="https://tinggengyan.github.io/2017/07/ipc-binder-java-2/" data-title="IPC_Binder_java_2"><i data-svg-src="https://cdn.jsdelivr.net/npm/simple-icons@6.20.0/icons/line.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on 微博" data-sharer="weibo" data-url="https://tinggengyan.github.io/2017/07/ipc-binder-java-2/" data-title="IPC_Binder_java_2"><i class="fab fa-weibo fa-fw" aria-hidden="true"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw" aria-hidden="true"></i>&nbsp;<a href="/tags/ipc/">IPC</a>,&nbsp;<a href="/tags/binder/">Binder</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">Back</a></span>&nbsp;|&nbsp;<span><a href="/">Home</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/2017/03/webviewlocalcookie/" class="prev" rel="prev" title="记录WebView的file协议的cookie跨域问题"><i class="fas fa-angle-left fa-fw" aria-hidden="true"></i>记录WebView的file协议的cookie跨域问题</a>
+            <a href="/2017/08/webview-judge-302/" class="next" rel="next" title="webview中关于服务端重定向的判断">webview中关于服务端重定向的判断<i class="fas fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+<div id="comments"><div id="valine" class="comment"></div><noscript>
+                Please enable JavaScript to view the comments powered by <a href="https://valine.js.org/">Valine</a>.
+            </noscript></div></article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.114.1">Hugo</a> | Theme - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw" aria-hidden="true"></i> LoveIt</a>
+                </div><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright fa-fw" aria-hidden="true"></i><span itemprop="copyrightYear">2019 - 2023</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank">Tinggeng</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+        </div>
+    </footer></div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="Back to Top">
+                <i class="fas fa-arrow-up fa-fw" aria-hidden="true"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="View Comments">
+                <i class="fas fa-comment fa-fw" aria-hidden="true"></i>
+            </a>
+        </div><link rel="stylesheet" href="/lib/valine/valine.min.css"><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/valine@1.4.18/dist/Valine.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/autocomplete.js@0.38.1/dist/autocomplete.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/algoliasearch@4.13.0/dist/algoliasearch-lite.umd.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lazysizes@5.3.1/lazysizes.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/clipboard@2.0.11/dist/clipboard.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/sharer.js@0.5.1/sharer.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"Copy to clipboard","maxShownLines":50},"comment":{"valine":{"appId":"QGzwQXOqs5JOhN4RGPOkR2mR-MdYXbMMI","appKey":"WBmoGyJtbqUswvfLh6L8iEBr","avatar":"mp","el":"#valine","emojiCDN":"https://cdn.jsdelivr.net/npm/emoji-datasource-google@14.0.0/img/google/64/","emojiMaps":{"100":"1f4af.png","alien":"1f47d.png","anger":"1f4a2.png","angry":"1f620.png","anguished":"1f627.png","astonished":"1f632.png","black_heart":"1f5a4.png","blue_heart":"1f499.png","blush":"1f60a.png","bomb":"1f4a3.png","boom":"1f4a5.png","broken_heart":"1f494.png","brown_heart":"1f90e.png","clown_face":"1f921.png","cold_face":"1f976.png","cold_sweat":"1f630.png","confounded":"1f616.png","confused":"1f615.png","cry":"1f622.png","crying_cat_face":"1f63f.png","cupid":"1f498.png","dash":"1f4a8.png","disappointed":"1f61e.png","disappointed_relieved":"1f625.png","dizzy":"1f4ab.png","dizzy_face":"1f635.png","drooling_face":"1f924.png","exploding_head":"1f92f.png","expressionless":"1f611.png","face_vomiting":"1f92e.png","face_with_cowboy_hat":"1f920.png","face_with_hand_over_mouth":"1f92d.png","face_with_head_bandage":"1f915.png","face_with_monocle":"1f9d0.png","face_with_raised_eyebrow":"1f928.png","face_with_rolling_eyes":"1f644.png","face_with_symbols_on_mouth":"1f92c.png","face_with_thermometer":"1f912.png","fearful":"1f628.png","flushed":"1f633.png","frowning":"1f626.png","ghost":"1f47b.png","gift_heart":"1f49d.png","green_heart":"1f49a.png","grimacing":"1f62c.png","grin":"1f601.png","grinning":"1f600.png","hankey":"1f4a9.png","hear_no_evil":"1f649.png","heart":"2764-fe0f.png","heart_decoration":"1f49f.png","heart_eyes":"1f60d.png","heart_eyes_cat":"1f63b.png","heartbeat":"1f493.png","heartpulse":"1f497.png","heavy_heart_exclamation_mark_ornament":"2763-fe0f.png","hole":"1f573-fe0f.png","hot_face":"1f975.png","hugging_face":"1f917.png","hushed":"1f62f.png","imp":"1f47f.png","innocent":"1f607.png","japanese_goblin":"1f47a.png","japanese_ogre":"1f479.png","joy":"1f602.png","joy_cat":"1f639.png","kiss":"1f48b.png","kissing":"1f617.png","kissing_cat":"1f63d.png","kissing_closed_eyes":"1f61a.png","kissing_heart":"1f618.png","kissing_smiling_eyes":"1f619.png","laughing":"1f606.png","left_speech_bubble":"1f5e8-fe0f.png","love_letter":"1f48c.png","lying_face":"1f925.png","mask":"1f637.png","money_mouth_face":"1f911.png","nauseated_face":"1f922.png","nerd_face":"1f913.png","neutral_face":"1f610.png","no_mouth":"1f636.png","open_mouth":"1f62e.png","orange_heart":"1f9e1.png","partying_face":"1f973.png","pensive":"1f614.png","persevere":"1f623.png","pleading_face":"1f97a.png","pouting_cat":"1f63e.png","purple_heart":"1f49c.png","rage":"1f621.png","relaxed":"263a-fe0f.png","relieved":"1f60c.png","revolving_hearts":"1f49e.png","right_anger_bubble":"1f5ef-fe0f.png","robot_face":"1f916.png","rolling_on_the_floor_laughing":"1f923.png","scream":"1f631.png","scream_cat":"1f640.png","see_no_evil":"1f648.png","shushing_face":"1f92b.png","skull":"1f480.png","skull_and_crossbones":"2620-fe0f.png","sleeping":"1f634.png","sleepy":"1f62a.png","slightly_frowning_face":"1f641.png","slightly_smiling_face":"1f642.png","smile":"1f604.png","smile_cat":"1f638.png","smiley":"1f603.png","smiley_cat":"1f63a.png","smiling_face_with_3_hearts":"1f970.png","smiling_imp":"1f608.png","smirk":"1f60f.png","smirk_cat":"1f63c.png","sneezing_face":"1f927.png","sob":"1f62d.png","space_invader":"1f47e.png","sparkling_heart":"1f496.png","speak_no_evil":"1f64a.png","speech_balloon":"1f4ac.png","star-struck":"1f929.png","stuck_out_tongue":"1f61b.png","stuck_out_tongue_closed_eyes":"1f61d.png","stuck_out_tongue_winking_eye":"1f61c.png","sunglasses":"1f60e.png","sweat":"1f613.png","sweat_drops":"1f4a6.png","sweat_smile":"1f605.png","thinking_face":"1f914.png","thought_balloon":"1f4ad.png","tired_face":"1f62b.png","triumph":"1f624.png","two_hearts":"1f495.png","unamused":"1f612.png","upside_down_face":"1f643.png","weary":"1f629.png","white_frowning_face":"2639-fe0f.png","white_heart":"1f90d.png","wink":"1f609.png","woozy_face":"1f974.png","worried":"1f61f.png","yawning_face":"1f971.png","yellow_heart":"1f49b.png","yum":"1f60b.png","zany_face":"1f92a.png","zipper_mouth_face":"1f910.png","zzz":"1f4a4.png"},"enableQQ":false,"highlight":true,"lang":"en","pageSize":10,"placeholder":"Your comment ...","recordIP":true,"serverURLs":"https://leancloud.hugoloveit.com","visitor":true}},"search":{"algoliaAppID":"","algoliaIndex":"","algoliaSearchKey":"","highlightTag":"em","maxResultLength":10,"noResultsFound":"No results found","snippetLength":30,"type":"algolia"}};</script><script type="text/javascript" src="/js/theme.min.js"></script></body>
+</html>

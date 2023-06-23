@@ -1,0 +1,88 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+    <channel>
+        <title>Tags - Tag - Tinggeng</title>
+        <link>https://tinggengyan.github.io/tags/</link>
+        <description>Tags - Tag - Tinggeng</description>
+        <generator>Hugo -- gohugo.io</generator><language>en</language><managingEditor>tinggengyan@gmail.com (Tinggeng)</managingEditor>
+            <webMaster>tinggengyan@gmail.com (Tinggeng)</webMaster><lastBuildDate>Sun, 17 Jul 2022 16:29:04 &#43;0000</lastBuildDate><atom:link href="https://tinggengyan.github.io/tags/" rel="self" type="application/rss+xml" /><item>
+    <title>OS</title>
+    <link>https://tinggengyan.github.io/tags/os/</link>
+    <pubDate>Sun, 17 Jul 2022 16:29:04 &#43;0000</pubDate>
+    <author>Tinggeng</author>
+    <guid>https://tinggengyan.github.io/tags/os/</guid>
+    <description><![CDATA[]]></description>
+</item>
+<item>
+    <title>Http</title>
+    <link>https://tinggengyan.github.io/tags/http/</link>
+    <pubDate>Tue, 17 May 2022 16:09:59 &#43;0000</pubDate>
+    <author>Tinggeng</author>
+    <guid>https://tinggengyan.github.io/tags/http/</guid>
+    <description><![CDATA[]]></description>
+</item>
+<item>
+    <title>Net</title>
+    <link>https://tinggengyan.github.io/tags/net/</link>
+    <pubDate>Tue, 17 May 2022 16:09:59 &#43;0000</pubDate>
+    <author>Tinggeng</author>
+    <guid>https://tinggengyan.github.io/tags/net/</guid>
+    <description><![CDATA[]]></description>
+</item>
+<item>
+    <title>TCP</title>
+    <link>https://tinggengyan.github.io/tags/tcp/</link>
+    <pubDate>Tue, 17 May 2022 16:09:59 &#43;0000</pubDate>
+    <author>Tinggeng</author>
+    <guid>https://tinggengyan.github.io/tags/tcp/</guid>
+    <description><![CDATA[]]></description>
+</item>
+<item>
+    <title>Android</title>
+    <link>https://tinggengyan.github.io/tags/android/</link>
+    <pubDate>Sun, 03 Apr 2022 16:19:04 &#43;0000</pubDate>
+    <author>Tinggeng</author>
+    <guid>https://tinggengyan.github.io/tags/android/</guid>
+    <description><![CDATA[]]></description>
+</item>
+<item>
+    <title>Documentation</title>
+    <link>https://tinggengyan.github.io/tags/documentation/</link>
+    <pubDate>Sun, 03 Oct 2021 10:25:55 &#43;0000</pubDate>
+    <author>Tinggeng</author>
+    <guid>https://tinggengyan.github.io/tags/documentation/</guid>
+    <description><![CDATA[]]></description>
+</item>
+<item>
+    <title>Java</title>
+    <link>https://tinggengyan.github.io/tags/java/</link>
+    <pubDate>Tue, 06 Jul 2021 19:57:21 &#43;0000</pubDate>
+    <author>Tinggeng</author>
+    <guid>https://tinggengyan.github.io/tags/java/</guid>
+    <description><![CDATA[]]></description>
+</item>
+<item>
+    <title>Java,JVM</title>
+    <link>https://tinggengyan.github.io/tags/javajvm/</link>
+    <pubDate>Sat, 03 Jul 2021 16:29:04 &#43;0000</pubDate>
+    <author>Tinggeng</author>
+    <guid>https://tinggengyan.github.io/tags/javajvm/</guid>
+    <description><![CDATA[]]></description>
+</item>
+<item>
+    <title>Cronet</title>
+    <link>https://tinggengyan.github.io/tags/cronet/</link>
+    <pubDate>Wed, 02 Jun 2021 00:04:12 &#43;0000</pubDate>
+    <author>Tinggeng</author>
+    <guid>https://tinggengyan.github.io/tags/cronet/</guid>
+    <description><![CDATA[]]></description>
+</item>
+<item>
+    <title>aosp</title>
+    <link>https://tinggengyan.github.io/tags/aosp/</link>
+    <pubDate>Sun, 06 Sep 2020 15:09:42 &#43;0000</pubDate>
+    <author>Tinggeng</author>
+    <guid>https://tinggengyan.github.io/tags/aosp/</guid>
+    <description><![CDATA[]]></description>
+</item>
+</channel>
+</rss>

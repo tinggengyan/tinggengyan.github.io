@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <title>JsBridge分析 - Tinggeng</title><meta name="Description" content="Tinggeng"><meta property="og:title" content="JsBridge分析" />
+<meta property="og:description" content="序 本篇分析大头鬼的 JsBridge 库.
+js bridge 分析大头鬼的 JS 库 主要的任务都交给了 JS 库去执行，整个框架的主要过程分为三个过程，native 通过发送消息调用 JS 方法，在 JS 层的消息处理,将消息处理完成之后返回。
+Java调用JS 方法 对于 native 想要调用 JS 代码的时候，会调用自定义的 BridgeWebView 的 send 方法进行发送消息，对于消息，我们可以自定义处理器和回调处理方法，发出去的消息不是立即处理的，而是将其进行封装，成 Message 对象，如果该消息后续有回调，需要记录回调等待后续的处理，而后添加到队列中。进行排队，等待处理。
+Java 消息的分发 这个消息的分发是指的 native 层面的消息分发，当页面加载 finish 之后，会调用 dispatch 方法对刚刚进入队列中的 Message 对象进行分发。解析出 Message 携带的内容，按照约定，生成对应的 JS 脚本，交由 JS 库处理。
+加载 JS 库 按照流程的事件顺序上讲，这个过程应该是第一个被执行的，在加载完 HTML 页面的同时需要加载 JS 库，但是 JS 库的加载和页面的加载谁先成功，这个可能出现先后差异，所以需要在 HTML 中判断 JS 库是否加载成功，如果加载成功则进行消息处理；如果加载还未成功，则监听加载 JS 库的事件，等到加载成功之后，再进行消息的处理。这些事件的处理需要在 HTML 中处理.
+JS 库对消息的处理 这里处理的其实是一个 URL ，在 JS 库层面会调用相应的 JS 方法。当 Java 层调用了消息的分发命令，会通过执行 JS 脚本的方式将消息交给 JS 层，JS 层面会将需要处理的消息，添加到队列中，等待处理，这个过程又有点像 Java 层的处理方式，_handleMessageFromNative ，会将消息存入 receiveMessageQueue 中，等待处理。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://tinggengyan.github.io/2016/10/jsbridge%E5%88%86%E6%9E%90/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2016-10-13T22:38:20+00:00" />
+<meta property="article:modified_time" content="2016-10-13T22:38:20+00:00" /><meta property="og:site_name" content="Tinggeng" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="JsBridge分析"/>
+<meta name="twitter:description" content="序 本篇分析大头鬼的 JsBridge 库.
+js bridge 分析大头鬼的 JS 库 主要的任务都交给了 JS 库去执行，整个框架的主要过程分为三个过程，native 通过发送消息调用 JS 方法，在 JS 层的消息处理,将消息处理完成之后返回。
+Java调用JS 方法 对于 native 想要调用 JS 代码的时候，会调用自定义的 BridgeWebView 的 send 方法进行发送消息，对于消息，我们可以自定义处理器和回调处理方法，发出去的消息不是立即处理的，而是将其进行封装，成 Message 对象，如果该消息后续有回调，需要记录回调等待后续的处理，而后添加到队列中。进行排队，等待处理。
+Java 消息的分发 这个消息的分发是指的 native 层面的消息分发，当页面加载 finish 之后，会调用 dispatch 方法对刚刚进入队列中的 Message 对象进行分发。解析出 Message 携带的内容，按照约定，生成对应的 JS 脚本，交由 JS 库处理。
+加载 JS 库 按照流程的事件顺序上讲，这个过程应该是第一个被执行的，在加载完 HTML 页面的同时需要加载 JS 库，但是 JS 库的加载和页面的加载谁先成功，这个可能出现先后差异，所以需要在 HTML 中判断 JS 库是否加载成功，如果加载成功则进行消息处理；如果加载还未成功，则监听加载 JS 库的事件，等到加载成功之后，再进行消息的处理。这些事件的处理需要在 HTML 中处理.
+JS 库对消息的处理 这里处理的其实是一个 URL ，在 JS 库层面会调用相应的 JS 方法。当 Java 层调用了消息的分发命令，会通过执行 JS 脚本的方式将消息交给 JS 层，JS 层面会将需要处理的消息，添加到队列中，等待处理，这个过程又有点像 Java 层的处理方式，_handleMessageFromNative ，会将消息存入 receiveMessageQueue 中，等待处理。"/>
+<meta name="application-name" content="Tinggeng">
+<meta name="apple-mobile-web-app-title" content="Tinggeng"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="https://tinggengyan.github.io/2016/10/jsbridge%E5%88%86%E6%9E%90/" /><link rel="prev" href="https://tinggengyan.github.io/2016/10/linux%E5%AD%A6%E4%B9%A0%E5%A4%87%E5%BF%98/" /><link rel="next" href="https://tinggengyan.github.io/2016/10/git%E5%AE%9E%E8%B7%B5%E7%AC%94%E8%AE%B0/" /><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/normalize.css@8.0.1/normalize.min.css"><link rel="stylesheet" href="/css/style.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css"><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "JsBridge分析",
+        "inLanguage": "en",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https:\/\/tinggengyan.github.io\/2016\/10\/jsbridge%E5%88%86%E6%9E%90\/"
+        },"image": ["https:\/\/tinggengyan.github.io\/images\/Apple-Devices-Preview.png"],"genre": "posts","keywords": "JsBridge","wordcount":  198 ,
+        "url": "https:\/\/tinggengyan.github.io\/2016\/10\/jsbridge%E5%88%86%E6%9E%90\/","datePublished": "2016-10-13T22:38:20+00:00","dateModified": "2016-10-13T22:38:20+00:00","publisher": {
+            "@type": "Organization",
+            "name": "xxxx","logo": "https:\/\/tinggengyan.github.io\/img\/avatar.png"},"author": {
+                "@type": "Person",
+                "name": "Tinggeng"
+            },"description": ""
+    }
+    </script></head>
+    <body data-header-desktop="fixed" data-header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="Tinggeng"><span class="header-title-pre"><i class='far fa-kiss-wink-heart fa-fw' aria-hidden='true'></i></span>Tinggeng</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/" title="posts"> Posts </a><a class="menu-item" href="/tags/"> Tags </a><a class="menu-item" href="/categories/"> Categories </a><a class="menu-item" href="/daily_notes/" title="flemo"> flemo </a><span class="menu-item delimiter"></span><span class="menu-item search" id="search-desktop">
+                        <input type="text" placeholder="Search titles or contents..." id="search-input-desktop">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="Search">
+                            <i class="fas fa-search fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="Clear">
+                            <i class="fas fa-times-circle fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-desktop">
+                            <i class="fas fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+                        </span>
+                    </span><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                    <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="Tinggeng"><span class="header-title-pre"><i class='far fa-kiss-wink-heart fa-fw' aria-hidden='true'></i></span>Tinggeng</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><div class="search-wrapper">
+                    <div class="search mobile" id="search-mobile">
+                        <input type="text" placeholder="Search titles or contents..." id="search-input-mobile">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="Search">
+                            <i class="fas fa-search fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="Clear">
+                            <i class="fas fa-times-circle fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-mobile">
+                            <i class="fas fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+                        </span>
+                    </div>
+                    <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+                        Cancel
+                    </a>
+                </div><a class="menu-item" href="/posts/" title="posts">Posts</a><a class="menu-item" href="/tags/" title="">Tags</a><a class="menu-item" href="/categories/" title="">Categories</a><a class="menu-item" href="/daily_notes/" title="flemo">flemo</a><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+            </a></div>
+    </div>
+</header><div class="search-dropdown desktop">
+        <div id="search-dropdown-desktop"></div>
+    </div>
+    <div class="search-dropdown mobile">
+        <div id="search-dropdown-mobile"></div>
+    </div><main class="main">
+                <div class="container"><div class="toc" id="toc-auto">
+            <h2 class="toc-title">Contents</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">JsBridge分析</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Tinggeng</a>
+</span>&nbsp;<span class="post-category">included in <a href="/categories/mobile/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Mobile</a>&nbsp;<a href="/categories/android/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Android</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2016-10-13">2016-10-13</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;198 words&nbsp;
+                <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;One minute&nbsp;<span id="/2016/10/jsbridge%E5%88%86%E6%9E%90/" class="leancloud_visitors" data-flag-title="JsBridge分析">
+                        <i class="far fa-eye fa-fw" aria-hidden="true"></i>&nbsp;<span class=leancloud-visitors-count></span>&nbsp;views
+                    </span>&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  data-kept="">
+                <div class="details-summary toc-title">
+                    <span>Contents</span>
+                    <span><i class="details-icon fas fa-angle-right" aria-hidden="true"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#js-bridge-分析大头鬼的-js-库">js bridge 分析大头鬼的 JS 库</a>
+      <ul>
+        <li><a href="#java调用js-方法">Java调用JS 方法</a></li>
+        <li><a href="#java-消息的分发">Java 消息的分发</a></li>
+        <li><a href="#加载-js-库">加载 JS 库</a></li>
+        <li><a href="#js-库对消息的处理">JS 库对消息的处理</a></li>
+        <li><a href="#js-向-native-发送消息">JS 向 native 发送消息</a></li>
+        <li><a href="#native-处理-js-发来的消息">native 处理 JS 发来的消息</a></li>
+      </ul>
+    </li>
+    <li><a href="#怎么使用">怎么使用</a></li>
+    <li><a href="#总结">总结</a></li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><h1 id="序">序</h1>
+<p>本篇分析大头鬼的 <a href="https://github.com/lzyzsd/JsBridge" target="_blank" rel="noopener noreffer">JsBridge</a>
+ 库.</p>
+<!-- more -->
+<h2 id="js-bridge-分析大头鬼的-js-库">js bridge 分析大头鬼的 JS 库</h2>
+<p>主要的任务都交给了 JS 库去执行，整个框架的主要过程分为三个过程，native 通过发送消息调用 JS 方法，在 JS 层的消息处理,将消息处理完成之后返回。</p>
+<h3 id="java调用js-方法">Java调用JS 方法</h3>
+<p>对于 native 想要调用 JS 代码的时候，会调用自定义的 BridgeWebView 的 send 方法进行发送消息，对于消息，我们可以自定义处理器和回调处理方法，发出去的消息不是立即处理的，而是将其进行封装，成 Message 对象，如果该消息后续有回调，需要记录回调等待后续的处理，而后添加到队列中。进行排队，等待处理。</p>
+<h3 id="java-消息的分发">Java 消息的分发</h3>
+<p>这个消息的分发是指的 native 层面的消息分发，当页面加载 finish 之后，会调用 dispatch 方法对刚刚进入队列中的 Message 对象进行分发。解析出 Message 携带的内容，按照约定，生成对应的 JS 脚本，交由 JS 库处理。</p>
+<h3 id="加载-js-库">加载 JS 库</h3>
+<p>按照流程的事件顺序上讲，这个过程应该是第一个被执行的，在加载完 HTML 页面的同时需要加载 JS 库，但是 JS 库的加载和页面的加载谁先成功，这个可能出现先后差异，所以需要在 HTML 中判断 JS 库是否加载成功，如果加载成功则进行消息处理；如果加载还未成功，则监听加载 JS 库的事件，等到加载成功之后，再进行消息的处理。这些事件的处理需要在 HTML 中处理.</p>
+<h3 id="js-库对消息的处理">JS 库对消息的处理</h3>
+<p>这里处理的其实是一个 URL ，在 JS 库层面会调用相应的 JS 方法。当 Java 层调用了消息的分发命令，会通过执行 JS 脚本的方式将消息交给 JS 层，JS 层面会将需要处理的消息，添加到队列中，等待处理，这个过程又有点像 Java 层的处理方式，_handleMessageFromNative ，会将消息存入 receiveMessageQueue 中，等待处理。</p>
+<p>当 JS 库加载成功，需要 HTML 层面可以主动的调用JS层的消息处理的方法 _dispatchMessageFromNative，遍历 receiveMessageQueue，对消息进行处理。</p>
+<p>对于消息的业务处理，都在 JS 层面完成，JS 处理完成之后，如果有需要进行为 Java 层提供返回值的，则进行重定向，通知 Java 层返回值队列中有数据，Java 层拦截 URL 进行主动拉去数据的 JS 脚本执行，JS 层方法将返回值放入 URL 中，进行重定向，Java 层会拦截 url，根据一定的规则，从 url 中截取出数据，数据中携带了唯一的请求 ID，根据这个 ID 查找出对应的回调方法。</p>
+<h3 id="js-向-native-发送消息">JS 向 native 发送消息</h3>
+<p>当 JS 想主动向 native 发送消息的时候，会主动调用 JS 库中的 send 方法，将消息放入 JS 中的 sendMessageQueue 队列中。然后像给 native 层提供返回值一样，进行 url 的重定向,然后依旧是 Java 层拦截 URL,然后主动去拉取数据。</p>
+<h3 id="native-处理-js-发来的消息">native 处理 JS 发来的消息</h3>
+<p>当 JS 向 native 发出消息,native 收到消息后，解析成 Message 对象，根据 callid 去判断是否有特定的 handler，是否有回调,这些 handler 和 回调都是刚刚封装 Message 对象时保存的。</p>
+<h2 id="怎么使用">怎么使用</h2>
+<p>对于一般的具体应用，都是 JS 层调用 Java 层提供的方法。这时候，对于平时普通的常规调用，都是需要提前约定的，可以定义在 DefaultHandler 中。也可以根据不同的业务需要定义不同的 BridgeHandler。匿名实现 BridgeHandler 的方式只适合 java 层调用 JS 方法，这种方式不方便维护。</p>
+<h2 id="总结">总结</h2>
+<p>native 层提供一些基础的方法，类似于分享操作，登录等功能。具体的业务类执行还是交由 JS 层执行，需要 native 协助的功能，以重定向 URL 的方式进行。JS 不直接调用 Java 方法，也就是没有 @JavascriptInterface 注解的方法，所有的约定,包括返回的数据,都在 URL 中。
+这里会有一个缺点，虽然 http1.1 中声明 url 是没有长度的限制的，但是一般而言，服务端或者浏览器都有有长度的限制，所以，将所有的数据都通过 URL 来传递还是有不妥之处。</p>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>Updated on 2016-10-13</span>
+            </div></div>
+        <div class="post-info-line">
+            <div class="post-info-md"><span>
+                            <a class="link-to-markdown" href="/2016/10/jsbridge%E5%88%86%E6%9E%90/index.md" target="_blank">Read Markdown</a>
+                        </span></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="Share on Twitter" data-sharer="twitter" data-url="https://tinggengyan.github.io/2016/10/jsbridge%E5%88%86%E6%9E%90/" data-title="JsBridge分析" data-hashtags="JsBridge"><i class="fab fa-twitter fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Facebook" data-sharer="facebook" data-url="https://tinggengyan.github.io/2016/10/jsbridge%E5%88%86%E6%9E%90/" data-hashtag="JsBridge"><i class="fab fa-facebook-square fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Hacker News" data-sharer="hackernews" data-url="https://tinggengyan.github.io/2016/10/jsbridge%E5%88%86%E6%9E%90/" data-title="JsBridge分析"><i class="fab fa-hacker-news fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Line" data-sharer="line" data-url="https://tinggengyan.github.io/2016/10/jsbridge%E5%88%86%E6%9E%90/" data-title="JsBridge分析"><i data-svg-src="https://cdn.jsdelivr.net/npm/simple-icons@6.20.0/icons/line.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on 微博" data-sharer="weibo" data-url="https://tinggengyan.github.io/2016/10/jsbridge%E5%88%86%E6%9E%90/" data-title="JsBridge分析"><i class="fab fa-weibo fa-fw" aria-hidden="true"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw" aria-hidden="true"></i>&nbsp;<a href="/tags/jsbridge/">JsBridge</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">Back</a></span>&nbsp;|&nbsp;<span><a href="/">Home</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/2016/10/linux%E5%AD%A6%E4%B9%A0%E5%A4%87%E5%BF%98/" class="prev" rel="prev" title="Linux学习备忘"><i class="fas fa-angle-left fa-fw" aria-hidden="true"></i>Linux学习备忘</a>
+            <a href="/2016/10/git%E5%AE%9E%E8%B7%B5%E7%AC%94%E8%AE%B0/" class="next" rel="next" title="git实践笔记">git实践笔记<i class="fas fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+<div id="comments"><div id="valine" class="comment"></div><noscript>
+                Please enable JavaScript to view the comments powered by <a href="https://valine.js.org/">Valine</a>.
+            </noscript></div></article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.114.1">Hugo</a> | Theme - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw" aria-hidden="true"></i> LoveIt</a>
+                </div><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright fa-fw" aria-hidden="true"></i><span itemprop="copyrightYear">2019 - 2023</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank">Tinggeng</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+        </div>
+    </footer></div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="Back to Top">
+                <i class="fas fa-arrow-up fa-fw" aria-hidden="true"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="View Comments">
+                <i class="fas fa-comment fa-fw" aria-hidden="true"></i>
+            </a>
+        </div><link rel="stylesheet" href="/lib/valine/valine.min.css"><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/valine@1.4.18/dist/Valine.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/autocomplete.js@0.38.1/dist/autocomplete.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/algoliasearch@4.13.0/dist/algoliasearch-lite.umd.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lazysizes@5.3.1/lazysizes.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/clipboard@2.0.11/dist/clipboard.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/sharer.js@0.5.1/sharer.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"Copy to clipboard","maxShownLines":50},"comment":{"valine":{"appId":"QGzwQXOqs5JOhN4RGPOkR2mR-MdYXbMMI","appKey":"WBmoGyJtbqUswvfLh6L8iEBr","avatar":"mp","el":"#valine","emojiCDN":"https://cdn.jsdelivr.net/npm/emoji-datasource-google@14.0.0/img/google/64/","emojiMaps":{"100":"1f4af.png","alien":"1f47d.png","anger":"1f4a2.png","angry":"1f620.png","anguished":"1f627.png","astonished":"1f632.png","black_heart":"1f5a4.png","blue_heart":"1f499.png","blush":"1f60a.png","bomb":"1f4a3.png","boom":"1f4a5.png","broken_heart":"1f494.png","brown_heart":"1f90e.png","clown_face":"1f921.png","cold_face":"1f976.png","cold_sweat":"1f630.png","confounded":"1f616.png","confused":"1f615.png","cry":"1f622.png","crying_cat_face":"1f63f.png","cupid":"1f498.png","dash":"1f4a8.png","disappointed":"1f61e.png","disappointed_relieved":"1f625.png","dizzy":"1f4ab.png","dizzy_face":"1f635.png","drooling_face":"1f924.png","exploding_head":"1f92f.png","expressionless":"1f611.png","face_vomiting":"1f92e.png","face_with_cowboy_hat":"1f920.png","face_with_hand_over_mouth":"1f92d.png","face_with_head_bandage":"1f915.png","face_with_monocle":"1f9d0.png","face_with_raised_eyebrow":"1f928.png","face_with_rolling_eyes":"1f644.png","face_with_symbols_on_mouth":"1f92c.png","face_with_thermometer":"1f912.png","fearful":"1f628.png","flushed":"1f633.png","frowning":"1f626.png","ghost":"1f47b.png","gift_heart":"1f49d.png","green_heart":"1f49a.png","grimacing":"1f62c.png","grin":"1f601.png","grinning":"1f600.png","hankey":"1f4a9.png","hear_no_evil":"1f649.png","heart":"2764-fe0f.png","heart_decoration":"1f49f.png","heart_eyes":"1f60d.png","heart_eyes_cat":"1f63b.png","heartbeat":"1f493.png","heartpulse":"1f497.png","heavy_heart_exclamation_mark_ornament":"2763-fe0f.png","hole":"1f573-fe0f.png","hot_face":"1f975.png","hugging_face":"1f917.png","hushed":"1f62f.png","imp":"1f47f.png","innocent":"1f607.png","japanese_goblin":"1f47a.png","japanese_ogre":"1f479.png","joy":"1f602.png","joy_cat":"1f639.png","kiss":"1f48b.png","kissing":"1f617.png","kissing_cat":"1f63d.png","kissing_closed_eyes":"1f61a.png","kissing_heart":"1f618.png","kissing_smiling_eyes":"1f619.png","laughing":"1f606.png","left_speech_bubble":"1f5e8-fe0f.png","love_letter":"1f48c.png","lying_face":"1f925.png","mask":"1f637.png","money_mouth_face":"1f911.png","nauseated_face":"1f922.png","nerd_face":"1f913.png","neutral_face":"1f610.png","no_mouth":"1f636.png","open_mouth":"1f62e.png","orange_heart":"1f9e1.png","partying_face":"1f973.png","pensive":"1f614.png","persevere":"1f623.png","pleading_face":"1f97a.png","pouting_cat":"1f63e.png","purple_heart":"1f49c.png","rage":"1f621.png","relaxed":"263a-fe0f.png","relieved":"1f60c.png","revolving_hearts":"1f49e.png","right_anger_bubble":"1f5ef-fe0f.png","robot_face":"1f916.png","rolling_on_the_floor_laughing":"1f923.png","scream":"1f631.png","scream_cat":"1f640.png","see_no_evil":"1f648.png","shushing_face":"1f92b.png","skull":"1f480.png","skull_and_crossbones":"2620-fe0f.png","sleeping":"1f634.png","sleepy":"1f62a.png","slightly_frowning_face":"1f641.png","slightly_smiling_face":"1f642.png","smile":"1f604.png","smile_cat":"1f638.png","smiley":"1f603.png","smiley_cat":"1f63a.png","smiling_face_with_3_hearts":"1f970.png","smiling_imp":"1f608.png","smirk":"1f60f.png","smirk_cat":"1f63c.png","sneezing_face":"1f927.png","sob":"1f62d.png","space_invader":"1f47e.png","sparkling_heart":"1f496.png","speak_no_evil":"1f64a.png","speech_balloon":"1f4ac.png","star-struck":"1f929.png","stuck_out_tongue":"1f61b.png","stuck_out_tongue_closed_eyes":"1f61d.png","stuck_out_tongue_winking_eye":"1f61c.png","sunglasses":"1f60e.png","sweat":"1f613.png","sweat_drops":"1f4a6.png","sweat_smile":"1f605.png","thinking_face":"1f914.png","thought_balloon":"1f4ad.png","tired_face":"1f62b.png","triumph":"1f624.png","two_hearts":"1f495.png","unamused":"1f612.png","upside_down_face":"1f643.png","weary":"1f629.png","white_frowning_face":"2639-fe0f.png","white_heart":"1f90d.png","wink":"1f609.png","woozy_face":"1f974.png","worried":"1f61f.png","yawning_face":"1f971.png","yellow_heart":"1f49b.png","yum":"1f60b.png","zany_face":"1f92a.png","zipper_mouth_face":"1f910.png","zzz":"1f4a4.png"},"enableQQ":false,"highlight":true,"lang":"en","pageSize":10,"placeholder":"Your comment ...","recordIP":true,"serverURLs":"https://leancloud.hugoloveit.com","visitor":true}},"search":{"algoliaAppID":"","algoliaIndex":"","algoliaSearchKey":"","highlightTag":"em","maxResultLength":10,"noResultsFound":"No results found","snippetLength":30,"type":"algolia"}};</script><script type="text/javascript" src="/js/theme.min.js"></script></body>
+</html>

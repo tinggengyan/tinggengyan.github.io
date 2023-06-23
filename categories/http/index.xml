@@ -1,0 +1,29 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+    <channel>
+        <title>HTTP - Category - Tinggeng</title>
+        <link>https://tinggengyan.github.io/categories/http/</link>
+        <description>HTTP - Category - Tinggeng</description>
+        <generator>Hugo -- gohugo.io</generator><language>en</language><managingEditor>tinggengyan@gmail.com (Tinggeng)</managingEditor>
+            <webMaster>tinggengyan@gmail.com (Tinggeng)</webMaster><lastBuildDate>Mon, 14 Oct 2019 13:51:08 &#43;0000</lastBuildDate><atom:link href="https://tinggengyan.github.io/categories/http/" rel="self" type="application/rss+xml" /><item>
+    <title>一个开源的Java版的mockserver</title>
+    <link>https://tinggengyan.github.io/2019/10/mockserver-java-primer/</link>
+    <pubDate>Mon, 14 Oct 2019 13:51:08 &#43;0000</pubDate>
+    <author>Tinggeng</author>
+    <guid>https://tinggengyan.github.io/2019/10/mockserver-java-primer/</guid>
+    <description><![CDATA[概述 记录另外一个mockserver的库使用方式. API 更加丰富.
+添加依赖 1 2 compile group: &#39;org.mock-server&#39;, name: &#39;mockserver-netty&#39;, version: &#39;5.6.1&#39; compile group: &#39;log4j&#39;, name: &#39;log4j&#39;, version: &#39;1.2.17&#39; 使用方式 最简单的使用方式, 请求 -&gt; 返回mock的response Server端 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 public class MockServerTest { public static void main(String[] args) { // 1.]]></description>
+</item>
+<item>
+    <title>okhttp自带的mockserver教程</title>
+    <link>https://tinggengyan.github.io/2019/10/mockserver_primer/</link>
+    <pubDate>Sun, 13 Oct 2019 21:05:57 &#43;0000</pubDate>
+    <author>Tinggeng</author>
+    <guid>https://tinggengyan.github.io/2019/10/mockserver_primer/</guid>
+    <description><![CDATA[概述 本篇记录okhttp自带的mockserver这个库的使用方式.
+作为一个网络库,okhttp自身也实现了一个mockserver,以方便写测试用例,这个库是独立的,也可以单独使用.
+用作平时简单的mock数据,进行测试,很方便
+使用方式 此处以Android为例,Java除了依赖方式有点差异,其他一致;
+添加依赖 1 androidTestImplementation(&#39;com.squareup.okhttp3:mockwebserver:3.13.1&#39;) 代码使用 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 52 53 54 55 56 57 58 59 60 61 62 63 64 65 66 67 68 69 70 71 72 73 74 75 76 77 78 79 public class MockRes { public final MockWebServer server = new MockWebServer(); public OkHttpClient client = new OkHttpClient(); @Test public void simpleTest() { // 构造一个mock的 response MockResponse mockResponse = new MockResponse().]]></description>
+</item>
+</channel>
+</rss>

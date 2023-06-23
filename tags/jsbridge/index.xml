@@ -1,0 +1,21 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+    <channel>
+        <title>JsBridge - Tag - Tinggeng</title>
+        <link>https://tinggengyan.github.io/tags/jsbridge/</link>
+        <description>JsBridge - Tag - Tinggeng</description>
+        <generator>Hugo -- gohugo.io</generator><language>en</language><managingEditor>tinggengyan@gmail.com (Tinggeng)</managingEditor>
+            <webMaster>tinggengyan@gmail.com (Tinggeng)</webMaster><lastBuildDate>Thu, 13 Oct 2016 22:38:20 &#43;0000</lastBuildDate><atom:link href="https://tinggengyan.github.io/tags/jsbridge/" rel="self" type="application/rss+xml" /><item>
+    <title>JsBridge分析</title>
+    <link>https://tinggengyan.github.io/2016/10/jsbridge%E5%88%86%E6%9E%90/</link>
+    <pubDate>Thu, 13 Oct 2016 22:38:20 &#43;0000</pubDate>
+    <author>Tinggeng</author>
+    <guid>https://tinggengyan.github.io/2016/10/jsbridge%E5%88%86%E6%9E%90/</guid>
+    <description><![CDATA[序 本篇分析大头鬼的 JsBridge 库.
+js bridge 分析大头鬼的 JS 库 主要的任务都交给了 JS 库去执行，整个框架的主要过程分为三个过程，native 通过发送消息调用 JS 方法，在 JS 层的消息处理,将消息处理完成之后返回。
+Java调用JS 方法 对于 native 想要调用 JS 代码的时候，会调用自定义的 BridgeWebView 的 send 方法进行发送消息，对于消息，我们可以自定义处理器和回调处理方法，发出去的消息不是立即处理的，而是将其进行封装，成 Message 对象，如果该消息后续有回调，需要记录回调等待后续的处理，而后添加到队列中。进行排队，等待处理。
+Java 消息的分发 这个消息的分发是指的 native 层面的消息分发，当页面加载 finish 之后，会调用 dispatch 方法对刚刚进入队列中的 Message 对象进行分发。解析出 Message 携带的内容，按照约定，生成对应的 JS 脚本，交由 JS 库处理。
+加载 JS 库 按照流程的事件顺序上讲，这个过程应该是第一个被执行的，在加载完 HTML 页面的同时需要加载 JS 库，但是 JS 库的加载和页面的加载谁先成功，这个可能出现先后差异，所以需要在 HTML 中判断 JS 库是否加载成功，如果加载成功则进行消息处理；如果加载还未成功，则监听加载 JS 库的事件，等到加载成功之后，再进行消息的处理。这些事件的处理需要在 HTML 中处理.
+JS 库对消息的处理 这里处理的其实是一个 URL ，在 JS 库层面会调用相应的 JS 方法。当 Java 层调用了消息的分发命令，会通过执行 JS 脚本的方式将消息交给 JS 层，JS 层面会将需要处理的消息，添加到队列中，等待处理，这个过程又有点像 Java 层的处理方式，_handleMessageFromNative ，会将消息存入 receiveMessageQueue 中，等待处理。]]></description>
+</item>
+</channel>
+</rss>

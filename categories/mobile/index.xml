@@ -1,0 +1,132 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+    <channel>
+        <title>Mobile - Category - Tinggeng</title>
+        <link>https://tinggengyan.github.io/categories/mobile/</link>
+        <description>Mobile - Category - Tinggeng</description>
+        <generator>Hugo -- gohugo.io</generator><language>en</language><managingEditor>tinggengyan@gmail.com (Tinggeng)</managingEditor>
+            <webMaster>tinggengyan@gmail.com (Tinggeng)</webMaster><lastBuildDate>Thu, 26 Apr 2018 23:05:57 &#43;0000</lastBuildDate><atom:link href="https://tinggengyan.github.io/categories/mobile/" rel="self" type="application/rss+xml" /><item>
+    <title>Activity 在横竖屏切换情况下的生命周期变化</title>
+    <link>https://tinggengyan.github.io/2018/04/activitylifecycle/</link>
+    <pubDate>Thu, 26 Apr 2018 23:05:57 &#43;0000</pubDate>
+    <author>Tinggeng</author>
+    <guid>https://tinggengyan.github.io/2018/04/activitylifecycle/</guid>
+    <description><![CDATA[概述 Activity 在横竖屏切换的时候,生命周期是不一样的,本地通过打印 log 的方式,看下区别.测试的机器是 Android6.0 .
+不做任何配置的情况下 第一次启动 1 2 3 D/LifeCircleActivity: onCreate() called with: savedInstanceState = [null]Activity对象的地址:cn.steve.activitylifecycle.LifeCircleActivity@de950fc D/LifeCircleActivity: onStart() called D/LifeCircleActivity: onResume() called 第一次切换成横屏 1 2 3 4 5 6 7 8 9 D/LifeCircleActivity: onPause() called D/LifeCircleActivity: onSaveInstanceState() called with: outState = [Bundle[{android:viewHierarchyState=Bundle[{android:views={16908290=android.view.AbsSavedState$1@80a47f5, 2131296581=android.view.AbsSavedState$1@80a47f5, 2131296815=android.view.AbsSavedState$1@80a47f5}}], key=x}]] D/LifeCircleActivity: onStop() called D/LifeCircleActivity: onDestroy() called D/LifeCircleActivity: onCreate() called with: savedInstanceState = [Bundle[{android:viewHierarchyState=Bundle[{android:views={16908290=android.view.AbsSavedState$1@80a47f5, 2131296581=android.view.AbsSavedState$1@80a47f5, 2131296815=android.view.AbsSavedState$1@80a47f5}}], key=x}]]Activity对象的地址:cn.steve.activitylifecycle.LifeCircleActivity@266fbfb D/LifeCircleActivity: onStart() called D/LifeCircleActivity: onRestoreInstanceState() called with: savedInstanceState = [Bundle[{android:viewHierarchyState=Bundle[{android:views={16908290=android.]]></description>
+</item>
+<item>
+    <title>Service 的生命周期</title>
+    <link>https://tinggengyan.github.io/2018/04/servicelifecycle/</link>
+    <pubDate>Thu, 26 Apr 2018 22:40:55 &#43;0000</pubDate>
+    <author>Tinggeng</author>
+    <guid>https://tinggengyan.github.io/2018/04/servicelifecycle/</guid>
+    <description><![CDATA[概述 Service 有两种启动方式,一种是 startService ;一种是 bindService.这两种的启动的 Service 的生命周期有些许差异,并且当二者混用的时候,有一些需要注意的地方.这里用打印 log 日志的方式记录下生命周期的差异.
+仅 startService 触发 startService 方法 1 2 D/ServiceLifeService: onCreate() called D/ServiceLifeService: onStartCommand() called with: intent = [Intent { cmp=cn.steve.study/cn.steve.servicelifecycle.ServiceLifeService }], flags = [0], startId = [1] 退出APP 无回调
+再次进入APP，触发startService 方法 1 D/ServiceLifeService: onStartCommand() called with: intent = [Intent { cmp=cn.steve.study/cn.steve.servicelifecycle.ServiceLifeService }], flags = [0], startId = [2] 杀死 App 进程 没有回调，直接被系统杀死。只有一些AMS系统回调
+1 2 W/ActivityManager: Scheduling restart of crashed service cn.steve.study/cn.steve.servicelifecycle.ServiceLifeService in 1000ms I/ActivityManager: Force stopping service ServiceRecord{38ffaacf u0 cn.]]></description>
+</item>
+<item>
+    <title>webview中关于服务端重定向的判断</title>
+    <link>https://tinggengyan.github.io/2017/08/webview-judge-302/</link>
+    <pubDate>Thu, 10 Aug 2017 23:13:21 &#43;0000</pubDate>
+    <author>Tinggeng</author>
+    <guid>https://tinggengyan.github.io/2017/08/webview-judge-302/</guid>
+    <description><![CDATA[背景 由于 H5 页面打开都比较慢,为了减少返回时候的刷新,所以有时候需要多开,就是每个 url 都是在一个新的 activity 中打开.一般的处理方式是在 shouldOverrideUrlLoading() 方法中进行处理,这个方法按照 SDK 中的说明是当 url 发生变化时就会回调,当遇到服务端重定向的时候,就会出现一个空白页面的情况,所以我们需要判断是否是重定向,对于重定向进行特殊的处理.
+困难 1 2 3 4 public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) { return shouldOverrideUrlLoading(view, request.getUrl().toString()); } 在 Android7.0 ,新增了 WebResourceRequest 接口,接口中有个判断是否是重定向的方法,但对于低版本的该如何判断呢? 可以做如下判断.
+1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 WebViewClient webViewClient = new WebViewClient() { private boolean mLoaded = false; @Override public boolean shouldOverrideUrlLoading(WebView view, String url) { if (mLoaded){ //not redirect }else { // is redirect } return true; } @Override public void onPageFinished(WebView webView, String url) { mLoaded = true; } }; 因为能回调 onPageFinished 方法,都是有渲染页面的操作,说明页面是有内容的,对于服务端重定向而言,是没有内容的,所以就不会走 onPageFinished 方法,通过这个间接的判断页面是否是重定向的.]]></description>
+</item>
+<item>
+    <title>IPC_Binder_java_2</title>
+    <link>https://tinggengyan.github.io/2017/07/ipc-binder-java-2/</link>
+    <pubDate>Tue, 04 Jul 2017 14:47:55 &#43;0000</pubDate>
+    <author>Tinggeng</author>
+    <guid>https://tinggengyan.github.io/2017/07/ipc-binder-java-2/</guid>
+    <description><![CDATA[概述 本文作为第一篇的补充,补充一下第一篇遗漏的内容,主要谈一下,缺少的概念,技术背景等内容.
+Why为什么需要Binder Binder 是 Android 系统进程间通信（IPC）方式之一。Android 是基于 Linux 内核的,Linux 已经有很多 IPC 方式,为何还需要一个新的 IPC 方式. Linux已经拥有
+管道 system V IPC Socket 等IPC手段。 却还要倚赖Binder来实现进程间通信。
+Binder具有无可比拟的优势。 或者可以说，Android系统对进程间有什么特殊的需求是传统其他 IPC 无法完成或者无法很好完成。 基于Client-Server的通信方式广泛应用于从互联网和数据库访问到嵌入式手持设备内部通信等各个领域。
+智能手机平台特别是Android系统中，为了向应用开发者提供丰富多样的功能，这种通信方式更是无处不在，诸如媒体播放，视音频频捕获，到各种让手机更智能的传感器（加速度，方位，温度，光亮度等）都由不同的Server负责管理，应用程序只需做为Client与这些Server建立连接便可以使用这些服务，花很少的时间和精力就能开发出令人眩目的功能。
+Client-Server 方式的广泛采用对进程间通信（IPC）机制是一个挑战。
+只有socket支持Client-Server的通信方式。当然也可以在这些底层机制上架设一套协议来实现Client-Server通信，但这样增加了系统的复杂性，在手机这种条件复杂，资源稀缺的环境下可靠性也难以保证.
+传输性能角度： socket作为一款通用接口，其传输效率低，开销大，主要用在跨网络的进程间通信和本机上进程间的低速通信。
+消息队列和管道采用存储-转发方式，即数据先从发送方缓存区拷贝到内核开辟的缓存区中，然后再从内核缓存区拷贝到接收方缓存区，至少有两次拷贝过程。
+共享内存虽然无需拷贝，但控制复杂，难以使用。
+安全性角度： Android作为一个开放式，拥有众多开发者的的平台，应用程序的来源广泛，确保智能终端的安全是非常重要的。终端用户不希望从网上下载的程序在不知情的情况下偷窥隐私数据，连接无线网络，长期操作底层设备导致电池很快耗尽等等。
+传统IPC没有任何安全措施，完全依赖上层协议来确保。 传统IPC的接收方无法获得对方进程可靠的UID/PID（用户ID/进程ID），从而无法鉴别对方身份。Android为每个安装好的应用程序分配了自己的UID，故进程的UID是鉴别进程身份的重要标志。使用传统IPC只能由用户在数据包里填入UID/PID，但这样不可靠，容易被恶意程序利用。可靠的身份标记只有由IPC机制本身在内核中添加才能确保安全性。 传统IPC访问接入点是开放的，无法建立私有通道。比如命名管道的名称，system V的键值，socket的ip地址或文件名都是开放的，只要知道这些接入点的程序都可以和对端建立连接，不管怎样都无法阻止恶意程序通过猜测接收方地址获得连接。 效率角度 从对比图可以看出,Binder 在效率上是有优势的.
+What Binder 是什么 因为 Binder 也是 CS 架构的一种,而 CS 架构最典型的就是 TCP/IP 请求了.下面做个对比,顺带类比以下 Binder 中的几个关键的概念. 背景 在开发中，经常需要通过 getSystemService 的方式获取一个系统服务,那么这些系统服务的 Binder 引用是如何传递给客户端的呢？要知道，系统服务并不是通过 startService() 启动的。
+ServiceManager 管理的服务 ServiceManager 是一个独立进程，其作用如名称所示，管理各种系统服务.]]></description>
+</item>
+<item>
+    <title>记录WebView的file协议的cookie跨域问题</title>
+    <link>https://tinggengyan.github.io/2017/03/webviewlocalcookie/</link>
+    <pubDate>Sun, 19 Mar 2017 17:24:17 &#43;0000</pubDate>
+    <author>Tinggeng</author>
+    <guid>https://tinggengyan.github.io/2017/03/webviewlocalcookie/</guid>
+    <description><![CDATA[why 在做 hybrid 框架的时候,发现以 file 协议打开的文件,存在 cookie 跨域的问题.以做记录.
+what 以 file 协议打开的文件,页面内存在新的跳转,跳转数据通过 cookie 传递,发现cookie 不能正常传递.
+how CookieManager 存在一个静态方法,可以打开 file 协议的 cookie.
+1 boolean allowFileSchemeCookies () 这是个静态方法,打开之后,整个 APP 的 webview 就都打开了.
+参考文献 [官方文档](https://developer.android.com/reference/android/webkit/CookieManager.html#allowFileSchemeCookies() ]]></description>
+</item>
+<item>
+    <title>记录一个进程重启的问题</title>
+    <link>https://tinggengyan.github.io/2017/02/activitytaskproblem/</link>
+    <pubDate>Sat, 25 Feb 2017 21:30:21 &#43;0000</pubDate>
+    <author>Tinggeng</author>
+    <guid>https://tinggengyan.github.io/2017/02/activitytaskproblem/</guid>
+    <description><![CDATA[why 在项目中，比如推送了一个具体的产品，肯定是打算显示具体的产品详情页，这时候点击返回，也自然打算让用户返回首页,还是让用户留在 APP 内。 最近项目在接入华为推送的时候，遇到一个问题,我们的默认启动 Activity 是一个广告页,在从详情页返回到主页的时候,在主页再返回,出现了广告页.
+类似于如图. How 看到这个现象猜测,是不是当栈中有 Activity 实例的时候,进程是会自动重启.为此做了一个实验，A-&gt;B，在 B 中关闭虚拟机，这时候，虚拟机自动重启。打开了 A 页面。
+A-&gt;B-&gt;C，在 C 中关闭虚拟机。
+这时候,栈中的信息如下. 此时在 C 中执行关闭虚拟机的操作,然后进程重启.下图是虚拟机重启之后的栈信息。发现,除了之前栈顶的 C 销往了,栈下的 B,C 都还在.并且 B 的状态信息还是重启之前的,除了 pid 不一样了. 这时候按下返回,栈信息如下. Conclusion 为何会出现欢迎页 目前发现,华为推送在点击通知的时候,会自动启动 APP 的默认 Activity. 关于为何进程会重启 目前发现的现象是,当栈底还有 Activity 的时候,就会重启. Google 了一些博客,还是未发现有合理的解释. 为何重启后 task 中原有栈顶的 Activity 的信息和重启之前一模一样? 原因是什么?目前不知道怎么下手分析,仅仅是猜测,应该是和 ActivityRecord 有关,系统在重启的时候直接复用了. ]]></description>
+</item>
+<item>
+    <title>BottomNavigationView 的使用</title>
+    <link>https://tinggengyan.github.io/2017/02/bottomnavigationview/</link>
+    <pubDate>Sat, 18 Feb 2017 23:02:58 &#43;0000</pubDate>
+    <author>Tinggeng</author>
+    <guid>https://tinggengyan.github.io/2017/02/bottomnavigationview/</guid>
+    <description><![CDATA[why BottomNavigationView 这个概念很早之前就被提出,之后出一个第三方库.但是一直未有官方的支持,今天正好看到有官方支持,记录一下.
+what BottomNavigationView 是 material design 中的设计的实现，这种设计很早就出现了。
+how 添加依赖 1 compile &#39;com.android.support:design:25.1.1&#39; 在menu下新建 menu配置文件，顺序就是 bottom bar 显示的顺序 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 &lt;?xml version=&#34;1.0&#34; encoding=&#34;utf-8&#34;?&gt; &lt;menu xmlns:android=&#34;http://schemas.android.com/apk/res/android&#34;&gt; &lt;item android:id=&#34;@+id/recents&#34; android:title=&#34;Recents&#34; android:icon=&#34;@drawable/ic_recents&#34;/&gt; &lt;item android:id=&#34;@+id/favorites&#34; android:title=&#34;Favorites&#34; android:icon=&#34;@drawable/ic_favorites&#34;/&gt; &lt;item android:id=&#34;@+id/nearby&#34; android:title=&#34;Nearby&#34; android:icon=&#34;@drawable/ic_nearby&#34;/&gt; &lt;/menu&gt; 在 drawable 和 drawable-v21下新建item的背景文件。 1 2 3 4 5 6 7 8 9 10 11 12 &lt;?xml version=&#34;1.0&#34; encoding=&#34;utf-8&#34;?]]></description>
+</item>
+<item>
+    <title>IPC_Binder_java_1</title>
+    <link>https://tinggengyan.github.io/2017/01/ipc-binder-java-1/</link>
+    <pubDate>Tue, 03 Jan 2017 21:30:55 &#43;0000</pubDate>
+    <author>Tinggeng</author>
+    <guid>https://tinggengyan.github.io/2017/01/ipc-binder-java-1/</guid>
+    <description><![CDATA[背景 由于 Binder 很复杂,这个分多篇展开,目前先将零碎的知识整合,在后面几篇进行总结.
+概述: Binder 用于进程间通信，而 Handler 消息机制用于同进程的线程间通信。 Binder 的英文涵义是别针，回形针的意思。 在 Android 中 Binder 的存在是为了完成进程间的通信，将进程&quot;别&quot; 在一起。比如说：普通应用可以调用播放器提供的服务：播放、暂停、停止等功能。 Binder 是工作在 Linux 层面，属于一个驱动，只是这个驱动是不需要硬件的，或者说是基于操作系统的一小块内存。从线程的角度来讲，Binder 驱动的代码是运行在内核态的，客户端程序调用 Binder 是通过系统调用完完成。
+Binder 框架：一种架构 Binder 框架提供 服务端接口、Binder 驱动、客户端接口 三个模块。 从服务端的角度来说，一个 Binder 服务端实际上就是一个 Binder 类的对象，该类一旦创建，内部就会启动一个隐藏线程。该线程接下来就用于接收 Binder 驱动发送来的消息，收到消息之后，会执行到 Binder 对象中的 onTransact 方法，在这个方法中，根据不同的参数，执行不同的服务代码。因此，要实现一个 Binder 服务，就必须重载 onTransact 方法。 在 onTransact 方法中，会获取传递进来的参数，将其转换成服务函数的参数。onTransact 参数的来源于 客户端的调用 transact 方法。所以，如果 transact 方法的参数有固定的格式输入，那么 onTransact 就会有相应的固定格式输出。
+从 Binder 驱动的角度来说。任何一个服务端的 Binder 对象被创建的时候，都同时会在 Binder 驱动中创建一个 mRemote 对象，这个对象也是 Binder 类。客户端想要访问远程服务的时候，都是通过这个 mRemote 对象。]]></description>
+</item>
+<item>
+    <title>Android消息机制_Java层</title>
+    <link>https://tinggengyan.github.io/2016/12/messgaemechanism/</link>
+    <pubDate>Sat, 17 Dec 2016 20:27:50 &#43;0000</pubDate>
+    <author>Tinggeng</author>
+    <guid>https://tinggengyan.github.io/2016/12/messgaemechanism/</guid>
+    <description><![CDATA[概述 本文记录 Android 的消息机制在 java 层的原理分析.
+背景 在学习 Binder,IPC 的时候,涉及到消息机制,顺带整理一下.
+概述 进程:系统进行资源分配和调度的基本单位. 在 Andrid 中,对于每个 App 运行时前,系统都会为其创建一个进程，App 就运行在一个进程中.
+线程: 作为程序执行的最小单元。 该线程与 App 所在进程之间资源共享，从 Linux 角度来说进程与线程除了是否共享资源外，并没有本质的区别，都是一个 task_struct 结构体，在 CPU 看来进程或线程无非就是一段可执行的代码.
+Android 主线程: 一个进程中就一个主线程,这个主线程负责更新 UI.
+Why 目前对为什么需要消息机制,还没认真的研究,个人觉得系统的运转和程序的运行说到底都是消息的传递,如何让这些程序的消息传递高效地的运转,于是产生了消息机制一说.
+What 什么是消息机制?消息机制的三大要素:
+消息队列 消息循环 消息类型 How 在 Android 中是如何使用消息机制的? Android 中典型的消息机制就是 Handler. 以下是我们平时使用 Handler 经常使用的方式.
+1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 private Handler mHandler = new Handler(new Callback() { @Override public boolean handleMessage(Message msg) { System.]]></description>
+</item>
+<item>
+    <title>JsBridge分析</title>
+    <link>https://tinggengyan.github.io/2016/10/jsbridge%E5%88%86%E6%9E%90/</link>
+    <pubDate>Thu, 13 Oct 2016 22:38:20 &#43;0000</pubDate>
+    <author>Tinggeng</author>
+    <guid>https://tinggengyan.github.io/2016/10/jsbridge%E5%88%86%E6%9E%90/</guid>
+    <description><![CDATA[序 本篇分析大头鬼的 JsBridge 库.
+js bridge 分析大头鬼的 JS 库 主要的任务都交给了 JS 库去执行，整个框架的主要过程分为三个过程，native 通过发送消息调用 JS 方法，在 JS 层的消息处理,将消息处理完成之后返回。
+Java调用JS 方法 对于 native 想要调用 JS 代码的时候，会调用自定义的 BridgeWebView 的 send 方法进行发送消息，对于消息，我们可以自定义处理器和回调处理方法，发出去的消息不是立即处理的，而是将其进行封装，成 Message 对象，如果该消息后续有回调，需要记录回调等待后续的处理，而后添加到队列中。进行排队，等待处理。
+Java 消息的分发 这个消息的分发是指的 native 层面的消息分发，当页面加载 finish 之后，会调用 dispatch 方法对刚刚进入队列中的 Message 对象进行分发。解析出 Message 携带的内容，按照约定，生成对应的 JS 脚本，交由 JS 库处理。
+加载 JS 库 按照流程的事件顺序上讲，这个过程应该是第一个被执行的，在加载完 HTML 页面的同时需要加载 JS 库，但是 JS 库的加载和页面的加载谁先成功，这个可能出现先后差异，所以需要在 HTML 中判断 JS 库是否加载成功，如果加载成功则进行消息处理；如果加载还未成功，则监听加载 JS 库的事件，等到加载成功之后，再进行消息的处理。这些事件的处理需要在 HTML 中处理.
+JS 库对消息的处理 这里处理的其实是一个 URL ，在 JS 库层面会调用相应的 JS 方法。当 Java 层调用了消息的分发命令，会通过执行 JS 脚本的方式将消息交给 JS 层，JS 层面会将需要处理的消息，添加到队列中，等待处理，这个过程又有点像 Java 层的处理方式，_handleMessageFromNative ，会将消息存入 receiveMessageQueue 中，等待处理。]]></description>
+</item>
+</channel>
+</rss>

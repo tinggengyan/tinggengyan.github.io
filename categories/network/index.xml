@@ -1,0 +1,52 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+    <channel>
+        <title>Network - Category - Tinggeng</title>
+        <link>https://tinggengyan.github.io/categories/network/</link>
+        <description>Network - Category - Tinggeng</description>
+        <generator>Hugo -- gohugo.io</generator><language>en</language><managingEditor>tinggengyan@gmail.com (Tinggeng)</managingEditor>
+            <webMaster>tinggengyan@gmail.com (Tinggeng)</webMaster><lastBuildDate>Tue, 17 May 2022 16:09:59 &#43;0000</lastBuildDate><atom:link href="https://tinggengyan.github.io/categories/network/" rel="self" type="application/rss+xml" /><item>
+    <title>一张思维导图看网络【持续迭代】</title>
+    <link>https://tinggengyan.github.io/2022/05/net-process/</link>
+    <pubDate>Tue, 17 May 2022 16:09:59 &#43;0000</pubDate>
+    <author>Tinggeng</author>
+    <guid>https://tinggengyan.github.io/2022/05/net-process/</guid>
+    <description><![CDATA[概述 受到《计算机网络-自顶向下方法》 的启发，按照网络请求的过程，总结自己的网络知识，按照时间线，画了一张图，xmind 导出的图比较大，后续持续更新，迭代这部分的内容。
+下面是一些常见的知识,将会慢慢补充进思维导图内 {% note info %} 我是分割线 {% endnote %}
+输入 url 到页面展示，经历的过程 参考链接1 参考链接2 url 解析，提取 host； DNS 解析 匹配浏览器的 DNS 的缓存； 匹配 Host 文件； 匹配系统的 DNS 缓存； 系统向本地 DNS 服务器发送请求； 联网时候，系统会自动发送 DHCP Request，路由器收到这个广播后，会向电脑分配一个地址，这个地址就是 DNS 服务器的地址； 可以通过抓包看； 通过设置中心； 通过生成的临时文件查看； DNS 通过 DNS 迭代查询 查询域名的 ip 地址； DNS 服务器返回多个地址组合，浏览器根据 DNS 轮转策略 选择一个 IP 地址进行请求； 这个过程在各个 socket 库中都有系统实现； 委托系统网络协议栈发送请求数据 创建 socket 套接字； 套接字是内存中的一块内存，其中保存了通信的控制信息； 一个套接字对应了一个端口，用以区分不同的 socket 套接字； 将 socket 连接到 server；三次握手 发送数据； 协议栈不关心应用程序传来的数据内容。在它看来，要发送的数据就是一段二进制字节序列而已。 协议栈并不会在收到数据后马上发出，而是需要判断几个要素后决定是否发出： 当协议栈缓冲区中存在的数据长度超过或接近 MSS 时会将包发出。 在收到一段数据后缓冲区会开启一个计时器，经过一定时间后仍未有新数据包产生则将缓冲区内容发出。 如果应用程序指定了“立刻发出”，那么协议栈就会按照要求直接发送数据。（一般像浏览器这种会话型的应用程序在向服务器发送数据时，等待填满缓冲区会导致延迟影响用户体验，因此一般会要求协议栈直接发出） MTU：一个网络包的最大长度，以太网中一般为1500字节。 MSS：除去头部之后，一个网络包所能容纳的TCP数据的最大长度。 接收数据 首先，协议栈尝试从接收缓冲区中取出数据并传递给应用程序，但这个时候请求消息刚刚发送出去，响应消息可能还没返回。响应消息的返回还需要等待一段时间，因此这时接收缓冲区中并没有数据，那么接收数据的操作也就无法继续。这时，协议栈会将应用程序的委托，也就是从接收缓冲区中取出数据并传递给应用程序的工作暂时挂起，等服务器返回的响应消息到达之后再继续执行接收操作。 协议栈接收到数据会会检查收到的数据块和 TCP 头部的内容，判断包是否合法可用，如果没问题则返回 ACK 确认号。然后将数据块暂存到缓冲区中，并拼接数据还原原始数据。 数据包恢复原样后将会将数据复制到应用程序指定内存地址后将控制流程转交回应用程序。然后再寻找合适时机进行窗口更新。 断开连接；四次挥手 删除套接字 DNS 作用 域名解析，将网址中的域名解析成协议栈的 IP 地址。]]></description>
+</item>
+<item>
+    <title>cronet_build</title>
+    <link>https://tinggengyan.github.io/2021/06/cronet-build/</link>
+    <pubDate>Wed, 02 Jun 2021 00:04:12 &#43;0000</pubDate>
+    <author>Tinggeng</author>
+    <guid>https://tinggengyan.github.io/2021/06/cronet-build/</guid>
+    <description><![CDATA[概述 记录编译Cronet for Android 的过程和步骤.
+准备工具 install depot_tools 1 2 # 下载 $ git clone https://chromium.googlesource.com/chromium/tools/depot_tools.git 添加进path,或者 .bashrc/.zshrc 1 2 # 将 /path/to/depot_tools 天换成自己安装的目录即可 $ export PATH=&#34;$PATH:/path/to/depot_tools&#34; 如果安装的位置是home目录下,上述命令切勿使用 ~,使用绝对路径或者 HOME 替代.
+1 $ export PATH=&#34;$PATH:${HOME}/depot_tools&#34; 我的安装路径是 ~/ide/depot_tools
+所以,我执行的命令是
+1 $ export PATH=&#34;$PATH:${HOME}/ide/depot_tools&#34; 下载代码 找个目录,clone代码,我选择的是 ~/workspace/chromium 拉取代码,因为我不想要history,如果想要history,去掉 &ndash;no-history 即可. 1 2 # 这个命令是第一次拉取代码使用 $ fetch --nohooks --no-history chromium 根据网速,快的话办小时,慢的话,数小时之后完成. 20G的东西，我的网速很慢，过了一夜吧，也没具体看多久，这个工具有个问题，没有进度条。。。 当命令结束之后,目录下就会出现隐藏文件.gclient 和 文件夹 src. ​ 假如中间中断过，或者直接拷贝了一份已有的源码，非第一次拉取代码,可能会提示如下内容。 ​ 非初次同步,则执行同步代码的命令 1 $ gclient sync 进入漫长的等待&hellip;]]></description>
+</item>
+<item>
+    <title>OkHttp学习之简介(1)</title>
+    <link>https://tinggengyan.github.io/2021/02/okhttp-1/</link>
+    <pubDate>Tue, 09 Feb 2021 16:09:59 &#43;0000</pubDate>
+    <author>Tinggeng</author>
+    <guid>https://tinggengyan.github.io/2021/02/okhttp-1/</guid>
+    <description><![CDATA[概述 回顾一下 OKHttp 这个优秀库,画了张思维导图.]]></description>
+</item>
+<item>
+    <title>HTTP2初探</title>
+    <link>https://tinggengyan.github.io/2019/04/h2-first/</link>
+    <pubDate>Tue, 09 Apr 2019 23:16:32 &#43;0000</pubDate>
+    <author>Tinggeng</author>
+    <guid>https://tinggengyan.github.io/2019/04/h2-first/</guid>
+    <description><![CDATA[概述 HTTP/2 仍是对之前 HTTP 标准的扩展,而非替代.HTTP 的应用语义不变，提供的功能不变,HTTP 方法、状态代码、URI 和标头字段等这些核心概念也不变.
+背景 本文是对Google博客上文章的翻译和笔记.以及一些待解决的问题记录. Google 博客上这篇文章的中文版有很多翻译错误.
+HTTP/2 的主要目标是: 通过支持完整的请求与响应的多路复用来减少延迟; 通过有效压缩 HTTP 标头字段将协议开销降至最低; 增加对请求优先级和服务器推送的支持; 重要的两点 HTTP/2 没有改动 HTTP 的应用语义。HTTP 方法、状态代码、URI 和标头字段等核心概念一如往常; HTTP/2 修改了数据格式化(分帧)以及在客户端与服务器间传输的方式; 这两点统帅全局，通过新的分帧层向我们的应用隐藏了所有复杂性。可以实现在同一连接上 进行多个并发交换.
+Binary framing layer: 二进制分帧层 HTTP/2 所有性能增强的核心在于新的二进制分帧层，它定义了如何封装 HTTP 消息并在客户端与服务器之间传输。 这里所谓的“层”，指的是位于套接字接口与应用可见的高级HTTP API之间一个经过优化的新编码机制:HTTP 的语义（包括各种动词、方法、标头）都不受影响，不同的是传输期间对它们的编码方式变了。
+HTTP/1.x 协议以换行符作为纯文本的分隔符，而 HTTP/2 将所有传输的信息分割为更小的消息和帧，并采用二进制格式对它们编码。
+数据流、消息和帧 数据流：已建立的连接内的双向字节流，可以承载一条或多条消息。 消息：与逻辑请求或响应消息对应的完整的一系列帧。 帧：HTTP/2 通信的最小单位，每个帧都包含帧头，至少也会标识出当前帧所属的数据流。 简单概括一下: 所有通信都在一个 TCP 连接上完成，此连接可以承载任意数量的双向数据流。 每个数据流都有一个唯一的标识符和可选的优先级信息，用于承载双向消息。 每条消息都是一条逻辑 HTTP 消息(例如请求或响应)，包含一个或多个帧。 帧是最小的通信单位，承载着特定类型的数据，例如 HTTP 标头、消息负载等等.来自不同数据流的帧可以交错发送，然后再根据每个帧头的数据流标识符重新组装. HTTP/2 将 HTTP 协议通信分解为二进制编码帧的交换，这些帧对应着特定数据流中的消息。所有这些都在一个 TCP 连接内复用。
+Request and response multiplexing: 请求与响应复用 在 HTTP/1.]]></description>
+</item>
+</channel>
+</rss>

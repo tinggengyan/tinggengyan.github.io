@@ -1,0 +1,34 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+    <channel>
+        <title>Gradle - Category - Tinggeng</title>
+        <link>https://tinggengyan.github.io/categories/gradle/</link>
+        <description>Gradle - Category - Tinggeng</description>
+        <generator>Hugo -- gohugo.io</generator><language>en</language><managingEditor>tinggengyan@gmail.com (Tinggeng)</managingEditor>
+            <webMaster>tinggengyan@gmail.com (Tinggeng)</webMaster><lastBuildDate>Tue, 07 Feb 2017 23:04:06 &#43;0000</lastBuildDate><atom:link href="https://tinggengyan.github.io/categories/gradle/" rel="self" type="application/rss+xml" /><item>
+    <title>加快 AndroidStudio 编译速度之 build cache</title>
+    <link>https://tinggengyan.github.io/2017/02/buildcache/</link>
+    <pubDate>Tue, 07 Feb 2017 23:04:06 &#43;0000</pubDate>
+    <author>Tinggeng</author>
+    <guid>https://tinggengyan.github.io/2017/02/buildcache/</guid>
+    <description><![CDATA[Why AndroidStudio 编译速度慢,已经是人神共愤的事情了.本文是一篇译文，讲述如果利用 build cache 技术加快编译速度。分成两部分,一部分是第三方博文,另外一部分是官方文档.援引文章在结尾给出.
+Using build cache in Android Studio makes Gradle build faster 为何关心 build cache? 因为 build cache 可以加快 clean 和 build 的速度。当你执行 &lsquo;gradle clean build&rsquo; 或者类似的命令的时候。
+How does it make the build faster? 通过缓存已经分包的 libraries，这个过程是不在 Gradle 的缓存管理范围内的。无论是通过 Android studio 或者 命令行的方式执行 clean 操作，build-cache 内的包都会被保留，等到下次 build apk 的时候，被复用。可以在 build-cache 目录下查看缓存的结构。
+这是文件夹下列出的是一系列命名比较奇怪的文件和文件夹。文件大小是 0 字节的文件是用来锁定文件使用的。这个是非常必要的，因为同一个缓存文件可以被不同的项目使用。锁文件，可以防止两个项目同时对一个缓存文件进行读写操作。
+Exploded aar caches aar 缓存以文件夹的形式展现。有两种类型的缓存，一种是 dex 缓存，一种是解压完的 aar 形式的缓存。解压完的 aar 将直接保存在对应的 output 文件夹下。比如 220674f5fc7186b424e032744f0eeb413d469b54 文件夹的 input 文件 包含以下内容：]]></description>
+</item>
+<item>
+    <title>AndroidStudio引入AAR依赖</title>
+    <link>https://tinggengyan.github.io/2016/08/androidstudio%E5%BC%95%E5%85%A5aar%E4%BE%9D%E8%B5%96/</link>
+    <pubDate>Wed, 10 Aug 2016 00:25:57 &#43;0000</pubDate>
+    <author>Tinggeng</author>
+    <guid>https://tinggengyan.github.io/2016/08/androidstudio%E5%BC%95%E5%85%A5aar%E4%BE%9D%E8%B5%96/</guid>
+    <description><![CDATA[概述 本文介绍 AndroidStudio 项目如何如何进行 aar 包依赖.
+AndroidStudio如何引用aar依赖 未成功方案 google 了一圈，网上的方法基本都是以下这种，在 module/build.gradle 文件中添加如下代码.同时将 aar 文件 copy 到 libs 文件夹下.
+1 2 3 4 5 repositories { flatDir { dirs &#39;libs&#39; } } compile(name:&#39;aarName&#39;, ext:&#39;aar&#39;) 我尝试了很多次,没有成功.
+亲测有效方案 采用了以下方法成功了,和上面的内容一致,只是位置不一样.
+project 目录下新建一个目录 aars(名字应该随意),新建的 aars 文件夹是用来存放需要 aar 包的.
+在 project 下的 build.gradle 中添加代码.
+1 2 3 4 5 6 7 8 9 allprojects { repositories { jcenter() //为了添加aar依赖 flatDir { dirs &#39;../aars&#39; } } } 注意: 是在根目录下的 build.]]></description>
+</item>
+</channel>
+</rss>

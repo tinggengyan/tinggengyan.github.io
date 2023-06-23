@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <title>Service 的生命周期 - Tinggeng</title><meta name="Description" content="Tinggeng"><meta property="og:title" content="Service 的生命周期" />
+<meta property="og:description" content="概述 Service 有两种启动方式,一种是 startService ;一种是 bindService.这两种的启动的 Service 的生命周期有些许差异,并且当二者混用的时候,有一些需要注意的地方.这里用打印 log 日志的方式记录下生命周期的差异.
+仅 startService 触发 startService 方法 1 2 D/ServiceLifeService: onCreate() called D/ServiceLifeService: onStartCommand() called with: intent = [Intent { cmp=cn.steve.study/cn.steve.servicelifecycle.ServiceLifeService }], flags = [0], startId = [1] 退出APP 无回调
+再次进入APP，触发startService 方法 1 D/ServiceLifeService: onStartCommand() called with: intent = [Intent { cmp=cn.steve.study/cn.steve.servicelifecycle.ServiceLifeService }], flags = [0], startId = [2] 杀死 App 进程 没有回调，直接被系统杀死。只有一些AMS系统回调
+1 2 W/ActivityManager: Scheduling restart of crashed service cn.steve.study/cn.steve.servicelifecycle.ServiceLifeService in 1000ms I/ActivityManager: Force stopping service ServiceRecord{38ffaacf u0 cn." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://tinggengyan.github.io/2018/04/servicelifecycle/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2018-04-26T22:40:55+00:00" />
+<meta property="article:modified_time" content="2018-04-26T22:40:55+00:00" /><meta property="og:site_name" content="Tinggeng" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Service 的生命周期"/>
+<meta name="twitter:description" content="概述 Service 有两种启动方式,一种是 startService ;一种是 bindService.这两种的启动的 Service 的生命周期有些许差异,并且当二者混用的时候,有一些需要注意的地方.这里用打印 log 日志的方式记录下生命周期的差异.
+仅 startService 触发 startService 方法 1 2 D/ServiceLifeService: onCreate() called D/ServiceLifeService: onStartCommand() called with: intent = [Intent { cmp=cn.steve.study/cn.steve.servicelifecycle.ServiceLifeService }], flags = [0], startId = [1] 退出APP 无回调
+再次进入APP，触发startService 方法 1 D/ServiceLifeService: onStartCommand() called with: intent = [Intent { cmp=cn.steve.study/cn.steve.servicelifecycle.ServiceLifeService }], flags = [0], startId = [2] 杀死 App 进程 没有回调，直接被系统杀死。只有一些AMS系统回调
+1 2 W/ActivityManager: Scheduling restart of crashed service cn.steve.study/cn.steve.servicelifecycle.ServiceLifeService in 1000ms I/ActivityManager: Force stopping service ServiceRecord{38ffaacf u0 cn."/>
+<meta name="application-name" content="Tinggeng">
+<meta name="apple-mobile-web-app-title" content="Tinggeng"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="https://tinggengyan.github.io/2018/04/servicelifecycle/" /><link rel="prev" href="https://tinggengyan.github.io/2018/01/annotation2/" /><link rel="next" href="https://tinggengyan.github.io/2018/04/activitylifecycle/" /><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/normalize.css@8.0.1/normalize.min.css"><link rel="stylesheet" href="/css/style.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css"><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "Service 的生命周期",
+        "inLanguage": "en",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https:\/\/tinggengyan.github.io\/2018\/04\/servicelifecycle\/"
+        },"image": ["https:\/\/tinggengyan.github.io\/images\/Apple-Devices-Preview.png"],"genre": "posts","keywords": "Service","wordcount":  555 ,
+        "url": "https:\/\/tinggengyan.github.io\/2018\/04\/servicelifecycle\/","datePublished": "2018-04-26T22:40:55+00:00","dateModified": "2018-04-26T22:40:55+00:00","publisher": {
+            "@type": "Organization",
+            "name": "xxxx","logo": "https:\/\/tinggengyan.github.io\/img\/avatar.png"},"author": {
+                "@type": "Person",
+                "name": "Tinggeng"
+            },"description": ""
+    }
+    </script></head>
+    <body data-header-desktop="fixed" data-header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="Tinggeng"><span class="header-title-pre"><i class='far fa-kiss-wink-heart fa-fw' aria-hidden='true'></i></span>Tinggeng</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/" title="posts"> Posts </a><a class="menu-item" href="/tags/"> Tags </a><a class="menu-item" href="/categories/"> Categories </a><a class="menu-item" href="/daily_notes/" title="flemo"> flemo </a><span class="menu-item delimiter"></span><span class="menu-item search" id="search-desktop">
+                        <input type="text" placeholder="Search titles or contents..." id="search-input-desktop">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="Search">
+                            <i class="fas fa-search fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="Clear">
+                            <i class="fas fa-times-circle fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-desktop">
+                            <i class="fas fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+                        </span>
+                    </span><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                    <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="Tinggeng"><span class="header-title-pre"><i class='far fa-kiss-wink-heart fa-fw' aria-hidden='true'></i></span>Tinggeng</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><div class="search-wrapper">
+                    <div class="search mobile" id="search-mobile">
+                        <input type="text" placeholder="Search titles or contents..." id="search-input-mobile">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="Search">
+                            <i class="fas fa-search fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="Clear">
+                            <i class="fas fa-times-circle fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-mobile">
+                            <i class="fas fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+                        </span>
+                    </div>
+                    <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+                        Cancel
+                    </a>
+                </div><a class="menu-item" href="/posts/" title="posts">Posts</a><a class="menu-item" href="/tags/" title="">Tags</a><a class="menu-item" href="/categories/" title="">Categories</a><a class="menu-item" href="/daily_notes/" title="flemo">flemo</a><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+            </a></div>
+    </div>
+</header><div class="search-dropdown desktop">
+        <div id="search-dropdown-desktop"></div>
+    </div>
+    <div class="search-dropdown mobile">
+        <div id="search-dropdown-mobile"></div>
+    </div><main class="main">
+                <div class="container"><div class="toc" id="toc-auto">
+            <h2 class="toc-title">Contents</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">Service 的生命周期</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Tinggeng</a>
+</span>&nbsp;<span class="post-category">included in <a href="/categories/mobile/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Mobile</a>&nbsp;<a href="/categories/android/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Android</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2018-04-26">2018-04-26</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;555 words&nbsp;
+                <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;3 minutes&nbsp;<span id="/2018/04/servicelifecycle/" class="leancloud_visitors" data-flag-title="Service 的生命周期">
+                        <i class="far fa-eye fa-fw" aria-hidden="true"></i>&nbsp;<span class=leancloud-visitors-count></span>&nbsp;views
+                    </span>&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  data-kept="">
+                <div class="details-summary toc-title">
+                    <span>Contents</span>
+                    <span><i class="details-icon fas fa-angle-right" aria-hidden="true"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#触发-startservice-方法">触发 startService 方法</a></li>
+    <li><a href="#退出app">退出APP</a></li>
+    <li><a href="#再次进入app触发startservice-方法">再次进入APP，触发startService 方法</a></li>
+    <li><a href="#杀死-app-进程">杀死 App 进程</a></li>
+    <li><a href="#调用-stop-方法">调用 stop 方法</a></li>
+    <li><a href="#小结">小结</a></li>
+  </ul>
+
+  <ul>
+    <li><a href="#触发-bindservice-方法">触发 bindService 方法</a></li>
+    <li><a href="#多次触发-bindservice-方法">多次触发 bindService 方法</a></li>
+    <li><a href="#退出app-1">退出APP</a></li>
+    <li><a href="#退出前主动调用-unbind-方法">退出前，主动调用 unbind 方法</a></li>
+    <li><a href="#小结-1">小结</a></li>
+  </ul>
+
+  <ul>
+    <li><a href="#触发-startservice-方法再触发--bindservice-方法">触发 startService 方法，再触发  bindService 方法</a></li>
+    <li><a href="#退出app-2">退出APP</a></li>
+    <li><a href="#调用--unbind-方法">调用  unbind 方法</a></li>
+    <li><a href="#在-unbind-之前调用-stop-方法">在 unbind 之前，调用 stop 方法</a></li>
+    <li><a href="#调用-stop-方法再调-unbind">调用 stop 方法，再调 unbind</a></li>
+    <li><a href="#调用-unbind再调用-stop-方法">调用 unbind，再调用 stop 方法</a></li>
+    <li><a href="#小结-2">小结</a></li>
+  </ul>
+
+  <ul>
+    <li><a href="#触发-bindservice-方法再触发--startservice-方法">触发 bindService 方法，再触发  startService 方法</a></li>
+    <li><a href="#退出app-3">退出APP</a></li>
+    <li><a href="#调用--unbind-方法-1">调用  unbind 方法</a></li>
+    <li><a href="#在-unbind-之前调用-stop-方法-1">在 unbind 之前，调用 stop 方法</a></li>
+    <li><a href="#调用-stop-方法再调-unbind-1">调用 stop 方法，再调 unbind</a></li>
+    <li><a href="#调用-unbind再调用-stop-方法-1">调用 unbind，再调用 stop 方法</a></li>
+    <li><a href="#小结-3">小结</a></li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><h1 id="概述">概述</h1>
+<p>Service 有两种启动方式,一种是 startService ;一种是 bindService.这两种的启动的 Service 的生命周期有些许差异,并且当二者混用的时候,有一些需要注意的地方.这里用打印 log 日志的方式记录下生命周期的差异.</p>
+<!-- more -->
+<h1 id="仅-startservice">仅 startService</h1>
+<h2 id="触发-startservice-方法">触发 startService 方法</h2>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-console" data-lang="console"><span class="line"><span class="cl"><span class="go">D/ServiceLifeService: onCreate() called
+</span></span></span><span class="line"><span class="cl"><span class="go">D/ServiceLifeService: onStartCommand() called with: intent = [Intent { cmp=cn.steve.study/cn.steve.servicelifecycle.ServiceLifeService }], flags = [0], startId = [1]
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="退出app">退出APP</h2>
+<p>无回调</p>
+<h2 id="再次进入app触发startservice-方法">再次进入APP，触发startService 方法</h2>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-console" data-lang="console"><span class="line"><span class="cl"><span class="go">D/ServiceLifeService: onStartCommand() called with: intent = [Intent { cmp=cn.steve.study/cn.steve.servicelifecycle.ServiceLifeService }], flags = [0], startId = [2]
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="杀死-app-进程">杀死 App 进程</h2>
+<p>没有回调，直接被系统杀死。只有一些AMS系统回调</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-console" data-lang="console"><span class="line"><span class="cl"><span class="go">W/ActivityManager: Scheduling restart of crashed service cn.steve.study/cn.steve.servicelifecycle.ServiceLifeService in 1000ms
+</span></span></span><span class="line"><span class="cl"><span class="go">I/ActivityManager: Force stopping service ServiceRecord{38ffaacf u0 cn.steve.study/cn.steve.servicelifecycle.ServiceLifeService}
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="调用-stop-方法">调用 stop 方法</h2>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-console" data-lang="console"><span class="line"><span class="cl"><span class="go">D/ServiceLifeService: onDestroy() called
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="小结">小结</h2>
+<p>对于 startService 而言</p>
+<ul>
+<li>当要启动的 Service 没有创建时，就会创建，而后回调 onCreate  和 onStartCommand  方法；</li>
+<li>当要启动的 Service 已经存在，则只会回调  onStartCommand 方法；</li>
+<li>退出 App，Service 依旧存活</li>
+<li>调用 stop 方法，回调 onDestroy</li>
+</ul>
+<h1 id="仅-bindservice">仅 bindService</h1>
+<h2 id="触发-bindservice-方法">触发 bindService 方法</h2>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-console" data-lang="console"><span class="line"><span class="cl"><span class="go">D/ServiceLifeService: onCreate() called
+</span></span></span><span class="line"><span class="cl"><span class="go">D/ServiceLifeService: onBind() called with: intent = [Intent { cmp=cn.steve.study/cn.steve.servicelifecycle.ServiceLifeService }]
+</span></span></span><span class="line"><span class="cl"><span class="go">D/ServiceLifeService: onServiceConnected() called with: name = [ComponentInfo{cn.steve.study/cn.steve.servicelifecycle.ServiceLifeService}], service = [ServiceBinder:cn.steve.servicelifecycle.ServiceLifeService$ServiceBinder@4bb38ec]
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="多次触发-bindservice-方法">多次触发 bindService 方法</h2>
+<p>对于同一个 ServiceConnection 只会进行一次 ServiceConnection 中的方法回调。
+若不同的 ServiceConnection ，则会进行 ServiceConnection 中的 方法回调</p>
+<h2 id="退出app-1">退出APP</h2>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-console" data-lang="console"><span class="line"><span class="cl"><span class="go">D/ServiceLifeService: onUnbind() called with: intent = [Intent { cmp=cn.steve.study/cn.steve.servicelifecycle.ServiceLifeService }]
+</span></span></span><span class="line"><span class="cl"><span class="go">D/ServiceLifeService: onDestroy() called
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="退出前主动调用-unbind-方法">退出前，主动调用 unbind 方法</h2>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-console" data-lang="console"><span class="line"><span class="cl"><span class="go">D/ServiceLifeService: onUnbind() called with: intent = [Intent { cmp=cn.steve.study/cn.steve.servicelifecycle.ServiceLifeService }]
+</span></span></span><span class="line"><span class="cl"><span class="go">D/ServiceLifeService: onDestroy() called
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="小结-1">小结</h2>
+<p>对于 bindService 而言</p>
+<ul>
+<li>当要启动的 Service 没有创建时，就会创建，而后回调 onCreate  和 onBind  方法；</li>
+<li>当要启动的 Service 已经存在，则只会回调  onBind 方法；</li>
+<li>退出 App，Service 将自动解绑，并回调 onDestroy 方法</li>
+<li>退出 App 和主动 unbind 的回调一致</li>
+</ul>
+<h1 id="先-startservice-再-bindservice">先 startService ，再 bindService</h1>
+<h2 id="触发-startservice-方法再触发--bindservice-方法">触发 startService 方法，再触发  bindService 方法</h2>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-console" data-lang="console"><span class="line"><span class="cl"><span class="go">D/ServiceLifeService: onCreate() called
+</span></span></span><span class="line"><span class="cl"><span class="go">D/ServiceLifeService: onStartCommand() called with: intent = [Intent { cmp=cn.steve.study/cn.steve.servicelifecycle.ServiceLifeService }], flags = [0], startId = [1]
+</span></span></span><span class="line"><span class="cl"><span class="go">D/ServiceLifeService: onBind() called with: intent = [Intent { cmp=cn.steve.study/cn.steve.servicelifecycle.ServiceLifeService }]
+</span></span></span><span class="line"><span class="cl"><span class="go">D/ServiceLifeService: onServiceConnected() called with: name = [ComponentInfo{cn.steve.study/cn.steve.servicelifecycle.ServiceLifeService}], service =[ServiceBinder:cn.steve.servicelifecycle.ServiceLifeService$ServiceBinder@598f7d8]
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="退出app-2">退出APP</h2>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-console" data-lang="console"><span class="line"><span class="cl"><span class="go">D/ServiceLifeService: onUnbind() called with: intent = [Intent { cmp=cn.steve.study/cn.steve.servicelifecycle.ServiceLifeService }]
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="调用--unbind-方法">调用  unbind 方法</h2>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-console" data-lang="console"><span class="line"><span class="cl"><span class="go">D/ServiceLifeService: onUnbind() called with: intent = [Intent { cmp=cn.steve.study/cn.steve.servicelifecycle.ServiceLifeService }]
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="在-unbind-之前调用-stop-方法">在 unbind 之前，调用 stop 方法</h2>
+<p>无回调</p>
+<h2 id="调用-stop-方法再调-unbind">调用 stop 方法，再调 unbind</h2>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-console" data-lang="console"><span class="line"><span class="cl"><span class="go">D/ServiceLifeService: onUnbind() called with: intent = [Intent { cmp=cn.steve.study/cn.steve.servicelifecycle.ServiceLifeService }]
+</span></span></span><span class="line"><span class="cl"><span class="go">D/ServiceLifeService: onDestroy() called
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="调用-unbind再调用-stop-方法">调用 unbind，再调用 stop 方法</h2>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-console" data-lang="console"><span class="line"><span class="cl"><span class="go">D/ServiceLifeService: onUnbind() called with: intent = [Intent { cmp=cn.steve.study/cn.steve.servicelifecycle.ServiceLifeService }]
+</span></span></span><span class="line"><span class="cl"><span class="go">D/ServiceLifeService: onDestroy() called
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="小结-2">小结</h2>
+<p>和前面的方式类似，有以下几点需要注意</p>
+<ul>
+<li>bindService 只会导致 Service 回调 onBind 方法，因为 Service本身已经存在，所以，不会再回调 onCreate 方法，也说明 Service 是同一个 Service</li>
+<li>退出 App 后只会让 Service 回调 onUnbind 方法，受 startService 方法的影响， Service 依旧存活，故而不会回调 onDestroy。</li>
+</ul>
+<h1 id="先-bindservice-再-startservice">先 bindService ，再 startService</h1>
+<h2 id="触发-bindservice-方法再触发--startservice-方法">触发 bindService 方法，再触发  startService 方法</h2>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-console" data-lang="console"><span class="line"><span class="cl"><span class="go">D/ServiceLifeService: onCreate() called
+</span></span></span><span class="line"><span class="cl"><span class="go">D/ServiceLifeService: onBind() called with: intent = [Intent { cmp=cn.steve.study/cn.steve.servicelifecycle.ServiceLifeService }]
+</span></span></span><span class="line"><span class="cl"><span class="go">D/ServiceLifeService: onServiceConnected() called with: name = [ComponentInfo{cn.steve.study/cn.steve.servicelifecycle.ServiceLifeService}], service = [ServiceBinder:cn.steve.servicelifecycle.ServiceLifeService$ServiceBinder@4bb38ec]
+</span></span></span><span class="line"><span class="cl"><span class="go">D/ServiceLifeService: onStartCommand() called with: intent = [Intent { cmp=cn.steve.study/cn.steve.servicelifecycle.ServiceLifeService }], flags = [0], startId = [1]
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="退出app-3">退出APP</h2>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-console" data-lang="console"><span class="line"><span class="cl"><span class="go">D/ServiceLifeService: onUnbind() called with: intent = [Intent { cmp=cn.steve.study/cn.steve.servicelifecycle.ServiceLifeService }]
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="调用--unbind-方法-1">调用  unbind 方法</h2>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-console" data-lang="console"><span class="line"><span class="cl"><span class="go">D/ServiceLifeService: onUnbind() called with: intent = [Intent { cmp=cn.steve.study/cn.steve.servicelifecycle.ServiceLifeService }]
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="在-unbind-之前调用-stop-方法-1">在 unbind 之前，调用 stop 方法</h2>
+<p>无回调</p>
+<h2 id="调用-stop-方法再调-unbind-1">调用 stop 方法，再调 unbind</h2>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-console" data-lang="console"><span class="line"><span class="cl"><span class="go">D/ServiceLifeService: onUnbind() called with: intent = [Intent { cmp=cn.steve.study/cn.steve.servicelifecycle.ServiceLifeService }]
+</span></span></span><span class="line"><span class="cl"><span class="go">D/ServiceLifeService: onDestroy() called
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="调用-unbind再调用-stop-方法-1">调用 unbind，再调用 stop 方法</h2>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-console" data-lang="console"><span class="line"><span class="cl"><span class="go">D/ServiceLifeService: onUnbind() called with: intent = [Intent { cmp=cn.steve.study/cn.steve.servicelifecycle.ServiceLifeService }]
+</span></span></span><span class="line"><span class="cl"><span class="go">D/ServiceLifeService: onDestroy() called
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="小结-3">小结</h2>
+<p>和前面的方式类似，有以下几点需要注意</p>
+<ul>
+<li>bindService 调用产生的回调和单独 调用 bindService 一样；</li>
+<li>startService 调用时，因为 Service 对象已经存在，所以只回调 onStartCommand 方法</li>
+<li>退出 App 后只会让 Service 回调 onUnbind 方法，受 startService 方法的影响， Service 依旧存活，故而不会回调 onDestroy。</li>
+</ul>
+<h1 id="总结">总结</h1>
+<ul>
+<li>已经创建成功的 Service，在运行期间，无论是 start 还是 bind，都不会调用 onCreate；</li>
+<li>Service 在运行期间，每次调用 start 都会触发 onStartCommand 方法；而多次用同一个 ServiceConnection 进行bind 调用时，只会触发一次 onBind ；对于用不同的 ServiceConnection 进行 bind 时，都会触发 ServiceConnection 中的 onServiceConnected 方法，但并不会触发 onBind 方法，所以，相遇于多次触发 onStartCommand 触发，对于 bind 操作来说，onBind 只会触发一次。</li>
+<li>当 start 和 bind 混合调用时，要想停止，必须要调用 unbind 才会回调 onDestory 方法。若先调用 stop，此时没有任何回调，再调用unbind时，会回调onUnbind，同时进行 onDestroy 回调。反之，若先调用 unbind，再调用 stop，回调顺序一致。</li>
+</ul>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>Updated on 2018-04-26</span>
+            </div></div>
+        <div class="post-info-line">
+            <div class="post-info-md"><span>
+                            <a class="link-to-markdown" href="/2018/04/servicelifecycle/index.md" target="_blank">Read Markdown</a>
+                        </span></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="Share on Twitter" data-sharer="twitter" data-url="https://tinggengyan.github.io/2018/04/servicelifecycle/" data-title="Service 的生命周期" data-hashtags="Service"><i class="fab fa-twitter fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Facebook" data-sharer="facebook" data-url="https://tinggengyan.github.io/2018/04/servicelifecycle/" data-hashtag="Service"><i class="fab fa-facebook-square fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Hacker News" data-sharer="hackernews" data-url="https://tinggengyan.github.io/2018/04/servicelifecycle/" data-title="Service 的生命周期"><i class="fab fa-hacker-news fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Line" data-sharer="line" data-url="https://tinggengyan.github.io/2018/04/servicelifecycle/" data-title="Service 的生命周期"><i data-svg-src="https://cdn.jsdelivr.net/npm/simple-icons@6.20.0/icons/line.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on 微博" data-sharer="weibo" data-url="https://tinggengyan.github.io/2018/04/servicelifecycle/" data-title="Service 的生命周期"><i class="fab fa-weibo fa-fw" aria-hidden="true"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw" aria-hidden="true"></i>&nbsp;<a href="/tags/service/">Service</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">Back</a></span>&nbsp;|&nbsp;<span><a href="/">Home</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/2018/01/annotation2/" class="prev" rel="prev" title="Annotation 使用备忘"><i class="fas fa-angle-left fa-fw" aria-hidden="true"></i>Annotation 使用备忘</a>
+            <a href="/2018/04/activitylifecycle/" class="next" rel="next" title="Activity 在横竖屏切换情况下的生命周期变化">Activity 在横竖屏切换情况下的生命周期变化<i class="fas fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+<div id="comments"><div id="valine" class="comment"></div><noscript>
+                Please enable JavaScript to view the comments powered by <a href="https://valine.js.org/">Valine</a>.
+            </noscript></div></article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.114.1">Hugo</a> | Theme - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw" aria-hidden="true"></i> LoveIt</a>
+                </div><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright fa-fw" aria-hidden="true"></i><span itemprop="copyrightYear">2019 - 2023</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank">Tinggeng</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+        </div>
+    </footer></div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="Back to Top">
+                <i class="fas fa-arrow-up fa-fw" aria-hidden="true"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="View Comments">
+                <i class="fas fa-comment fa-fw" aria-hidden="true"></i>
+            </a>
+        </div><link rel="stylesheet" href="/lib/valine/valine.min.css"><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/valine@1.4.18/dist/Valine.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/autocomplete.js@0.38.1/dist/autocomplete.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/algoliasearch@4.13.0/dist/algoliasearch-lite.umd.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lazysizes@5.3.1/lazysizes.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/clipboard@2.0.11/dist/clipboard.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/sharer.js@0.5.1/sharer.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"Copy to clipboard","maxShownLines":50},"comment":{"valine":{"appId":"QGzwQXOqs5JOhN4RGPOkR2mR-MdYXbMMI","appKey":"WBmoGyJtbqUswvfLh6L8iEBr","avatar":"mp","el":"#valine","emojiCDN":"https://cdn.jsdelivr.net/npm/emoji-datasource-google@14.0.0/img/google/64/","emojiMaps":{"100":"1f4af.png","alien":"1f47d.png","anger":"1f4a2.png","angry":"1f620.png","anguished":"1f627.png","astonished":"1f632.png","black_heart":"1f5a4.png","blue_heart":"1f499.png","blush":"1f60a.png","bomb":"1f4a3.png","boom":"1f4a5.png","broken_heart":"1f494.png","brown_heart":"1f90e.png","clown_face":"1f921.png","cold_face":"1f976.png","cold_sweat":"1f630.png","confounded":"1f616.png","confused":"1f615.png","cry":"1f622.png","crying_cat_face":"1f63f.png","cupid":"1f498.png","dash":"1f4a8.png","disappointed":"1f61e.png","disappointed_relieved":"1f625.png","dizzy":"1f4ab.png","dizzy_face":"1f635.png","drooling_face":"1f924.png","exploding_head":"1f92f.png","expressionless":"1f611.png","face_vomiting":"1f92e.png","face_with_cowboy_hat":"1f920.png","face_with_hand_over_mouth":"1f92d.png","face_with_head_bandage":"1f915.png","face_with_monocle":"1f9d0.png","face_with_raised_eyebrow":"1f928.png","face_with_rolling_eyes":"1f644.png","face_with_symbols_on_mouth":"1f92c.png","face_with_thermometer":"1f912.png","fearful":"1f628.png","flushed":"1f633.png","frowning":"1f626.png","ghost":"1f47b.png","gift_heart":"1f49d.png","green_heart":"1f49a.png","grimacing":"1f62c.png","grin":"1f601.png","grinning":"1f600.png","hankey":"1f4a9.png","hear_no_evil":"1f649.png","heart":"2764-fe0f.png","heart_decoration":"1f49f.png","heart_eyes":"1f60d.png","heart_eyes_cat":"1f63b.png","heartbeat":"1f493.png","heartpulse":"1f497.png","heavy_heart_exclamation_mark_ornament":"2763-fe0f.png","hole":"1f573-fe0f.png","hot_face":"1f975.png","hugging_face":"1f917.png","hushed":"1f62f.png","imp":"1f47f.png","innocent":"1f607.png","japanese_goblin":"1f47a.png","japanese_ogre":"1f479.png","joy":"1f602.png","joy_cat":"1f639.png","kiss":"1f48b.png","kissing":"1f617.png","kissing_cat":"1f63d.png","kissing_closed_eyes":"1f61a.png","kissing_heart":"1f618.png","kissing_smiling_eyes":"1f619.png","laughing":"1f606.png","left_speech_bubble":"1f5e8-fe0f.png","love_letter":"1f48c.png","lying_face":"1f925.png","mask":"1f637.png","money_mouth_face":"1f911.png","nauseated_face":"1f922.png","nerd_face":"1f913.png","neutral_face":"1f610.png","no_mouth":"1f636.png","open_mouth":"1f62e.png","orange_heart":"1f9e1.png","partying_face":"1f973.png","pensive":"1f614.png","persevere":"1f623.png","pleading_face":"1f97a.png","pouting_cat":"1f63e.png","purple_heart":"1f49c.png","rage":"1f621.png","relaxed":"263a-fe0f.png","relieved":"1f60c.png","revolving_hearts":"1f49e.png","right_anger_bubble":"1f5ef-fe0f.png","robot_face":"1f916.png","rolling_on_the_floor_laughing":"1f923.png","scream":"1f631.png","scream_cat":"1f640.png","see_no_evil":"1f648.png","shushing_face":"1f92b.png","skull":"1f480.png","skull_and_crossbones":"2620-fe0f.png","sleeping":"1f634.png","sleepy":"1f62a.png","slightly_frowning_face":"1f641.png","slightly_smiling_face":"1f642.png","smile":"1f604.png","smile_cat":"1f638.png","smiley":"1f603.png","smiley_cat":"1f63a.png","smiling_face_with_3_hearts":"1f970.png","smiling_imp":"1f608.png","smirk":"1f60f.png","smirk_cat":"1f63c.png","sneezing_face":"1f927.png","sob":"1f62d.png","space_invader":"1f47e.png","sparkling_heart":"1f496.png","speak_no_evil":"1f64a.png","speech_balloon":"1f4ac.png","star-struck":"1f929.png","stuck_out_tongue":"1f61b.png","stuck_out_tongue_closed_eyes":"1f61d.png","stuck_out_tongue_winking_eye":"1f61c.png","sunglasses":"1f60e.png","sweat":"1f613.png","sweat_drops":"1f4a6.png","sweat_smile":"1f605.png","thinking_face":"1f914.png","thought_balloon":"1f4ad.png","tired_face":"1f62b.png","triumph":"1f624.png","two_hearts":"1f495.png","unamused":"1f612.png","upside_down_face":"1f643.png","weary":"1f629.png","white_frowning_face":"2639-fe0f.png","white_heart":"1f90d.png","wink":"1f609.png","woozy_face":"1f974.png","worried":"1f61f.png","yawning_face":"1f971.png","yellow_heart":"1f49b.png","yum":"1f60b.png","zany_face":"1f92a.png","zipper_mouth_face":"1f910.png","zzz":"1f4a4.png"},"enableQQ":false,"highlight":true,"lang":"en","pageSize":10,"placeholder":"Your comment ...","recordIP":true,"serverURLs":"https://leancloud.hugoloveit.com","visitor":true}},"search":{"algoliaAppID":"","algoliaIndex":"","algoliaSearchKey":"","highlightTag":"em","maxResultLength":10,"noResultsFound":"No results found","snippetLength":30,"type":"algolia"}};</script><script type="text/javascript" src="/js/theme.min.js"></script></body>
+</html>

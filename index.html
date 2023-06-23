@@ -1,1080 +1,207 @@
-
-
 <!DOCTYPE html>
-<html lang="en" data-default-color-scheme=auto>
-
-
-
-<head>
-  <meta charset="UTF-8">
-  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
-  <link rel="icon" href="/img/favicon.png">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
-  <meta http-equiv="x-ua-compatible" content="ie=edge">
-  
-  <meta name="theme-color" content="#2f4154">
-  <meta name="author" content="Tinggeng Yan">
-  <meta name="keywords" content="">
-  
-    <meta name="description" content="学而不思则罔,思而不学则殆">
-<meta property="og:type" content="website">
-<meta property="og:title" content="EffyLife">
-<meta property="og:url" content="http://example.com/index.html">
-<meta property="og:site_name" content="EffyLife">
-<meta property="og:description" content="学而不思则罔,思而不学则殆">
-<meta property="og:locale" content="en_US">
-<meta property="article:author" content="Tinggeng Yan">
-<meta name="twitter:card" content="summary_large_image">
-  
-  
-    <meta name="referrer" content="no-referrer-when-downgrade">
-  
-  
-  <title>EffyLife</title>
-
-  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" />
-
-
-
-
-
-<!-- 主题依赖的图标库，不要自行修改 -->
-<!-- Do not modify the link that theme dependent icons -->
-
-<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
-
-
-
-<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
-
-
-<link  rel="stylesheet" href="/css/main.css" />
-
-
-  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
-  
-    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
-  
-
-
-
-
-  <script id="fluid-configs">
-    var Fluid = window.Fluid || {};
-    Fluid.ctx = Object.assign({}, Fluid.ctx)
-    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.2","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":"94c71fc4afacda3d2bffa4e863357892","google":null,"gtag":"G-EVHJQ5NV0G","tencent":{"sid":500716225,"cid":500716226},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
-
-    if (CONFIG.web_analytics.follow_dnt) {
-      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
-      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+<html lang="en">
+    <head>
+	<meta name="generator" content="Hugo 0.114.1">
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <title>Tinggeng</title><meta name="Description" content="Tinggeng"><meta property="og:title" content="Tinggeng" />
+<meta property="og:description" content="Tinggeng" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://tinggengyan.github.io/" /><meta property="og:site_name" content="Tinggeng" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Tinggeng"/>
+<meta name="twitter:description" content="Tinggeng"/>
+<meta name="application-name" content="Tinggeng">
+<meta name="apple-mobile-web-app-title" content="Tinggeng"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="https://tinggengyan.github.io/" /><link rel="alternate" href="/index.xml" type="application/rss+xml" title="Tinggeng">
+    <link rel="feed" href="/index.xml" type="application/rss+xml" title="Tinggeng"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/normalize.css@8.0.1/normalize.min.css"><link rel="stylesheet" href="/css/style.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css"><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "WebSite",
+        "url": "https:\/\/tinggengyan.github.io\/","inLanguage": "en","author": {
+                "@type": "Person",
+                "name": "Tinggeng"
+            },"description": "Tinggeng","image": "https:\/\/tinggengyan.github.io\/images\/Apple-Devices-Preview.png","thumbnailUrl": "https:\/\/tinggengyan.github.io\/images\/screenshot.png","name": "Tinggeng"
     }
-  </script>
-  <script  src="/js/utils.js" ></script>
-  <script  src="/js/color-schema.js" ></script>
-  
+    </script></head>
+    <body data-header-desktop="fixed" data-header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
 
-  
-    <!-- Baidu Analytics -->
-    <script async>
-      if (!Fluid.ctx.dnt) {
-        var _hmt = _hmt || [];
-        (function() {
-          var hm = document.createElement("script");
-          hm.src = "https://hm.baidu.com/hm.js?94c71fc4afacda3d2bffa4e863357892";
-          var s = document.getElementsByTagName("script")[0];
-          s.parentNode.insertBefore(hm, s);
-        })();
-      }
-    </script>
-  
-
-  
-
-  
-    <!-- Google gtag.js -->
-    <script async>
-      if (!Fluid.ctx.dnt) {
-        Fluid.utils.createScript('https://www.googletagmanager.com/gtag/js?id=G-EVHJQ5NV0G', function() {
-          window.dataLayer = window.dataLayer || [];
-          function gtag(){dataLayer.push(arguments);}
-          gtag('js', new Date());
-          gtag('config', 'G-EVHJQ5NV0G');
-        });
-      }
-    </script>
-  
-
-  
-    <!-- Tencent Analytics -->
-    <script async>
-      if (!Fluid.ctx.dnt) {
-        var _mtac = {};
-        (function() {
-          var mta = document.createElement("script");
-          mta.src = "//pingjs.qq.com/h5/stats.js?v2.0.4";
-          mta.setAttribute("name", "MTAH5");
-          mta.setAttribute("sid", "500716225");
-          
-          mta.setAttribute("cid", "500716226");
-          
-          var s = document.getElementsByTagName("script")[0];
-          s.parentNode.insertBefore(mta, s);
-        })();
-      }
-    </script>
-  
-
-  
-
-  
-
-  
-
-
-
-  
-<meta name="generator" content="Hexo 5.4.0"></head>
-
-
-<body>
-  
-
-  <header>
-    
-
-<div class="header-inner" style="height: 100vh;">
-  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
-  <div class="container">
-    <a class="navbar-brand" href="/">
-      <strong>EffyLife</strong>
-    </a>
-
-    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
-            data-target="#navbarSupportedContent"
-            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-      <div class="animated-icon"><span></span><span></span><span></span></div>
-    </button>
-
-    <!-- Collapsible content -->
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav ml-auto text-center">
-        
-          
-          
-          
-          
-            <li class="nav-item">
-              <a class="nav-link" href="/">
-                <i class="iconfont icon-home-fill"></i>
-                Home
-              </a>
-            </li>
-          
-        
-          
-          
-          
-          
-            <li class="nav-item">
-              <a class="nav-link" href="/archives/">
-                <i class="iconfont icon-archive-fill"></i>
-                Archives
-              </a>
-            </li>
-          
-        
-          
-          
-          
-          
-            <li class="nav-item">
-              <a class="nav-link" href="/categories/">
-                <i class="iconfont icon-category-fill"></i>
-                Categories
-              </a>
-            </li>
-          
-        
-          
-          
-          
-          
-            <li class="nav-item">
-              <a class="nav-link" href="/tags/">
-                <i class="iconfont icon-tags-fill"></i>
-                Tags
-              </a>
-            </li>
-          
-        
-          
-          
-          
-          
-            <li class="nav-item">
-              <a class="nav-link" href="/about/">
-                <i class="iconfont icon-user-fill"></i>
-                About
-              </a>
-            </li>
-          
-        
-        
-          <li class="nav-item" id="search-btn">
-            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
-              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
-            </a>
-          </li>
-          
-        
-        
-          <li class="nav-item" id="color-toggle-btn">
-            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
-                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
-          </li>
-        
-      </ul>
-    </div>
-  </div>
-</nav>
-
-  
-
-<div id="banner" class="banner" parallax=true
-     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
-  <div class="full-bg-img">
-    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
-      <div class="banner-text text-center fade-in-up">
-        <div class="h2">
-          
-            <span id="subtitle" data-typed-text="像孩子一样思考"></span>
-          
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="Tinggeng"><span class="header-title-pre"><i class='far fa-kiss-wink-heart fa-fw' aria-hidden='true'></i></span>Tinggeng</a>
         </div>
-
-        
-      </div>
-
-      
-        <div class="scroll-down-bar">
-          <i class="iconfont icon-arrowdown"></i>
-        </div>
-      
-    </div>
-  </div>
-</div>
-
-</div>
-
-  </header>
-
-  <main>
-    
-      <div class="container nopadding-x-md">
-        <div id="board"
-          style="margin-top: 0">
-          
-          <div class="container">
-            <div class="row">
-              <div class="col-12 col-md-10 m-auto">
-                
-
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2022/07/17/os_summary/" target="_self">
-          一张思维导图看操作系统 【持续迭代】
-        </a>
-      </h1>
-
-      
-      <a class="index-excerpt index-excerpt__noimg" href="/2022/07/17/os_summary/" target="_self">
-        <div>
-          概述总结自己的操作系统的知识，按照编码 -&gt; 运行，画了一张图，xmind 导出的图比较大，目前这部分的内容还比较少，后续持续更新，迭代这部分的内容。   下面是一些常见的知识,将会慢慢补充进思维导图内                我是分割线             linux 整体结构图 makelinux：makelinux  解释器 &amp; 编译器 &amp; JIT &amp;
-        </div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2022-07-17 16:29" pubdate>
-              2022-07-17
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3 d-flex align-items-center">
-            <i class="iconfont icon-category"></i>
-            
-
-<span class="category-chains">
-  
-  
-    
-      <span class="category-chain">
-        
-  <a href="/categories/OS/" class="category-chain-item">OS</a>
-  
-  
-
-      </span>
-    
-  
-</span>
-
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/OS/">#OS</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2022/05/17/net-process/" target="_self">
-          一张思维导图看网络【持续迭代】
-        </a>
-      </h1>
-
-      
-      <a class="index-excerpt index-excerpt__noimg" href="/2022/05/17/net-process/" target="_self">
-        <div>
-          概述受到《计算机网络-自顶向下方法》 的启发，按照网络请求的过程，总结自己的网络知识，按照时间线，画了一张图，xmind 导出的图比较大，后续持续更新，迭代这部分的内容。   下面是一些常见的知识,将会慢慢补充进思维导图内                我是分割线             输入 url 到页面展示，经历的过程 参考链接1 参考链接2   url 解析，提取 host； DNS 解析
-        </div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2022-05-17 16:09" pubdate>
-              2022-05-17
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3 d-flex align-items-center">
-            <i class="iconfont icon-category"></i>
-            
-
-<span class="category-chains">
-  
-  
-    
-      <span class="category-chain">
-        
-  <a href="/categories/Network/" class="category-chain-item">Network</a>
-  
-  
-
-      </span>
-    
-  
-</span>
-
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/Http/">#Http</a>
-            
-              <a href="/tags/TCP/">#TCP</a>
-            
-              <a href="/tags/Net/">#Net</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2022/04/03/android_summary/" target="_self">
-          一张思维导图看 Android【持续迭代】
-        </a>
-      </h1>
-
-      
-      <a class="index-excerpt index-excerpt__noimg" href="/2022/04/03/android_summary/" target="_self">
-        <div>
-          概述总结自己的 Android 知识，按照编码 -&gt; 运行，画了一张图，xmind 导出的图比较大，后续持续更新，迭代这部分的内容。   下面是一些常见的知识,将会慢慢补充进思维导图内                我是分割线              Handler 与 Binderhandler 处理的是 App 进程内的通信；binder 处理的是，App 进程间、applicatio
-        </div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2022-04-03 16:19" pubdate>
-              2022-04-03
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3 d-flex align-items-center">
-            <i class="iconfont icon-category"></i>
-            
-
-<span class="category-chains">
-  
-  
-    
-      <span class="category-chain">
-        
-  <a href="/categories/Android/" class="category-chain-item">Android</a>
-  
-  
-
-      </span>
-    
-  
-</span>
-
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/Android/">#Android</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2021/10/03/the-documentation-system_how_to_write_good_document/" target="_self">
-          文档系统_程序员如何写好文档 (The documentation system)
-        </a>
-      </h1>
-
-      
-      <a class="index-excerpt index-excerpt__noimg" href="/2021/10/03/the-documentation-system_how_to_write_good_document/" target="_self">
-        <div>
-          背景文档是日常开发过程中非常重要的记录和交流的工具,也是学习新技术必然要阅读的材料.学习技术的时候,都会建议直接看官方文档,不同的技术网站,会看到 Guide,Tutorial,Wiki,Reference 等分类(也可能只包含其中一个或者几个). 我之前就一直对这几个英文单词有疑问,尤其是我在看 Android 开发者官网的时候,不明白每个分类的依据,间接导致,自己也没有学会如何写文档.后来发现
-        </div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2021-10-03 10:25" pubdate>
-              2021-10-03
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3 d-flex align-items-center">
-            <i class="iconfont icon-category"></i>
-            
-
-<span class="category-chains">
-  
-  
-    
-      <span class="category-chain">
-        
-  <a href="/categories/Other/" class="category-chain-item">Other</a>
-  
-  
-
-      </span>
-    
-  
-</span>
-
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/Documentation/">#Documentation</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2021/07/06/mySoftware/" target="_self">
-          mySoftware
-        </a>
-      </h1>
-
-      
-      <a class="index-excerpt index-excerpt__noimg" href="/2021/07/06/mySoftware/" target="_self">
-        <div>
-          概述记录我平时使用的一些软件,提效的,娱乐的.
-        </div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2021-07-06 19:57" pubdate>
-              2021-07-06
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3 d-flex align-items-center">
-            <i class="iconfont icon-category"></i>
-            
-
-<span class="category-chains">
-  
-  
-    
-      <span class="category-chain">
-        
-  <a href="/categories/Android/" class="category-chain-item">Android</a>
-  
-  
-
-      </span>
-    
-  
-</span>
-
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/Android/">#Android</a>
-            
-              <a href="/tags/Java/">#Java</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2021/07/03/java_summary/" target="_self">
-          一张思维导图看 Java 【持续迭代】
-        </a>
-      </h1>
-
-      
-      <a class="index-excerpt index-excerpt__noimg" href="/2021/07/03/java_summary/" target="_self">
-        <div>
-          概述总结自己的 java 知识，按照编码 -&gt; 运行，画了一张图，xmind 导出的图比较大，后续持续更新，迭代这部分的内容。   下面是一些常见的知识,将会慢慢补充进思维导图内                我是分割线              HashMap 原理可参考的文章  HashMap原理，循环链表是如何产生的  HashMap? ConcurrentHashMap? 相信看完这
-        </div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2021-07-03 16:29" pubdate>
-              2021-07-03
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3 d-flex align-items-center">
-            <i class="iconfont icon-category"></i>
-            
-
-<span class="category-chains">
-  
-  
-    
-      <span class="category-chain">
-        
-  <a href="/categories/java/" class="category-chain-item">java</a>
-  
-  
-
-      </span>
-    
-  
-</span>
-
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/Java-JVM/">#Java,JVM</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2021/06/02/cronet-build/" target="_self">
-          cronet_build
-        </a>
-      </h1>
-
-      
-      <a class="index-excerpt index-excerpt__noimg" href="/2021/06/02/cronet-build/" target="_self">
-        <div>
-          概述记录编译Cronet for Android 的过程和步骤.
-        </div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2021-06-02 00:04" pubdate>
-              2021-06-02
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3 d-flex align-items-center">
-            <i class="iconfont icon-category"></i>
-            
-
-<span class="category-chains">
-  
-  
-    
-      <span class="category-chain">
-        
-  <a href="/categories/Network/" class="category-chain-item">Network</a>
-  
-  
-
-      </span>
-    
-  
-</span>
-
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/Cronet/">#Cronet</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2021/02/09/okhttp-1/" target="_self">
-          OkHttp学习之简介(1)
-        </a>
-      </h1>
-
-      
-      <a class="index-excerpt index-excerpt__noimg" href="/2021/02/09/okhttp-1/" target="_self">
-        <div>
-          概述回顾一下 OKHttp 这个优秀库,画了张思维导图.
-        </div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2021-02-09 16:09" pubdate>
-              2021-02-09
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3 d-flex align-items-center">
-            <i class="iconfont icon-category"></i>
-            
-
-<span class="category-chains">
-  
-  
-    
-      <span class="category-chain">
-        
-  <a href="/categories/Network/" class="category-chain-item">Network</a>
-  
-  
-
-      </span>
-    
-  
-</span>
-
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/Android/">#Android</a>
-            
-              <a href="/tags/Http/">#Http</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2020/09/06/aosp_build/" target="_self">
-          AOSP编译
-        </a>
-      </h1>
-
-      
-      <a class="index-excerpt index-excerpt__noimg" href="/2020/09/06/aosp_build/" target="_self">
-        <div>
-          override最近给电脑换了块SSD，装了Ubuntu 18.04。之前的aosp也不想copy过来了，直接重新编译一份，顺带看下新的SSD带来的提效。因为手机是 nexus 6p，aosp 最后支持到 8.1. 记录下编译需要的操作。 步骤 open jdk(https:&#x2F;&#x2F;openjdk.java.net&#x2F;install&#x2F;) 1sudo apt install openjdk-8-jdk r
-        </div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2020-09-06 15:09" pubdate>
-              2020-09-06
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3 d-flex align-items-center">
-            <i class="iconfont icon-category"></i>
-            
-
-<span class="category-chains">
-  
-  
-    
-      <span class="category-chain">
-        
-  <a href="/categories/Android/" class="category-chain-item">Android</a>
-  
-  
-
-      </span>
-    
-  
-</span>
-
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/aosp/">#aosp</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2020/07/23/activity-launch-process-1/" target="_self">
-          Activity启动流程概述
-        </a>
-      </h1>
-
-      
-      <a class="index-excerpt index-excerpt__noimg" href="/2020/07/23/activity-launch-process-1/" target="_self">
-        <div>
-          概述花了点时间,debug了一下系统,跟踪了一下Activity的启动流程.画了一张图,作为综述.分析的 compileSdkVersion 为 28.用的是 draw.io 画的,源文件.
-        </div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2020-07-23 17:17" pubdate>
-              2020-07-23
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3 d-flex align-items-center">
-            <i class="iconfont icon-category"></i>
-            
-
-<span class="category-chains">
-  
-  
-    
-      <span class="category-chain">
-        
-  <a href="/categories/Android/" class="category-chain-item">Android</a>
-  
-  
-
-      </span>
-    
-  
-</span>
-
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/Activity/">#Activity</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-
-
-  <nav aria-label="navigation">
-    <span class="pagination" id="pagination">
-      <span class="page-number current">1</span><a class="page-number" href="/page/2/#board">2</a><a class="page-number" href="/page/3/#board">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/#board">5</a><a class="extend next" rel="next" href="/page/2/#board"><i class="iconfont icon-arrowright"></i></a>
-    </span>
-  </nav>
-
-
-
-              </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/" title="posts"> Posts </a><a class="menu-item" href="/tags/"> Tags </a><a class="menu-item" href="/categories/"> Categories </a><a class="menu-item" href="/daily_notes/" title="flemo"> flemo </a><span class="menu-item delimiter"></span><span class="menu-item search" id="search-desktop">
+                        <input type="text" placeholder="Search titles or contents..." id="search-input-desktop">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="Search">
+                            <i class="fas fa-search fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="Clear">
+                            <i class="fas fa-times-circle fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-desktop">
+                            <i class="fas fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+                        </span>
+                    </span><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                    <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+                </a>
             </div>
-          </div>
         </div>
-      </div>
-    
-
-    
-      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
-        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
-      </a>
-    
-
-    
-      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
-     aria-hidden="true">
-  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
-    <div class="modal-content">
-      <div class="modal-header text-center">
-        <h4 class="modal-title w-100 font-weight-bold">Search</h4>
-        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body mx-3">
-        <div class="md-form mb-5">
-          <input type="text" id="local-search-input" class="form-control validate">
-          <label data-error="x" data-success="v" for="local-search-input">Keyword</label>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="Tinggeng"><span class="header-title-pre"><i class='far fa-kiss-wink-heart fa-fw' aria-hidden='true'></i></span>Tinggeng</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
         </div>
-        <div class="list-group" id="local-search-result"></div>
-      </div>
+        <div class="menu" id="menu-mobile"><div class="search-wrapper">
+                    <div class="search mobile" id="search-mobile">
+                        <input type="text" placeholder="Search titles or contents..." id="search-input-mobile">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="Search">
+                            <i class="fas fa-search fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="Clear">
+                            <i class="fas fa-times-circle fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-mobile">
+                            <i class="fas fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+                        </span>
+                    </div>
+                    <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+                        Cancel
+                    </a>
+                </div><a class="menu-item" href="/posts/" title="posts">Posts</a><a class="menu-item" href="/tags/" title="">Tags</a><a class="menu-item" href="/categories/" title="">Categories</a><a class="menu-item" href="/daily_notes/" title="flemo">flemo</a><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+            </a></div>
     </div>
-  </div>
-</div>
-
-    
-
-    
-  </main>
-
-  <footer>
-    <div class="footer-inner">
-  
-    <div class="footer-content">
-       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+</header><div class="search-dropdown desktop">
+        <div id="search-dropdown-desktop"></div>
     </div>
-  
-  
-    <div class="statistics">
-  
-  
+    <div class="search-dropdown mobile">
+        <div id="search-dropdown-mobile"></div>
+    </div><main class="main">
+                <div class="container"><div class="page home" data-home="posts"><div class="home-profile"><div class="home-avatar"><a href="/posts/" title="posts"><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="../img/avatar.png"
+        data-srcset="../img/avatar.png, ../img/avatar.png 1.5x, ../img/avatar.png 2x"
+        data-sizes="auto"
+        alt="../img/avatar.png"
+        title="../img/avatar.png" /></a></div><h1 class="home-title">This Tinggeng</h1><div class="home-subtitle"><div id="id-1" class="typeit"></div></div><div class="links"></div></div>
+<article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
+        <a href="/2022/07/os_summary/">一张思维导图看操作系统 【持续迭代】</a>
+    </h1><div class="post-meta"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Tinggeng</a>
+</span>&nbsp;<span class="post-publish">published on <time datetime="2022-07-17">2022-07-17</time></span>&nbsp;<span class="post-category">included in <a href="/categories/os/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>OS</a></span></div><div class="content">概述 总结自己的操作系统的知识，按照编码 -&gt; 运行，画了一张图，xmind 导出的图比较大，目前这部分的内容还比较少，后续持续更新，迭代这部分的内容。
+下面是一些常见的知识,将会慢慢补充进思维导图内 {% note info %} 我是分割线 {% endnote %}
+linux 整体结构图 makelinux：makelinux 解释器 &amp; 编译器 &amp; JIT &amp; AOT 参考链接1 参考链接2 JIT(Just In Time)和 AOT(Ahead Of Time)是两种不同的编译方式:
+JIT:
+编译时,将源代码编译成字节码(bytecode),运行时再将字节码编译成机器码。 优点是运行时可以进行更多优化,生成更高质量的机器码。 缺点是编译时需要额外的编译步骤,会增加程序启动时间。 第一次运行时编译时间较长,后续运行时间短。运行时性能较AOT略差。 AOT:
+编译时,将源代码直接编译成机器码。 优点是编译只有一次,程序启动更快。 编译器在程序运行前完成编译,生成机器代码。运行时直接执行机器代码。 编译时间较长,运行时性能好。 改动源代码需要重新编译。 缺点是编译时难以进行复杂的优化,生成的机器码质量可能较低。 典型的AOT编译语言有C、C++等。 总结:
+JIT 的运行性能更高,但启动时间长。适合长时间运行的程序。 AOT 的启动时间短,但运行性能可能略低。适合启动频繁的程序。 在实际使用中,也可以二者结合,采用 AOT 先编译成机器码,再运行时由 JIT 进一步优化,以兼顾启动时间和运行性能。许多语言(如 Java、C#)的编译器都支持这两种模式。 ![[Pasted image 20230407143623.png]]
+解释器：Java源程序编译成字节码，然后由运行环境对字节码解释执行，提供解释功能的 JVM 组件为解释器。它能执行 JVM 规范的字节码，执行方式是一遍翻译一遍执行，所以效率低，但是简单并易于实现。主要实现是在 Interpreter 模块。
+![[Pasted image 20230407143647.png]] 即时编译器：能够将运行时的热点代码，编译成运行效率高的及时代码。 判断一段代码是不是热点代码，是不是需要触发JIT编译，这样的行为称为：热点探测（Hot Spot Detection），有几种主流的探测方式：</div><div class="post-footer">
+        <a href="/2022/07/os_summary/">Read More</a><div class="post-tags">
+                <i class="fas fa-tags fa-fw" aria-hidden="true"></i>&nbsp;<a href="/tags/os/">OS</a></div></div>
+</article><article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
+        <a href="/2022/05/net-process/">一张思维导图看网络【持续迭代】</a>
+    </h1><div class="post-meta"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Tinggeng</a>
+</span>&nbsp;<span class="post-publish">published on <time datetime="2022-05-17">2022-05-17</time></span>&nbsp;<span class="post-category">included in <a href="/categories/network/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Network</a></span></div><div class="content">概述 受到《计算机网络-自顶向下方法》 的启发，按照网络请求的过程，总结自己的网络知识，按照时间线，画了一张图，xmind 导出的图比较大，后续持续更新，迭代这部分的内容。
+下面是一些常见的知识,将会慢慢补充进思维导图内 {% note info %} 我是分割线 {% endnote %}
+输入 url 到页面展示，经历的过程 参考链接1 参考链接2 url 解析，提取 host； DNS 解析 匹配浏览器的 DNS 的缓存； 匹配 Host 文件； 匹配系统的 DNS 缓存； 系统向本地 DNS 服务器发送请求； 联网时候，系统会自动发送 DHCP Request，路由器收到这个广播后，会向电脑分配一个地址，这个地址就是 DNS 服务器的地址； 可以通过抓包看； 通过设置中心； 通过生成的临时文件查看； DNS 通过 DNS 迭代查询 查询域名的 ip 地址； DNS 服务器返回多个地址组合，浏览器根据 DNS 轮转策略 选择一个 IP 地址进行请求； 这个过程在各个 socket 库中都有系统实现； 委托系统网络协议栈发送请求数据 创建 socket 套接字； 套接字是内存中的一块内存，其中保存了通信的控制信息； 一个套接字对应了一个端口，用以区分不同的 socket 套接字； 将 socket 连接到 server；三次握手 发送数据； 协议栈不关心应用程序传来的数据内容。在它看来，要发送的数据就是一段二进制字节序列而已。 协议栈并不会在收到数据后马上发出，而是需要判断几个要素后决定是否发出： 当协议栈缓冲区中存在的数据长度超过或接近 MSS 时会将包发出。 在收到一段数据后缓冲区会开启一个计时器，经过一定时间后仍未有新数据包产生则将缓冲区内容发出。 如果应用程序指定了“立刻发出”，那么协议栈就会按照要求直接发送数据。（一般像浏览器这种会话型的应用程序在向服务器发送数据时，等待填满缓冲区会导致延迟影响用户体验，因此一般会要求协议栈直接发出） MTU：一个网络包的最大长度，以太网中一般为1500字节。 MSS：除去头部之后，一个网络包所能容纳的TCP数据的最大长度。 接收数据 首先，协议栈尝试从接收缓冲区中取出数据并传递给应用程序，但这个时候请求消息刚刚发送出去，响应消息可能还没返回。响应消息的返回还需要等待一段时间，因此这时接收缓冲区中并没有数据，那么接收数据的操作也就无法继续。这时，协议栈会将应用程序的委托，也就是从接收缓冲区中取出数据并传递给应用程序的工作暂时挂起，等服务器返回的响应消息到达之后再继续执行接收操作。 协议栈接收到数据会会检查收到的数据块和 TCP 头部的内容，判断包是否合法可用，如果没问题则返回 ACK 确认号。然后将数据块暂存到缓冲区中，并拼接数据还原原始数据。 数据包恢复原样后将会将数据复制到应用程序指定内存地址后将控制流程转交回应用程序。然后再寻找合适时机进行窗口更新。 断开连接；四次挥手 删除套接字 DNS 作用 域名解析，将网址中的域名解析成协议栈的 IP 地址。</div><div class="post-footer">
+        <a href="/2022/05/net-process/">Read More</a><div class="post-tags">
+                <i class="fas fa-tags fa-fw" aria-hidden="true"></i>&nbsp;<a href="/tags/tcp/">TCP</a>,&nbsp;<a href="/tags/http/">Http</a>,&nbsp;<a href="/tags/net/">Net</a></div></div>
+</article><article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
+        <a href="/2022/04/android_summary/">一张思维导图看 Android【持续迭代】</a>
+    </h1><div class="post-meta"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Tinggeng</a>
+</span>&nbsp;<span class="post-publish">published on <time datetime="2022-04-03">2022-04-03</time></span>&nbsp;<span class="post-category">included in <a href="/categories/android/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Android</a></span></div><div class="content">概述 总结自己的 Android 知识，按照编码 -&gt; 运行，画了一张图，xmind 导出的图比较大，后续持续更新，迭代这部分的内容。
+下面是一些常见的知识,将会慢慢补充进思维导图内 {% note info %} 我是分割线 {% endnote %}
+Handler 与 Binder handler 处理的是 App 进程内的通信； binder 处理的是，App 进程间、application 和 framework 之间的通信；
+任务启动管理 - 启动框架 抽象任务 task； 优先级 ； countdownlatch 数值为依赖 task 的数量； 运行的 executor ； 被依赖的 task 列表； toWait 方法； notify 方法，countdownlatch 减一； 构造 task 的有向无环图； TaskManager： 管理所有的 task，及其拓扑关系； 管理需要执行的 task； countdownlatch 值为 Activity 跳转的生命周期 ActivityA跳转到ActivityB： 1 2 3 4 5 Activity A：onPause Activity B：onCreate Activity B：onStart Activity B：onResume Activity A：onStop ActivityB返回ActivityA： 1 2 3 4 5 6 Activity B：onPause Activity A：onRestart Activity A：onStart Activity A：onResume Activity B：onStop Activity B：onDestroy 旋转屏幕 不改配置，默认配置 1 2 3 4 5 6 7 onPause--&gt; onStop--&gt; onDestroy--&gt; onCreate--&gt; onStart--&gt; onRestoreInstanceState--&gt; onResume--&gt; 修改配置 1 onConfigChanged--&gt; Activity 的启动模式 参考链接1 仅仅适用于Activity启动Activity，并且采用的都是默认Intent，没有额外添加任何Flag</div><div class="post-footer">
+        <a href="/2022/04/android_summary/">Read More</a><div class="post-tags">
+                <i class="fas fa-tags fa-fw" aria-hidden="true"></i>&nbsp;<a href="/tags/android/">Android</a></div></div>
+</article><article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
+        <a href="/2021/10/the-documentation-system_how_to_write_good_document/">文档系统_程序员如何写好文档 (The documentation system)</a>
+    </h1><div class="post-meta"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Tinggeng</a>
+</span>&nbsp;<span class="post-publish">published on <time datetime="2021-10-03">2021-10-03</time></span>&nbsp;<span class="post-category">included in <a href="/categories/other/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Other</a></span></div><div class="content">背景 文档是日常开发过程中非常重要的记录和交流的工具,也是学习新技术必然要阅读的材料.学习技术的时候,都会建议直接看官方文档,不同的技术网站,会看到 Guide,Tutorial,Wiki,Reference 等分类(也可能只包含其中一个或者几个). 我之前就一直对这几个英文单词有疑问,尤其是我在看 Android 开发者官网的时候,不明白每个分类的依据,间接导致,自己也没有学会如何写文档.后来发现了这篇文章,读完觉得很有道理. The documentation system ,窃以为非常好,值得我进行模仿学习.
+以下的内容会进行自我理解的翻译,有意无意的删除一些冗余的修辞,如有幸被网上邻居搜到,建议看原文,非常简单.
+Summary 为了编写良好的软件文档,需要说一个秘密: 没有一个名为文档的东西,文档应该是四样东西的集合.
+这四样分别是是：tutorials(教程),how-to guides(如何做的引导),technical reference (技术参考),explanation(解释). 它们代表四种不同的目的或职能,并且这四种的写作方式都有差异.了解了这些差异,通常能巨大的提高文档的质量.
+关于即将描述的文档系统 这里的文档系统是非常简单的,近乎于全面适用行业内的方案.行文有个承诺: 如果将这些原则在实践中进行应用,将极大的提高写作文档的质量.
+有很多公司/组织/开源项目采用了本文所述的方案,详细见链接采用本方案的项目 Introduction 问题和解决方案 需要解决的问题 如果文档不够好,产品再好,人们也不会使用它.即使人们必须使用它,那也是因为他们别无选择,没有良好的文档,人们无法如你期望的那样使用你开发的产品.
+当然了,每个人都知道文档的重要性,每个人也都尝试去写好文档,最终也都失败了.
+这也不是写作的人不够努力,通常是他们没有按照正确的方式去做而已.
+本文介绍的文档系统,不是为了让你更加努力的工作,而是让你写作的文档更好,使用正确的方式进行写作,让文档更加易懂,更加容易维护: The right way is the easier way.
+文档系统的秘密 有一个不应该是秘密的秘密: 文档应该围绕四种不能的功能目的进行构造: tutorials(教程),how-to guides(如何做的引导),technical reference (技术参考),explanation(解释).每一种都需要有独立的写作模式. 软件的使用者在不同的情况下,需要不同的文档,故而,大部分的软件,对于这四种文档,都需要包含.
+文档将围绕这四种进行构建,并且四种文档需要独立的创建.
+Tutorials(教程) How-to guides(如何做的引导) Reference(技术参考) Explanation(解释) oriented to(面向的/目的/导向) 学习 有一个固定的目标 传达信息 为了更深的理解 must (必须做到) 让一个初学者上手 演示如何解决一个特定的问题 描述技术的内部参数等 深层次的解释 its form(形式) 一节课 一些列的步骤 纯粹的描述 用文字进行阐述说明 analogy(类比) 教一个孩子如何进行烹饪 烹饪中的食谱 百科全书里的文章 关于烹饪的历史书 如上这种划分,可以让作者清楚写什么内容,写在哪儿,如何写; 读者清楚去哪找想要的内容.</div><div class="post-footer">
+        <a href="/2021/10/the-documentation-system_how_to_write_good_document/">Read More</a><div class="post-tags">
+                <i class="fas fa-tags fa-fw" aria-hidden="true"></i>&nbsp;<a href="/tags/documentation/">Documentation</a></div></div>
+</article><article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
+        <a href="/2021/07/mysoftware/">mySoftware</a>
+    </h1><div class="post-meta"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Tinggeng</a>
+</span>&nbsp;<span class="post-publish">published on <time datetime="2021-07-06">2021-07-06</time></span>&nbsp;<span class="post-category">included in <a href="/categories/android/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Android</a></span></div><div class="content">概述 记录我平时使用的一些软件,提效的,娱乐的.
+快速打开 Raycast Alfred Contexts 目的: 用于快速打开应用软件和文件夹 其中比较知名的就是 Alfread了,我目前把它和Context进行配合使用.
+Raycast 和 Alfred 差不多,Raycast 我装了,但是用的频率不高,目前没发现他有什么特别的亮点,用来作为 Alfred 的备选,毕竟免费.
+Context有一个feature就是可以切换window,比如,AndroidStudio里打开了多个Project,形成了多个window,这说话,直接Alfred打开Androidstudio的话,只是打开了软件,至于哪个Window,有时候不清楚,这种情况下,Context 是个很好的补充. Context 的缺陷就是,他只是用来打开,已有的窗口的.
+输入法 搜狗输入法 目前国内也就搜狗输入法还行了,当然百度也有Mac版本,但是体验上,还是搜狗好点.
+终端 iterm2 oh-my-zsh Mac 下很好的终端工具了.目前没发现其他替代品;
+Git fork Native开发,相比对sourceTree,颜值和性能都更高,无他,颜值即正义.
+Android开发 AndroidStudio 开发Android必备,只是有一点至今让我诟病的地方,就是ActivityStack的打印被删除了&hellip;
+C/Cpp开发 Clion VSC配置cpp开发环境也试过,繁琐.Mac 下的Xcode也用过,感觉一般, 不得不说,jetbrains做的IDE,真香.
+Java开发 IntellijIdea Eclipse NetBeans 目前在用的就是 IntellijIdea 了,其他的基本不用了.只有一个 NetBeans 在某些场景下是有优势的,那就是JavaSE GUI开发的时候.
+清除广告 AdBlock Pro 清除Safari广告用; 看动漫太多的广告了,Chrome 上清除广告很容易,Safari就只能依赖这个plugin了.
+database DataGrip 一个客户端,支持查看所有的数据库,jetbrains太香了.
+分屏 Grid windows 系统有个自动管理窗口的功能,这个软件就是在Mac上实现类似的功能;
+扩展屏幕 Deskreen 只要有个浏览器就可以实现屏幕的扩展,有时候可以将自己的iPad用上.
+statusbar 隐藏图标 Dozer Bartender Dozer是开源的,Bartender 是收费的.</div><div class="post-footer">
+        <a href="/2021/07/mysoftware/">Read More</a><div class="post-tags">
+                <i class="fas fa-tags fa-fw" aria-hidden="true"></i>&nbsp;<a href="/tags/android/">Android</a>,&nbsp;<a href="/tags/java/">Java</a></div></div>
+</article><article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
+        <a href="/2021/07/java_summary/">一张思维导图看 Java 【持续迭代】</a>
+    </h1><div class="post-meta"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Tinggeng</a>
+</span>&nbsp;<span class="post-publish">published on <time datetime="2021-07-03">2021-07-03</time></span>&nbsp;<span class="post-category">included in <a href="/categories/java/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Java</a></span></div><div class="content">概述 总结自己的 java 知识，按照编码 -&gt; 运行，画了一张图，xmind 导出的图比较大，后续持续更新，迭代这部分的内容。
+下面是一些常见的知识,将会慢慢补充进思维导图内 {% note info %} 我是分割线 {% endnote %}
+HashMap 原理 可参考的文章
+HashMap原理，循环链表是如何产生的 HashMap? ConcurrentHashMap? 相信看完这篇没人能难住你！ 转换红黑树的阈值为何设置为8 官方comment 结构 Java 8 之前：数组 + 链表 Java 8 之后：数组 + 链表； 存储的对象 Java7 Entry&lt;K,V&gt;[] table，Entry 是 HashMap 中的一个静态内部类，它有key、value、next、hash（key的hashcode）成员变量。
+Java8 TREEIFY_THRESHOLD 用于判断是否需要将链表转换为红黑树的阈值。 HashEntry 修改为 Node。 负载因子： 给定的默认容量为 16，负载因子为 0.75。Map 在使用过程中不断的往里面存放数据，当数量达到了 16 * 0.75 = 12 就需要将当前 16 的容量进行扩容，而扩容这个过程涉及到 rehash、复制数据等操作，所以非常消耗性能。 因此通常建议能提前预估 HashMap 的大小最好，尽量的减少扩容带来的性能损耗。 put 操作 Java7 判断当前数组是否需要初始化。 如果 key 为空，则 put 一个空值进去。 根据 key 计算出 hashcode。 根据计算出的 hashcode 定位出所在桶。 如果桶是一个链表则需要遍历判断里面的 hashcode、key 是否和传入 key 相等，如果相等则进行覆盖，并返回原来的值。 如果桶是空的，说明当前位置没有数据存入，新增一个 Entry 对象写入当前位置。 当调用 addEntry 写入 Entry 时需要判断是否需要扩容。如果需要就进行两倍扩充，并将当前的 key 重新 hash 并定位。而在 createEntry 中会将当前位置的桶传入到新建的桶中，如果当前桶有值就会在位置形成链表。 Java8 当 Hash 冲突严重时，在桶上形成的链表会变的越来越长，这样在查询时的效率就会越来越低；时间复杂度为 O(N)，因此 1.</div><div class="post-footer">
+        <a href="/2021/07/java_summary/">Read More</a><div class="post-tags">
+                <i class="fas fa-tags fa-fw" aria-hidden="true"></i>&nbsp;<a href="/tags/javajvm/">Java,JVM</a></div></div>
+</article><ul class="pagination"><li class="page-item active">
+                    <span class="page-link">
+                        <a href="/">1</a>
+                    </span>
+                </li><li class="page-item ">
+                    <span class="page-link">
+                        <a href="/page/2/">2</a>
+                    </span>
+                </li><li class="page-item ">
+                    <span class="page-link">
+                        <a href="/page/3/">3</a>
+                    </span>
+                </li><li class="page-item ">
+                    <span class="page-link" aria-hidden="true">&hellip;</span>
+                </li><li class="page-item ">
+                    <span class="page-link">
+                        <a href="/page/9/">9</a>
+                    </span>
+                </li></ul></div></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.114.1">Hugo</a> | Theme - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw" aria-hidden="true"></i> LoveIt</a>
+                </div><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright fa-fw" aria-hidden="true"></i><span itemprop="copyrightYear">2019 - 2023</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank">Tinggeng</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+        </div>
+    </footer></div>
 
-  
-    
-      <span id="busuanzi_container_site_pv" style="display: none">
-        总访问量 
-        <span id="busuanzi_value_site_pv"></span>
-         次
-      </span>
-    
-    
-      <span id="busuanzi_container_site_uv" style="display: none">
-        总访客数 
-        <span id="busuanzi_value_site_uv"></span>
-         人
-      </span>
-    
-    
-  
-</div>
-
-  
-  
-    <!-- 备案信息 ICP for China -->
-    <div class="beian">
-  <span>
-    <a href="http://beian.miit.gov.cn/" target="_blank" rel="nofollow noopener">
-      沪ICP备2022011786号-1
-    </a>
-  </span>
-  
-    
-      <span>
-        <a
-          href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=沪ICP备2022011786号-1"
-          rel="nofollow noopener"
-          class="beian-police"
-          target="_blank"
-        >
-          
-            <span style="visibility: hidden; width: 0">|</span>
-            <img src="/img/police_beian.png" srcset="/img/loading.gif" lazyload alt="police-icon"/>
-          
-          <span>沪ICP备2022011786号-1</span>
-        </a>
-      </span>
-    
-  
-</div>
-
-  
-  
-</div>
-
-  </footer>
-
-  <!-- Scripts -->
-  
-  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js" ></script>
-  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.css" />
-
-  <script>
-    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
-    NProgress.start()
-    window.addEventListener('load', function() {
-      NProgress.done();
-    })
-  </script>
-
-
-<script  src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js" ></script>
-<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js" ></script>
-<script  src="/js/events.js" ></script>
-<script  src="/js/plugins.js" ></script>
-
-
-  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12/lib/typed.min.js" ></script>
-  <script>
-    (function (window, document) {
-      var typing = Fluid.plugins.typing;
-      var subtitle = document.getElementById('subtitle');
-      if (!subtitle || !typing) {
-        return;
-      }
-      var text = subtitle.getAttribute('data-typed-text');
-      
-        typing(text);
-      
-    })(window, document);
-  </script>
-
-
-
-
-  
-    <script  src="/js/img-lazyload.js" ></script>
-  
-
-
-
-
-  <script  src="/js/local-search.js" ></script>
-
-  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
-
-
-
-
-
-<!-- 主题的启动项，将它保持在最底部 -->
-<!-- the boot of the theme, keep it at the bottom -->
-<script  src="/js/boot.js" ></script>
-
-
-  
-
-  <noscript>
-    <div class="noscript-warning">Blog works best with JavaScript enabled</div>
-  </noscript>
-</body>
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="Back to Top">
+                <i class="fas fa-arrow-up fa-fw" aria-hidden="true"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="View Comments">
+                <i class="fas fa-comment fa-fw" aria-hidden="true"></i>
+            </a>
+        </div><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/autocomplete.js@0.38.1/dist/autocomplete.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/algoliasearch@4.13.0/dist/algoliasearch-lite.umd.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lazysizes@5.3.1/lazysizes.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/clipboard@2.0.11/dist/clipboard.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/sharer.js@0.5.1/sharer.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/typeit@8.5.4/dist/index.umd.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"Copy to clipboard","maxShownLines":50},"data":{"id-1":"Deep Think Like A child"},"search":{"algoliaAppID":"","algoliaIndex":"","algoliaSearchKey":"","highlightTag":"em","maxResultLength":10,"noResultsFound":"No results found","snippetLength":30,"type":"algolia"},"typeit":{"cursorChar":"|","cursorSpeed":1000,"data":{"id-1":["id-1"]},"duration":-1,"speed":100}};</script><script type="text/javascript" src="/js/theme.min.js"></script></body>
 </html>

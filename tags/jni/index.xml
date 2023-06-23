@@ -1,0 +1,19 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+    <channel>
+        <title>JNI - Tag - Tinggeng</title>
+        <link>https://tinggengyan.github.io/tags/jni/</link>
+        <description>JNI - Tag - Tinggeng</description>
+        <generator>Hugo -- gohugo.io</generator><language>en</language><managingEditor>tinggengyan@gmail.com (Tinggeng)</managingEditor>
+            <webMaster>tinggengyan@gmail.com (Tinggeng)</webMaster><lastBuildDate>Thu, 13 Feb 2020 22:47:58 &#43;0000</lastBuildDate><atom:link href="https://tinggengyan.github.io/tags/jni/" rel="self" type="application/rss+xml" /><item>
+    <title>NDK学习之JNI_Tip</title>
+    <link>https://tinggengyan.github.io/2020/02/ndk-jni-tip/</link>
+    <pubDate>Thu, 13 Feb 2020 22:47:58 &#43;0000</pubDate>
+    <author>Tinggeng</author>
+    <guid>https://tinggengyan.github.io/2020/02/ndk-jni-tip/</guid>
+    <description><![CDATA[Override 本篇是对于 Google NDK GUIDES 中 JNI tips 的总结,是关于 JNI 开发过程 中的一些原则和注意点,没有原理. 所有的内容适用于 Java 和 Kotlin.
+约定
+- managed code (Java/kotlin编写的代码) - native code (C/C++编写的代码) Tips General 整体上大的原则是: 尽量减少 JNI 层的操作. 故而有以下3点注意事项,重要性由高到低依次为:
+JNI 层调用传递的数据尽量少,调用的频率尽量低; JNI Java 调用 native 避免异步调用,异步操作都放在 Java 层.这指的是 JNI 调用,不包含 native 库自身有些异步操作; JNI 操作涉及到的线程越少越好.即使要用线程池,也是由线程池的管理者负责JNI之间的交互,而不是由工作线程直接负责交互; 为了方便维护和重构, 保证JNI相关的代码在固定的位置,容易辨认,且接口尽量少; JavaVM &amp; JNIEnv 二者本质上都是指向函数表的指针的指针. 虽然理论上来说,每个进程可以有多个 JavaVM 对象,但是 Android 规定,每个进程只能有一个 JavaVM ; 注意点 JNIEnv 是个线程局部变量,线程不可共享,请勿在线程之间共享 JNIEnv 对象; 如若无其他方式获取 JNIEnv,可以采如下方式; 1 2 JNIEnv* env; vm-&gt;AttachCurrentThread(&amp;env, nullptr); // 此处的 vm 即为JavaVM 对象,可以处理成全局单例; 由于 JavaVM &amp; JNIEnv 在 C 和 C++ 中的定义是不一样(&ldquo;jni.]]></description>
+</item>
+</channel>
+</rss>

@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <title>AndroidStudio调试framework源码 - Tinggeng</title><meta name="Description" content="Tinggeng"><meta property="og:title" content="AndroidStudio调试framework源码" />
+<meta property="og:description" content="概述 debug 是学习流程最快的方式,也是验证想法最好的方法.记录 Androidstudio 如何debug Android framework的代码.
+使用无 AOSP 的代码(Java层) 这是最简单方便的方式了.
+下载某个版本的 Android Source code 确认 Source code 正确下载了.
+新建项目,所用的 compile SDK 版本为需要调试的代码版本 1 2 3 4 5 android { // 设置成需要需要分析的,且已下载源码的版本 compileSdkVersion 29 ...... } 新建并启动对应版本的模拟器. 打断点; 这里以系统的 ActivityManagerService 为例. 因为ActivityManagerService 并未导出到Android.jar,所以无法直接搜索定位到 .java文件,所以采用双击shift的方式,检索文件. attach 到对应的进程,运行,查看断点. ActivityManagerService 这个类是在系统 system_process 进程中的,所以,需要对system_process 进程进行 attach 操作. 小结 至此,经过如上操作,就可以对某个类进行debug操作了.对于分析framework代码也是方便的很.
+可能遇到的问题 有时候还是会遇到代码行号不匹配,debug定位的代码行号不对,目前原因未知,应该是source code 和生成模拟器镜像的代码有出入. 没有好的解决办法,有个替代的方案.
+断点后,有明确的thread stack信息; 找到最早一个可以定位准备行号的函数; 针对这个函数进行 findByUsage,在查出的结果中,查找stack信息指引的函数. 使用 AOSP 的源码进行调试 上述的方法基本能满足常见的debug需求了.但是有个前提是,debug的设备基本只能是模拟器或者装了官方release镜像的亲儿子. 对于有修改ROM需求的情况下,debug 则需要导入 aosp 中framework 的代码." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://tinggengyan.github.io/2020/06/as-debug-framework/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2020-06-23T10:42:04+00:00" />
+<meta property="article:modified_time" content="2020-06-23T10:42:04+00:00" /><meta property="og:site_name" content="Tinggeng" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="AndroidStudio调试framework源码"/>
+<meta name="twitter:description" content="概述 debug 是学习流程最快的方式,也是验证想法最好的方法.记录 Androidstudio 如何debug Android framework的代码.
+使用无 AOSP 的代码(Java层) 这是最简单方便的方式了.
+下载某个版本的 Android Source code 确认 Source code 正确下载了.
+新建项目,所用的 compile SDK 版本为需要调试的代码版本 1 2 3 4 5 android { // 设置成需要需要分析的,且已下载源码的版本 compileSdkVersion 29 ...... } 新建并启动对应版本的模拟器. 打断点; 这里以系统的 ActivityManagerService 为例. 因为ActivityManagerService 并未导出到Android.jar,所以无法直接搜索定位到 .java文件,所以采用双击shift的方式,检索文件. attach 到对应的进程,运行,查看断点. ActivityManagerService 这个类是在系统 system_process 进程中的,所以,需要对system_process 进程进行 attach 操作. 小结 至此,经过如上操作,就可以对某个类进行debug操作了.对于分析framework代码也是方便的很.
+可能遇到的问题 有时候还是会遇到代码行号不匹配,debug定位的代码行号不对,目前原因未知,应该是source code 和生成模拟器镜像的代码有出入. 没有好的解决办法,有个替代的方案.
+断点后,有明确的thread stack信息; 找到最早一个可以定位准备行号的函数; 针对这个函数进行 findByUsage,在查出的结果中,查找stack信息指引的函数. 使用 AOSP 的源码进行调试 上述的方法基本能满足常见的debug需求了.但是有个前提是,debug的设备基本只能是模拟器或者装了官方release镜像的亲儿子. 对于有修改ROM需求的情况下,debug 则需要导入 aosp 中framework 的代码."/>
+<meta name="application-name" content="Tinggeng">
+<meta name="apple-mobile-web-app-title" content="Tinggeng"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="https://tinggengyan.github.io/2020/06/as-debug-framework/" /><link rel="prev" href="https://tinggengyan.github.io/2020/06/tool-understand/" /><link rel="next" href="https://tinggengyan.github.io/2020/07/activity-launch-process-1/" /><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/normalize.css@8.0.1/normalize.min.css"><link rel="stylesheet" href="/css/style.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css"><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "AndroidStudio调试framework源码",
+        "inLanguage": "en",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https:\/\/tinggengyan.github.io\/2020\/06\/as-debug-framework\/"
+        },"image": ["https:\/\/tinggengyan.github.io\/images\/Apple-Devices-Preview.png"],"genre": "posts","keywords": "Android, framework","wordcount":  185 ,
+        "url": "https:\/\/tinggengyan.github.io\/2020\/06\/as-debug-framework\/","datePublished": "2020-06-23T10:42:04+00:00","dateModified": "2020-06-23T10:42:04+00:00","publisher": {
+            "@type": "Organization",
+            "name": "xxxx","logo": "https:\/\/tinggengyan.github.io\/img\/avatar.png"},"author": {
+                "@type": "Person",
+                "name": "Tinggeng"
+            },"description": ""
+    }
+    </script></head>
+    <body data-header-desktop="fixed" data-header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="Tinggeng"><span class="header-title-pre"><i class='far fa-kiss-wink-heart fa-fw' aria-hidden='true'></i></span>Tinggeng</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/" title="posts"> Posts </a><a class="menu-item" href="/tags/"> Tags </a><a class="menu-item" href="/categories/"> Categories </a><a class="menu-item" href="/daily_notes/" title="flemo"> flemo </a><span class="menu-item delimiter"></span><span class="menu-item search" id="search-desktop">
+                        <input type="text" placeholder="Search titles or contents..." id="search-input-desktop">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="Search">
+                            <i class="fas fa-search fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="Clear">
+                            <i class="fas fa-times-circle fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-desktop">
+                            <i class="fas fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+                        </span>
+                    </span><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                    <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="Tinggeng"><span class="header-title-pre"><i class='far fa-kiss-wink-heart fa-fw' aria-hidden='true'></i></span>Tinggeng</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><div class="search-wrapper">
+                    <div class="search mobile" id="search-mobile">
+                        <input type="text" placeholder="Search titles or contents..." id="search-input-mobile">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="Search">
+                            <i class="fas fa-search fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="Clear">
+                            <i class="fas fa-times-circle fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-mobile">
+                            <i class="fas fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+                        </span>
+                    </div>
+                    <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+                        Cancel
+                    </a>
+                </div><a class="menu-item" href="/posts/" title="posts">Posts</a><a class="menu-item" href="/tags/" title="">Tags</a><a class="menu-item" href="/categories/" title="">Categories</a><a class="menu-item" href="/daily_notes/" title="flemo">flemo</a><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+            </a></div>
+    </div>
+</header><div class="search-dropdown desktop">
+        <div id="search-dropdown-desktop"></div>
+    </div>
+    <div class="search-dropdown mobile">
+        <div id="search-dropdown-mobile"></div>
+    </div><main class="main">
+                <div class="container"><div class="toc" id="toc-auto">
+            <h2 class="toc-title">Contents</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">AndroidStudio调试framework源码</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Tinggeng</a>
+</span>&nbsp;<span class="post-category">included in <a href="/categories/tool/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Tool</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2020-06-23">2020-06-23</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;185 words&nbsp;
+                <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;One minute&nbsp;<span id="/2020/06/as-debug-framework/" class="leancloud_visitors" data-flag-title="AndroidStudio调试framework源码">
+                        <i class="far fa-eye fa-fw" aria-hidden="true"></i>&nbsp;<span class=leancloud-visitors-count></span>&nbsp;views
+                    </span>&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  data-kept="">
+                <div class="details-summary toc-title">
+                    <span>Contents</span>
+                    <span><i class="details-icon fas fa-angle-right" aria-hidden="true"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#使用无-aosp-的代码java层">使用无 AOSP 的代码(Java层)</a></li>
+    <li><a href="#小结">小结</a>
+      <ul>
+        <li><a href="#可能遇到的问题">可能遇到的问题</a></li>
+      </ul>
+    </li>
+  </ul>
+
+  <ul>
+    <li><a href="#生成-androidipr-文件">生成 android.ipr 文件</a></li>
+    <li><a href="#修改-androidiml-文件">修改 android.iml 文件</a></li>
+    <li><a href="#as-打开-ipr-文件">AS 打开 ipr 文件</a>
+      <ul>
+        <li><a href="#可能遇到问题">可能遇到问题</a></li>
+      </ul>
+    </li>
+    <li><a href="#代码索引跳转">代码索引跳转</a></li>
+    <li><a href="#让模拟器使用自定义的rom">让模拟器使用自定义的ROM</a>
+      <ul>
+        <li><a href="#附我还没试过">附,我还没试过</a></li>
+      </ul>
+    </li>
+  </ul>
+
+  <ul>
+    <li><a href="#ref">Ref</a></li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><h1 id="概述">概述</h1>
+<p>debug 是学习流程最快的方式,也是验证想法最好的方法.记录 Androidstudio 如何debug Android framework的代码.</p>
+<!-- more -->
+<h2 id="使用无-aosp-的代码java层">使用无 AOSP 的代码(Java层)</h2>
+<p>这是最简单方便的方式了.</p>
+<ol>
+<li>下载某个版本的 Android Source code</li>
+</ol>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="/img/as_debug_framework/45b1b25e.png"
+        data-srcset="/img/as_debug_framework/45b1b25e.png, /img/as_debug_framework/45b1b25e.png 1.5x, /img/as_debug_framework/45b1b25e.png 2x"
+        data-sizes="auto"
+        alt="/img/as_debug_framework/45b1b25e.png"
+        title="45b1b25e.png" /></p>
+<p>确认 <em>Source code</em> 正确下载了.</p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="/img/as_debug_framework/c974a437.png"
+        data-srcset="/img/as_debug_framework/c974a437.png, /img/as_debug_framework/c974a437.png 1.5x, /img/as_debug_framework/c974a437.png 2x"
+        data-sizes="auto"
+        alt="/img/as_debug_framework/c974a437.png"
+        title="c974a437.png" /></p>
+<ol start="2">
+<li>新建项目,所用的 <code>compile SDK </code> 版本为需要调试的代码版本</li>
+</ol>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-groovy" data-lang="groovy"><span class="line"><span class="cl"><span class="n">android</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// 设置成需要需要分析的,且已下载源码的版本
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">compileSdkVersion</span> <span class="mi">29</span>
+</span></span><span class="line"><span class="cl">    <span class="o">......</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><ol start="3">
+<li>新建并启动对应版本的模拟器.</li>
+</ol>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="/img/as_debug_framework/d0be67cc.png"
+        data-srcset="/img/as_debug_framework/d0be67cc.png, /img/as_debug_framework/d0be67cc.png 1.5x, /img/as_debug_framework/d0be67cc.png 2x"
+        data-sizes="auto"
+        alt="/img/as_debug_framework/d0be67cc.png"
+        title="d0be67cc.png" /></p>
+<ol start="4">
+<li>打断点;</li>
+</ol>
+<p>这里以系统的 <strong>ActivityManagerService</strong> 为例.
+因为<strong>ActivityManagerService</strong> 并未导出到<strong>Android.jar</strong>,所以无法直接搜索定位到 <strong>.java</strong>文件,所以采用双击<strong>shift</strong>的方式,检索文件.
+<img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="/img/as_debug_framework/ee514167.png"
+        data-srcset="/img/as_debug_framework/ee514167.png, /img/as_debug_framework/ee514167.png 1.5x, /img/as_debug_framework/ee514167.png 2x"
+        data-sizes="auto"
+        alt="/img/as_debug_framework/ee514167.png"
+        title="ee514167.png" /></p>
+<ol start="5">
+<li>attach 到对应的进程,运行,查看断点.</li>
+</ol>
+<p><strong>ActivityManagerService</strong>  这个类是在系统 <strong>system_process</strong> 进程中的,所以,需要对<strong>system_process</strong> 进程进行 <strong>attach</strong> 操作.
+<img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="/img/as_debug_framework/9e039bde.png"
+        data-srcset="/img/as_debug_framework/9e039bde.png, /img/as_debug_framework/9e039bde.png 1.5x, /img/as_debug_framework/9e039bde.png 2x"
+        data-sizes="auto"
+        alt="/img/as_debug_framework/9e039bde.png"
+        title="9e039bde.png" /></p>
+<h2 id="小结">小结</h2>
+<p>至此,经过如上操作,就可以对某个类进行debug操作了.对于分析framework代码也是方便的很.</p>
+<h3 id="可能遇到的问题">可能遇到的问题</h3>
+<p>有时候还是会遇到代码行号不匹配,debug定位的代码行号不对,目前原因未知,应该是source code 和生成模拟器镜像的代码有出入.
+没有好的解决办法,有个替代的方案.</p>
+<ol>
+<li>断点后,有明确的thread stack信息;</li>
+<li>找到最早一个可以定位准备行号的函数;</li>
+<li>针对这个函数进行 findByUsage,在查出的结果中,查找stack信息指引的函数.</li>
+</ol>
+<h1 id="使用-aosp-的源码进行调试">使用 AOSP 的源码进行调试</h1>
+<p>上述的方法基本能满足常见的debug需求了.但是有个前提是,debug的设备基本只能是模拟器或者装了官方release镜像的亲儿子.
+对于有修改ROM需求的情况下,debug 则需要导入 aosp 中framework 的代码. 对应的运行设备得是运行了自定义ROM的设备.</p>
+<h2 id="生成-androidipr-文件">生成 android.ipr 文件</h2>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">// 1. 编译 idegen模块
+</span></span><span class="line"><span class="cl">mmm development/tools/idegen/
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">// 2. 生成
+</span></span><span class="line"><span class="cl">./development/tools/idegen.sh
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>这个文件就代表了AS里的一个project.</p>
+<h2 id="修改-androidiml-文件">修改 android.iml 文件</h2>
+<p>同时还会生成一个 iml文件,代表了project的配置情况,可以用于配置加载哪些配置.
+AOSP巨大,可以只加载需要关注的模块,如 framework 和 Package 部分.
+所以需要修改 android.iml 文件,将不需要的文件进行exclude.</p>
+<h2 id="as-打开-ipr-文件">AS 打开 ipr 文件</h2>
+<h3 id="可能遇到问题">可能遇到问题</h3>
+<p>导入可能遇到问题 <code>External file changes sync may be slow: The current inotify(7) watch limit is too low.</code></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">sudo vim fs.inotify.max_user_watches <span class="o">=</span> <span class="m">524288</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">sudo sysctl -p --system
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>重启即可;</p>
+<h2 id="代码索引跳转">代码索引跳转</h2>
+<p>为了跳转到aosp的Java文件,而不是android.jar的class文件,需要调整 project struct.</p>
+<ol>
+<li>新建一个 jdk,此处为 jdk_none, 删除所有的path;</li>
+</ol>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="/img/as_debug_framework/create_jdk.png"
+        data-srcset="/img/as_debug_framework/create_jdk.png, /img/as_debug_framework/create_jdk.png 1.5x, /img/as_debug_framework/create_jdk.png 2x"
+        data-sizes="auto"
+        alt="/img/as_debug_framework/create_jdk.png"
+        title="create_jdk.png" /></p>
+<ol start="2">
+<li>
+<p>新建一个 android sdk,依赖 jdk_none;
+<img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="/img/as_debug_framework/create_sdk_with_jdk.png"
+        data-srcset="/img/as_debug_framework/create_sdk_with_jdk.png, /img/as_debug_framework/create_sdk_with_jdk.png 1.5x, /img/as_debug_framework/create_sdk_with_jdk.png 2x"
+        data-sizes="auto"
+        alt="/img/as_debug_framework/create_sdk_with_jdk.png"
+        title="create_sdk_with_jdk.png" /></p>
+</li>
+<li>
+<p>project 依赖的sdk切换成第2步新建的SDK即可;</p>
+</li>
+</ol>
+<h2 id="让模拟器使用自定义的rom">让模拟器使用自定义的ROM</h2>
+<ol>
+<li>source ./build/envsetup.sh</li>
+<li>lunch ,选择对应的 模拟器需要的API</li>
+<li>emulator</li>
+</ol>
+<blockquote>
+<p>自己编译编译出的ROM位置&quot; &hellip;&hellip;/aosp/out/target/product/generic_x86_64</p>
+</blockquote>
+<h3 id="附我还没试过">附,我还没试过</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">$ emulator -avd Nexus5-API22 -verbose -no-boot-anim -system <span class="o">(</span>the path of system.img<span class="o">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h1 id="方案对比">方案对比</h1>
+<ol>
+<li>第一种自然是方便的,要求比较低,对机器的性能要求也不高.有个劣势: 对于AIDL编译生成的Java文件,无法进行索引和导航.但是,可以借助官方的代码搜索网站进行弥补,搜索网站可以索引soong编译期间生成的Java代码: <a href="https://cs.android.com/android/platform/superproject" target="_blank" rel="noopener noreffer">https://cs.android.com/android/platform/superproject</a>
+</li>
+<li>AOSP的方式是灵活性更大,中间代码索引也方便. 就是性能要求比较高.</li>
+</ol>
+<h2 id="ref">Ref</h2>
+<ol>
+<li><a href="https://www.jianshu.com/p/a19dcb06cd53" target="_blank" rel="noopener noreffer">导入AOSP</a>
+</li>
+</ol>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>Updated on 2020-06-23</span>
+            </div></div>
+        <div class="post-info-line">
+            <div class="post-info-md"><span>
+                            <a class="link-to-markdown" href="/2020/06/as-debug-framework/index.md" target="_blank">Read Markdown</a>
+                        </span></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="Share on Twitter" data-sharer="twitter" data-url="https://tinggengyan.github.io/2020/06/as-debug-framework/" data-title="AndroidStudio调试framework源码" data-hashtags="Android,framework"><i class="fab fa-twitter fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Facebook" data-sharer="facebook" data-url="https://tinggengyan.github.io/2020/06/as-debug-framework/" data-hashtag="Android"><i class="fab fa-facebook-square fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Hacker News" data-sharer="hackernews" data-url="https://tinggengyan.github.io/2020/06/as-debug-framework/" data-title="AndroidStudio调试framework源码"><i class="fab fa-hacker-news fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Line" data-sharer="line" data-url="https://tinggengyan.github.io/2020/06/as-debug-framework/" data-title="AndroidStudio调试framework源码"><i data-svg-src="https://cdn.jsdelivr.net/npm/simple-icons@6.20.0/icons/line.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on 微博" data-sharer="weibo" data-url="https://tinggengyan.github.io/2020/06/as-debug-framework/" data-title="AndroidStudio调试framework源码"><i class="fab fa-weibo fa-fw" aria-hidden="true"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw" aria-hidden="true"></i>&nbsp;<a href="/tags/android/">Android</a>,&nbsp;<a href="/tags/framework/">framework</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">Back</a></span>&nbsp;|&nbsp;<span><a href="/">Home</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/2020/06/tool-understand/" class="prev" rel="prev" title="Mac下 Understand 的初步配置"><i class="fas fa-angle-left fa-fw" aria-hidden="true"></i>Mac下 Understand 的初步配置</a>
+            <a href="/2020/07/activity-launch-process-1/" class="next" rel="next" title="Activity启动流程概述">Activity启动流程概述<i class="fas fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+<div id="comments"><div id="valine" class="comment"></div><noscript>
+                Please enable JavaScript to view the comments powered by <a href="https://valine.js.org/">Valine</a>.
+            </noscript></div></article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.114.1">Hugo</a> | Theme - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw" aria-hidden="true"></i> LoveIt</a>
+                </div><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright fa-fw" aria-hidden="true"></i><span itemprop="copyrightYear">2019 - 2023</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank">Tinggeng</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+        </div>
+    </footer></div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="Back to Top">
+                <i class="fas fa-arrow-up fa-fw" aria-hidden="true"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="View Comments">
+                <i class="fas fa-comment fa-fw" aria-hidden="true"></i>
+            </a>
+        </div><link rel="stylesheet" href="/lib/valine/valine.min.css"><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/valine@1.4.18/dist/Valine.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/autocomplete.js@0.38.1/dist/autocomplete.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/algoliasearch@4.13.0/dist/algoliasearch-lite.umd.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lazysizes@5.3.1/lazysizes.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/clipboard@2.0.11/dist/clipboard.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/sharer.js@0.5.1/sharer.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"Copy to clipboard","maxShownLines":50},"comment":{"valine":{"appId":"QGzwQXOqs5JOhN4RGPOkR2mR-MdYXbMMI","appKey":"WBmoGyJtbqUswvfLh6L8iEBr","avatar":"mp","el":"#valine","emojiCDN":"https://cdn.jsdelivr.net/npm/emoji-datasource-google@14.0.0/img/google/64/","emojiMaps":{"100":"1f4af.png","alien":"1f47d.png","anger":"1f4a2.png","angry":"1f620.png","anguished":"1f627.png","astonished":"1f632.png","black_heart":"1f5a4.png","blue_heart":"1f499.png","blush":"1f60a.png","bomb":"1f4a3.png","boom":"1f4a5.png","broken_heart":"1f494.png","brown_heart":"1f90e.png","clown_face":"1f921.png","cold_face":"1f976.png","cold_sweat":"1f630.png","confounded":"1f616.png","confused":"1f615.png","cry":"1f622.png","crying_cat_face":"1f63f.png","cupid":"1f498.png","dash":"1f4a8.png","disappointed":"1f61e.png","disappointed_relieved":"1f625.png","dizzy":"1f4ab.png","dizzy_face":"1f635.png","drooling_face":"1f924.png","exploding_head":"1f92f.png","expressionless":"1f611.png","face_vomiting":"1f92e.png","face_with_cowboy_hat":"1f920.png","face_with_hand_over_mouth":"1f92d.png","face_with_head_bandage":"1f915.png","face_with_monocle":"1f9d0.png","face_with_raised_eyebrow":"1f928.png","face_with_rolling_eyes":"1f644.png","face_with_symbols_on_mouth":"1f92c.png","face_with_thermometer":"1f912.png","fearful":"1f628.png","flushed":"1f633.png","frowning":"1f626.png","ghost":"1f47b.png","gift_heart":"1f49d.png","green_heart":"1f49a.png","grimacing":"1f62c.png","grin":"1f601.png","grinning":"1f600.png","hankey":"1f4a9.png","hear_no_evil":"1f649.png","heart":"2764-fe0f.png","heart_decoration":"1f49f.png","heart_eyes":"1f60d.png","heart_eyes_cat":"1f63b.png","heartbeat":"1f493.png","heartpulse":"1f497.png","heavy_heart_exclamation_mark_ornament":"2763-fe0f.png","hole":"1f573-fe0f.png","hot_face":"1f975.png","hugging_face":"1f917.png","hushed":"1f62f.png","imp":"1f47f.png","innocent":"1f607.png","japanese_goblin":"1f47a.png","japanese_ogre":"1f479.png","joy":"1f602.png","joy_cat":"1f639.png","kiss":"1f48b.png","kissing":"1f617.png","kissing_cat":"1f63d.png","kissing_closed_eyes":"1f61a.png","kissing_heart":"1f618.png","kissing_smiling_eyes":"1f619.png","laughing":"1f606.png","left_speech_bubble":"1f5e8-fe0f.png","love_letter":"1f48c.png","lying_face":"1f925.png","mask":"1f637.png","money_mouth_face":"1f911.png","nauseated_face":"1f922.png","nerd_face":"1f913.png","neutral_face":"1f610.png","no_mouth":"1f636.png","open_mouth":"1f62e.png","orange_heart":"1f9e1.png","partying_face":"1f973.png","pensive":"1f614.png","persevere":"1f623.png","pleading_face":"1f97a.png","pouting_cat":"1f63e.png","purple_heart":"1f49c.png","rage":"1f621.png","relaxed":"263a-fe0f.png","relieved":"1f60c.png","revolving_hearts":"1f49e.png","right_anger_bubble":"1f5ef-fe0f.png","robot_face":"1f916.png","rolling_on_the_floor_laughing":"1f923.png","scream":"1f631.png","scream_cat":"1f640.png","see_no_evil":"1f648.png","shushing_face":"1f92b.png","skull":"1f480.png","skull_and_crossbones":"2620-fe0f.png","sleeping":"1f634.png","sleepy":"1f62a.png","slightly_frowning_face":"1f641.png","slightly_smiling_face":"1f642.png","smile":"1f604.png","smile_cat":"1f638.png","smiley":"1f603.png","smiley_cat":"1f63a.png","smiling_face_with_3_hearts":"1f970.png","smiling_imp":"1f608.png","smirk":"1f60f.png","smirk_cat":"1f63c.png","sneezing_face":"1f927.png","sob":"1f62d.png","space_invader":"1f47e.png","sparkling_heart":"1f496.png","speak_no_evil":"1f64a.png","speech_balloon":"1f4ac.png","star-struck":"1f929.png","stuck_out_tongue":"1f61b.png","stuck_out_tongue_closed_eyes":"1f61d.png","stuck_out_tongue_winking_eye":"1f61c.png","sunglasses":"1f60e.png","sweat":"1f613.png","sweat_drops":"1f4a6.png","sweat_smile":"1f605.png","thinking_face":"1f914.png","thought_balloon":"1f4ad.png","tired_face":"1f62b.png","triumph":"1f624.png","two_hearts":"1f495.png","unamused":"1f612.png","upside_down_face":"1f643.png","weary":"1f629.png","white_frowning_face":"2639-fe0f.png","white_heart":"1f90d.png","wink":"1f609.png","woozy_face":"1f974.png","worried":"1f61f.png","yawning_face":"1f971.png","yellow_heart":"1f49b.png","yum":"1f60b.png","zany_face":"1f92a.png","zipper_mouth_face":"1f910.png","zzz":"1f4a4.png"},"enableQQ":false,"highlight":true,"lang":"en","pageSize":10,"placeholder":"Your comment ...","recordIP":true,"serverURLs":"https://leancloud.hugoloveit.com","visitor":true}},"search":{"algoliaAppID":"","algoliaIndex":"","algoliaSearchKey":"","highlightTag":"em","maxResultLength":10,"noResultsFound":"No results found","snippetLength":30,"type":"algolia"}};</script><script type="text/javascript" src="/js/theme.min.js"></script></body>
+</html>

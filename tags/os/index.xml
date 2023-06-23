@@ -1,0 +1,24 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+    <channel>
+        <title>OS - Tag - Tinggeng</title>
+        <link>https://tinggengyan.github.io/tags/os/</link>
+        <description>OS - Tag - Tinggeng</description>
+        <generator>Hugo -- gohugo.io</generator><language>en</language><managingEditor>tinggengyan@gmail.com (Tinggeng)</managingEditor>
+            <webMaster>tinggengyan@gmail.com (Tinggeng)</webMaster><lastBuildDate>Sun, 17 Jul 2022 16:29:04 &#43;0000</lastBuildDate><atom:link href="https://tinggengyan.github.io/tags/os/" rel="self" type="application/rss+xml" /><item>
+    <title>一张思维导图看操作系统 【持续迭代】</title>
+    <link>https://tinggengyan.github.io/2022/07/os_summary/</link>
+    <pubDate>Sun, 17 Jul 2022 16:29:04 &#43;0000</pubDate>
+    <author>Tinggeng</author>
+    <guid>https://tinggengyan.github.io/2022/07/os_summary/</guid>
+    <description><![CDATA[概述 总结自己的操作系统的知识，按照编码 -&gt; 运行，画了一张图，xmind 导出的图比较大，目前这部分的内容还比较少，后续持续更新，迭代这部分的内容。
+下面是一些常见的知识,将会慢慢补充进思维导图内 {% note info %} 我是分割线 {% endnote %}
+linux 整体结构图 makelinux：makelinux 解释器 &amp; 编译器 &amp; JIT &amp; AOT 参考链接1 参考链接2 JIT(Just In Time)和 AOT(Ahead Of Time)是两种不同的编译方式:
+JIT:
+编译时,将源代码编译成字节码(bytecode),运行时再将字节码编译成机器码。 优点是运行时可以进行更多优化,生成更高质量的机器码。 缺点是编译时需要额外的编译步骤,会增加程序启动时间。 第一次运行时编译时间较长,后续运行时间短。运行时性能较AOT略差。 AOT:
+编译时,将源代码直接编译成机器码。 优点是编译只有一次,程序启动更快。 编译器在程序运行前完成编译,生成机器代码。运行时直接执行机器代码。 编译时间较长,运行时性能好。 改动源代码需要重新编译。 缺点是编译时难以进行复杂的优化,生成的机器码质量可能较低。 典型的AOT编译语言有C、C++等。 总结:
+JIT 的运行性能更高,但启动时间长。适合长时间运行的程序。 AOT 的启动时间短,但运行性能可能略低。适合启动频繁的程序。 在实际使用中,也可以二者结合,采用 AOT 先编译成机器码,再运行时由 JIT 进一步优化,以兼顾启动时间和运行性能。许多语言(如 Java、C#)的编译器都支持这两种模式。 ![[Pasted image 20230407143623.png]]
+解释器：Java源程序编译成字节码，然后由运行环境对字节码解释执行，提供解释功能的 JVM 组件为解释器。它能执行 JVM 规范的字节码，执行方式是一遍翻译一遍执行，所以效率低，但是简单并易于实现。主要实现是在 Interpreter 模块。
+![[Pasted image 20230407143647.png]] 即时编译器：能够将运行时的热点代码，编译成运行效率高的及时代码。 判断一段代码是不是热点代码，是不是需要触发JIT编译，这样的行为称为：热点探测（Hot Spot Detection），有几种主流的探测方式：]]></description>
+</item>
+</channel>
+</rss>

@@ -1,0 +1,40 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+    <channel>
+        <title>Binder - Tag - Tinggeng</title>
+        <link>https://tinggengyan.github.io/tags/binder/</link>
+        <description>Binder - Tag - Tinggeng</description>
+        <generator>Hugo -- gohugo.io</generator><language>en</language><managingEditor>tinggengyan@gmail.com (Tinggeng)</managingEditor>
+            <webMaster>tinggengyan@gmail.com (Tinggeng)</webMaster><lastBuildDate>Tue, 04 Jul 2017 14:47:55 &#43;0000</lastBuildDate><atom:link href="https://tinggengyan.github.io/tags/binder/" rel="self" type="application/rss+xml" /><item>
+    <title>IPC_Binder_java_2</title>
+    <link>https://tinggengyan.github.io/2017/07/ipc-binder-java-2/</link>
+    <pubDate>Tue, 04 Jul 2017 14:47:55 &#43;0000</pubDate>
+    <author>Tinggeng</author>
+    <guid>https://tinggengyan.github.io/2017/07/ipc-binder-java-2/</guid>
+    <description><![CDATA[概述 本文作为第一篇的补充,补充一下第一篇遗漏的内容,主要谈一下,缺少的概念,技术背景等内容.
+Why为什么需要Binder Binder 是 Android 系统进程间通信（IPC）方式之一。Android 是基于 Linux 内核的,Linux 已经有很多 IPC 方式,为何还需要一个新的 IPC 方式. Linux已经拥有
+管道 system V IPC Socket 等IPC手段。 却还要倚赖Binder来实现进程间通信。
+Binder具有无可比拟的优势。 或者可以说，Android系统对进程间有什么特殊的需求是传统其他 IPC 无法完成或者无法很好完成。 基于Client-Server的通信方式广泛应用于从互联网和数据库访问到嵌入式手持设备内部通信等各个领域。
+智能手机平台特别是Android系统中，为了向应用开发者提供丰富多样的功能，这种通信方式更是无处不在，诸如媒体播放，视音频频捕获，到各种让手机更智能的传感器（加速度，方位，温度，光亮度等）都由不同的Server负责管理，应用程序只需做为Client与这些Server建立连接便可以使用这些服务，花很少的时间和精力就能开发出令人眩目的功能。
+Client-Server 方式的广泛采用对进程间通信（IPC）机制是一个挑战。
+只有socket支持Client-Server的通信方式。当然也可以在这些底层机制上架设一套协议来实现Client-Server通信，但这样增加了系统的复杂性，在手机这种条件复杂，资源稀缺的环境下可靠性也难以保证.
+传输性能角度： socket作为一款通用接口，其传输效率低，开销大，主要用在跨网络的进程间通信和本机上进程间的低速通信。
+消息队列和管道采用存储-转发方式，即数据先从发送方缓存区拷贝到内核开辟的缓存区中，然后再从内核缓存区拷贝到接收方缓存区，至少有两次拷贝过程。
+共享内存虽然无需拷贝，但控制复杂，难以使用。
+安全性角度： Android作为一个开放式，拥有众多开发者的的平台，应用程序的来源广泛，确保智能终端的安全是非常重要的。终端用户不希望从网上下载的程序在不知情的情况下偷窥隐私数据，连接无线网络，长期操作底层设备导致电池很快耗尽等等。
+传统IPC没有任何安全措施，完全依赖上层协议来确保。 传统IPC的接收方无法获得对方进程可靠的UID/PID（用户ID/进程ID），从而无法鉴别对方身份。Android为每个安装好的应用程序分配了自己的UID，故进程的UID是鉴别进程身份的重要标志。使用传统IPC只能由用户在数据包里填入UID/PID，但这样不可靠，容易被恶意程序利用。可靠的身份标记只有由IPC机制本身在内核中添加才能确保安全性。 传统IPC访问接入点是开放的，无法建立私有通道。比如命名管道的名称，system V的键值，socket的ip地址或文件名都是开放的，只要知道这些接入点的程序都可以和对端建立连接，不管怎样都无法阻止恶意程序通过猜测接收方地址获得连接。 效率角度 从对比图可以看出,Binder 在效率上是有优势的.
+What Binder 是什么 因为 Binder 也是 CS 架构的一种,而 CS 架构最典型的就是 TCP/IP 请求了.下面做个对比,顺带类比以下 Binder 中的几个关键的概念. 背景 在开发中，经常需要通过 getSystemService 的方式获取一个系统服务,那么这些系统服务的 Binder 引用是如何传递给客户端的呢？要知道，系统服务并不是通过 startService() 启动的。
+ServiceManager 管理的服务 ServiceManager 是一个独立进程，其作用如名称所示，管理各种系统服务.]]></description>
+</item>
+<item>
+    <title>IPC_Binder_java_1</title>
+    <link>https://tinggengyan.github.io/2017/01/ipc-binder-java-1/</link>
+    <pubDate>Tue, 03 Jan 2017 21:30:55 &#43;0000</pubDate>
+    <author>Tinggeng</author>
+    <guid>https://tinggengyan.github.io/2017/01/ipc-binder-java-1/</guid>
+    <description><![CDATA[背景 由于 Binder 很复杂,这个分多篇展开,目前先将零碎的知识整合,在后面几篇进行总结.
+概述: Binder 用于进程间通信，而 Handler 消息机制用于同进程的线程间通信。 Binder 的英文涵义是别针，回形针的意思。 在 Android 中 Binder 的存在是为了完成进程间的通信，将进程&quot;别&quot; 在一起。比如说：普通应用可以调用播放器提供的服务：播放、暂停、停止等功能。 Binder 是工作在 Linux 层面，属于一个驱动，只是这个驱动是不需要硬件的，或者说是基于操作系统的一小块内存。从线程的角度来讲，Binder 驱动的代码是运行在内核态的，客户端程序调用 Binder 是通过系统调用完完成。
+Binder 框架：一种架构 Binder 框架提供 服务端接口、Binder 驱动、客户端接口 三个模块。 从服务端的角度来说，一个 Binder 服务端实际上就是一个 Binder 类的对象，该类一旦创建，内部就会启动一个隐藏线程。该线程接下来就用于接收 Binder 驱动发送来的消息，收到消息之后，会执行到 Binder 对象中的 onTransact 方法，在这个方法中，根据不同的参数，执行不同的服务代码。因此，要实现一个 Binder 服务，就必须重载 onTransact 方法。 在 onTransact 方法中，会获取传递进来的参数，将其转换成服务函数的参数。onTransact 参数的来源于 客户端的调用 transact 方法。所以，如果 transact 方法的参数有固定的格式输入，那么 onTransact 就会有相应的固定格式输出。
+从 Binder 驱动的角度来说。任何一个服务端的 Binder 对象被创建的时候，都同时会在 Binder 驱动中创建一个 mRemote 对象，这个对象也是 Binder 类。客户端想要访问远程服务的时候，都是通过这个 mRemote 对象。]]></description>
+</item>
+</channel>
+</rss>

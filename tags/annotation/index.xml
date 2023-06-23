@@ -1,0 +1,32 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+    <channel>
+        <title>Annotation - Tag - Tinggeng</title>
+        <link>https://tinggengyan.github.io/tags/annotation/</link>
+        <description>Annotation - Tag - Tinggeng</description>
+        <generator>Hugo -- gohugo.io</generator><language>en</language><managingEditor>tinggengyan@gmail.com (Tinggeng)</managingEditor>
+            <webMaster>tinggengyan@gmail.com (Tinggeng)</webMaster><lastBuildDate>Tue, 02 Jan 2018 20:48:43 &#43;0000</lastBuildDate><atom:link href="https://tinggengyan.github.io/tags/annotation/" rel="self" type="application/rss+xml" /><item>
+    <title>Annotation 使用备忘</title>
+    <link>https://tinggengyan.github.io/2018/01/annotation2/</link>
+    <pubDate>Tue, 02 Jan 2018 20:48:43 &#43;0000</pubDate>
+    <author>Tinggeng</author>
+    <guid>https://tinggengyan.github.io/2018/01/annotation2/</guid>
+    <description><![CDATA[概述 本文记录使用 javapoet 以及 auto-service 进行编译时注解的过程以及注意点.
+最近又使用了一次编译时注解,期间产生了不少问题.
+术语的解释 Element 这个代表被注解的元素.这个类有个很重要的方法,getEnclosingElement:这方法的含义是获取 包裹 element 最外围的元素.比如类的最外围的元素是 package.
+1 PackageElement pkgElement = (PackageElement) element.getEnclosingElement(); 其他方法都很简单.
+javapoet 库中一些重要的接口和方法 TypeName: 对应了 java 代码中的一个类型元素,常用于声明一个方法参数,还有一些 collection 范型使用. 1 2 // 用来定一个 ComponentInfo 类的元素类型 TypeName mComponentInfoClassName = ClassName.get(ComponentInfo.class); ParameterizedTypeName 用来声明一个方法的参数.有个 get 方法,这个方法第一个参数是声明原生的类型,后面一个可变参数,声明第一个参数的参数. 1 2 3 4 5 6 7 8 // 声明一个参数的类型是 Map&lt;String,List&lt;ComponentInfo&gt;&gt; ParameterizedTypeName paramListComponent = ParameterizedTypeName.get(ClassName.get(List.class), mComponentInfoClassName); ParameterizedTypeName moduleLoaderParameter = ParameterizedTypeName.get( ClassName.get(Map.class), ClassName.get(String.class), paramListComponent ); ParameterSpec 这个类代表方法的参数
+1 2 // 声明一个方法的参数是:final Map&lt;String,List&lt;ComponentInfo&gt;&gt; targetMap.]]></description>
+</item>
+<item>
+    <title>Annotation 使用备忘</title>
+    <link>https://tinggengyan.github.io/2016/11/annotation/</link>
+    <pubDate>Wed, 16 Nov 2016 23:16:43 &#43;0000</pubDate>
+    <author>Tinggeng</author>
+    <guid>https://tinggengyan.github.io/2016/11/annotation/</guid>
+    <description><![CDATA[概述 本文记录注解 Annotation 的概念和使用.
+Annotation 注解 Why 需要注解 在代码中常有些重复的代码，这些代码纯手工太耗时。可以通过一定的标记，然后处理即可。
+What 是注解? Annotation 分类 标准 Annotation 包括 Override, Deprecated, SuppressWarnings，是 java 自带的几个注解，他们由编译器来识别，不会进行编译，不影响代码运行。 元 Annotation @Retention, @Target, @Inherited, @Documented，它们是用来定义 Annotation 的 Annotation。也就是当我们要自定义注解时，需要使用它们。 自定义 Annotation 自定义的 Annotation。 自定义的注解也分为三类，通过元Annotation - @Retention 定义： @Retention(RetentionPolicy.SOURCE) 源码时注解，一般用来作为编译器标记。如 Override, Deprecated, SuppressWarnings。 @Retention(RetentionPolicy.RUNTIME) 运行时注解，在运行时通过反射去识别的注解，这种注解最大的缺点就是反射消耗性能。 @Retention(RetentionPolicy.CLASS) 编译时注解，在编译时被识别并处理的注解，相当于自动生成代码，没有反射，和正常的手写代码无二。 Annotation 的工作原理 APT(Annotation Processing Tool) 根据不同类型的注解，采取不同的处理方式，对于 SOURCE 类型的注解，它只会存在代码中，当进行编译成 class 的时候，就会被抛弃了。 RUNTIME 类型的则一直存到 class 文件中，一直存在虚拟机的运行期。CLASS 类型的注解只存到编译期，会根据 处理器的要求进行处理，生成代码或者其他处理方式，处理完只会，就不会存在了，而如果生成了文件，则会一直存在，被打包。
+术语解释 Element: 表示一个程序元素，比如包、类或者方法。每个元素都表示一个静态的语言级构造（不表示虚拟机的运行时构造）。 元素应该使用 equals(Object)方法进行比较。不保证总是使用相同的对象表示某个特定的元素。要实现基于 Element 对象类的操作，可以使用 visitor 或者使用 getKind() 方法的结果。使用 instanceof 确定此建模层次结构中某一对象的有效类未必可靠，因为一个实现可以选择让单个对象实现多个 Element 子接口。 在 JDK 1.]]></description>
+</item>
+</channel>
+</rss>

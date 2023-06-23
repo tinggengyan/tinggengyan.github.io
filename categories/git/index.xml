@@ -1,0 +1,24 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+    <channel>
+        <title>Git - Category - Tinggeng</title>
+        <link>https://tinggengyan.github.io/categories/git/</link>
+        <description>Git - Category - Tinggeng</description>
+        <generator>Hugo -- gohugo.io</generator><language>en</language><managingEditor>tinggengyan@gmail.com (Tinggeng)</managingEditor>
+            <webMaster>tinggengyan@gmail.com (Tinggeng)</webMaster><lastBuildDate>Sat, 15 Oct 2016 18:40:26 &#43;0000</lastBuildDate><atom:link href="https://tinggengyan.github.io/categories/git/" rel="self" type="application/rss+xml" /><item>
+    <title>git实践笔记</title>
+    <link>https://tinggengyan.github.io/2016/10/git%E5%AE%9E%E8%B7%B5%E7%AC%94%E8%AE%B0/</link>
+    <pubDate>Sat, 15 Oct 2016 18:40:26 &#43;0000</pubDate>
+    <author>Tinggeng</author>
+    <guid>https://tinggengyan.github.io/2016/10/git%E5%AE%9E%E8%B7%B5%E7%AC%94%E8%AE%B0/</guid>
+    <description><![CDATA[概述 本文记录常用 git 的功能和命令.
+Git实践笔记 Why 一年多前一边工作一边学,做的笔记,后来换了工作,改用SVN,git也就生疏了,最近公司打算换git了,正好重新整理一下笔记.
+What git是目前最好的版本控制工具,是一种动态异步的版本控制工具,对于版本控制的发展历程,可以参考别的文章.目前各个开源管理平台基本上都是用的git,git是必备的技能.
+简介 Linus花了两周时间自己用C写了一个分布式版本控制系统，这就是Git!大写的牛逼!一个月之内，Linux系统的源码已经由Git管理了! 起初的git只能在linux和Unix上运行。
+安装git 在Linux上安装Git 命令行下输入,sudo apt-get install git,直接安装.
+在Windows上安装 从http://msysgit.github.io/下载。 在bash下输入以下命令，设置账号和邮箱。是全局的，在之后的所有git操作，都是以这个账号.
+1 2 $ git config --global user.name &#34;Your Name&#34; $ git config --global user.email &#34;email@example.com&#34; ** 注意：** git config命令的&ndash;global参数，用了这个参数，表示你这台机器上所有的Git仓库都会使用这个配置，当然也可以对某个仓库指定不同的用户名和Email地址。
+1 $ git config --global --list查看当前的所有设置清单列表。 创建版本库（repository） 如果你使用Windows系统，为了避免遇到各种莫名其妙的问题，请确保目录名（包括父目录）不包含中文。 一共三步：初始化，添加文件，提交
+1 2 3 4 5 $ git init $ git add readme.txt $ git commit -m &#34;提交的信息&#34; 查看仓库的修改状态 1 2 3 4 $ git status 这个命令会告诉我们修改了哪些文件，在知道了修改的文件之后，通过 $ git diff readme.]]></description>
+</item>
+</channel>
+</rss>

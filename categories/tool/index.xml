@@ -1,0 +1,107 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+    <channel>
+        <title>Tool - Category - Tinggeng</title>
+        <link>https://tinggengyan.github.io/categories/tool/</link>
+        <description>Tool - Category - Tinggeng</description>
+        <generator>Hugo -- gohugo.io</generator><language>en</language><managingEditor>tinggengyan@gmail.com (Tinggeng)</managingEditor>
+            <webMaster>tinggengyan@gmail.com (Tinggeng)</webMaster><lastBuildDate>Tue, 23 Jun 2020 10:42:04 &#43;0000</lastBuildDate><atom:link href="https://tinggengyan.github.io/categories/tool/" rel="self" type="application/rss+xml" /><item>
+    <title>AndroidStudio调试framework源码</title>
+    <link>https://tinggengyan.github.io/2020/06/as-debug-framework/</link>
+    <pubDate>Tue, 23 Jun 2020 10:42:04 &#43;0000</pubDate>
+    <author>Tinggeng</author>
+    <guid>https://tinggengyan.github.io/2020/06/as-debug-framework/</guid>
+    <description><![CDATA[概述 debug 是学习流程最快的方式,也是验证想法最好的方法.记录 Androidstudio 如何debug Android framework的代码.
+使用无 AOSP 的代码(Java层) 这是最简单方便的方式了.
+下载某个版本的 Android Source code 确认 Source code 正确下载了.
+新建项目,所用的 compile SDK 版本为需要调试的代码版本 1 2 3 4 5 android { // 设置成需要需要分析的,且已下载源码的版本 compileSdkVersion 29 ...... } 新建并启动对应版本的模拟器. 打断点; 这里以系统的 ActivityManagerService 为例. 因为ActivityManagerService 并未导出到Android.jar,所以无法直接搜索定位到 .java文件,所以采用双击shift的方式,检索文件. attach 到对应的进程,运行,查看断点. ActivityManagerService 这个类是在系统 system_process 进程中的,所以,需要对system_process 进程进行 attach 操作. 小结 至此,经过如上操作,就可以对某个类进行debug操作了.对于分析framework代码也是方便的很.
+可能遇到的问题 有时候还是会遇到代码行号不匹配,debug定位的代码行号不对,目前原因未知,应该是source code 和生成模拟器镜像的代码有出入. 没有好的解决办法,有个替代的方案.
+断点后,有明确的thread stack信息; 找到最早一个可以定位准备行号的函数; 针对这个函数进行 findByUsage,在查出的结果中,查找stack信息指引的函数. 使用 AOSP 的源码进行调试 上述的方法基本能满足常见的debug需求了.但是有个前提是,debug的设备基本只能是模拟器或者装了官方release镜像的亲儿子. 对于有修改ROM需求的情况下,debug 则需要导入 aosp 中framework 的代码.]]></description>
+</item>
+<item>
+    <title>Mac下 Understand 的初步配置</title>
+    <link>https://tinggengyan.github.io/2020/06/tool-understand/</link>
+    <pubDate>Fri, 19 Jun 2020 22:57:14 &#43;0000</pubDate>
+    <author>Tinggeng</author>
+    <guid>https://tinggengyan.github.io/2020/06/tool-understand/</guid>
+    <description><![CDATA[概述 之前一直寻找一款类似于windows上的sourceinsight的软件,后来无意发现 Understand,感觉挺好,熟悉一下,可以用来看代码.体验不错.
+导入流程 和sourceinsight一样,都是新建一个project,在此基础上进行代码的阅读和修改; new project import project files 部分实用快捷键 command + F: 在侧边的文件栏可以按照文件名进行搜索; 在打开的文件内可以搜索匹配的关键词; command + G: 在搜索的基础上可以查找匹配的结果的下一项;
+command +shift + G: 在搜索的基础上可以查找匹配的结果的上一项,即反向查找;
+command + F3 搜索选中的内容
+command + option + p/n 返回前一个/下一个修改的地方 部分实用的操作 绘图能力 uml 类图 在类名上右击,Graphical Views -&gt; UML Class Diagram 查看选中类调用其他类的关系图(单向的调用) 在类名上右击,Graphical Views -&gt; Cluster call 查看选中类和其他之间关系图(单向和双向的调用都会列出) 在类名上右击,Graphical Views -&gt; Cluster callby Butterfly 查看选中类内部的调用关系 在类名上右击,Graphical Views -&gt; Cluster callby Internal 查看选中类被哪些其他的类调用(单向的被调用) 在类名上右击,Graphical Views -&gt; Cluster callby 预览能力,非常好用的功能 在类名上,右击 View Information -&gt; Reference by Flat List: 查看类被引用的列表.]]></description>
+</item>
+<item>
+    <title>加快 AndroidStudio 编译速度之 build cache</title>
+    <link>https://tinggengyan.github.io/2017/02/buildcache/</link>
+    <pubDate>Tue, 07 Feb 2017 23:04:06 &#43;0000</pubDate>
+    <author>Tinggeng</author>
+    <guid>https://tinggengyan.github.io/2017/02/buildcache/</guid>
+    <description><![CDATA[Why AndroidStudio 编译速度慢,已经是人神共愤的事情了.本文是一篇译文，讲述如果利用 build cache 技术加快编译速度。分成两部分,一部分是第三方博文,另外一部分是官方文档.援引文章在结尾给出.
+Using build cache in Android Studio makes Gradle build faster 为何关心 build cache? 因为 build cache 可以加快 clean 和 build 的速度。当你执行 &lsquo;gradle clean build&rsquo; 或者类似的命令的时候。
+How does it make the build faster? 通过缓存已经分包的 libraries，这个过程是不在 Gradle 的缓存管理范围内的。无论是通过 Android studio 或者 命令行的方式执行 clean 操作，build-cache 内的包都会被保留，等到下次 build apk 的时候，被复用。可以在 build-cache 目录下查看缓存的结构。
+这是文件夹下列出的是一系列命名比较奇怪的文件和文件夹。文件大小是 0 字节的文件是用来锁定文件使用的。这个是非常必要的，因为同一个缓存文件可以被不同的项目使用。锁文件，可以防止两个项目同时对一个缓存文件进行读写操作。
+Exploded aar caches aar 缓存以文件夹的形式展现。有两种类型的缓存，一种是 dex 缓存，一种是解压完的 aar 形式的缓存。解压完的 aar 将直接保存在对应的 output 文件夹下。比如 220674f5fc7186b424e032744f0eeb413d469b54 文件夹的 input 文件 包含以下内容：]]></description>
+</item>
+<item>
+    <title>Markdown 常用语法</title>
+    <link>https://tinggengyan.github.io/2016/10/markdown%E5%B8%B8%E7%94%A8%E8%AF%AD%E6%B3%95/</link>
+    <pubDate>Mon, 17 Oct 2016 23:38:28 &#43;0000</pubDate>
+    <author>Tinggeng</author>
+    <guid>https://tinggengyan.github.io/2016/10/markdown%E5%B8%B8%E7%94%A8%E8%AF%AD%E6%B3%95/</guid>
+    <description><![CDATA[概述 本文记录 Markdown 写作时常用的一些语法.
+Why 平时人们都会进行一些简单的笔记记录，这些文字如果用 Word 就会感觉太复杂，用 txt 又显得单薄，一点格式都没有，不利于书写。自然人们希望有一种方法，能消除这两个缺点的方法，既能有常用的格式，又能方便记忆，简单快捷. Markdown 是满足这种需要的，所以记录总结一些常用的 Markdown 符号，方便记忆.
+What Markdown 是一种轻量级的「标记语言」，Markdown 简单快捷，导出格式也随心所欲，你可以导出 HTML 格式的文件用来网站发布，也可以十分方便的导出 PDF 格式，方便阅读。
+How 1. 标题级别的 语法：
+# 一级标题 ## 二级标题 ### 三级标题 #### 四级标题 ##### 五级标题 ###### 六级标题
+标题的级别根据#的个数来区分。正常的文本内容不需要取管，直接输入即可。
+效果:
+一级标题 二级标题 三级标题 四级标题 五级标题 六级标题 2. 序列效果 无序序列语法：
+* 包含的要点 * 包含的要点 - 包含的要点 - 包含的要点
+无序序列效果:
+包含的要点 包含的要点 包含的要点 包含的要点 有序序列语法：
+\1. 第一点 \2. 第二点 \1. 第三点
+无序序列效果:]]></description>
+</item>
+<item>
+    <title>git实践笔记</title>
+    <link>https://tinggengyan.github.io/2016/10/git%E5%AE%9E%E8%B7%B5%E7%AC%94%E8%AE%B0/</link>
+    <pubDate>Sat, 15 Oct 2016 18:40:26 &#43;0000</pubDate>
+    <author>Tinggeng</author>
+    <guid>https://tinggengyan.github.io/2016/10/git%E5%AE%9E%E8%B7%B5%E7%AC%94%E8%AE%B0/</guid>
+    <description><![CDATA[概述 本文记录常用 git 的功能和命令.
+Git实践笔记 Why 一年多前一边工作一边学,做的笔记,后来换了工作,改用SVN,git也就生疏了,最近公司打算换git了,正好重新整理一下笔记.
+What git是目前最好的版本控制工具,是一种动态异步的版本控制工具,对于版本控制的发展历程,可以参考别的文章.目前各个开源管理平台基本上都是用的git,git是必备的技能.
+简介 Linus花了两周时间自己用C写了一个分布式版本控制系统，这就是Git!大写的牛逼!一个月之内，Linux系统的源码已经由Git管理了! 起初的git只能在linux和Unix上运行。
+安装git 在Linux上安装Git 命令行下输入,sudo apt-get install git,直接安装.
+在Windows上安装 从http://msysgit.github.io/下载。 在bash下输入以下命令，设置账号和邮箱。是全局的，在之后的所有git操作，都是以这个账号.
+1 2 $ git config --global user.name &#34;Your Name&#34; $ git config --global user.email &#34;email@example.com&#34; ** 注意：** git config命令的&ndash;global参数，用了这个参数，表示你这台机器上所有的Git仓库都会使用这个配置，当然也可以对某个仓库指定不同的用户名和Email地址。
+1 $ git config --global --list查看当前的所有设置清单列表。 创建版本库（repository） 如果你使用Windows系统，为了避免遇到各种莫名其妙的问题，请确保目录名（包括父目录）不包含中文。 一共三步：初始化，添加文件，提交
+1 2 3 4 5 $ git init $ git add readme.txt $ git commit -m &#34;提交的信息&#34; 查看仓库的修改状态 1 2 3 4 $ git status 这个命令会告诉我们修改了哪些文件，在知道了修改的文件之后，通过 $ git diff readme.]]></description>
+</item>
+<item>
+    <title>AndroidStudio引入AAR依赖</title>
+    <link>https://tinggengyan.github.io/2016/08/androidstudio%E5%BC%95%E5%85%A5aar%E4%BE%9D%E8%B5%96/</link>
+    <pubDate>Wed, 10 Aug 2016 00:25:57 &#43;0000</pubDate>
+    <author>Tinggeng</author>
+    <guid>https://tinggengyan.github.io/2016/08/androidstudio%E5%BC%95%E5%85%A5aar%E4%BE%9D%E8%B5%96/</guid>
+    <description><![CDATA[概述 本文介绍 AndroidStudio 项目如何如何进行 aar 包依赖.
+AndroidStudio如何引用aar依赖 未成功方案 google 了一圈，网上的方法基本都是以下这种，在 module/build.gradle 文件中添加如下代码.同时将 aar 文件 copy 到 libs 文件夹下.
+1 2 3 4 5 repositories { flatDir { dirs &#39;libs&#39; } } compile(name:&#39;aarName&#39;, ext:&#39;aar&#39;) 我尝试了很多次,没有成功.
+亲测有效方案 采用了以下方法成功了,和上面的内容一致,只是位置不一样.
+project 目录下新建一个目录 aars(名字应该随意),新建的 aars 文件夹是用来存放需要 aar 包的.
+在 project 下的 build.gradle 中添加代码.
+1 2 3 4 5 6 7 8 9 allprojects { repositories { jcenter() //为了添加aar依赖 flatDir { dirs &#39;../aars&#39; } } } 注意: 是在根目录下的 build.]]></description>
+</item>
+<item>
+    <title>DDMS_Threads的简单使用</title>
+    <link>https://tinggengyan.github.io/2016/07/ddms-threads/</link>
+    <pubDate>Wed, 20 Jul 2016 00:44:35 &#43;0000</pubDate>
+    <author>Tinggeng</author>
+    <guid>https://tinggengyan.github.io/2016/07/ddms-threads/</guid>
+    <description><![CDATA[概述 本文记录在 DDMS 如何查看线程的状态,以及状态表达的含义.
+使用 DDMS 查看进程中的线程状态 简介 DDMS(Dalvik Debug Monitor Service),是 Android 开发的调试工具。
+如何工作 在 Android 系统中每个应用都是在单独的一个进程中运行，DDMS 可以将一个进程通过 adb 和 IDE 连接，进行调试。
+面板讲解 Threads 在左侧选中想要监控的进程，点击上方左起第五个图标(Update Threads) ,在对应的右侧打开 Threads 面板，就可以看到当前进程中的 线程状态。
+字段讲解 ID: 线程ID，是当前进程分配的唯一的线程ID.在 Dalvik 虚拟机中，这些值是从奇数3开始计数。 Tid: Linux 线程 ID， 对于一个进程的主线程而言，这个 ID 对应了进程 ID 。 Status: 该线程在进程中的状态，守护进程(Daemon thread)前面被标记了一个星号 ( * ) 。状态可取的值: running: 正在运行的线程。 sleeping: 休眠的，等待被唤醒的线程。 monitor: 监视，正在等待获取一个监控锁。 wait: 执行了wait方法，释放了对象锁。 native: 正在执行 native 代码。 vmwait: 正在等待虚拟机的资源。 zombie: 僵尸线程，即将销往的进程的线程。 init : 初始化中的线程(理论上不应该看得到) starting : 即将启动的线程(理论上不应该看得到) utime: 花费在用户代码所花的累计时间，一小会儿(通常是10ms)。只有在linux环境下，才能看到。PS:windows 下。 DDMS 看得到，不知道他这里有啥特别的含义。 stime : 花费在系统代码上的累计时间，一小会儿(通常是10ms)。 Name: 线程名。 &ldquo;ID&rdquo; 和 &ldquo;Name&rdquo; 是在线程启动的时候被设置的。其他的字段是每过一段时间就更新一下(默认是4秒)]]></description>
+</item>
+</channel>
+</rss>

@@ -1,0 +1,28 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+    <channel>
+        <title>Markdown - Tag - Tinggeng</title>
+        <link>https://tinggengyan.github.io/tags/markdown/</link>
+        <description>Markdown - Tag - Tinggeng</description>
+        <generator>Hugo -- gohugo.io</generator><language>en</language><managingEditor>tinggengyan@gmail.com (Tinggeng)</managingEditor>
+            <webMaster>tinggengyan@gmail.com (Tinggeng)</webMaster><lastBuildDate>Mon, 17 Oct 2016 23:38:28 &#43;0000</lastBuildDate><atom:link href="https://tinggengyan.github.io/tags/markdown/" rel="self" type="application/rss+xml" /><item>
+    <title>Markdown 常用语法</title>
+    <link>https://tinggengyan.github.io/2016/10/markdown%E5%B8%B8%E7%94%A8%E8%AF%AD%E6%B3%95/</link>
+    <pubDate>Mon, 17 Oct 2016 23:38:28 &#43;0000</pubDate>
+    <author>Tinggeng</author>
+    <guid>https://tinggengyan.github.io/2016/10/markdown%E5%B8%B8%E7%94%A8%E8%AF%AD%E6%B3%95/</guid>
+    <description><![CDATA[概述 本文记录 Markdown 写作时常用的一些语法.
+Why 平时人们都会进行一些简单的笔记记录，这些文字如果用 Word 就会感觉太复杂，用 txt 又显得单薄，一点格式都没有，不利于书写。自然人们希望有一种方法，能消除这两个缺点的方法，既能有常用的格式，又能方便记忆，简单快捷. Markdown 是满足这种需要的，所以记录总结一些常用的 Markdown 符号，方便记忆.
+What Markdown 是一种轻量级的「标记语言」，Markdown 简单快捷，导出格式也随心所欲，你可以导出 HTML 格式的文件用来网站发布，也可以十分方便的导出 PDF 格式，方便阅读。
+How 1. 标题级别的 语法：
+# 一级标题 ## 二级标题 ### 三级标题 #### 四级标题 ##### 五级标题 ###### 六级标题
+标题的级别根据#的个数来区分。正常的文本内容不需要取管，直接输入即可。
+效果:
+一级标题 二级标题 三级标题 四级标题 五级标题 六级标题 2. 序列效果 无序序列语法：
+* 包含的要点 * 包含的要点 - 包含的要点 - 包含的要点
+无序序列效果:
+包含的要点 包含的要点 包含的要点 包含的要点 有序序列语法：
+\1. 第一点 \2. 第二点 \1. 第三点
+无序序列效果:]]></description>
+</item>
+</channel>
+</rss>

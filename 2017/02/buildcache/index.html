@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <title>加快 AndroidStudio 编译速度之 build cache - Tinggeng</title><meta name="Description" content="Tinggeng"><meta property="og:title" content="加快 AndroidStudio 编译速度之 build cache" />
+<meta property="og:description" content="Why AndroidStudio 编译速度慢,已经是人神共愤的事情了.本文是一篇译文，讲述如果利用 build cache 技术加快编译速度。分成两部分,一部分是第三方博文,另外一部分是官方文档.援引文章在结尾给出.
+Using build cache in Android Studio makes Gradle build faster 为何关心 build cache? 因为 build cache 可以加快 clean 和 build 的速度。当你执行 &lsquo;gradle clean build&rsquo; 或者类似的命令的时候。
+How does it make the build faster? 通过缓存已经分包的 libraries，这个过程是不在 Gradle 的缓存管理范围内的。无论是通过 Android studio 或者 命令行的方式执行 clean 操作，build-cache 内的包都会被保留，等到下次 build apk 的时候，被复用。可以在 build-cache 目录下查看缓存的结构。
+这是文件夹下列出的是一系列命名比较奇怪的文件和文件夹。文件大小是 0 字节的文件是用来锁定文件使用的。这个是非常必要的，因为同一个缓存文件可以被不同的项目使用。锁文件，可以防止两个项目同时对一个缓存文件进行读写操作。
+Exploded aar caches aar 缓存以文件夹的形式展现。有两种类型的缓存，一种是 dex 缓存，一种是解压完的 aar 形式的缓存。解压完的 aar 将直接保存在对应的 output 文件夹下。比如 220674f5fc7186b424e032744f0eeb413d469b54 文件夹的 input 文件 包含以下内容：" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://tinggengyan.github.io/2017/02/buildcache/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2017-02-07T23:04:06+00:00" />
+<meta property="article:modified_time" content="2017-02-07T23:04:06+00:00" /><meta property="og:site_name" content="Tinggeng" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="加快 AndroidStudio 编译速度之 build cache"/>
+<meta name="twitter:description" content="Why AndroidStudio 编译速度慢,已经是人神共愤的事情了.本文是一篇译文，讲述如果利用 build cache 技术加快编译速度。分成两部分,一部分是第三方博文,另外一部分是官方文档.援引文章在结尾给出.
+Using build cache in Android Studio makes Gradle build faster 为何关心 build cache? 因为 build cache 可以加快 clean 和 build 的速度。当你执行 &lsquo;gradle clean build&rsquo; 或者类似的命令的时候。
+How does it make the build faster? 通过缓存已经分包的 libraries，这个过程是不在 Gradle 的缓存管理范围内的。无论是通过 Android studio 或者 命令行的方式执行 clean 操作，build-cache 内的包都会被保留，等到下次 build apk 的时候，被复用。可以在 build-cache 目录下查看缓存的结构。
+这是文件夹下列出的是一系列命名比较奇怪的文件和文件夹。文件大小是 0 字节的文件是用来锁定文件使用的。这个是非常必要的，因为同一个缓存文件可以被不同的项目使用。锁文件，可以防止两个项目同时对一个缓存文件进行读写操作。
+Exploded aar caches aar 缓存以文件夹的形式展现。有两种类型的缓存，一种是 dex 缓存，一种是解压完的 aar 形式的缓存。解压完的 aar 将直接保存在对应的 output 文件夹下。比如 220674f5fc7186b424e032744f0eeb413d469b54 文件夹的 input 文件 包含以下内容："/>
+<meta name="application-name" content="Tinggeng">
+<meta name="apple-mobile-web-app-title" content="Tinggeng"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="https://tinggengyan.github.io/2017/02/buildcache/" /><link rel="prev" href="https://tinggengyan.github.io/2017/01/javamemorymodel-2/" /><link rel="next" href="https://tinggengyan.github.io/2017/02/bottomnavigationview/" /><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/normalize.css@8.0.1/normalize.min.css"><link rel="stylesheet" href="/css/style.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css"><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "加快 AndroidStudio 编译速度之 build cache",
+        "inLanguage": "en",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https:\/\/tinggengyan.github.io\/2017\/02\/buildcache\/"
+        },"image": ["https:\/\/tinggengyan.github.io\/images\/Apple-Devices-Preview.png"],"genre": "posts","keywords": "AndroidStudio","wordcount":  541 ,
+        "url": "https:\/\/tinggengyan.github.io\/2017\/02\/buildcache\/","datePublished": "2017-02-07T23:04:06+00:00","dateModified": "2017-02-07T23:04:06+00:00","publisher": {
+            "@type": "Organization",
+            "name": "xxxx","logo": "https:\/\/tinggengyan.github.io\/img\/avatar.png"},"author": {
+                "@type": "Person",
+                "name": "Tinggeng"
+            },"description": ""
+    }
+    </script></head>
+    <body data-header-desktop="fixed" data-header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="Tinggeng"><span class="header-title-pre"><i class='far fa-kiss-wink-heart fa-fw' aria-hidden='true'></i></span>Tinggeng</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/" title="posts"> Posts </a><a class="menu-item" href="/tags/"> Tags </a><a class="menu-item" href="/categories/"> Categories </a><a class="menu-item" href="/daily_notes/" title="flemo"> flemo </a><span class="menu-item delimiter"></span><span class="menu-item search" id="search-desktop">
+                        <input type="text" placeholder="Search titles or contents..." id="search-input-desktop">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="Search">
+                            <i class="fas fa-search fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="Clear">
+                            <i class="fas fa-times-circle fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-desktop">
+                            <i class="fas fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+                        </span>
+                    </span><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                    <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="Tinggeng"><span class="header-title-pre"><i class='far fa-kiss-wink-heart fa-fw' aria-hidden='true'></i></span>Tinggeng</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><div class="search-wrapper">
+                    <div class="search mobile" id="search-mobile">
+                        <input type="text" placeholder="Search titles or contents..." id="search-input-mobile">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="Search">
+                            <i class="fas fa-search fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="Clear">
+                            <i class="fas fa-times-circle fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-mobile">
+                            <i class="fas fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+                        </span>
+                    </div>
+                    <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+                        Cancel
+                    </a>
+                </div><a class="menu-item" href="/posts/" title="posts">Posts</a><a class="menu-item" href="/tags/" title="">Tags</a><a class="menu-item" href="/categories/" title="">Categories</a><a class="menu-item" href="/daily_notes/" title="flemo">flemo</a><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+            </a></div>
+    </div>
+</header><div class="search-dropdown desktop">
+        <div id="search-dropdown-desktop"></div>
+    </div>
+    <div class="search-dropdown mobile">
+        <div id="search-dropdown-mobile"></div>
+    </div><main class="main">
+                <div class="container"><div class="toc" id="toc-auto">
+            <h2 class="toc-title">Contents</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">加快 AndroidStudio 编译速度之 build cache</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Tinggeng</a>
+</span>&nbsp;<span class="post-category">included in <a href="/categories/tool/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Tool</a>&nbsp;<a href="/categories/gradle/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Gradle</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2017-02-07">2017-02-07</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;541 words&nbsp;
+                <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;3 minutes&nbsp;<span id="/2017/02/buildcache/" class="leancloud_visitors" data-flag-title="加快 AndroidStudio 编译速度之 build cache">
+                        <i class="far fa-eye fa-fw" aria-hidden="true"></i>&nbsp;<span class=leancloud-visitors-count></span>&nbsp;views
+                    </span>&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  data-kept="">
+                <div class="details-summary toc-title">
+                    <span>Contents</span>
+                    <span><i class="details-icon fas fa-angle-right" aria-hidden="true"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#为何关心-build-cache">为何关心 build cache?</a></li>
+    <li><a href="#how-does-it-make-the-build-faster">How does it make the build faster?</a></li>
+    <li><a href="#exploded-aar-caches">Exploded aar caches</a></li>
+    <li><a href="#dexed-caches">Dexed caches</a></li>
+    <li><a href="#multidex-and-api-level-21">Multidex and API level 21</a></li>
+    <li><a href="#performance-measurements">Performance measurements</a></li>
+  </ul>
+
+  <ul>
+    <li><a href="#introduction">Introduction</a></li>
+    <li><a href="#how-to-use-the-build-cache">How to use the Build Cache</a>
+      <ul>
+        <li><a href="#step-0">Step 0</a></li>
+        <li><a href="#step-1">Step 1</a></li>
+        <li><a href="#step-2">Step 2</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><h1 id="why">Why</h1>
+<p>AndroidStudio 编译速度慢,已经是人神共愤的事情了.本文是一篇译文，讲述如果利用 build cache 技术加快编译速度。分成两部分,一部分是第三方博文,另外一部分是官方文档.援引文章在结尾给出.</p>
+<!-- more -->
+<h1 id="using-build-cache-in-android-studio-makes-gradle-build-faster">Using build cache in Android Studio makes Gradle build faster</h1>
+<h2 id="为何关心-build-cache">为何关心 build cache?</h2>
+<p>因为 build cache 可以加快 clean 和 build 的速度。当你执行 &lsquo;gradle clean build&rsquo; 或者类似的命令的时候。</p>
+<h2 id="how-does-it-make-the-build-faster">How does it make the build faster?</h2>
+<p>通过缓存已经分包的 libraries，这个过程是不在 Gradle 的缓存管理范围内的。无论是通过 Android studio 或者 命令行的方式执行 clean 操作，build-cache 内的包都会被保留，等到下次 build apk 的时候，被复用。可以在 build-cache 目录下查看缓存的结构。</p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="https://zeroturnaround.com/wp-content/uploads/2016/12/android-studio-android-build-cache-dir.png"
+        data-srcset="https://zeroturnaround.com/wp-content/uploads/2016/12/android-studio-android-build-cache-dir.png, https://zeroturnaround.com/wp-content/uploads/2016/12/android-studio-android-build-cache-dir.png 1.5x, https://zeroturnaround.com/wp-content/uploads/2016/12/android-studio-android-build-cache-dir.png 2x"
+        data-sizes="auto"
+        alt="https://zeroturnaround.com/wp-content/uploads/2016/12/android-studio-android-build-cache-dir.png"
+        title="缓存文件夹" /></p>
+<p>这是文件夹下列出的是一系列命名比较奇怪的文件和文件夹。文件大小是 0 字节的文件是用来锁定文件使用的。这个是非常必要的，因为同一个缓存文件可以被不同的项目使用。锁文件，可以防止两个项目同时对一个缓存文件进行读写操作。</p>
+<h2 id="exploded-aar-caches">Exploded aar caches</h2>
+<p>aar 缓存以文件夹的形式展现。有两种类型的缓存，一种是 dex 缓存，一种是解压完的 aar 形式的缓存。解压完的 aar 将直接保存在对应的 output 文件夹下。比如 <em>220674f5fc7186b424e032744f0eeb413d469b54</em> 文件夹的  <em>input 文件</em> 包含以下内容：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-xml" data-lang="xml"><span class="line"><span class="cl">COMMAND=PREPARE_LIBRARY
+</span></span><span class="line"><span class="cl">MAVEN_COORDINATES=com.google.maps.android:android-maps-utils:aar:0.3.4
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>文件夹的名字是 <em>input file</em> 的 <em>sha1sum</em> 值。在这个例子里，就是 <em>android-maps-utils</em> 库。解压完的 aar 在依赖的分析过程中（若未被缓存）会被缓存。</p>
+<h2 id="dexed-caches">Dexed caches</h2>
+<p>对于分包缓存，有着和 aar 缓存相似的结构。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-xml" data-lang="xml"><span class="line"><span class="cl">COMMAND=PREDEX_LIBRARY
+</span></span><span class="line"><span class="cl">FILE_PATH=/Users/Sten/.android/build-cache/220674f5fc7186b424e032744f0eeb413d469b54/output/jars/classes.jar
+</span></span><span class="line"><span class="cl">FILE_HASH=cf251baf39f5c5138224b67b4106eb6331abbd13
+</span></span><span class="line"><span class="cl">BUILD_TOOLS_REVISION=25.0.0
+</span></span><span class="line"><span class="cl">JUMBO_MODE=false
+</span></span><span class="line"><span class="cl">OPTIMIZE=true
+</span></span><span class="line"><span class="cl">MULTI_DEX=false
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>文件中的 <em>FILE_PATH</em> 指向的就是我们上面所说的文件夹。文件中包含了 <em>android-maps-utils</em> 库的分包版本。<em>input file</em>  中的键值对定义了每个缓存实体。举个例子，<em>build tools revision</em> 是 25.0.0 和 25.0.1 将会有不同的分包缓存，因为 BUILD_TOOLS_REVISION 值不同。但是对于 aar 缓存而言，则会是同一个，因为对于 aar 缓存的 <em>input file</em> 而言，command 未变，maven 地址也没有变，输入文件未变。</p>
+<p>这里的输出是一个文件，而不是一个文件夹。解压之后的文件结构如下：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl"><span class="m">73</span>  12-06-16 16:07   META-INF/MANIFEST.MF
+</span></span><span class="line"><span class="cl">       <span class="m">0</span>  12-06-16 16:07   META-INF/
+</span></span><span class="line"><span class="cl">   <span class="m">87000</span>  12-06-16 16:07   classes.dex
+</span></span><span class="line"><span class="cl">       <span class="m">0</span>  12-06-16 16:07   com/
+</span></span><span class="line"><span class="cl">       <span class="m">0</span>  12-06-16 16:07   com/google/
+</span></span><span class="line"><span class="cl">       <span class="m">0</span>  12-06-16 16:07   com/google/maps/
+</span></span><span class="line"><span class="cl">       <span class="m">0</span>  12-06-16 16:07   com/google/maps/android/
+</span></span><span class="line"><span class="cl">       <span class="m">0</span>  12-06-16 16:07   com/google/maps/android/clustering/
+</span></span><span class="line"><span class="cl">       <span class="m">0</span>  12-06-16 16:07   com/google/maps/android/clustering/algo/
+</span></span><span class="line"><span class="cl">       <span class="m">0</span>  12-06-16 16:07   com/google/maps/android/clustering/view/
+</span></span><span class="line"><span class="cl">       <span class="m">0</span>  12-06-16 16:07   com/google/maps/android/geometry/
+</span></span><span class="line"><span class="cl">       <span class="m">0</span>  12-06-16 16:07   com/google/maps/android/heatmaps/
+</span></span><span class="line"><span class="cl">       <span class="m">0</span>  12-06-16 16:07   com/google/maps/android/projection/
+</span></span><span class="line"><span class="cl">       <span class="m">0</span>  12-06-16 16:07   com/google/maps/android/quadtree/
+</span></span><span class="line"><span class="cl">       <span class="m">0</span>  12-06-16 16:07   com/google/maps/android/ui/
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>如你所见，这个只是文件夹结构和 classes.dex 文件。</p>
+<h2 id="multidex-and-api-level-21">Multidex and API level 21</h2>
+<p>根据 multidex  和 target API 是否高于 21 的不同组合，分包缓存的使用方式也不一样。</p>
+<p>第一种情况是，不使用分包。在这种情况下，API 级别无论是否高于 21 都无关。将会使用分包缓存，也会进行 dex 文件的 merge 操作。在 apk 文件中，我们将会看到只有一个 classes.dex 文件，这个 classes.dex 包含了所有的 application 类和 libraries。</p>
+<p>第二种情况是，minSdkVersion 低于 21 并且 multidex 无法使用 build cache 下的 predex libraries .这是因为兼容包里的 multidex 并不支持 predex.Gradle 插件总是将所有的 application 和 library classes 都放到一个 dex 包里.</p>
+<p>最后一种情况是使用了 multidex 并且 API 级别高于 21.在这种情况下,build-cache文件夹下的分包文件将会被直接打包进 apk 文件中.每个库都将分别拥有一个将被打包进 apk 中的 classes.dex 文件.这也是为什么 API 21 是<a href="https://developer.android.com/studio/build/multidex.html#dev-build" target="_blank" rel="noopener noreffer">编译时期最佳的选择</a>
+ .</p>
+<h2 id="performance-measurements">Performance measurements</h2>
+<p>针对2015年的 iosched app 在没有 multidex 和 API 最低版本 21 下分别进行测试.打开 Gradle 守护进程,启用和禁用 build cache,分别在命令行下运行 5 次 clean,build 操作.以下是五次运行结果的中位数报告.</p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="https://zeroturnaround.com/wp-content/uploads/2016/12/android-build-profile-2.png"
+        data-srcset="https://zeroturnaround.com/wp-content/uploads/2016/12/android-build-profile-2.png, https://zeroturnaround.com/wp-content/uploads/2016/12/android-build-profile-2.png 1.5x, https://zeroturnaround.com/wp-content/uploads/2016/12/android-build-profile-2.png 2x"
+        data-sizes="auto"
+        alt="https://zeroturnaround.com/wp-content/uploads/2016/12/android-build-profile-2.png"
+        title="Clean build without build cache" /></p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="https://zeroturnaround.com/wp-content/uploads/2016/12/android-build-profile-1.png"
+        data-srcset="https://zeroturnaround.com/wp-content/uploads/2016/12/android-build-profile-1.png, https://zeroturnaround.com/wp-content/uploads/2016/12/android-build-profile-1.png 1.5x, https://zeroturnaround.com/wp-content/uploads/2016/12/android-build-profile-1.png 2x"
+        data-sizes="auto"
+        alt="https://zeroturnaround.com/wp-content/uploads/2016/12/android-build-profile-1.png"
+        title="Clean build with build cache" /></p>
+<p>从上图可以看到,编译时间很明显的从 18.7 降到了 6.5秒.从图上也可以很清晰的看到 <em>android:transformClassesWithDexForDebug task</em> 所花的时间,从 12.1 降到了 1.7 秒.节省的时间取决于项目中使用的依赖包数.</p>
+<p>如果还没尝试 Android studio 2.3 ,建议现在尝试.你将会很明显的看到节省的时间.如果你对非正式版的没有兴趣,也可以在 Android studio 2.2 和 Android Gradle plugin 2.2 上实验,通过向项目根目录下的 gradle.properties  文件中添加 <em>android.enableBuildCache=true</em> .</p>
+<!-- more -->
+<hr>
+<p>下面是官方的译文.</p>
+<h1 id="build-cache">Build Cache</h1>
+<h2 id="introduction">Introduction</h2>
+<p>在 <em>Android Studio 2.2 Beta3</em> 中介绍了一种可以减少编译时间的新 <em>build cache</em>  缓存特性，这个新特性可以加快包括全量编译，增量编译和 instant run 的编译时间，通过保存和复用前一次由同一个项目或者其他项目 build 产生的文件或者文件夹。
+<em>build cache</em> 目的是为了在所有的 Android 项目中共用。开发者可以通过修改 <em>gradle.properties</em> 文件，实现是否启用 <em>build cache</em> 和指定缓存的位置。当前 <em>build cache</em>  只包含 <em>pre-dexed</em> 库，未来，<em>Android studio</em> 团队会支持其他类型的文件。</p>
+<p><strong>注意</strong>：<em>build cache</em>  的实现是和  <em>gradle cache</em>  管理（例如,reporting up-to-date statuses）是相互独立的。当执行一个 task 的时候，无论是否使用 <em>build cache</em>  对于 Gradle 而言都是未知的（即：即使命中了缓存，Gradle 也不会认为是 up-to-date）。然而，当使用 <em>build cache</em> 的时候，还是希望加快编译速度的。
+即使目前还未发现有任何问题，我们希望给社区更多的时间以提供更多的反馈。目前这个特性仍旧作为实验性的特性，目前默认还是禁用的。（Android Studio 2.3 Canary 1 开始默认启用）。根据未来的反馈情况，当我们觉得这个特性稳定了，将会在 Android Studio 2.3 或者 2.4 中默认启动。</p>
+<h2 id="how-to-use-the-build-cache">How to use the Build Cache</h2>
+<h3 id="step-0">Step 0</h3>
+<p>确保 <a href="http://google.github.io/android-gradle-dsl/current/com.android.build.gradle.internal.dsl.DexOptions.html#com.android.build.gradle.internal.dsl.DexOptions:preDexLibraries" target="_blank" rel="noopener noreffer">android.dexOptions.preDexLibraries</a>
+已经设置为 <strong>true</strong>。否则 <em>libraries</em> 不会被 <em>pre-dexed</em>，因而 <em>build cache</em> 并不会被使用。</p>
+<h3 id="step-1">Step 1</h3>
+<p>在 Android 项目中打开 <em>gradle.properties</em>，添加以下两个参数</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-groovy" data-lang="groovy"><span class="line"><span class="cl"><span class="n">android</span><span class="o">.</span><span class="na">enableBuildCache</span><span class="o">=</span><span class="kc">true</span> <span class="err">#</span> <span class="kc">true</span><span class="o">:</span><span class="err">启用</span> <span class="n">build</span> <span class="n">cache</span><span class="err">，反之禁用。如果这个参数未设置，默认是禁用</span> <span class="n">build</span> <span class="n">cache</span><span class="o">.</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">android</span><span class="o">.</span><span class="na">buildCacheDir</span><span class="o">=&lt;</span><span class="n">path</span><span class="o">-</span><span class="n">to</span><span class="o">-</span><span class="n">build</span><span class="o">-</span><span class="n">cache</span><span class="o">-</span><span class="n">directory</span><span class="o">&gt;</span> <span class="err">#</span> <span class="err">这个是个可选项，用来指定</span> <span class="n">build</span> <span class="n">cache</span> <span class="err">目录的绝对路径。如果设置成项目路径，那么是项目于项目的根目录而言的。如果这个参数未被设置，那么默认的目录是</span> <span class="o">&lt;</span><span class="n">user</span><span class="o">-</span><span class="n">home</span><span class="o">-</span><span class="n">directory</span><span class="o">&gt;</span><span class="s">/.android/</span><span class="n">build</span><span class="o">-</span><span class="n">cache</span><span class="err">。如果使用相同的缓存目录，那么多个项目可以共用相同的缓存，所以，推荐使用默认的路径或者使用一个项目外的绝对路径。任何情况下，</span><span class="n">build</span> <span class="n">cache</span> <span class="err">的路径都不应该放在</span> <span class="s2">&#34;build&#34;</span> <span class="err">文件夹下，除非每次运行</span> <span class="n">clean</span> <span class="err">之后，都能删除</span> <span class="n">build</span> <span class="n">cache</span> <span class="err">。如果</span> <span class="n">android</span><span class="o">.</span><span class="na">enableBuildCache</span> <span class="err">被设置成</span> <span class="kc">false</span><span class="err">，则这个参数将会被忽略。</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="step-2">Step 2</h3>
+<p>build 项目，或者在命令行下执行 <em>./gradlew assemble</em>,检查以下位置，查看 build cache 是否起作用。</p>
+<ul>
+<li>缓存的文件被存储在了上述  android.buildCacheDir 指定的文件夹下。默认情况下，是在 <em><user-home-directory>/.android/build-cache.</em></li>
+<li>最终的 pre-dexed 文件被存储在了 <em>&lt;project-dir/module-dir&gt;/build/intermediates/pre-dexed/debug</em> 和 <em>&lt;project-dir/module-dir&gt;/build/intermediates/pre-dexed/release.</em>。可以在命令行下运行指令查看  “pre-dexed” 文件夹。如果点击的是 Android Studio 面板上的 “Run”  按钮，时无法看到这个文件夹的，因为这个文件夹背会被删除。</li>
+</ul>
+<p><strong>注意</strong>:
+如果使用 Multi-dex 并且 minSdk &gt;= 21 ，那么 dexed files 将会被直接保存在 <em>&lt;project-dir/module-dir&gt;/build/intermediates/transforms/dex</em> 目录下， 而不是在 <em>&lt;project-dir/module-dir&gt;/build/intermediates/pre-dexed</em>.</p>
+<p>** Cleaning the Build Cache
+如果想要清除 <em>build cache</em>， 可以直接删除 <em>build cache</em> 文件夹内的内容。
+<em>build cache</em> 文件夹在 <em>android.buildCacheDir</em> 指定的目录下,或者在默认的 <em><user-home-directory>/.android/build-cache</em> 文件夹下.</p>
+<p>从 Android Studio 2.3 Canary 1 开始，Gradle task 中新增了一个叫做 <em>cleanBuildCache</em> 的任务，可以更加便利的删除 <em>build cache</em> 。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">./gradlew cleanBuildCache
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h1 id="感激非常感激万分的感激">感激,非常感激，万分的感激！</h1>
+<p>感谢以下的文章以及其作者和翻译的开发者们,排名不分先后</p>
+<ul>
+<li><a href="http://tools.android.com/tech-docs/build-cache" target="_blank" rel="noopener noreffer">Build Cache</a>
+</li>
+<li><a href="https://zeroturnaround.com/rebellabs/using-build-cache-in-android-studio-makes-gradle-build-faster/" target="_blank" rel="noopener noreffer">Using build cache in Android Studio makes Gradle build faster</a>
+</li>
+</ul>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>Updated on 2017-02-07</span>
+            </div></div>
+        <div class="post-info-line">
+            <div class="post-info-md"><span>
+                            <a class="link-to-markdown" href="/2017/02/buildcache/index.md" target="_blank">Read Markdown</a>
+                        </span></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="Share on Twitter" data-sharer="twitter" data-url="https://tinggengyan.github.io/2017/02/buildcache/" data-title="加快 AndroidStudio 编译速度之 build cache" data-hashtags="AndroidStudio"><i class="fab fa-twitter fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Facebook" data-sharer="facebook" data-url="https://tinggengyan.github.io/2017/02/buildcache/" data-hashtag="AndroidStudio"><i class="fab fa-facebook-square fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Hacker News" data-sharer="hackernews" data-url="https://tinggengyan.github.io/2017/02/buildcache/" data-title="加快 AndroidStudio 编译速度之 build cache"><i class="fab fa-hacker-news fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Line" data-sharer="line" data-url="https://tinggengyan.github.io/2017/02/buildcache/" data-title="加快 AndroidStudio 编译速度之 build cache"><i data-svg-src="https://cdn.jsdelivr.net/npm/simple-icons@6.20.0/icons/line.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on 微博" data-sharer="weibo" data-url="https://tinggengyan.github.io/2017/02/buildcache/" data-title="加快 AndroidStudio 编译速度之 build cache"><i class="fab fa-weibo fa-fw" aria-hidden="true"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw" aria-hidden="true"></i>&nbsp;<a href="/tags/androidstudio/">AndroidStudio</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">Back</a></span>&nbsp;|&nbsp;<span><a href="/">Home</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/2017/01/javamemorymodel-2/" class="prev" rel="prev" title="Java 内存模型_2"><i class="fas fa-angle-left fa-fw" aria-hidden="true"></i>Java 内存模型_2</a>
+            <a href="/2017/02/bottomnavigationview/" class="next" rel="next" title="BottomNavigationView 的使用">BottomNavigationView 的使用<i class="fas fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+<div id="comments"><div id="valine" class="comment"></div><noscript>
+                Please enable JavaScript to view the comments powered by <a href="https://valine.js.org/">Valine</a>.
+            </noscript></div></article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.114.1">Hugo</a> | Theme - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw" aria-hidden="true"></i> LoveIt</a>
+                </div><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright fa-fw" aria-hidden="true"></i><span itemprop="copyrightYear">2019 - 2023</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank">Tinggeng</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+        </div>
+    </footer></div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="Back to Top">
+                <i class="fas fa-arrow-up fa-fw" aria-hidden="true"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="View Comments">
+                <i class="fas fa-comment fa-fw" aria-hidden="true"></i>
+            </a>
+        </div><link rel="stylesheet" href="/lib/valine/valine.min.css"><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/valine@1.4.18/dist/Valine.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/autocomplete.js@0.38.1/dist/autocomplete.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/algoliasearch@4.13.0/dist/algoliasearch-lite.umd.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lazysizes@5.3.1/lazysizes.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/clipboard@2.0.11/dist/clipboard.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/sharer.js@0.5.1/sharer.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"Copy to clipboard","maxShownLines":50},"comment":{"valine":{"appId":"QGzwQXOqs5JOhN4RGPOkR2mR-MdYXbMMI","appKey":"WBmoGyJtbqUswvfLh6L8iEBr","avatar":"mp","el":"#valine","emojiCDN":"https://cdn.jsdelivr.net/npm/emoji-datasource-google@14.0.0/img/google/64/","emojiMaps":{"100":"1f4af.png","alien":"1f47d.png","anger":"1f4a2.png","angry":"1f620.png","anguished":"1f627.png","astonished":"1f632.png","black_heart":"1f5a4.png","blue_heart":"1f499.png","blush":"1f60a.png","bomb":"1f4a3.png","boom":"1f4a5.png","broken_heart":"1f494.png","brown_heart":"1f90e.png","clown_face":"1f921.png","cold_face":"1f976.png","cold_sweat":"1f630.png","confounded":"1f616.png","confused":"1f615.png","cry":"1f622.png","crying_cat_face":"1f63f.png","cupid":"1f498.png","dash":"1f4a8.png","disappointed":"1f61e.png","disappointed_relieved":"1f625.png","dizzy":"1f4ab.png","dizzy_face":"1f635.png","drooling_face":"1f924.png","exploding_head":"1f92f.png","expressionless":"1f611.png","face_vomiting":"1f92e.png","face_with_cowboy_hat":"1f920.png","face_with_hand_over_mouth":"1f92d.png","face_with_head_bandage":"1f915.png","face_with_monocle":"1f9d0.png","face_with_raised_eyebrow":"1f928.png","face_with_rolling_eyes":"1f644.png","face_with_symbols_on_mouth":"1f92c.png","face_with_thermometer":"1f912.png","fearful":"1f628.png","flushed":"1f633.png","frowning":"1f626.png","ghost":"1f47b.png","gift_heart":"1f49d.png","green_heart":"1f49a.png","grimacing":"1f62c.png","grin":"1f601.png","grinning":"1f600.png","hankey":"1f4a9.png","hear_no_evil":"1f649.png","heart":"2764-fe0f.png","heart_decoration":"1f49f.png","heart_eyes":"1f60d.png","heart_eyes_cat":"1f63b.png","heartbeat":"1f493.png","heartpulse":"1f497.png","heavy_heart_exclamation_mark_ornament":"2763-fe0f.png","hole":"1f573-fe0f.png","hot_face":"1f975.png","hugging_face":"1f917.png","hushed":"1f62f.png","imp":"1f47f.png","innocent":"1f607.png","japanese_goblin":"1f47a.png","japanese_ogre":"1f479.png","joy":"1f602.png","joy_cat":"1f639.png","kiss":"1f48b.png","kissing":"1f617.png","kissing_cat":"1f63d.png","kissing_closed_eyes":"1f61a.png","kissing_heart":"1f618.png","kissing_smiling_eyes":"1f619.png","laughing":"1f606.png","left_speech_bubble":"1f5e8-fe0f.png","love_letter":"1f48c.png","lying_face":"1f925.png","mask":"1f637.png","money_mouth_face":"1f911.png","nauseated_face":"1f922.png","nerd_face":"1f913.png","neutral_face":"1f610.png","no_mouth":"1f636.png","open_mouth":"1f62e.png","orange_heart":"1f9e1.png","partying_face":"1f973.png","pensive":"1f614.png","persevere":"1f623.png","pleading_face":"1f97a.png","pouting_cat":"1f63e.png","purple_heart":"1f49c.png","rage":"1f621.png","relaxed":"263a-fe0f.png","relieved":"1f60c.png","revolving_hearts":"1f49e.png","right_anger_bubble":"1f5ef-fe0f.png","robot_face":"1f916.png","rolling_on_the_floor_laughing":"1f923.png","scream":"1f631.png","scream_cat":"1f640.png","see_no_evil":"1f648.png","shushing_face":"1f92b.png","skull":"1f480.png","skull_and_crossbones":"2620-fe0f.png","sleeping":"1f634.png","sleepy":"1f62a.png","slightly_frowning_face":"1f641.png","slightly_smiling_face":"1f642.png","smile":"1f604.png","smile_cat":"1f638.png","smiley":"1f603.png","smiley_cat":"1f63a.png","smiling_face_with_3_hearts":"1f970.png","smiling_imp":"1f608.png","smirk":"1f60f.png","smirk_cat":"1f63c.png","sneezing_face":"1f927.png","sob":"1f62d.png","space_invader":"1f47e.png","sparkling_heart":"1f496.png","speak_no_evil":"1f64a.png","speech_balloon":"1f4ac.png","star-struck":"1f929.png","stuck_out_tongue":"1f61b.png","stuck_out_tongue_closed_eyes":"1f61d.png","stuck_out_tongue_winking_eye":"1f61c.png","sunglasses":"1f60e.png","sweat":"1f613.png","sweat_drops":"1f4a6.png","sweat_smile":"1f605.png","thinking_face":"1f914.png","thought_balloon":"1f4ad.png","tired_face":"1f62b.png","triumph":"1f624.png","two_hearts":"1f495.png","unamused":"1f612.png","upside_down_face":"1f643.png","weary":"1f629.png","white_frowning_face":"2639-fe0f.png","white_heart":"1f90d.png","wink":"1f609.png","woozy_face":"1f974.png","worried":"1f61f.png","yawning_face":"1f971.png","yellow_heart":"1f49b.png","yum":"1f60b.png","zany_face":"1f92a.png","zipper_mouth_face":"1f910.png","zzz":"1f4a4.png"},"enableQQ":false,"highlight":true,"lang":"en","pageSize":10,"placeholder":"Your comment ...","recordIP":true,"serverURLs":"https://leancloud.hugoloveit.com","visitor":true}},"search":{"algoliaAppID":"","algoliaIndex":"","algoliaSearchKey":"","highlightTag":"em","maxResultLength":10,"noResultsFound":"No results found","snippetLength":30,"type":"algolia"}};</script><script type="text/javascript" src="/js/theme.min.js"></script></body>
+</html>

@@ -1,0 +1,20 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+    <channel>
+        <title>Tool - Tag - Tinggeng</title>
+        <link>https://tinggengyan.github.io/tags/tool/</link>
+        <description>Tool - Tag - Tinggeng</description>
+        <generator>Hugo -- gohugo.io</generator><language>en</language><managingEditor>tinggengyan@gmail.com (Tinggeng)</managingEditor>
+            <webMaster>tinggengyan@gmail.com (Tinggeng)</webMaster><lastBuildDate>Fri, 19 Jun 2020 22:57:14 &#43;0000</lastBuildDate><atom:link href="https://tinggengyan.github.io/tags/tool/" rel="self" type="application/rss+xml" /><item>
+    <title>Mac下 Understand 的初步配置</title>
+    <link>https://tinggengyan.github.io/2020/06/tool-understand/</link>
+    <pubDate>Fri, 19 Jun 2020 22:57:14 &#43;0000</pubDate>
+    <author>Tinggeng</author>
+    <guid>https://tinggengyan.github.io/2020/06/tool-understand/</guid>
+    <description><![CDATA[概述 之前一直寻找一款类似于windows上的sourceinsight的软件,后来无意发现 Understand,感觉挺好,熟悉一下,可以用来看代码.体验不错.
+导入流程 和sourceinsight一样,都是新建一个project,在此基础上进行代码的阅读和修改; new project import project files 部分实用快捷键 command + F: 在侧边的文件栏可以按照文件名进行搜索; 在打开的文件内可以搜索匹配的关键词; command + G: 在搜索的基础上可以查找匹配的结果的下一项;
+command +shift + G: 在搜索的基础上可以查找匹配的结果的上一项,即反向查找;
+command + F3 搜索选中的内容
+command + option + p/n 返回前一个/下一个修改的地方 部分实用的操作 绘图能力 uml 类图 在类名上右击,Graphical Views -&gt; UML Class Diagram 查看选中类调用其他类的关系图(单向的调用) 在类名上右击,Graphical Views -&gt; Cluster call 查看选中类和其他之间关系图(单向和双向的调用都会列出) 在类名上右击,Graphical Views -&gt; Cluster callby Butterfly 查看选中类内部的调用关系 在类名上右击,Graphical Views -&gt; Cluster callby Internal 查看选中类被哪些其他的类调用(单向的被调用) 在类名上右击,Graphical Views -&gt; Cluster callby 预览能力,非常好用的功能 在类名上,右击 View Information -&gt; Reference by Flat List: 查看类被引用的列表.]]></description>
+</item>
+</channel>
+</rss>

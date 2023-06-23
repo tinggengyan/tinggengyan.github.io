@@ -1,0 +1,757 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <title>Annotation 使用备忘 - Tinggeng</title><meta name="Description" content="Tinggeng"><meta property="og:title" content="Annotation 使用备忘" />
+<meta property="og:description" content="概述 本文记录注解 Annotation 的概念和使用.
+Annotation 注解 Why 需要注解 在代码中常有些重复的代码，这些代码纯手工太耗时。可以通过一定的标记，然后处理即可。
+What 是注解? Annotation 分类 标准 Annotation 包括 Override, Deprecated, SuppressWarnings，是 java 自带的几个注解，他们由编译器来识别，不会进行编译，不影响代码运行。 元 Annotation @Retention, @Target, @Inherited, @Documented，它们是用来定义 Annotation 的 Annotation。也就是当我们要自定义注解时，需要使用它们。 自定义 Annotation 自定义的 Annotation。 自定义的注解也分为三类，通过元Annotation - @Retention 定义： @Retention(RetentionPolicy.SOURCE) 源码时注解，一般用来作为编译器标记。如 Override, Deprecated, SuppressWarnings。 @Retention(RetentionPolicy.RUNTIME) 运行时注解，在运行时通过反射去识别的注解，这种注解最大的缺点就是反射消耗性能。 @Retention(RetentionPolicy.CLASS) 编译时注解，在编译时被识别并处理的注解，相当于自动生成代码，没有反射，和正常的手写代码无二。 Annotation 的工作原理 APT(Annotation Processing Tool) 根据不同类型的注解，采取不同的处理方式，对于 SOURCE 类型的注解，它只会存在代码中，当进行编译成 class 的时候，就会被抛弃了。 RUNTIME 类型的则一直存到 class 文件中，一直存在虚拟机的运行期。CLASS 类型的注解只存到编译期，会根据 处理器的要求进行处理，生成代码或者其他处理方式，处理完只会，就不会存在了，而如果生成了文件，则会一直存在，被打包。
+术语解释 Element: 表示一个程序元素，比如包、类或者方法。每个元素都表示一个静态的语言级构造（不表示虚拟机的运行时构造）。 元素应该使用 equals(Object)方法进行比较。不保证总是使用相同的对象表示某个特定的元素。要实现基于 Element 对象类的操作，可以使用 visitor 或者使用 getKind() 方法的结果。使用 instanceof 确定此建模层次结构中某一对象的有效类未必可靠，因为一个实现可以选择让单个对象实现多个 Element 子接口。 在 JDK 1." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://tinggengyan.github.io/2016/11/annotation/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2016-11-16T23:16:43+00:00" />
+<meta property="article:modified_time" content="2016-11-16T23:16:43+00:00" /><meta property="og:site_name" content="Tinggeng" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Annotation 使用备忘"/>
+<meta name="twitter:description" content="概述 本文记录注解 Annotation 的概念和使用.
+Annotation 注解 Why 需要注解 在代码中常有些重复的代码，这些代码纯手工太耗时。可以通过一定的标记，然后处理即可。
+What 是注解? Annotation 分类 标准 Annotation 包括 Override, Deprecated, SuppressWarnings，是 java 自带的几个注解，他们由编译器来识别，不会进行编译，不影响代码运行。 元 Annotation @Retention, @Target, @Inherited, @Documented，它们是用来定义 Annotation 的 Annotation。也就是当我们要自定义注解时，需要使用它们。 自定义 Annotation 自定义的 Annotation。 自定义的注解也分为三类，通过元Annotation - @Retention 定义： @Retention(RetentionPolicy.SOURCE) 源码时注解，一般用来作为编译器标记。如 Override, Deprecated, SuppressWarnings。 @Retention(RetentionPolicy.RUNTIME) 运行时注解，在运行时通过反射去识别的注解，这种注解最大的缺点就是反射消耗性能。 @Retention(RetentionPolicy.CLASS) 编译时注解，在编译时被识别并处理的注解，相当于自动生成代码，没有反射，和正常的手写代码无二。 Annotation 的工作原理 APT(Annotation Processing Tool) 根据不同类型的注解，采取不同的处理方式，对于 SOURCE 类型的注解，它只会存在代码中，当进行编译成 class 的时候，就会被抛弃了。 RUNTIME 类型的则一直存到 class 文件中，一直存在虚拟机的运行期。CLASS 类型的注解只存到编译期，会根据 处理器的要求进行处理，生成代码或者其他处理方式，处理完只会，就不会存在了，而如果生成了文件，则会一直存在，被打包。
+术语解释 Element: 表示一个程序元素，比如包、类或者方法。每个元素都表示一个静态的语言级构造（不表示虚拟机的运行时构造）。 元素应该使用 equals(Object)方法进行比较。不保证总是使用相同的对象表示某个特定的元素。要实现基于 Element 对象类的操作，可以使用 visitor 或者使用 getKind() 方法的结果。使用 instanceof 确定此建模层次结构中某一对象的有效类未必可靠，因为一个实现可以选择让单个对象实现多个 Element 子接口。 在 JDK 1."/>
+<meta name="application-name" content="Tinggeng">
+<meta name="apple-mobile-web-app-title" content="Tinggeng"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="https://tinggengyan.github.io/2016/11/annotation/" /><link rel="prev" href="https://tinggengyan.github.io/2016/10/markdown%E5%B8%B8%E7%94%A8%E8%AF%AD%E6%B3%95/" /><link rel="next" href="https://tinggengyan.github.io/2016/12/messgaemechanism/" /><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/normalize.css@8.0.1/normalize.min.css"><link rel="stylesheet" href="/css/style.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css"><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "Annotation 使用备忘",
+        "inLanguage": "en",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https:\/\/tinggengyan.github.io\/2016\/11\/annotation\/"
+        },"image": ["https:\/\/tinggengyan.github.io\/images\/Apple-Devices-Preview.png"],"genre": "posts","keywords": "Annotation","wordcount":  925 ,
+        "url": "https:\/\/tinggengyan.github.io\/2016\/11\/annotation\/","datePublished": "2016-11-16T23:16:43+00:00","dateModified": "2016-11-16T23:16:43+00:00","publisher": {
+            "@type": "Organization",
+            "name": "xxxx","logo": "https:\/\/tinggengyan.github.io\/img\/avatar.png"},"author": {
+                "@type": "Person",
+                "name": "Tinggeng"
+            },"description": ""
+    }
+    </script></head>
+    <body data-header-desktop="fixed" data-header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="Tinggeng"><span class="header-title-pre"><i class='far fa-kiss-wink-heart fa-fw' aria-hidden='true'></i></span>Tinggeng</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/" title="posts"> Posts </a><a class="menu-item" href="/tags/"> Tags </a><a class="menu-item" href="/categories/"> Categories </a><a class="menu-item" href="/daily_notes/" title="flemo"> flemo </a><span class="menu-item delimiter"></span><span class="menu-item search" id="search-desktop">
+                        <input type="text" placeholder="Search titles or contents..." id="search-input-desktop">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="Search">
+                            <i class="fas fa-search fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="Clear">
+                            <i class="fas fa-times-circle fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-desktop">
+                            <i class="fas fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+                        </span>
+                    </span><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                    <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="Tinggeng"><span class="header-title-pre"><i class='far fa-kiss-wink-heart fa-fw' aria-hidden='true'></i></span>Tinggeng</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><div class="search-wrapper">
+                    <div class="search mobile" id="search-mobile">
+                        <input type="text" placeholder="Search titles or contents..." id="search-input-mobile">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="Search">
+                            <i class="fas fa-search fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="Clear">
+                            <i class="fas fa-times-circle fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-mobile">
+                            <i class="fas fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+                        </span>
+                    </div>
+                    <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+                        Cancel
+                    </a>
+                </div><a class="menu-item" href="/posts/" title="posts">Posts</a><a class="menu-item" href="/tags/" title="">Tags</a><a class="menu-item" href="/categories/" title="">Categories</a><a class="menu-item" href="/daily_notes/" title="flemo">flemo</a><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+            </a></div>
+    </div>
+</header><div class="search-dropdown desktop">
+        <div id="search-dropdown-desktop"></div>
+    </div>
+    <div class="search-dropdown mobile">
+        <div id="search-dropdown-mobile"></div>
+    </div><main class="main">
+                <div class="container"><div class="toc" id="toc-auto">
+            <h2 class="toc-title">Contents</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">Annotation 使用备忘</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Tinggeng</a>
+</span>&nbsp;<span class="post-category">included in <a href="/categories/programming/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Programming</a>&nbsp;<a href="/categories/java/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Java</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2016-11-16">2016-11-16</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;925 words&nbsp;
+                <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;5 minutes&nbsp;<span id="/2016/11/annotation/" class="leancloud_visitors" data-flag-title="Annotation 使用备忘">
+                        <i class="far fa-eye fa-fw" aria-hidden="true"></i>&nbsp;<span class=leancloud-visitors-count></span>&nbsp;views
+                    </span>&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  data-kept="">
+                <div class="details-summary toc-title">
+                    <span>Contents</span>
+                    <span><i class="details-icon fas fa-angle-right" aria-hidden="true"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#why-需要注解">Why 需要注解</a></li>
+    <li><a href="#what-是注解-annotation-分类">What 是注解? Annotation 分类</a>
+      <ul>
+        <li><a href="#自定义的注解也分为三类通过元annotation---retention-定义">自定义的注解也分为三类，通过元Annotation - @Retention 定义：</a></li>
+      </ul>
+    </li>
+    <li><a href="#annotation-的工作原理">Annotation 的工作原理</a>
+      <ul>
+        <li><a href="#术语解释">术语解释</a>
+          <ul>
+            <li><a href="#typeelementdeclaredtype">TypeElement,DeclaredType</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <li><a href="#how-使用自定义注解">How 使用，自定义注解</a>
+      <ul>
+        <li><a href="#编译时注解">编译时注解</a>
+          <ul>
+            <li><a href="#传统方式">传统方式</a></li>
+          </ul>
+        </li>
+        <li><a href="#关键方法-process-解释">关键方法 process 解释</a></li>
+        <li><a href="#对于注解循环引起的错误的解释">对于注解循环引起的错误的解释</a>
+          <ul>
+            <li><a href="#借助-google-和-square-的库">借助 Google 和 square 的库</a></li>
+          </ul>
+        </li>
+        <li><a href="#运行时注解">运行时注解</a></li>
+        <li><a href="#源码注解">源码注解</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><h1 id="概述">概述</h1>
+<p>本文记录注解 Annotation 的概念和使用.</p>
+<!-- more -->
+<h1 id="annotation-注解">Annotation 注解</h1>
+<h2 id="why-需要注解">Why 需要注解</h2>
+<p>在代码中常有些重复的代码，这些代码纯手工太耗时。可以通过一定的标记，然后处理即可。</p>
+<h2 id="what-是注解-annotation-分类">What 是注解? Annotation 分类</h2>
+<ol>
+<li>标准 Annotation
+包括 Override, Deprecated, SuppressWarnings，是 java 自带的几个注解，他们由编译器来识别，不会进行编译，不影响代码运行。</li>
+<li>元 Annotation
+@Retention, @Target, @Inherited, @Documented，它们是用来定义 Annotation 的 Annotation。也就是当我们要自定义注解时，需要使用它们。</li>
+<li>自定义 Annotation
+自定义的 Annotation。</li>
+</ol>
+<h3 id="自定义的注解也分为三类通过元annotation---retention-定义">自定义的注解也分为三类，通过元Annotation - @Retention 定义：</h3>
+<blockquote>
+<ul>
+<li>@Retention(RetentionPolicy.SOURCE)</li>
+</ul>
+</blockquote>
+<pre><code>源码时注解，一般用来作为编译器标记。如 Override, Deprecated, SuppressWarnings。
+</code></pre>
+<blockquote>
+<ul>
+<li>@Retention(RetentionPolicy.RUNTIME)</li>
+</ul>
+</blockquote>
+<pre><code>运行时注解，在运行时通过反射去识别的注解，这种注解最大的缺点就是反射消耗性能。
+</code></pre>
+<blockquote>
+<ul>
+<li>@Retention(RetentionPolicy.CLASS)</li>
+</ul>
+</blockquote>
+<pre><code>编译时注解，在编译时被识别并处理的注解，相当于自动生成代码，没有反射，和正常的手写代码无二。
+</code></pre>
+<h2 id="annotation-的工作原理">Annotation 的工作原理</h2>
+<p>APT(Annotation Processing Tool)
+根据不同类型的注解，采取不同的处理方式，对于 SOURCE 类型的注解，它只会存在代码中，当进行编译成 class 的时候，就会被抛弃了。
+RUNTIME 类型的则一直存到 class 文件中，一直存在虚拟机的运行期。CLASS 类型的注解只存到编译期，会根据 处理器的要求进行处理，生成代码或者其他处理方式，处理完只会，就不会存在了，而如果生成了文件，则会一直存在，被打包。</p>
+<h3 id="术语解释">术语解释</h3>
+<ul>
+<li>Element:
+表示一个程序元素，比如包、类或者方法。每个元素都表示一个静态的语言级构造（不表示虚拟机的运行时构造）。 元素应该使用 equals(Object)方法进行比较。不保证总是使用相同的对象表示某个特定的元素。要实现基于 Element 对象类的操作，可以使用 visitor 或者使用 getKind() 方法的结果。使用 instanceof 确定此建模层次结构中某一对象的有效类未必可靠，因为一个实现可以选择让单个对象实现多个 Element 子接口。</li>
+</ul>
+<p>在 JDK 1.6 新增的 javax.lang.model 包中定义了16类 Element，包括了 Java 代码中最常用的元素，如：“包（PACKAGE）、枚举（ENUM）、类（CLASS）、注解（ANNOTATION_TYPE）、接口（INTERFACE）、枚举值（ENUM_CONSTANT）、字段（FIELD）、参数（PARAMETER）、本地变量（LOCAL_VARIABLE）、异常（EXCEPTION_PARAMETER）、方法（METHOD）、构造函数（CONSTRUCTOR）、静态语句块（STATIC_INIT，即static{}块）、实例语句块（INSTANCE_INIT，即{}块）、参数化类型（TYPE_PARAMETER，既泛型尖括号内的类型）和未定义的其他语法树节点（OTHER）”。</p>
+<ul>
+<li>TypeElement ：
+TypeElement 表示一个类或接口程序元素。提供对有关类型及其成员的信息的访问。注意，枚举类型是一种类，而注释类型是一种接口.
+TypeElement 代表了一个 class 或者 interface 的 element 。 DeclaredType 表示一个类或接口类型，后者(DeclaredType)将成为前者(TypeElement)的一种使用（或调用）。这种区别对于一般的类型是最明显的，对于这些类型，单个元素可以定义一系列完整的类型。 例如，元素 java.util.Set 对应于参数化类型 java.util.Set<String> 和 java.util.Set<Number>（以及其他许多类型），还对应于原始类型 java.util.Set。</li>
+</ul>
+<h4 id="typeelementdeclaredtype">TypeElement,DeclaredType</h4>
+<ul>
+<li>
+<p>为什么需要 <a href="http://docs.oracle.com/javase/7/docs/api/javax/lang/model/element/TypeElement.html" target="_blank" rel="noopener noreffer">TypeElement</a>
+ 呢？
+TypeElement 表示一个类或接口程序元素,重点它是一个 element ，是类或者接口的 element。
+我们知道 element 有多达16种类型，这些 element 形式各异。各有各的特点，TypeElement 表示的是类或者接口，对于类或者接口，他有很多独有的信息，比如全路径名，超类等等，而对于 method 就没有这个，方法也有个特有的 element ExecutableElement，出现的原因就同理可得了。</p>
+</li>
+<li>
+<p>为什么需要 <a href="http://docs.oracle.com/javase/7/docs/api/javax/lang/model/type/DeclaredType.html" target="_blank" rel="noopener noreffer">DeclaredType</a>
+ 呢？
+DeclaredType 表示一个类或接口类型，重点它是一个具体的类型。
+DeclaredType 有个方法，asElement()方法，这个方法返回的是一个 element，通过这个方法我们就可以获取一些作为 element 才能获取的信息。比如 MirroredTypeException  异常会携带回 TypeMirror，可以强制转换成 DeclaredType，就可以获取一些信息。</p>
+</li>
+</ul>
+<p>根据目前已有的数据和自身的理解。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">TypeMirror</span> <span class="n">typeMirror</span> <span class="o">=</span> <span class="n">element</span><span class="o">.</span><span class="na">asType</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">DeclaredType</span> <span class="n">declaredType</span> <span class="o">=</span> <span class="o">(</span><span class="n">DeclaredType</span><span class="o">)</span> <span class="n">typeMirror</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">messager</span><span class="o">.</span><span class="na">printMessage</span><span class="o">(</span><span class="n">Diagnostic</span><span class="o">.</span><span class="na">Kind</span><span class="o">.</span><span class="na">NOTE</span><span class="o">,</span> <span class="s">&#34;Annotation class : typeMirror instanceof DeclaredType = &#34;</span> <span class="o">+</span> <span class="o">(</span><span class="n">typeMirror</span> <span class="k">instanceof</span> <span class="n">DeclaredType</span><span class="o">));</span>
+</span></span><span class="line"><span class="cl"><span class="c1">// 这里的输出为 true
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>这也就解释了为什么 oracle 文档上说的前者调用后者的意思。</p>
+<h2 id="how-使用自定义注解">How 使用，自定义注解</h2>
+<p>前提：自定义注解一定要是 Java library，不能用 Android library。
+IDE： AS 新建一个 Android Project
+插件：此外我们还需要另外一个库，这个库是为了在 Android 上只用注解而使用的: android-apt。 这个插件可以自动的帮你为生成的代码创建目录, 让生成的代码编译到APK 里面去, 而且它还可以让最终编译出来的APK里面不包含注解处理器本身的代码。</p>
+<ul>
+<li>允许配置只在编译时作为注解处理器的依赖，而不添加到最后的 APK 或 library</li>
+<li>设置源路径，使注解处理器生成的代码能被 Android Studio 正确的引用</li>
+</ul>
+<h3 id="编译时注解">编译时注解</h3>
+<p>对于编译时注解，在编译项目之前执行的代码，可以生成代码或者生成其他文件，生成的文件将会被打包进项目，但是之前的注解将会被删除，不会进入 class 文件。</p>
+<h4 id="传统方式">传统方式</h4>
+<ol>
+<li>新建一个 Java module，设置该 module 的 gradle 文件</li>
+</ol>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-groovy" data-lang="groovy"><span class="line"><span class="cl"><span class="n">apply</span> <span class="nl">plugin:</span> <span class="s1">&#39;java&#39;</span>
+</span></span><span class="line"><span class="cl"><span class="n">dependencies</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">compile</span> <span class="nf">fileTree</span><span class="o">(</span><span class="nl">dir:</span> <span class="s1">&#39;libs&#39;</span><span class="o">,</span> <span class="nl">include:</span> <span class="o">[</span><span class="s1">&#39;*.jar&#39;</span><span class="o">])</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="n">sourceCompatibility</span> <span class="o">=</span> <span class="s2">&#34;1.7&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="n">targetCompatibility</span> <span class="o">=</span> <span class="s2">&#34;1.7&#34;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>同时设置 project 的 gradle</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-groovy" data-lang="groovy"><span class="line"><span class="cl"><span class="n">buildscript</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">repositories</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">jcenter</span><span class="o">()</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">    <span class="n">dependencies</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">classpath</span> <span class="s1">&#39;com.android.tools.build:gradle:2.2.2&#39;</span>
+</span></span><span class="line"><span class="cl">        <span class="n">classpath</span> <span class="s1">&#39;com.neenbedankt.gradle.plugins:android-apt:1.8&#39;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><ol start="2">
+<li>新建一个注解 NameGenerate</li>
+</ol>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@Retention</span><span class="o">(</span><span class="n">RetentionPolicy</span><span class="o">.</span><span class="na">CLASS</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="nd">@interface</span> <span class="n">NameGenerate</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><ol start="3">
+<li>接下来就是重点了，需要编写注解的处理器</li>
+</ol>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">NameGenerateProcessor</span> <span class="kd">extends</span> <span class="n">AbstractProcessor</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kd">static</span> <span class="kd">final</span> <span class="n">String</span> <span class="n">CLASSNAME</span> <span class="o">=</span> <span class="s">&#34;NameGeneateList&#34;</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kd">static</span> <span class="kd">final</span> <span class="n">String</span> <span class="n">PACKAGENAME</span> <span class="o">=</span> <span class="s">&#34;com.lvmama.router&#34;</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nd">@Override</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kt">boolean</span> <span class="nf">process</span><span class="o">(</span><span class="n">Set</span><span class="o">&lt;?</span> <span class="kd">extends</span> <span class="n">TypeElement</span><span class="o">&gt;</span> <span class="n">annotations</span><span class="o">,</span> <span class="n">RoundEnvironment</span> <span class="n">env</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">Messager</span> <span class="n">messager</span> <span class="o">=</span> <span class="n">processingEnv</span><span class="o">.</span><span class="na">getMessager</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="k">try</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        	<span class="c1">// 以新建文件的文件名为参数新建一个 JavaFileObject 对象
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>            <span class="n">JavaFileObject</span> <span class="n">f</span> <span class="o">=</span> <span class="n">processingEnv</span><span class="o">.</span><span class="na">getFiler</span><span class="o">().</span><span class="na">createSourceFile</span><span class="o">(</span><span class="n">CLASSNAME</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">            <span class="n">Writer</span> <span class="n">w</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="na">openWriter</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">            <span class="n">PrintWriter</span> <span class="n">pw</span> <span class="o">=</span> <span class="k">new</span> <span class="n">PrintWriter</span><span class="o">(</span><span class="n">w</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">			<span class="c1">// 将新建文件的内容就以拼接的方式输入即可。
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>            <span class="n">pw</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&#34;package &#34;</span> <span class="o">+</span> <span class="n">PACKAGENAME</span> <span class="o">+</span> <span class="s">&#34;;&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">            <span class="n">pw</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&#34;\npublic class &#34;</span> <span class="o">+</span> <span class="n">CLASSNAME</span> <span class="o">+</span> <span class="s">&#34; { &#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">            <span class="k">for</span> <span class="o">(</span><span class="n">Element</span> <span class="n">element</span> <span class="o">:</span> <span class="n">env</span><span class="o">.</span><span class="na">getElementsAnnotatedWith</span><span class="o">(</span><span class="n">NameGenerate</span><span class="o">.</span><span class="na">class</span><span class="o">))</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">                <span class="n">PackageElement</span> <span class="n">packageElement</span> <span class="o">=</span> <span class="o">(</span><span class="n">PackageElement</span><span class="o">)</span> <span class="n">element</span><span class="o">.</span><span class="na">getEnclosingElement</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">                <span class="n">String</span> <span class="n">packageName</span> <span class="o">=</span> <span class="n">packageElement</span><span class="o">.</span><span class="na">getQualifiedName</span><span class="o">().</span><span class="na">toString</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">                <span class="n">TypeElement</span> <span class="n">classElement</span> <span class="o">=</span> <span class="o">(</span><span class="n">TypeElement</span><span class="o">)</span> <span class="n">element</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">                <span class="n">String</span> <span class="n">className</span> <span class="o">=</span> <span class="n">classElement</span><span class="o">.</span><span class="na">getSimpleName</span><span class="o">().</span><span class="na">toString</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">                <span class="n">String</span> <span class="n">fullClassName</span> <span class="o">=</span> <span class="n">classElement</span><span class="o">.</span><span class="na">getQualifiedName</span><span class="o">().</span><span class="na">toString</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">                <span class="n">pw</span><span class="o">.</span><span class="na">print</span><span class="o">(</span><span class="s">&#34;public String &#34;</span> <span class="o">+</span> <span class="n">className</span> <span class="o">+</span> <span class="s">&#34;=\&#34;&#34;</span> <span class="o">+</span> <span class="n">fullClassName</span> <span class="o">+</span> <span class="s">&#34;\&#34;;&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">            <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">            <span class="n">pw</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&#34;}&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">            <span class="n">pw</span><span class="o">.</span><span class="na">flush</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">            <span class="n">pw</span><span class="o">.</span><span class="na">close</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">IOException</span> <span class="n">x</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="n">processingEnv</span><span class="o">.</span><span class="na">getMessager</span><span class="o">().</span><span class="na">printMessage</span><span class="o">(</span><span class="n">Diagnostic</span><span class="o">.</span><span class="na">Kind</span><span class="o">.</span><span class="na">ERROR</span><span class="o">,</span> <span class="n">x</span><span class="o">.</span><span class="na">toString</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl">        <span class="o">}</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="kc">true</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nd">@Override</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="n">Set</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span> <span class="nf">getSupportedAnnotationTypes</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">Set</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span> <span class="n">types</span> <span class="o">=</span> <span class="k">new</span> <span class="n">LinkedHashSet</span><span class="o">&lt;&gt;();</span>
+</span></span><span class="line"><span class="cl">        <span class="n">types</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">NameGenerate</span><span class="o">.</span><span class="na">class</span><span class="o">.</span><span class="na">getCanonicalName</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">types</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="https://raw.githubusercontent.com/tinggengyan/tinggengyan.github.io/source/imgur/annotation_tradition_step1.png"
+        data-srcset="https://raw.githubusercontent.com/tinggengyan/tinggengyan.github.io/source/imgur/annotation_tradition_step1.png, https://raw.githubusercontent.com/tinggengyan/tinggengyan.github.io/source/imgur/annotation_tradition_step1.png 1.5x, https://raw.githubusercontent.com/tinggengyan/tinggengyan.github.io/source/imgur/annotation_tradition_step1.png 2x"
+        data-sizes="auto"
+        alt="https://raw.githubusercontent.com/tinggengyan/tinggengyan.github.io/source/imgur/annotation_tradition_step1.png"
+        title="传统的结构第一步" />
+<img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="https://raw.githubusercontent.com/tinggengyan/tinggengyan.github.io/source/imgur/annotation_tradition_step2.png"
+        data-srcset="https://raw.githubusercontent.com/tinggengyan/tinggengyan.github.io/source/imgur/annotation_tradition_step2.png, https://raw.githubusercontent.com/tinggengyan/tinggengyan.github.io/source/imgur/annotation_tradition_step2.png 1.5x, https://raw.githubusercontent.com/tinggengyan/tinggengyan.github.io/source/imgur/annotation_tradition_step2.png 2x"
+        data-sizes="auto"
+        alt="https://raw.githubusercontent.com/tinggengyan/tinggengyan.github.io/source/imgur/annotation_tradition_step2.png"
+        title="传统的结构第二步" /></p>
+<h3 id="关键方法-process-解释">关键方法 process 解释</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kt">boolean</span> <span class="nf">process</span><span class="o">(</span><span class="n">Set</span><span class="o">&lt;?</span> <span class="kd">extends</span> <span class="n">TypeElement</span><span class="o">&gt;</span> <span class="n">annotations</span><span class="o">,</span> <span class="n">RoundEnvironment</span> <span class="n">roundEnv</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1">// annotations 当前注解器需要处理的注解的集合
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="c1">// roundEnv 可以用来访问当前的 Round 中的语法树的节点，每个语法树中的节点都表示为一个 element。
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="o">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>
+<p>“processingEnv”
+它是 AbstractProcessor 中的一个 protected 变量，在注解处理器初始化的时候（init（）方法执行的时候）创建，继承了 AbstractProcessor 的注解处理器代码可以直接访问到它。它代表了注解处理器框架提供的一个上下文环境，要创建新的代码、向编译器输出信息、获取其他工具类等都需要用到这个实例变量。</p>
+</li>
+<li>
+<p>@SupportedAnnotationTypes 和 @SupportedSourceVersion</p>
+</li>
+</ul>
+<p>前者代表了这个注解处理器对哪些注解感兴趣，可以使用星号“*”作为通配符代表对所有的注解都感兴趣，后者指出这个注解处理器可以处理哪些版本的 Java 代码。</p>
+<ul>
+<li>方法返回值的含义
+每一个注解处理器在运行的时候都是单例的，如果不需要改变或生成语法树的内容，process（）方法就可以返回一个值为 false 的布尔值，通知编译器这个 Round 中的代码未发生变化，无须构造新的 JavaCompiler 实例。</li>
+</ul>
+<h3 id="对于注解循环引起的错误的解释">对于注解循环引起的错误的解释</h3>
+<p>不做任何处理，直接运行上面的程序的话，就会在控制台输出一个错误。</p>
+<ul>
+<li>Attempt to recreate a file for type com.steve.RouterList *
+此处解释引用自《深入Java虚拟机_JVM高级特性与最佳实践》P307。
+将插入式注解处理器看做一个插件，如果这些插件在处理注解期间对语法树进行了修改，编译器将回到解析及填充符号表的过程重新处理，直到所有插入式注解处理器都没有再对语法树进行修改为止，每一次的循环称为一个 round。</li>
+</ul>
+<ol start="4">
+<li>
+<p>注册处理器
+在 src/main 目录下，新建一个和 Java  文件夹平级的文件夹 &ldquo;resources&rdquo;, 在 resources 文件夹下新建 META-INF 文件夹，在 META-INF 文件夹下新建 services 文件夹， 在 services 文件夹下新建 javax.annotation.processing.Processor 文件，文件夹的内容就是刚刚编写的处理的全路径名，例如 com.steve.NameGenerateProcessor</p>
+</li>
+<li>
+<p>使用
+有两种方式，一是直接在 gradle 中依赖 注解项目。</p>
+</li>
+</ol>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-groovy" data-lang="groovy"><span class="line"><span class="cl"><span class="n">dependencies</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">compile</span> <span class="nf">fileTree</span><span class="o">(</span><span class="nl">dir:</span> <span class="s1">&#39;libs&#39;</span><span class="o">,</span> <span class="nl">include:</span> <span class="o">[</span><span class="s1">&#39;*.jar&#39;</span><span class="o">])</span>
+</span></span><span class="line"><span class="cl">    <span class="n">compile</span> <span class="nf">project</span><span class="o">(</span><span class="s1">&#39;:lib_processor&#39;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>另外一种方式就是直接将注解的项目打出 jar 文件，让 app 依赖这个 jar  文件。</p>
+<p>build app 项目，就会生成对应的文件。文件的路径:\app\build\generated\source\apt\debug</p>
+<p>想在代码中使用生成的 java 文件很简单，像正常自己写的文件一样，直接引用即可。</p>
+<h4 id="借助-google-和-square-的库">借助 Google 和 square 的库</h4>
+<p>传统的方式，过程比较繁琐，借助 Google  的 auto-service 和 square 的 javapoet 可以省一些事。</p>
+<ul>
+<li>Auto
+用来注解 Processor 类，生成对应的 META-INF 的配置信息，省去注册处理器这一步，只要在自定义的 Processor 上面加上 @AutoService(Processor.class)</li>
+<li>javapoet
+只是一个方便生成代码的一个库，比起简单的字符串拼接，这个看上去更加友好。</li>
+</ul>
+<p>总体来说，和传统的方式区别不大，只是修改编写注解的 module 的依赖即可。</p>
+<ol>
+<li>修改 Processor 所在 Java module 的 gradle 依赖。</li>
+</ol>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">apply</span> <span class="n">plugin</span><span class="o">:</span> <span class="err">&#39;</span><span class="n">java</span><span class="err">&#39;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">dependencies</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">compile</span> <span class="nf">fileTree</span><span class="o">(</span><span class="n">dir</span><span class="o">:</span> <span class="err">&#39;</span><span class="n">libs</span><span class="err">&#39;</span><span class="o">,</span> <span class="n">include</span><span class="o">:</span> <span class="o">[</span><span class="err">&#39;</span><span class="o">*.</span><span class="na">jar</span><span class="err">&#39;</span><span class="o">])</span>
+</span></span><span class="line"><span class="cl">    <span class="n">compile</span> <span class="err">&#39;</span><span class="n">com</span><span class="o">.</span><span class="na">google</span><span class="o">.</span><span class="na">auto</span><span class="o">.</span><span class="na">service</span><span class="o">:</span><span class="n">auto</span><span class="o">-</span><span class="n">service</span><span class="o">:</span><span class="mf">1.0</span><span class="o">-</span><span class="n">rc2</span><span class="err">&#39;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">compile</span> <span class="err">&#39;</span><span class="n">com</span><span class="o">.</span><span class="na">squareup</span><span class="o">:</span><span class="n">javapoet</span><span class="o">:</span><span class="mf">1.7.0</span><span class="err">&#39;</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">sourceCompatibility</span> <span class="o">=</span> <span class="s">&#34;1.7&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="n">targetCompatibility</span> <span class="o">=</span> <span class="s">&#34;1.7&#34;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><ol start="2">
+<li>借助 javapoet 生成 Java 代码
+有一点需要说清楚，在 AndroidStudio 中用 javapoet 有问题，并不能完全的支持。<a href="https://github.com/square/javapoet/issues/139" target="_blank" rel="noopener noreffer">这个 jake 在 github 上有解释</a>
+。如果想要完整的使用，最好能使用 intellij idea。
+所以这里我们切换到 intellij idea 去开发。</li>
+</ol>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="https://raw.githubusercontent.com/tinggengyan/tinggengyan.github.io/source/imgur/annotation_error.png"
+        data-srcset="https://raw.githubusercontent.com/tinggengyan/tinggengyan.github.io/source/imgur/annotation_error.png, https://raw.githubusercontent.com/tinggengyan/tinggengyan.github.io/source/imgur/annotation_error.png 1.5x, https://raw.githubusercontent.com/tinggengyan/tinggengyan.github.io/source/imgur/annotation_error.png 2x"
+        data-sizes="auto"
+        alt="https://raw.githubusercontent.com/tinggengyan/tinggengyan.github.io/source/imgur/annotation_error.png"
+        title="AdnroidStudio上的报错" /></p>
+<ol start="3">
+<li>重点还是在注解处理器的处理
+需要注意一点的时，即使在注解处理这个看似特别的程序上，依旧是个 Java 程序，也就必然符合面向对象的原则。我将每个注解我需要的信息封装成一个对象，交给一个工具类，由工具类统一完成代码的生成。</li>
+</ol>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">NameGenerateAnnotatedClass</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="n">TypeElement</span> <span class="n">annotatedClassElement</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="n">String</span> <span class="n">packageName</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="n">String</span> <span class="n">className</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="nf">NameGenerateAnnotatedClass</span><span class="o">(</span><span class="n">TypeElement</span> <span class="n">annotatedClassElement</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">this</span><span class="o">.</span><span class="na">annotatedClassElement</span> <span class="o">=</span> <span class="n">annotatedClassElement</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">        <span class="n">className</span> <span class="o">=</span> <span class="n">annotatedClassElement</span><span class="o">.</span><span class="na">getSimpleName</span><span class="o">().</span><span class="na">toString</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">        <span class="n">packageName</span> <span class="o">=</span> <span class="n">annotatedClassElement</span><span class="o">.</span><span class="na">getQualifiedName</span><span class="o">().</span><span class="na">toString</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="n">String</span> <span class="nf">getPackageName</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">packageName</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="n">String</span> <span class="nf">getClassName</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">className</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>这个类很简单，就单纯的记录了每个被注解元素的类名和包名，因为待会儿我自动生成的代码，我只需要这个两样。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">ProcessorUtil</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kd">static</span> <span class="kd">final</span> <span class="n">String</span> <span class="n">CLASSNAME</span> <span class="o">=</span> <span class="s">&#34;RouterList&#34;</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kd">static</span> <span class="kd">final</span> <span class="n">String</span> <span class="n">PACKAGENAME</span> <span class="o">=</span> <span class="s">&#34;com.lvmama.router&#34;</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="nf">ProcessorUtil</span><span class="o">(</span><span class="n">Messager</span> <span class="n">messager</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">this</span><span class="o">.</span><span class="na">messager</span> <span class="o">=</span> <span class="n">messager</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="n">Messager</span> <span class="n">messager</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="n">ArrayList</span><span class="o">&lt;</span><span class="n">NameGenerateAnnotatedClass</span><span class="o">&gt;</span> <span class="n">list</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ArrayList</span><span class="o">&lt;&gt;();</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="kt">void</span> <span class="nf">error</span><span class="o">(</span><span class="n">Element</span> <span class="n">e</span><span class="o">,</span> <span class="n">String</span> <span class="n">msg</span><span class="o">,</span> <span class="n">Object</span><span class="o">...</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">messager</span><span class="o">.</span><span class="na">printMessage</span><span class="o">(</span><span class="n">Diagnostic</span><span class="o">.</span><span class="na">Kind</span><span class="o">.</span><span class="na">ERROR</span><span class="o">,</span> <span class="n">String</span><span class="o">.</span><span class="na">format</span><span class="o">(</span><span class="n">msg</span><span class="o">,</span> <span class="n">args</span><span class="o">),</span> <span class="n">e</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">   <span class="kd">public</span> <span class="kt">void</span> <span class="nf">generateCode</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">TypeSpec</span><span class="o">.</span><span class="na">Builder</span> <span class="n">builder</span> <span class="o">=</span> <span class="n">TypeSpec</span><span class="o">.</span><span class="na">classBuilder</span><span class="o">(</span><span class="n">CLASSNAME</span><span class="o">).</span><span class="na">addModifiers</span><span class="o">(</span><span class="n">Modifier</span><span class="o">.</span><span class="na">PUBLIC</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">        <span class="k">for</span> <span class="o">(</span><span class="n">NameGenerateAnnotatedClass</span> <span class="n">annotatedClass</span> <span class="o">:</span> <span class="n">list</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="n">FieldSpec</span> <span class="n">fieldSpec</span> <span class="o">=</span> <span class="n">FieldSpec</span><span class="o">.</span><span class="na">builder</span><span class="o">(</span><span class="n">String</span><span class="o">.</span><span class="na">class</span><span class="o">,</span> <span class="n">annotatedClass</span><span class="o">.</span><span class="na">getClassName</span><span class="o">())</span>
+</span></span><span class="line"><span class="cl">                    <span class="o">.</span><span class="na">addModifiers</span><span class="o">(</span><span class="n">Modifier</span><span class="o">.</span><span class="na">PUBLIC</span><span class="o">,</span> <span class="n">Modifier</span><span class="o">.</span><span class="na">STATIC</span><span class="o">,</span> <span class="n">Modifier</span><span class="o">.</span><span class="na">FINAL</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">                    <span class="o">.</span><span class="na">initializer</span><span class="o">(</span><span class="s">&#34;$S&#34;</span><span class="o">,</span> <span class="n">annotatedClass</span><span class="o">.</span><span class="na">getPackageName</span><span class="o">())</span>
+</span></span><span class="line"><span class="cl">                    <span class="o">.</span><span class="na">build</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">            <span class="n">builder</span><span class="o">.</span><span class="na">addField</span><span class="o">(</span><span class="n">fieldSpec</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">        <span class="o">}</span>
+</span></span><span class="line"><span class="cl">        <span class="n">TypeSpec</span> <span class="n">typeSpec</span> <span class="o">=</span> <span class="n">builder</span><span class="o">.</span><span class="na">build</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">        <span class="n">JavaFile</span><span class="o">.</span><span class="na">Builder</span> <span class="n">javaFileBuilder</span> <span class="o">=</span> <span class="n">JavaFile</span><span class="o">.</span><span class="na">builder</span><span class="o">(</span><span class="n">PACKAGENAME</span><span class="o">,</span> <span class="n">typeSpec</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">        <span class="n">JavaFile</span> <span class="n">javaFile</span> <span class="o">=</span> <span class="n">javaFileBuilder</span><span class="o">.</span><span class="na">build</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">        <span class="k">try</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl"><span class="c1">//            javaFile.writeTo(System.out); //输出到控制台
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>            <span class="n">javaFile</span><span class="o">.</span><span class="na">writeTo</span><span class="o">(</span><span class="n">filer</span><span class="o">);</span> <span class="c1">//输出到默认的目录
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">IOException</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="n">e</span><span class="o">.</span><span class="na">printStackTrace</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">        <span class="o">}</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">addNameGenerateAnnotatedClass</span><span class="o">(</span><span class="n">NameGenerateAnnotatedClass</span> <span class="n">item</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">list</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">item</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">clear</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">list</span><span class="o">.</span><span class="na">clear</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>这个类是负责生成代码的，在获取到每个被注解的元素的时候，都会添加到这个类的 list 中，在 generateCode() 方法中生成的代码。
+这里用的就是 javapoet 来生成的代码。</p>
+<ul>
+<li>TypeSpec 代表的是一个类。</li>
+<li>FieldSpec 代表了一个类中的字段。</li>
+<li>JavaFile 代表了一个 Java 文件。
+javaFile.writeTo 就是将我们自身组装的这些元素输出，javaFile.writeTo(System.out); 是输出到控制台。
+javaFile.writeTo(filer); 输出到默认的目录下。</li>
+</ul>
+<p>和传统方式一样，运行 build 命令，在生成的目录下就可以看到生成的文件。</p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="https://raw.githubusercontent.com/tinggengyan/tinggengyan.github.io/source/imgur/annotation_withautoservice.png"
+        data-srcset="https://raw.githubusercontent.com/tinggengyan/tinggengyan.github.io/source/imgur/annotation_withautoservice.png, https://raw.githubusercontent.com/tinggengyan/tinggengyan.github.io/source/imgur/annotation_withautoservice.png 1.5x, https://raw.githubusercontent.com/tinggengyan/tinggengyan.github.io/source/imgur/annotation_withautoservice.png 2x"
+        data-sizes="auto"
+        alt="https://raw.githubusercontent.com/tinggengyan/tinggengyan.github.io/source/imgur/annotation_withautoservice.png"
+        title="采用 auto-service和javapoet的结构图" /></p>
+<h3 id="运行时注解">运行时注解</h3>
+<p>对于运行时注解都是通过反射来实现的。</p>
+<h3 id="源码注解">源码注解</h3>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>Updated on 2016-11-16</span>
+            </div></div>
+        <div class="post-info-line">
+            <div class="post-info-md"><span>
+                            <a class="link-to-markdown" href="/2016/11/annotation/index.md" target="_blank">Read Markdown</a>
+                        </span></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="Share on Twitter" data-sharer="twitter" data-url="https://tinggengyan.github.io/2016/11/annotation/" data-title="Annotation 使用备忘" data-hashtags="Annotation"><i class="fab fa-twitter fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Facebook" data-sharer="facebook" data-url="https://tinggengyan.github.io/2016/11/annotation/" data-hashtag="Annotation"><i class="fab fa-facebook-square fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Hacker News" data-sharer="hackernews" data-url="https://tinggengyan.github.io/2016/11/annotation/" data-title="Annotation 使用备忘"><i class="fab fa-hacker-news fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Line" data-sharer="line" data-url="https://tinggengyan.github.io/2016/11/annotation/" data-title="Annotation 使用备忘"><i data-svg-src="https://cdn.jsdelivr.net/npm/simple-icons@6.20.0/icons/line.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on 微博" data-sharer="weibo" data-url="https://tinggengyan.github.io/2016/11/annotation/" data-title="Annotation 使用备忘"><i class="fab fa-weibo fa-fw" aria-hidden="true"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw" aria-hidden="true"></i>&nbsp;<a href="/tags/annotation/">Annotation</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">Back</a></span>&nbsp;|&nbsp;<span><a href="/">Home</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/2016/10/markdown%E5%B8%B8%E7%94%A8%E8%AF%AD%E6%B3%95/" class="prev" rel="prev" title="Markdown 常用语法"><i class="fas fa-angle-left fa-fw" aria-hidden="true"></i>Markdown 常用语法</a>
+            <a href="/2016/12/messgaemechanism/" class="next" rel="next" title="Android消息机制_Java层">Android消息机制_Java层<i class="fas fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+<div id="comments"><div id="valine" class="comment"></div><noscript>
+                Please enable JavaScript to view the comments powered by <a href="https://valine.js.org/">Valine</a>.
+            </noscript></div></article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.114.1">Hugo</a> | Theme - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw" aria-hidden="true"></i> LoveIt</a>
+                </div><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright fa-fw" aria-hidden="true"></i><span itemprop="copyrightYear">2019 - 2023</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank">Tinggeng</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+        </div>
+    </footer></div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="Back to Top">
+                <i class="fas fa-arrow-up fa-fw" aria-hidden="true"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="View Comments">
+                <i class="fas fa-comment fa-fw" aria-hidden="true"></i>
+            </a>
+        </div><link rel="stylesheet" href="/lib/valine/valine.min.css"><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/valine@1.4.18/dist/Valine.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/autocomplete.js@0.38.1/dist/autocomplete.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/algoliasearch@4.13.0/dist/algoliasearch-lite.umd.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lazysizes@5.3.1/lazysizes.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/clipboard@2.0.11/dist/clipboard.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/sharer.js@0.5.1/sharer.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"Copy to clipboard","maxShownLines":50},"comment":{"valine":{"appId":"QGzwQXOqs5JOhN4RGPOkR2mR-MdYXbMMI","appKey":"WBmoGyJtbqUswvfLh6L8iEBr","avatar":"mp","el":"#valine","emojiCDN":"https://cdn.jsdelivr.net/npm/emoji-datasource-google@14.0.0/img/google/64/","emojiMaps":{"100":"1f4af.png","alien":"1f47d.png","anger":"1f4a2.png","angry":"1f620.png","anguished":"1f627.png","astonished":"1f632.png","black_heart":"1f5a4.png","blue_heart":"1f499.png","blush":"1f60a.png","bomb":"1f4a3.png","boom":"1f4a5.png","broken_heart":"1f494.png","brown_heart":"1f90e.png","clown_face":"1f921.png","cold_face":"1f976.png","cold_sweat":"1f630.png","confounded":"1f616.png","confused":"1f615.png","cry":"1f622.png","crying_cat_face":"1f63f.png","cupid":"1f498.png","dash":"1f4a8.png","disappointed":"1f61e.png","disappointed_relieved":"1f625.png","dizzy":"1f4ab.png","dizzy_face":"1f635.png","drooling_face":"1f924.png","exploding_head":"1f92f.png","expressionless":"1f611.png","face_vomiting":"1f92e.png","face_with_cowboy_hat":"1f920.png","face_with_hand_over_mouth":"1f92d.png","face_with_head_bandage":"1f915.png","face_with_monocle":"1f9d0.png","face_with_raised_eyebrow":"1f928.png","face_with_rolling_eyes":"1f644.png","face_with_symbols_on_mouth":"1f92c.png","face_with_thermometer":"1f912.png","fearful":"1f628.png","flushed":"1f633.png","frowning":"1f626.png","ghost":"1f47b.png","gift_heart":"1f49d.png","green_heart":"1f49a.png","grimacing":"1f62c.png","grin":"1f601.png","grinning":"1f600.png","hankey":"1f4a9.png","hear_no_evil":"1f649.png","heart":"2764-fe0f.png","heart_decoration":"1f49f.png","heart_eyes":"1f60d.png","heart_eyes_cat":"1f63b.png","heartbeat":"1f493.png","heartpulse":"1f497.png","heavy_heart_exclamation_mark_ornament":"2763-fe0f.png","hole":"1f573-fe0f.png","hot_face":"1f975.png","hugging_face":"1f917.png","hushed":"1f62f.png","imp":"1f47f.png","innocent":"1f607.png","japanese_goblin":"1f47a.png","japanese_ogre":"1f479.png","joy":"1f602.png","joy_cat":"1f639.png","kiss":"1f48b.png","kissing":"1f617.png","kissing_cat":"1f63d.png","kissing_closed_eyes":"1f61a.png","kissing_heart":"1f618.png","kissing_smiling_eyes":"1f619.png","laughing":"1f606.png","left_speech_bubble":"1f5e8-fe0f.png","love_letter":"1f48c.png","lying_face":"1f925.png","mask":"1f637.png","money_mouth_face":"1f911.png","nauseated_face":"1f922.png","nerd_face":"1f913.png","neutral_face":"1f610.png","no_mouth":"1f636.png","open_mouth":"1f62e.png","orange_heart":"1f9e1.png","partying_face":"1f973.png","pensive":"1f614.png","persevere":"1f623.png","pleading_face":"1f97a.png","pouting_cat":"1f63e.png","purple_heart":"1f49c.png","rage":"1f621.png","relaxed":"263a-fe0f.png","relieved":"1f60c.png","revolving_hearts":"1f49e.png","right_anger_bubble":"1f5ef-fe0f.png","robot_face":"1f916.png","rolling_on_the_floor_laughing":"1f923.png","scream":"1f631.png","scream_cat":"1f640.png","see_no_evil":"1f648.png","shushing_face":"1f92b.png","skull":"1f480.png","skull_and_crossbones":"2620-fe0f.png","sleeping":"1f634.png","sleepy":"1f62a.png","slightly_frowning_face":"1f641.png","slightly_smiling_face":"1f642.png","smile":"1f604.png","smile_cat":"1f638.png","smiley":"1f603.png","smiley_cat":"1f63a.png","smiling_face_with_3_hearts":"1f970.png","smiling_imp":"1f608.png","smirk":"1f60f.png","smirk_cat":"1f63c.png","sneezing_face":"1f927.png","sob":"1f62d.png","space_invader":"1f47e.png","sparkling_heart":"1f496.png","speak_no_evil":"1f64a.png","speech_balloon":"1f4ac.png","star-struck":"1f929.png","stuck_out_tongue":"1f61b.png","stuck_out_tongue_closed_eyes":"1f61d.png","stuck_out_tongue_winking_eye":"1f61c.png","sunglasses":"1f60e.png","sweat":"1f613.png","sweat_drops":"1f4a6.png","sweat_smile":"1f605.png","thinking_face":"1f914.png","thought_balloon":"1f4ad.png","tired_face":"1f62b.png","triumph":"1f624.png","two_hearts":"1f495.png","unamused":"1f612.png","upside_down_face":"1f643.png","weary":"1f629.png","white_frowning_face":"2639-fe0f.png","white_heart":"1f90d.png","wink":"1f609.png","woozy_face":"1f974.png","worried":"1f61f.png","yawning_face":"1f971.png","yellow_heart":"1f49b.png","yum":"1f60b.png","zany_face":"1f92a.png","zipper_mouth_face":"1f910.png","zzz":"1f4a4.png"},"enableQQ":false,"highlight":true,"lang":"en","pageSize":10,"placeholder":"Your comment ...","recordIP":true,"serverURLs":"https://leancloud.hugoloveit.com","visitor":true}},"search":{"algoliaAppID":"","algoliaIndex":"","algoliaSearchKey":"","highlightTag":"em","maxResultLength":10,"noResultsFound":"No results found","snippetLength":30,"type":"algolia"}};</script><script type="text/javascript" src="/js/theme.min.js"></script></body>
+</html>
