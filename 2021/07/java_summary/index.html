@@ -6,8 +6,7 @@
         <meta name="robots" content="noodp" />
         <title>一张思维导图看 Java 【持续迭代】 - Tinggeng</title><meta name="Description" content="Tinggeng"><meta property="og:title" content="一张思维导图看 Java 【持续迭代】" />
 <meta property="og:description" content="概述 总结自己的 java 知识，按照编码 -&gt; 运行，画了一张图，xmind 导出的图比较大，后续持续更新，迭代这部分的内容。
-下面是一些常见的知识,将会慢慢补充进思维导图内 {% note info %} 我是分割线 {% endnote %}
-HashMap 原理 可参考的文章
+下面是一些常见的知识,将会慢慢补充进思维导图内 HashMap 原理 可参考的文章
 HashMap原理，循环链表是如何产生的 HashMap? ConcurrentHashMap? 相信看完这篇没人能难住你！ 转换红黑树的阈值为何设置为8 官方comment 结构 Java 8 之前：数组 &#43; 链表 Java 8 之后：数组 &#43; 链表； 存储的对象 Java7 Entry&lt;K,V&gt;[] table，Entry 是 HashMap 中的一个静态内部类，它有key、value、next、hash（key的hashcode）成员变量。
 Java8 TREEIFY_THRESHOLD 用于判断是否需要将链表转换为红黑树的阈值。 HashEntry 修改为 Node。 负载因子： 给定的默认容量为 16，负载因子为 0.75。Map 在使用过程中不断的往里面存放数据，当数量达到了 16 * 0.75 = 12 就需要将当前 16 的容量进行扩容，而扩容这个过程涉及到 rehash、复制数据等操作，所以非常消耗性能。 因此通常建议能提前预估 HashMap 的大小最好，尽量的减少扩容带来的性能损耗。 put 操作 Java7 判断当前数组是否需要初始化。 如果 key 为空，则 put 一个空值进去。 根据 key 计算出 hashcode。 根据计算出的 hashcode 定位出所在桶。 如果桶是一个链表则需要遍历判断里面的 hashcode、key 是否和传入 key 相等，如果相等则进行覆盖，并返回原来的值。 如果桶是空的，说明当前位置没有数据存入，新增一个 Entry 对象写入当前位置。 当调用 addEntry 写入 Entry 时需要判断是否需要扩容。如果需要就进行两倍扩充，并将当前的 key 重新 hash 并定位。而在 createEntry 中会将当前位置的桶传入到新建的桶中，如果当前桶有值就会在位置形成链表。 Java8 当 Hash 冲突严重时，在桶上形成的链表会变的越来越长，这样在查询时的效率就会越来越低；时间复杂度为 O(N)，因此 1." />
 <meta property="og:type" content="article" />
@@ -17,8 +16,7 @@ Java8 TREEIFY_THRESHOLD 用于判断是否需要将链表转换为红黑树的�
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="一张思维导图看 Java 【持续迭代】"/>
 <meta name="twitter:description" content="概述 总结自己的 java 知识，按照编码 -&gt; 运行，画了一张图，xmind 导出的图比较大，后续持续更新，迭代这部分的内容。
-下面是一些常见的知识,将会慢慢补充进思维导图内 {% note info %} 我是分割线 {% endnote %}
-HashMap 原理 可参考的文章
+下面是一些常见的知识,将会慢慢补充进思维导图内 HashMap 原理 可参考的文章
 HashMap原理，循环链表是如何产生的 HashMap? ConcurrentHashMap? 相信看完这篇没人能难住你！ 转换红黑树的阈值为何设置为8 官方comment 结构 Java 8 之前：数组 &#43; 链表 Java 8 之后：数组 &#43; 链表； 存储的对象 Java7 Entry&lt;K,V&gt;[] table，Entry 是 HashMap 中的一个静态内部类，它有key、value、next、hash（key的hashcode）成员变量。
 Java8 TREEIFY_THRESHOLD 用于判断是否需要将链表转换为红黑树的阈值。 HashEntry 修改为 Node。 负载因子： 给定的默认容量为 16，负载因子为 0.75。Map 在使用过程中不断的往里面存放数据，当数量达到了 16 * 0.75 = 12 就需要将当前 16 的容量进行扩容，而扩容这个过程涉及到 rehash、复制数据等操作，所以非常消耗性能。 因此通常建议能提前预估 HashMap 的大小最好，尽量的减少扩容带来的性能损耗。 put 操作 Java7 判断当前数组是否需要初始化。 如果 key 为空，则 put 一个空值进去。 根据 key 计算出 hashcode。 根据计算出的 hashcode 定位出所在桶。 如果桶是一个链表则需要遍历判断里面的 hashcode、key 是否和传入 key 相等，如果相等则进行覆盖，并返回原来的值。 如果桶是空的，说明当前位置没有数据存入，新增一个 Entry 对象写入当前位置。 当调用 addEntry 写入 Entry 时需要判断是否需要扩容。如果需要就进行两倍扩充，并将当前的 key 重新 hash 并定位。而在 createEntry 中会将当前位置的桶传入到新建的桶中，如果当前桶有值就会在位置形成链表。 Java8 当 Hash 冲突严重时，在桶上形成的链表会变的越来越长，这样在查询时的效率就会越来越低；时间复杂度为 O(N)，因此 1."/>
 <meta name="application-name" content="Tinggeng">
@@ -33,7 +31,7 @@ Java8 TREEIFY_THRESHOLD 用于判断是否需要将链表转换为红黑树的�
         "mainEntityOfPage": {
             "@type": "WebPage",
             "@id": "https:\/\/tinggengyan.github.io\/2021\/07\/java_summary\/"
-        },"image": ["https:\/\/tinggengyan.github.io\/images\/Apple-Devices-Preview.png"],"genre": "posts","keywords": "Java,JVM","wordcount":  1712 ,
+        },"image": ["https:\/\/tinggengyan.github.io\/images\/Apple-Devices-Preview.png"],"genre": "posts","keywords": "Java,JVM","wordcount":  1704 ,
         "url": "https:\/\/tinggengyan.github.io\/2021\/07\/java_summary\/","datePublished": "2021-07-03T16:29:04+00:00","dateModified": "2021-07-03T16:29:04+00:00","publisher": {
             "@type": "Organization",
             "name": "xxxx","logo": "https:\/\/tinggengyan.github.io\/img\/avatar.png"},"author": {
@@ -109,8 +107,8 @@ Java8 TREEIFY_THRESHOLD 用于判断是否需要将链表转换为红黑树的�
         </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">一张思维导图看 Java 【持续迭代】</h1><div class="post-meta">
             <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Tinggeng</a>
 </span>&nbsp;<span class="post-category">included in <a href="/categories/java/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Java</a></span></div>
-            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2021-07-03">2021-07-03</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;1712 words&nbsp;
-                <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;9 minutes&nbsp;<span id="/2021/07/java_summary/" class="leancloud_visitors" data-flag-title="一张思维导图看 Java 【持续迭代】">
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2021-07-03">2021-07-03</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;1704 words&nbsp;
+                <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;8 minutes&nbsp;<span id="/2021/07/java_summary/" class="leancloud_visitors" data-flag-title="一张思维导图看 Java 【持续迭代】">
                         <i class="far fa-eye fa-fw" aria-hidden="true"></i>&nbsp;<span class=leancloud-visitors-count></span>&nbsp;views
                     </span>&nbsp;</div>
         </div><div class="details toc" id="toc-static"  data-kept="">
@@ -341,9 +339,6 @@ Java8 TREEIFY_THRESHOLD 用于判断是否需要将链表转换为红黑树的�
 <p style="text-align:center;color:#8EC0E4;font-size:1.5em;font-weight: bold;">
 下面是一些常见的知识,将会慢慢补充进思维导图内
 </p>
-<p>{% note info %}
-我是分割线
-{% endnote %}</p>
 <h1 id="hashmap-原理">HashMap 原理</h1>
 <p>可参考的文章</p>
 <ul>

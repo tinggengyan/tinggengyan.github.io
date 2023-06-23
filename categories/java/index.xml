@@ -11,8 +11,7 @@
     <author>Tinggeng</author>
     <guid>https://tinggengyan.github.io/2021/07/java_summary/</guid>
     <description><![CDATA[概述 总结自己的 java 知识，按照编码 -&gt; 运行，画了一张图，xmind 导出的图比较大，后续持续更新，迭代这部分的内容。
-下面是一些常见的知识,将会慢慢补充进思维导图内 {% note info %} 我是分割线 {% endnote %}
-HashMap 原理 可参考的文章
+下面是一些常见的知识,将会慢慢补充进思维导图内 HashMap 原理 可参考的文章
 HashMap原理，循环链表是如何产生的 HashMap? ConcurrentHashMap? 相信看完这篇没人能难住你！ 转换红黑树的阈值为何设置为8 官方comment 结构 Java 8 之前：数组 + 链表 Java 8 之后：数组 + 链表； 存储的对象 Java7 Entry&lt;K,V&gt;[] table，Entry 是 HashMap 中的一个静态内部类，它有key、value、next、hash（key的hashcode）成员变量。
 Java8 TREEIFY_THRESHOLD 用于判断是否需要将链表转换为红黑树的阈值。 HashEntry 修改为 Node。 负载因子： 给定的默认容量为 16，负载因子为 0.75。Map 在使用过程中不断的往里面存放数据，当数量达到了 16 * 0.75 = 12 就需要将当前 16 的容量进行扩容，而扩容这个过程涉及到 rehash、复制数据等操作，所以非常消耗性能。 因此通常建议能提前预估 HashMap 的大小最好，尽量的减少扩容带来的性能损耗。 put 操作 Java7 判断当前数组是否需要初始化。 如果 key 为空，则 put 一个空值进去。 根据 key 计算出 hashcode。 根据计算出的 hashcode 定位出所在桶。 如果桶是一个链表则需要遍历判断里面的 hashcode、key 是否和传入 key 相等，如果相等则进行覆盖，并返回原来的值。 如果桶是空的，说明当前位置没有数据存入，新增一个 Entry 对象写入当前位置。 当调用 addEntry 写入 Entry 时需要判断是否需要扩容。如果需要就进行两倍扩充，并将当前的 key 重新 hash 并定位。而在 createEntry 中会将当前位置的桶传入到新建的桶中，如果当前桶有值就会在位置形成链表。 Java8 当 Hash 冲突严重时，在桶上形成的链表会变的越来越长，这样在查询时的效率就会越来越低；时间复杂度为 O(N)，因此 1.]]></description>
 </item>

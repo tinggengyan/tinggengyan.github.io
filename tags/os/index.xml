@@ -11,14 +11,14 @@
     <author>Tinggeng</author>
     <guid>https://tinggengyan.github.io/2022/07/os_summary/</guid>
     <description><![CDATA[概述 总结自己的操作系统的知识，按照编码 -&gt; 运行，画了一张图，xmind 导出的图比较大，目前这部分的内容还比较少，后续持续更新，迭代这部分的内容。
-下面是一些常见的知识,将会慢慢补充进思维导图内 {% note info %} 我是分割线 {% endnote %}
-linux 整体结构图 makelinux：makelinux 解释器 &amp; 编译器 &amp; JIT &amp; AOT 参考链接1 参考链接2 JIT(Just In Time)和 AOT(Ahead Of Time)是两种不同的编译方式:
+下面是一些常见的知识,将会慢慢补充进思维导图内 linux 整体结构图 makelinux：makelinux 解释器 &amp; 编译器 &amp; JIT &amp; AOT 参考链接1 参考链接2 JIT(Just In Time)和 AOT(Ahead Of Time)是两种不同的编译方式:
 JIT:
 编译时,将源代码编译成字节码(bytecode),运行时再将字节码编译成机器码。 优点是运行时可以进行更多优化,生成更高质量的机器码。 缺点是编译时需要额外的编译步骤,会增加程序启动时间。 第一次运行时编译时间较长,后续运行时间短。运行时性能较AOT略差。 AOT:
 编译时,将源代码直接编译成机器码。 优点是编译只有一次,程序启动更快。 编译器在程序运行前完成编译,生成机器代码。运行时直接执行机器代码。 编译时间较长,运行时性能好。 改动源代码需要重新编译。 缺点是编译时难以进行复杂的优化,生成的机器码质量可能较低。 典型的AOT编译语言有C、C++等。 总结:
 JIT 的运行性能更高,但启动时间长。适合长时间运行的程序。 AOT 的启动时间短,但运行性能可能略低。适合启动频繁的程序。 在实际使用中,也可以二者结合,采用 AOT 先编译成机器码,再运行时由 JIT 进一步优化,以兼顾启动时间和运行性能。许多语言(如 Java、C#)的编译器都支持这两种模式。 ![[Pasted image 20230407143623.png]]
 解释器：Java源程序编译成字节码，然后由运行环境对字节码解释执行，提供解释功能的 JVM 组件为解释器。它能执行 JVM 规范的字节码，执行方式是一遍翻译一遍执行，所以效率低，但是简单并易于实现。主要实现是在 Interpreter 模块。
-![[Pasted image 20230407143647.png]] 即时编译器：能够将运行时的热点代码，编译成运行效率高的及时代码。 判断一段代码是不是热点代码，是不是需要触发JIT编译，这样的行为称为：热点探测（Hot Spot Detection），有几种主流的探测方式：]]></description>
+![[Pasted image 20230407143647.png]] 即时编译器：能够将运行时的热点代码，编译成运行效率高的及时代码。 判断一段代码是不是热点代码，是不是需要触发JIT编译，这样的行为称为：热点探测（Hot Spot Detection），有几种主流的探测方式：
+基于计数器的热点探测（Counter Based Hot Spot Detection）：虚拟机会为每个方法（或每个代码块）建立计数器，统计执行次数，如果超过阀值那么就是热点代码。缺点是维护计数器开销。 基于采样的热点探测（Sample Based Hot Spot Detection）：虚拟机会周期性检查各个线程的栈顶，如果某个方法经常出现在栈顶，那么就是热点代码。缺点是不精确。 基于踪迹的热点探测（Trace Based Hot Spot Detection）：Dalvik中的JIT编译器使用这种方式 JIT 是可以回退到解释器执行的 inlining 内联(最关键的优化手段) inlining 指在编译时，识别 call site (持有 method handle 的对象) 的目标方法，将其方法体 加入当前方法的编译范围，并将其结果替换掉原 call site，比如 getter 和 setter 就会优化为一条访问内存的指令。]]></description>
 </item>
 </channel>
 </rss>
