@@ -36,8 +36,7 @@ JIT 的运行性能更高,但启动时间长。适合长时间运行的程序。
     <author>Tinggeng</author>
     <guid>https://tinggengyan.github.io/2022/04/android_summary/</guid>
     <description><![CDATA[概述 总结自己的 Android 知识，按照编码 -&gt; 运行，画了一张图，xmind 导出的图比较大，后续持续更新，迭代这部分的内容。
-下面是一些常见的知识,将会慢慢补充进思维导图内 {% note info %} 我是分割线 {% endnote %}
-Handler 与 Binder handler 处理的是 App 进程内的通信； binder 处理的是，App 进程间、application 和 framework 之间的通信；
+下面是一些常见的知识,将会慢慢补充进思维导图内 Handler 与 Binder handler 处理的是 App 进程内的通信； binder 处理的是，App 进程间、application 和 framework 之间的通信；
 任务启动管理 - 启动框架 抽象任务 task； 优先级 ； countdownlatch 数值为依赖 task 的数量； 运行的 executor ； 被依赖的 task 列表； toWait 方法； notify 方法，countdownlatch 减一； 构造 task 的有向无环图； TaskManager： 管理所有的 task，及其拓扑关系； 管理需要执行的 task； countdownlatch 值为 Activity 跳转的生命周期 ActivityA跳转到ActivityB： 1 2 3 4 5 Activity A：onPause Activity B：onCreate Activity B：onStart Activity B：onResume Activity A：onStop ActivityB返回ActivityA： 1 2 3 4 5 6 Activity B：onPause Activity A：onRestart Activity A：onStart Activity A：onResume Activity B：onStop Activity B：onDestroy 旋转屏幕 不改配置，默认配置 1 2 3 4 5 6 7 onPause--&gt; onStop--&gt; onDestroy--&gt; onCreate--&gt; onStart--&gt; onRestoreInstanceState--&gt; onResume--&gt; 修改配置 1 onConfigChanged--&gt; Activity 的启动模式 参考链接1 仅仅适用于Activity启动Activity，并且采用的都是默认Intent，没有额外添加任何Flag]]></description>
 </item>
 <item>

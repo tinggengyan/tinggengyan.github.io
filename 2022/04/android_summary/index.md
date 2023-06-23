@@ -10,10 +10,6 @@
 下面是一些常见的知识,将会慢慢补充进思维导图内
 </p>
 
-{% note info %}
-我是分割线
-{% endnote %}
-
 
 # Handler 与 Binder
 

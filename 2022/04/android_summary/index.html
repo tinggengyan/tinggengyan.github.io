@@ -6,8 +6,7 @@
         <meta name="robots" content="noodp" />
         <title>一张思维导图看 Android【持续迭代】 - Tinggeng</title><meta name="Description" content="Tinggeng"><meta property="og:title" content="一张思维导图看 Android【持续迭代】" />
 <meta property="og:description" content="概述 总结自己的 Android 知识，按照编码 -&gt; 运行，画了一张图，xmind 导出的图比较大，后续持续更新，迭代这部分的内容。
-下面是一些常见的知识,将会慢慢补充进思维导图内 {% note info %} 我是分割线 {% endnote %}
-Handler 与 Binder handler 处理的是 App 进程内的通信； binder 处理的是，App 进程间、application 和 framework 之间的通信；
+下面是一些常见的知识,将会慢慢补充进思维导图内 Handler 与 Binder handler 处理的是 App 进程内的通信； binder 处理的是，App 进程间、application 和 framework 之间的通信；
 任务启动管理 - 启动框架 抽象任务 task； 优先级 ； countdownlatch 数值为依赖 task 的数量； 运行的 executor ； 被依赖的 task 列表； toWait 方法； notify 方法，countdownlatch 减一； 构造 task 的有向无环图； TaskManager： 管理所有的 task，及其拓扑关系； 管理需要执行的 task； countdownlatch 值为 Activity 跳转的生命周期 ActivityA跳转到ActivityB： 1 2 3 4 5 Activity A：onPause Activity B：onCreate Activity B：onStart Activity B：onResume Activity A：onStop ActivityB返回ActivityA： 1 2 3 4 5 6 Activity B：onPause Activity A：onRestart Activity A：onStart Activity A：onResume Activity B：onStop Activity B：onDestroy 旋转屏幕 不改配置，默认配置 1 2 3 4 5 6 7 onPause--&gt; onStop--&gt; onDestroy--&gt; onCreate--&gt; onStart--&gt; onRestoreInstanceState--&gt; onResume--&gt; 修改配置 1 onConfigChanged--&gt; Activity 的启动模式 参考链接1 仅仅适用于Activity启动Activity，并且采用的都是默认Intent，没有额外添加任何Flag" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://tinggengyan.github.io/2022/04/android_summary/" /><meta property="article:section" content="posts" />
@@ -16,8 +15,7 @@ Handler 与 Binder handler 处理的是 App 进程内的通信； binder 处理�
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="一张思维导图看 Android【持续迭代】"/>
 <meta name="twitter:description" content="概述 总结自己的 Android 知识，按照编码 -&gt; 运行，画了一张图，xmind 导出的图比较大，后续持续更新，迭代这部分的内容。
-下面是一些常见的知识,将会慢慢补充进思维导图内 {% note info %} 我是分割线 {% endnote %}
-Handler 与 Binder handler 处理的是 App 进程内的通信； binder 处理的是，App 进程间、application 和 framework 之间的通信；
+下面是一些常见的知识,将会慢慢补充进思维导图内 Handler 与 Binder handler 处理的是 App 进程内的通信； binder 处理的是，App 进程间、application 和 framework 之间的通信；
 任务启动管理 - 启动框架 抽象任务 task； 优先级 ； countdownlatch 数值为依赖 task 的数量； 运行的 executor ； 被依赖的 task 列表； toWait 方法； notify 方法，countdownlatch 减一； 构造 task 的有向无环图； TaskManager： 管理所有的 task，及其拓扑关系； 管理需要执行的 task； countdownlatch 值为 Activity 跳转的生命周期 ActivityA跳转到ActivityB： 1 2 3 4 5 Activity A：onPause Activity B：onCreate Activity B：onStart Activity B：onResume Activity A：onStop ActivityB返回ActivityA： 1 2 3 4 5 6 Activity B：onPause Activity A：onRestart Activity A：onStart Activity A：onResume Activity B：onStop Activity B：onDestroy 旋转屏幕 不改配置，默认配置 1 2 3 4 5 6 7 onPause--&gt; onStop--&gt; onDestroy--&gt; onCreate--&gt; onStart--&gt; onRestoreInstanceState--&gt; onResume--&gt; 修改配置 1 onConfigChanged--&gt; Activity 的启动模式 参考链接1 仅仅适用于Activity启动Activity，并且采用的都是默认Intent，没有额外添加任何Flag"/>
 <meta name="application-name" content="Tinggeng">
 <meta name="apple-mobile-web-app-title" content="Tinggeng"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
@@ -31,7 +29,7 @@ Handler 与 Binder handler 处理的是 App 进程内的通信； binder 处理�
         "mainEntityOfPage": {
             "@type": "WebPage",
             "@id": "https:\/\/tinggengyan.github.io\/2022\/04\/android_summary\/"
-        },"image": ["https:\/\/tinggengyan.github.io\/images\/Apple-Devices-Preview.png"],"genre": "posts","keywords": "Android","wordcount":  1718 ,
+        },"image": ["https:\/\/tinggengyan.github.io\/images\/Apple-Devices-Preview.png"],"genre": "posts","keywords": "Android","wordcount":  1710 ,
         "url": "https:\/\/tinggengyan.github.io\/2022\/04\/android_summary\/","datePublished": "2022-04-03T16:19:04+00:00","dateModified": "2022-04-03T16:19:04+00:00","publisher": {
             "@type": "Organization",
             "name": "xxxx","logo": "https:\/\/tinggengyan.github.io\/img\/avatar.png"},"author": {
@@ -107,7 +105,7 @@ Handler 与 Binder handler 处理的是 App 进程内的通信； binder 处理�
         </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">一张思维导图看 Android【持续迭代】</h1><div class="post-meta">
             <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Tinggeng</a>
 </span>&nbsp;<span class="post-category">included in <a href="/categories/android/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Android</a></span></div>
-            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2022-04-03">2022-04-03</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;1718 words&nbsp;
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2022-04-03">2022-04-03</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;1710 words&nbsp;
                 <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;9 minutes&nbsp;<span id="/2022/04/android_summary/" class="leancloud_visitors" data-flag-title="一张思维导图看 Android【持续迭代】">
                         <i class="far fa-eye fa-fw" aria-hidden="true"></i>&nbsp;<span class=leancloud-visitors-count></span>&nbsp;views
                     </span>&nbsp;</div>
@@ -331,9 +329,6 @@ Handler 与 Binder handler 处理的是 App 进程内的通信； binder 处理�
 <p style="text-align:center;color:#8EC0E4;font-size:1.5em;font-weight: bold;">
 下面是一些常见的知识,将会慢慢补充进思维导图内
 </p>
-<p>{% note info %}
-我是分割线
-{% endnote %}</p>
 <h1 id="handler-与-binder">Handler 与 Binder</h1>
 <p>handler 处理的是 App 进程内的通信；
 binder 处理的是，App 进程间、application 和 framework 之间的通信；</p>
