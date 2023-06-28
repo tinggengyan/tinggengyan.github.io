@@ -1,3 +1,4 @@
+---
 title: LayoutInflater中inflate的使用方法
 date: 2016-02-23 22:25:09
 tags: [LayoutInflater]

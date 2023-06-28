@@ -1,3 +1,4 @@
+---
 title: Ubuntu下SublimeText3中文输入法修复
 date: 2016-10-07 14:09:09
 tags: [Ubuntu,SublimeText3,输入法]

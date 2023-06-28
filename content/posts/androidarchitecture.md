@@ -1,3 +1,4 @@
+---
 title: androidarchitecture
 date: 2016-04-08 23:26:20
 tags: [architecture]

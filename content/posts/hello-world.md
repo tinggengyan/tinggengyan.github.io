@@ -1,3 +1,4 @@
+---
 title: 标题：Hello World
 date: 2016-02-07 21:44:26
 thumbnail: https://developers.google.cn/china/images/android.png

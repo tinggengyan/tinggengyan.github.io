@@ -1,3 +1,4 @@
+---
 title: DataBinding 入门简介
 date: 2016-02-20 22:53:36
 tags: [DataBinding]
