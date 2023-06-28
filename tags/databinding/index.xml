@@ -1,0 +1,20 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+    <channel>
+        <title>DataBinding - Tag - Tinggeng</title>
+        <link>https://tinggengyan.github.io/tags/databinding/</link>
+        <description>DataBinding - Tag - Tinggeng</description>
+        <generator>Hugo -- gohugo.io</generator><language>en</language><managingEditor>tinggengyan@gmail.com (Tinggeng)</managingEditor>
+            <webMaster>tinggengyan@gmail.com (Tinggeng)</webMaster><lastBuildDate>Sat, 20 Feb 2016 22:53:36 &#43;0000</lastBuildDate><atom:link href="https://tinggengyan.github.io/tags/databinding/" rel="self" type="application/rss+xml" /><item>
+    <title>DataBinding 入门简介</title>
+    <link>https://tinggengyan.github.io/2016/02/databinding/</link>
+    <pubDate>Sat, 20 Feb 2016 22:53:36 &#43;0000</pubDate>
+    <author>Tinggeng</author>
+    <guid>https://tinggengyan.github.io/2016/02/databinding/</guid>
+    <description><![CDATA[概述 本文介绍 DataBinding 的基本概念和接入流程
+DataBinding出现的背景 作为一种 MVVM 的实现方式出现.
+概念 将数据的 provider 和 consumer 进行绑定，而后进行二者之间同步的一种技术。实现逻辑层和表现层的绑定。
+注意事项： 使用的编译工具必须是 gradle，并且使用的 Android gradle 插件版本依旧官方所说，不能低于 Android Plugin for Gradle 1.3.0-beta4； 在使用的 module 的 gradle 文件中添加 apply plugin: &lsquo;com.android.databinding&rsquo;； 以上部分是 beta 1.3 版本的环境搭建以下是 1.5 的
+使用gradle for android 1.5 在 APP module 的 gradle 中添加代码段 1 2 3 dataBinding { enabled = true } 如何使用 工作的流程原理 在编译的时候，dataBinding 回去布局文件中进行文件的解析，然后获取关于 dataBinding 的设置，然后为对应的 view 设置 tag， 然后删除关于 dataBinding 的所有内容。 对于属性中引用 java 变量的值的地方，原理都是调用的对应的 java 的 set 方法进行设置，比如 TextView 的属性 text 对应了 setText();对于 ImageView 的 src 属性 通过一些注解，让其对应 setImageResource 1 2 3 4 @BindingMethod( type = android.]]></description>
+</item>
+</channel>
+</rss>

@@ -98,6 +98,10 @@
             <loc>https://tinggengyan.github.io/categories/computerfoundation/</loc><lastmod>2016-10-07T16:31:01&#43;00:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
             <loc>https://tinggengyan.github.io/tags/linux/</loc><lastmod>2016-10-07T16:31:01&#43;00:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
             <loc>https://tinggengyan.github.io/2016/10/linux%E5%AD%A6%E4%B9%A0%E5%A4%87%E5%BF%98/</loc><lastmod>2016-10-07T16:31:01&#43;00:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
+            <loc>https://tinggengyan.github.io/tags/sublimetext3/</loc><lastmod>2016-10-07T14:09:09&#43;00:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
+            <loc>https://tinggengyan.github.io/tags/ubuntu/</loc><lastmod>2016-10-07T14:09:09&#43;00:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
+            <loc>https://tinggengyan.github.io/2016/10/ubuntu%E4%B8%8Bsublimetext3%E4%B8%AD%E6%96%87%E8%BE%93%E5%85%A5%E6%B3%95%E4%BF%AE%E5%A4%8D/</loc><lastmod>2016-10-07T14:09:09&#43;00:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
+            <loc>https://tinggengyan.github.io/tags/%E8%BE%93%E5%85%A5%E6%B3%95/</loc><lastmod>2016-10-07T14:09:09&#43;00:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
             <loc>https://tinggengyan.github.io/tags/aar/</loc><lastmod>2016-08-10T00:25:57&#43;00:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
             <loc>https://tinggengyan.github.io/2016/08/androidstudio%E5%BC%95%E5%85%A5aar%E4%BE%9D%E8%B5%96/</loc><lastmod>2016-08-10T00:25:57&#43;00:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
             <loc>https://tinggengyan.github.io/tags/ddms/</loc><lastmod>2016-07-20T00:44:35&#43;00:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
@@ -105,13 +109,20 @@
             <loc>https://tinggengyan.github.io/categories/ide/</loc><lastmod>2016-07-20T00:44:35&#43;00:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
             <loc>https://tinggengyan.github.io/tags/notification/</loc><lastmod>2016-07-13T23:46:51&#43;00:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
             <loc>https://tinggengyan.github.io/2016/07/notification-1/</loc><lastmod>2016-07-13T23:46:51&#43;00:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
-            <loc>https://tinggengyan.github.io/1/01/androidarchitecture/</loc><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
-            <loc>https://tinggengyan.github.io/1/01/databinding/</loc><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
-            <loc>https://tinggengyan.github.io/1/01/hello-world/</loc><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
-            <loc>https://tinggengyan.github.io/1/01/layoutinflater%E4%B8%ADinflate%E7%9A%84%E4%BD%BF%E7%94%A8%E6%96%B9%E6%B3%95/</loc><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
-            <loc>https://tinggengyan.github.io/1/01/rxandroidintroduction1/</loc><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
-            <loc>https://tinggengyan.github.io/1/01/rxandroidintroduction2/</loc><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
-            <loc>https://tinggengyan.github.io/1/01/rxjavaessential1/</loc><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
-            <loc>https://tinggengyan.github.io/1/01/rxjavathreaddemo/</loc><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
-            <loc>https://tinggengyan.github.io/1/01/service%E4%B9%8Bintentservice/</loc><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
-            <loc>https://tinggengyan.github.io/1/01/ubuntu%E4%B8%8Bsublimetext3%E4%B8%AD%E6%96%87%E8%BE%93%E5%85%A5%E6%B3%95%E4%BF%AE%E5%A4%8D/</loc><changefreq>weekly</changefreq><priority>0.5</priority></url></urlset>
+            <loc>https://tinggengyan.github.io/tags/intentservice/</loc><lastmod>2016-07-02T21:35:56&#43;00:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
+            <loc>https://tinggengyan.github.io/2016/07/service%E4%B9%8Bintentservice/</loc><lastmod>2016-07-02T21:35:56&#43;00:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
+            <loc>https://tinggengyan.github.io/tags/rxjava/</loc><lastmod>2016-06-14T16:07:10&#43;00:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
+            <loc>https://tinggengyan.github.io/tags/source/</loc><lastmod>2016-06-14T16:07:10&#43;00:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
+            <loc>https://tinggengyan.github.io/tags/thread/</loc><lastmod>2016-06-14T16:07:10&#43;00:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
+            <loc>https://tinggengyan.github.io/2016/06/rxjavathreaddemo/</loc><lastmod>2016-06-14T16:07:10&#43;00:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
+            <loc>https://tinggengyan.github.io/2016/04/androidarchitecture/</loc><lastmod>2016-04-08T23:26:20&#43;00:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
+            <loc>https://tinggengyan.github.io/tags/architecture/</loc><lastmod>2016-04-08T23:26:20&#43;00:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
+            <loc>https://tinggengyan.github.io/2016/03/rxjavaessential1/</loc><lastmod>2016-03-04T00:23:15&#43;00:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
+            <loc>https://tinggengyan.github.io/tags/rxandroid/</loc><lastmod>2016-02-26T22:50:26&#43;00:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
+            <loc>https://tinggengyan.github.io/2016/02/rxandroidintroduction2/</loc><lastmod>2016-02-26T22:50:26&#43;00:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
+            <loc>https://tinggengyan.github.io/tags/layoutinflater/</loc><lastmod>2016-02-23T22:25:09&#43;00:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
+            <loc>https://tinggengyan.github.io/2016/02/layoutinflater%E4%B8%ADinflate%E7%9A%84%E4%BD%BF%E7%94%A8%E6%96%B9%E6%B3%95/</loc><lastmod>2016-02-23T22:25:09&#43;00:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
+            <loc>https://tinggengyan.github.io/tags/databinding/</loc><lastmod>2016-02-20T22:53:36&#43;00:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
+            <loc>https://tinggengyan.github.io/2016/02/databinding/</loc><lastmod>2016-02-20T22:53:36&#43;00:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
+            <loc>https://tinggengyan.github.io/2016/02/rxandroidintroduction1/</loc><lastmod>2016-02-08T21:44:26&#43;00:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
+            <loc>https://tinggengyan.github.io/2016/02/hello-world/</loc><lastmod>2016-02-07T21:44:26&#43;00:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url></urlset>

@@ -1,0 +1,20 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+    <channel>
+        <title>IntentService - Tag - Tinggeng</title>
+        <link>https://tinggengyan.github.io/tags/intentservice/</link>
+        <description>IntentService - Tag - Tinggeng</description>
+        <generator>Hugo -- gohugo.io</generator><language>en</language><managingEditor>tinggengyan@gmail.com (Tinggeng)</managingEditor>
+            <webMaster>tinggengyan@gmail.com (Tinggeng)</webMaster><lastBuildDate>Sat, 02 Jul 2016 21:35:56 &#43;0000</lastBuildDate><atom:link href="https://tinggengyan.github.io/tags/intentservice/" rel="self" type="application/rss+xml" /><item>
+    <title>Service之IntentService</title>
+    <link>https://tinggengyan.github.io/2016/07/service%E4%B9%8Bintentservice/</link>
+    <pubDate>Sat, 02 Jul 2016 21:35:56 &#43;0000</pubDate>
+    <author>Tinggeng</author>
+    <guid>https://tinggengyan.github.io/2016/07/service%E4%B9%8Bintentservice/</guid>
+    <description><![CDATA[概述 本文记录 IntentService 的使用方式,以及可能产生的问题.
+IntentService 关于IntentService本身的使用很简单，官方的解释也说的很清楚。IntentService是Service类的子类，用来处理异步请求。和正常启动一个Service一样，可以通过startService(Intent)方法启动一个IntentService，同时通过Intent传递数据。IntentService在onCreate()函数中通过HandlerThread开启一个线程来处理Intent请求对象，这样就可以在非主线程执行任务。这里处理消息的时候，也是通过为新创建的线程新建了Handler和Looper对象从消息队列中取出消息进行执行。处理每个Intent所对应的事务都需要调用 onHandleIntent 这个抽象方法。所以，将对不同任务的不同操作通过实现 onHandleIntent 方法就可完成。 执行完这个任务(Intent)就会自动停止 Service 。这里有一点需要注意，如果这个任务的执行本身就是异步的，所以，假如添加的任务也是异步的，很难保证能正常执行结束。
+1 2 3 4 5 6 7 8 9 10 11 private final class ServiceHandler extends Handler { public ServiceHandler(Looper looper) { super(looper); } @Override public void handleMessage(Message msg) { onHandleIntent((Intent)msg.obj); stopSelf(msg.arg1); } } 从代码可以看出，每执行一次onHandleIntent 都会调用执行 stopSelf 来停止当前的service。也就是假如子类实现的 onHandleIntent 中执行的是异步任务，异步任务可能得不到预期的结果。
+举个例子:
+1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 public static void startActionBaz(Context context, String param1, String param2) { Intent intent = new Intent(context, MyIntentService.]]></description>
+</item>
+</channel>
+</rss>

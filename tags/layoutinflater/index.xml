@@ -1,0 +1,19 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+    <channel>
+        <title>LayoutInflater - Tag - Tinggeng</title>
+        <link>https://tinggengyan.github.io/tags/layoutinflater/</link>
+        <description>LayoutInflater - Tag - Tinggeng</description>
+        <generator>Hugo -- gohugo.io</generator><language>en</language><managingEditor>tinggengyan@gmail.com (Tinggeng)</managingEditor>
+            <webMaster>tinggengyan@gmail.com (Tinggeng)</webMaster><lastBuildDate>Tue, 23 Feb 2016 22:25:09 &#43;0000</lastBuildDate><atom:link href="https://tinggengyan.github.io/tags/layoutinflater/" rel="self" type="application/rss+xml" /><item>
+    <title>LayoutInflater中inflate的使用方法</title>
+    <link>https://tinggengyan.github.io/2016/02/layoutinflater%E4%B8%ADinflate%E7%9A%84%E4%BD%BF%E7%94%A8%E6%96%B9%E6%B3%95/</link>
+    <pubDate>Tue, 23 Feb 2016 22:25:09 &#43;0000</pubDate>
+    <author>Tinggeng</author>
+    <guid>https://tinggengyan.github.io/2016/02/layoutinflater%E4%B8%ADinflate%E7%9A%84%E4%BD%BF%E7%94%A8%E6%96%B9%E6%B3%95/</guid>
+    <description><![CDATA[概述 本文记录 LayoutInflater 的 inflate 方法的三个参数的含义.
+常常需要使用 LayoutInflater 中 inflate 方法。这个方法有两个重载的版本，一个是含有三个参数的，一个是两个参数的。
+1 2 3 4 //resource 代表了要被加载的布局文件的 ID，root 是待附加的父布局 public View inflate (int resource, ViewGroup root) //前两个是一样的，最后一个 attachToRoot 代表是否加载到父布局的树形结构中 public View inflate (int resource, ViewGroup root, boolean attachToRoot) 我们使用最频繁的地方应该就是在 adapter 的 getView 方法中，将 root 值设为 null，或者设一个 parent，将 attachToRoot 设为 false。一般没有特殊的需求的话，这样就可以了。
+1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 @Override public View getView(int position, View convertView, ViewGroup parent) { View root; ViewHolder viewHolder; if (convertView == null) { viewHolder = new ViewHolder(); //加载布局 root = LayoutInflater.]]></description>
+</item>
+</channel>
+</rss>

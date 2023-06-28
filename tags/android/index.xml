@@ -67,5 +67,34 @@ statusbar 隐藏图标 Dozer Bartender Dozer是开源的,Bartender 是收费的.
 用处 适用于泛前端类开发者,在无后端服务的情况下,可以用来mock数据或者mock后端行为,非常灵活. 适用于网络库的开发者,测试库的行为; 缺点 目前不支持HTTP2协议. 分类 HTTP 协议 自定义一个 HTTP 服务; 1 2 3 4 5 6 HttpsServer server = HttpsServer.create(new InetSocketAddress(8500), 0); HttpsConfigurator httpsConfigurator = new HttpsConfigurator(SSLContext.getDefault()); server.setHttpsConfigurator(httpsConfigurator); HttpContext context = server.createContext(&#34;/example&#34;); context.setHandler(new CustomHttpHandler()); server.start(); 该 Http 服务,是在本机的 8500 端口启动的; 根目录为 example. 所以,直接通过 http://127.0.0.1:8500/example 即可访问.
 Server 的行为定义 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 52 53 54 55 56 57 58 59 public class CustomHttpHandler implements HttpHandler { @Override public void handle(HttpExchange exchange) throws IOException { URI requestURI = exchange.]]></description>
 </item>
+<item>
+    <title>RxAndroid入门分享(二)</title>
+    <link>https://tinggengyan.github.io/2016/02/rxandroidintroduction2/</link>
+    <pubDate>Fri, 26 Feb 2016 22:50:26 &#43;0000</pubDate>
+    <author>Tinggeng</author>
+    <guid>https://tinggengyan.github.io/2016/02/rxandroidintroduction2/</guid>
+    <description><![CDATA[概述 本文记录 RxJava 中在 Android 中的应用,介绍 RxAndroid 的使用.
+More RxJava 及其在Android上的应用 开发环境 在 module 的 gradle 中添加 RxAndroid 的相关依赖，如果想体验 rx 在 Android 上的更方便的功能。可以添加 Jake 大神的兼容包 RxBinding。 1 2 3 4 5 6 7 8 9 //RXAndroid compile &#39;io.reactivex:rxandroid:1.1.0&#39; //RxBinding compile &#39;com.jakewharton.rxbinding:rxbinding:0.3.0&#39; compile &#39;com.jakewharton.rxbinding:rxbinding-support-v4:0.3.0&#39; compile &#39;com.jakewharton.rxbinding:rxbinding-appcompat-v7:0.3.0&#39; compile &#39;com.jakewharton.rxbinding:rxbinding-design:0.3.0&#39; compile &#39;com.jakewharton.rxbinding:rxbinding-recyclerview-v7:0.3.0&#39; //compile &#39;com.jakewharton.rxbinding:rxbinding-leanback-v17:0.3.0&#39; 以下开始用一个demo来演示 目的地有三个 tab，每个 tab 内的详情用 RecyclerView 展示，下拉刷新用 SwipeRefreshLayout。 布局界面如下
+1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 &lt;?]]></description>
+</item>
+<item>
+    <title>RxAndroid入门分享(一)</title>
+    <link>https://tinggengyan.github.io/2016/02/rxandroidintroduction1/</link>
+    <pubDate>Mon, 08 Feb 2016 21:44:26 &#43;0000</pubDate>
+    <author>Tinggeng</author>
+    <guid>https://tinggengyan.github.io/2016/02/rxandroidintroduction1/</guid>
+    <description><![CDATA[概述 本文记录 RxJava 的概念.
+RxJava 以及响应式函数思想篇 Why 技术产生的背景 在编程中，经常需要切换线程，为了能对结果进行相应处理，经常需要进行回调，随着业务需求的增加，嵌套的回调也会随之增加，不仅增加了代码量，也增加了逻辑的复杂性，增加了理解和维护的难度。 所以就需要一种
+既能方便切换线程 又能即是相应变化 又可以简化代码的逻辑，方便维护， 还不需要回调。 What ReactiveX是什么 Reactive Extensions,简称 RX，原来只是微软开发的一个 LINQ 的一个扩展。
+微软给的定义是，Rx 是一个函数库，让开发者可以利用可观察序列和LINQ风格查询操作符来编写异步和基于事件的程序，使用 Rx，开发者可以用Observables 表示异步数据流，用 LINQ 操作符查询异步数据流，用 Schedulers 参数化异步数据流的并发处理，Rx 可以这样定义：Rx = Observables + LINQ + Schedulers。
+ReactiveX.io 给的定义是，Rx 是一个使用可观察数据流进行异步编程的编程接口，ReactiveX 结合了观察者模式、迭代器模式和函数式编程的精华。
+看完微软给的定义已经很详细了，开源组织给的更加精简，里面提到了数据流还有事件，我们来自己看看怎么理解。
+这里得提到响应式编程的概念，其中有两个关键点，
+事件，事件可以被观察，等待，过滤，响应，也可以触发其他的事件，事件通过数据流的形式对外呈现。 数据流，数据流就像一条河：它可以被观测，被过滤，被操作，或者与另外一条流合并为一条新的流来给新的消费者消费。 所以，响应式编程就是一种基于异步数据流概念的编程模式。其实 EventBus 还有其他的点击事件一样，本质上就是异步的数据流，我们可以为任何的事件创建数据流。比如我们可以为登录操作创建数据流，然后监听这个数据流，进行登录验证这样的响应操作。
+主要特点有：
+易于并发从而更好的利用服务器的能力。 易于有条件的异步执行。 一种更好的方式来避免回调地狱。 一种响应式方法。 RxJava与传统的Java的不同 在 Rx 中，开发者用 Observables 模拟可被观察的异步数据流，从纯 Java 的观点看，RxJava 的 Observable 类源自于经典的 Gang Of Four 的观察者模式。
+与传统观察者的不同 它添加了三个缺少的功能：
+生产者在没有更多数据可用时能够发出信号通知：onCompleted()事件。 生产者在发生错误时能够发出信号通知：onError()事件。 RxJava Observables 能够组合而不是嵌套，从而避免开发者陷入回调地狱。 与传统的Iterable的不同 Observables 和 IterablesAPI 是很相似的：我们在 Iterable 可以执行的许多操作也都同样可以在 Observables 上执行。当然，由于 Observables 流的本质，没有如Iterable.]]></description>
+</item>
 </channel>
 </rss>

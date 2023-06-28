@@ -1,0 +1,1242 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <title>RxAndroid入门分享(二) - Tinggeng</title><meta name="Description" content="Tinggeng"><meta property="og:title" content="RxAndroid入门分享(二)" />
+<meta property="og:description" content="概述 本文记录 RxJava 中在 Android 中的应用,介绍 RxAndroid 的使用.
+More RxJava 及其在Android上的应用 开发环境 在 module 的 gradle 中添加 RxAndroid 的相关依赖，如果想体验 rx 在 Android 上的更方便的功能。可以添加 Jake 大神的兼容包 RxBinding。 1 2 3 4 5 6 7 8 9 //RXAndroid compile &#39;io.reactivex:rxandroid:1.1.0&#39; //RxBinding compile &#39;com.jakewharton.rxbinding:rxbinding:0.3.0&#39; compile &#39;com.jakewharton.rxbinding:rxbinding-support-v4:0.3.0&#39; compile &#39;com.jakewharton.rxbinding:rxbinding-appcompat-v7:0.3.0&#39; compile &#39;com.jakewharton.rxbinding:rxbinding-design:0.3.0&#39; compile &#39;com.jakewharton.rxbinding:rxbinding-recyclerview-v7:0.3.0&#39; //compile &#39;com.jakewharton.rxbinding:rxbinding-leanback-v17:0.3.0&#39; 以下开始用一个demo来演示 目的地有三个 tab，每个 tab 内的详情用 RecyclerView 展示，下拉刷新用 SwipeRefreshLayout。 布局界面如下
+1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 &lt;?" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://tinggengyan.github.io/2016/02/rxandroidintroduction2/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2016-02-26T22:50:26+00:00" />
+<meta property="article:modified_time" content="2016-02-26T22:50:26+00:00" /><meta property="og:site_name" content="Tinggeng" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="RxAndroid入门分享(二)"/>
+<meta name="twitter:description" content="概述 本文记录 RxJava 中在 Android 中的应用,介绍 RxAndroid 的使用.
+More RxJava 及其在Android上的应用 开发环境 在 module 的 gradle 中添加 RxAndroid 的相关依赖，如果想体验 rx 在 Android 上的更方便的功能。可以添加 Jake 大神的兼容包 RxBinding。 1 2 3 4 5 6 7 8 9 //RXAndroid compile &#39;io.reactivex:rxandroid:1.1.0&#39; //RxBinding compile &#39;com.jakewharton.rxbinding:rxbinding:0.3.0&#39; compile &#39;com.jakewharton.rxbinding:rxbinding-support-v4:0.3.0&#39; compile &#39;com.jakewharton.rxbinding:rxbinding-appcompat-v7:0.3.0&#39; compile &#39;com.jakewharton.rxbinding:rxbinding-design:0.3.0&#39; compile &#39;com.jakewharton.rxbinding:rxbinding-recyclerview-v7:0.3.0&#39; //compile &#39;com.jakewharton.rxbinding:rxbinding-leanback-v17:0.3.0&#39; 以下开始用一个demo来演示 目的地有三个 tab，每个 tab 内的详情用 RecyclerView 展示，下拉刷新用 SwipeRefreshLayout。 布局界面如下
+1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 &lt;?"/>
+<meta name="application-name" content="Tinggeng">
+<meta name="apple-mobile-web-app-title" content="Tinggeng"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="https://tinggengyan.github.io/2016/02/rxandroidintroduction2/" /><link rel="prev" href="https://tinggengyan.github.io/2016/02/layoutinflater%E4%B8%ADinflate%E7%9A%84%E4%BD%BF%E7%94%A8%E6%96%B9%E6%B3%95/" /><link rel="next" href="https://tinggengyan.github.io/2016/03/rxjavaessential1/" /><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/normalize.css@8.0.1/normalize.min.css"><link rel="stylesheet" href="/css/style.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css"><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "RxAndroid入门分享(二)",
+        "inLanguage": "en",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https:\/\/tinggengyan.github.io\/2016\/02\/rxandroidintroduction2\/"
+        },"image": ["https:\/\/tinggengyan.github.io\/images\/Apple-Devices-Preview.png"],"genre": "posts","keywords": "RxJava, Android, RxAndroid","wordcount":  1566 ,
+        "url": "https:\/\/tinggengyan.github.io\/2016\/02\/rxandroidintroduction2\/","datePublished": "2016-02-26T22:50:26+00:00","dateModified": "2016-02-26T22:50:26+00:00","publisher": {
+            "@type": "Organization",
+            "name": "xxxx","logo": "https:\/\/tinggengyan.github.io\/img\/avatar.png"},"author": {
+                "@type": "Person",
+                "name": "Tinggeng"
+            },"description": ""
+    }
+    </script></head>
+    <body data-header-desktop="fixed" data-header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="Tinggeng"><span class="header-title-pre"><i class='far fa-kiss-wink-heart fa-fw' aria-hidden='true'></i></span>Tinggeng</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/" title="posts"> Posts </a><a class="menu-item" href="/tags/"> Tags </a><a class="menu-item" href="/categories/"> Categories </a><a class="menu-item" href="/daily_notes/" title="flemo"> flemo </a><span class="menu-item delimiter"></span><span class="menu-item search" id="search-desktop">
+                        <input type="text" placeholder="Search titles or contents..." id="search-input-desktop">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="Search">
+                            <i class="fas fa-search fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="Clear">
+                            <i class="fas fa-times-circle fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-desktop">
+                            <i class="fas fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+                        </span>
+                    </span><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                    <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="Tinggeng"><span class="header-title-pre"><i class='far fa-kiss-wink-heart fa-fw' aria-hidden='true'></i></span>Tinggeng</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><div class="search-wrapper">
+                    <div class="search mobile" id="search-mobile">
+                        <input type="text" placeholder="Search titles or contents..." id="search-input-mobile">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="Search">
+                            <i class="fas fa-search fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="Clear">
+                            <i class="fas fa-times-circle fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-mobile">
+                            <i class="fas fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+                        </span>
+                    </div>
+                    <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+                        Cancel
+                    </a>
+                </div><a class="menu-item" href="/posts/" title="posts">Posts</a><a class="menu-item" href="/tags/" title="">Tags</a><a class="menu-item" href="/categories/" title="">Categories</a><a class="menu-item" href="/daily_notes/" title="flemo">flemo</a><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+            </a></div>
+    </div>
+</header><div class="search-dropdown desktop">
+        <div id="search-dropdown-desktop"></div>
+    </div>
+    <div class="search-dropdown mobile">
+        <div id="search-dropdown-mobile"></div>
+    </div><main class="main">
+                <div class="container"><div class="toc" id="toc-auto">
+            <h2 class="toc-title">Contents</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">RxAndroid入门分享(二)</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Tinggeng</a>
+</span>&nbsp;<span class="post-category">included in <a href="/categories/mobile/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Mobile</a>&nbsp;<a href="/categories/android/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Android</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2016-02-26">2016-02-26</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;1566 words&nbsp;
+                <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;8 minutes&nbsp;<span id="/2016/02/rxandroidintroduction2/" class="leancloud_visitors" data-flag-title="RxAndroid入门分享(二)">
+                        <i class="far fa-eye fa-fw" aria-hidden="true"></i>&nbsp;<span class=leancloud-visitors-count></span>&nbsp;views
+                    </span>&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  data-kept="">
+                <div class="details-summary toc-title">
+                    <span>Contents</span>
+                    <span><i class="details-icon fas fa-angle-right" aria-hidden="true"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#开发环境">开发环境</a></li>
+    <li><a href="#以下开始用一个demo来演示">以下开始用一个demo来演示</a>
+      <ul>
+        <li><a href="#observablecreate">Observable&amp;&amp;create</a></li>
+        <li><a href="#subscribe">subscribe</a></li>
+        <li><a href="#subscribeon--observeon">subscribeOn &amp;&amp; observeOn</a></li>
+        <li><a href="#from--just">From &amp;&amp; Just</a></li>
+        <li><a href="#repeat">repeat</a></li>
+        <li><a href="#defer">defer</a></li>
+        <li><a href="#filter">filter</a></li>
+        <li><a href="#map">Map</a></li>
+        <li><a href="#flatmap--concatmap">FlatMap &amp;&amp; ConcatMap</a></li>
+        <li><a href="#switchmap">SwitchMap</a></li>
+        <li><a href="#groupby">GroupBy</a></li>
+        <li><a href="#merge">merge</a></li>
+        <li><a href="#zip--join--combinelatest">zip $$ join &amp;&amp; combineLatest</a></li>
+      </ul>
+    </li>
+    <li><a href="#rxandroid-rxbinding">RxAndroid rxbinding</a></li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><h1 id="概述">概述</h1>
+<p>本文记录 RxJava 中在 Android 中的应用,介绍 RxAndroid 的使用.</p>
+<!-- more -->
+<h1 id="more-rxjava-及其在android上的应用">More RxJava 及其在Android上的应用</h1>
+<h2 id="开发环境">开发环境</h2>
+<ul>
+<li>在 module 的 gradle 中添加 RxAndroid 的相关依赖，如果想体验 rx 在 Android 上的更方便的功能。可以添加 Jake 大神的兼容包 RxBinding。</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-groovy" data-lang="groovy"><span class="line"><span class="cl">    <span class="c1">//RXAndroid
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">compile</span> <span class="s1">&#39;io.reactivex:rxandroid:1.1.0&#39;</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">//RxBinding
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">compile</span> <span class="s1">&#39;com.jakewharton.rxbinding:rxbinding:0.3.0&#39;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">compile</span> <span class="s1">&#39;com.jakewharton.rxbinding:rxbinding-support-v4:0.3.0&#39;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">compile</span> <span class="s1">&#39;com.jakewharton.rxbinding:rxbinding-appcompat-v7:0.3.0&#39;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">compile</span> <span class="s1">&#39;com.jakewharton.rxbinding:rxbinding-design:0.3.0&#39;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">compile</span> <span class="s1">&#39;com.jakewharton.rxbinding:rxbinding-recyclerview-v7:0.3.0&#39;</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">//compile &#39;com.jakewharton.rxbinding:rxbinding-leanback-v17:0.3.0&#39;
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="以下开始用一个demo来演示">以下开始用一个demo来演示</h2>
+<p>目的地有三个 tab，每个 tab 内的详情用 RecyclerView 展示，下拉刷新用 SwipeRefreshLayout。
+布局界面如下</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-xml" data-lang="xml"><span class="line"><span class="cl"><span class="cp">&lt;?xml version=&#34;1.0&#34; encoding=&#34;utf-8&#34;?&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;FrameLayout</span>
+</span></span><span class="line"><span class="cl">        <span class="na">xmlns:android=</span><span class="s">&#34;http://schemas.android.com/apk/res/android&#34;</span>
+</span></span><span class="line"><span class="cl">        <span class="na">android:layout_width=</span><span class="s">&#34;match_parent&#34;</span>
+</span></span><span class="line"><span class="cl">        <span class="na">android:layout_height=</span><span class="s">&#34;match_parent&#34;</span><span class="nt">&gt;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;android.support.v4.widget.SwipeRefreshLayout</span>
+</span></span><span class="line"><span class="cl">            <span class="na">android:id=</span><span class="s">&#34;@+id/destinationSwipeRefreshLayout&#34;</span>
+</span></span><span class="line"><span class="cl">            <span class="na">android:layout_width=</span><span class="s">&#34;match_parent&#34;</span>
+</span></span><span class="line"><span class="cl">            <span class="na">android:layout_height=</span><span class="s">&#34;match_parent&#34;</span><span class="nt">&gt;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="nt">&lt;android.support.v7.widget.RecyclerView</span>
+</span></span><span class="line"><span class="cl">                <span class="na">android:id=</span><span class="s">&#34;@+id/destinationRecyclerView&#34;</span>
+</span></span><span class="line"><span class="cl">                <span class="na">android:layout_width=</span><span class="s">&#34;match_parent&#34;</span>
+</span></span><span class="line"><span class="cl">                <span class="na">android:layout_height=</span><span class="s">&#34;match_parent&#34;</span>
+</span></span><span class="line"><span class="cl">                <span class="na">android:clipToPadding=</span><span class="s">&#34;false&#34;</span><span class="nt">&gt;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="nt">&lt;/android.support.v7.widget.RecyclerView&gt;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;/android.support.v4.widget.SwipeRefreshLayout&gt;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;/FrameLayout&gt;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>开始 RxAndroid 的编写，我们开始考虑在目的地页面需要有的步骤</p>
+<ul>
+<li>网络请求数据(放在 IO 线程)；</li>
+<li>填充网络请求返回的数据到页面(UI 线程展示)；
+RxAndroid 是基于响应式的编程，我们考虑将以上的网络请求产生的结果作为一个事件，他产生的数据就可以定义为数据流了。</li>
+</ul>
+<h3 id="observablecreate">Observable&amp;&amp;create</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="c1">//网络请求，从头开始，自定义创建一个数据流。自主决定数据流的发射时机。
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="kd">private</span> <span class="n">Observable</span><span class="o">&lt;</span><span class="n">DestinationDataModel</span><span class="o">&gt;</span> <span class="nf">getDestinationDataObservable</span><span class="o">(</span><span class="kd">final</span> <span class="n">String</span> <span class="n">url</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">Observable</span><span class="o">.</span><span class="na">create</span><span class="o">(</span><span class="k">new</span> <span class="n">Observable</span><span class="o">.</span><span class="na">OnSubscribe</span><span class="o">&lt;</span><span class="n">DestinationDataModel</span><span class="o">&gt;()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="nd">@Override</span>
+</span></span><span class="line"><span class="cl">            <span class="kd">public</span> <span class="kt">void</span> <span class="nf">call</span><span class="o">(</span><span class="n">Subscriber</span><span class="o">&lt;?</span> <span class="kd">super</span> <span class="n">DestinationDataModel</span><span class="o">&gt;</span> <span class="n">subscriber</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">                <span class="n">Gson</span> <span class="n">gson</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Gson</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">                <span class="n">Request</span> <span class="n">request</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Request</span><span class="o">.</span><span class="na">Builder</span><span class="o">().</span><span class="na">url</span><span class="o">(</span><span class="n">url</span><span class="o">).</span><span class="na">build</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">                <span class="n">Response</span> <span class="n">response</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">                <span class="k">try</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">                    <span class="n">response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="na">newCall</span><span class="o">(</span><span class="n">request</span><span class="o">).</span><span class="na">execute</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">                    <span class="n">DestinationDataModel</span> <span class="n">destinationDataModel</span> <span class="o">=</span> <span class="n">gson</span><span class="o">.</span><span class="na">fromJson</span><span class="o">(</span><span class="n">response</span><span class="o">.</span><span class="na">body</span><span class="o">().</span><span class="na">string</span><span class="o">(),</span> <span class="n">DestinationDataModel</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">                    <span class="k">if</span> <span class="o">(</span><span class="n">subscriber</span><span class="o">.</span><span class="na">isUnsubscribed</span><span class="o">()){</span><span class="c1">//判断连接是否断开，避免无谓的操作
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>                        <span class="k">return</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">                    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">                    <span class="n">subscriber</span><span class="o">.</span><span class="na">onNext</span><span class="o">(</span><span class="n">destinationDataModel</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">                    <span class="k">if</span> <span class="o">(!</span><span class="n">subscriber</span><span class="o">.</span><span class="na">isUnsubscribed</span><span class="o">()){</span>
+</span></span><span class="line"><span class="cl">                        <span class="n">subscriber</span><span class="o">.</span><span class="na">onCompleted</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">                    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">                <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">IOException</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">                    <span class="n">e</span><span class="o">.</span><span class="na">printStackTrace</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">                <span class="o">}</span>
+</span></span><span class="line"><span class="cl">            <span class="o">}</span>
+</span></span><span class="line"><span class="cl">        <span class="o">});</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>这里我们定义了一个方法，这个方法返回一个 Observable，里面封装了数据流,其实不是很计较的情况下，我们先将 Observable 事件等价(自我的理解，未在官方文档找到合适的解释，如有找到望不吝赐教)，事件对外以数据流的形式展现，这个事件就是在发射数据，然后发射结束就通知，失败了也通知。此处我们用到了操作符 create，一种创建操作符，这种操作的扩展性极大，但是我们也需要自己负责发射数据。全程的执行规范都在你的手里。
+这里可能会有误区，数据流，不一定是多个，非要像 list，数组似的，那种有多个值，像弹珠似的连续发射。像上面的代码，我们只是发射了一个 destinationDataModel 对象，这个也是数据流，即，你发射出去的就是数据流的子集。</p>
+<p>现在，我们有数据流了，就需要在某个适当的地方进行响应。我们思考，需要响应什么？对一个事件可能存在三种情况，事件对应的数据发射失败了( onError )，发射成功了( onCompleted ),还有接收到了发射来的数据( onNext )。
+有点需要注意，这里的失败，以及成功，这两个回调，只是一个通知而已。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl">      <span class="n">Subscriber</span><span class="o">&lt;</span><span class="n">DestinationDataModel</span><span class="o">&gt;</span> <span class="n">subscriber</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Subscriber</span><span class="o">&lt;</span><span class="n">DestinationDataModel</span><span class="o">&gt;()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">      <span class="nd">@Override</span>
+</span></span><span class="line"><span class="cl">      <span class="kd">public</span> <span class="kt">void</span> <span class="nf">onStart</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="kd">super</span><span class="o">.</span><span class="na">onStart</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">      <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">      <span class="nd">@Override</span>
+</span></span><span class="line"><span class="cl">      <span class="kd">public</span> <span class="kt">void</span> <span class="nf">onCompleted</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">Toast</span><span class="o">.</span><span class="na">makeText</span><span class="o">(</span><span class="n">getActivity</span><span class="o">(),</span> <span class="s">&#34;onCompleted&#34;</span><span class="o">,</span> <span class="n">Toast</span><span class="o">.</span><span class="na">LENGTH_SHORT</span><span class="o">).</span><span class="na">show</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">        <span class="n">destinationSwipeRefreshLayout</span><span class="o">.</span><span class="na">setRefreshing</span><span class="o">(</span><span class="kc">false</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">      <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">      <span class="nd">@Override</span>
+</span></span><span class="line"><span class="cl">      <span class="kd">public</span> <span class="kt">void</span> <span class="nf">onError</span><span class="o">(</span><span class="n">Throwable</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">e</span><span class="o">.</span><span class="na">printStackTrace</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">        <span class="n">destinationSwipeRefreshLayout</span><span class="o">.</span><span class="na">setRefreshing</span><span class="o">(</span><span class="kc">false</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">      <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">      <span class="nd">@Override</span>
+</span></span><span class="line"><span class="cl">      <span class="kd">public</span> <span class="kt">void</span> <span class="nf">onNext</span><span class="o">(</span><span class="n">DestinationDataModel</span> <span class="n">destinationDataModel</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">destinationRecyclerView</span><span class="o">.</span><span class="na">setAdapter</span><span class="o">(</span><span class="k">new</span> <span class="n">DestinationRecyclerAdapter</span><span class="o">(</span><span class="n">getActivity</span><span class="o">(),</span> <span class="n">destinationDataModel</span><span class="o">.</span><span class="na">getDatas</span><span class="o">()));</span>
+</span></span><span class="line"><span class="cl">      <span class="o">}</span>
+</span></span><span class="line"><span class="cl">    <span class="o">};</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>我们定义了一个 Subscriber 对象，在上篇中讲到了什么是 Subscriber。这个是对数据流发射的相应，差不多对应了观察者模式中的观察者。当得到失败和成功的通知的时候，我们这里进行 log 的输出并且显示刷新的图标。当接收到数据的时候，我们就创建 recyclerview 的 adapter，进行列表的填充显示。</p>
+<h3 id="subscribe">subscribe</h3>
+<p>一旦我们订阅，就会执行数据的发射，默认的情况下，没有订阅操作，数据是不会被发射的。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl">    <span class="n">getDestinationDataObservable</span><span class="o">(</span><span class="n">url</span><span class="o">).</span><span class="na">subscribe</span><span class="o">(</span><span class="n">subscriber</span><span class="o">);</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>以上的操作就会完成订阅，正常的数据产生，发射，相应都会发生。但是，真当我们允许的时候，就会报错，原因是我们都知道，对 UI 的操作都必须在 UI 主线程中。</p>
+<h3 id="subscribeon--observeon">subscribeOn &amp;&amp; observeOn</h3>
+<p>指定数据产生发射的线程和订阅响应的线程。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">getDestinationDataObservable</span><span class="o">(</span><span class="n">url</span><span class="o">).</span><span class="na">subscribeOn</span><span class="o">(</span><span class="n">Schedulers</span><span class="o">.</span><span class="na">io</span><span class="o">()).</span><span class="na">observeOn</span><span class="o">(</span><span class="n">AndroidSchedulers</span><span class="o">.</span><span class="na">mainThread</span><span class="o">()).</span><span class="na">subscribe</span><span class="o">(</span><span class="n">subscriber</span><span class="o">);</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>subscribeOn 表示 Observable 执行所在的线程，这里指的是网络请求，请求的数据进行 gson 解析，再将数据发射的线程。
+observeOn 表示的订阅响应的线程，这里指的是填充发射过来的数据到列表中。
+运行就能看到我们想要的效果。到此我们学会了最基本的一些使用，基本上掌握了这几个就可以轻松地展开工作了。当然还有很多其他的技巧。</p>
+<h3 id="from--just">From &amp;&amp; Just</h3>
+<p>我们刚刚有说过，数据流不一定是连续的，那么肯定存在连续的，连续不断的弹射，更符合官方文档那种弹珠示意图。from 就是一个这样的操作符。
+这个目前未想到在当前这个模块的应用场景。</p>
+<h3 id="repeat">repeat</h3>
+<p>这个是重复，我们让当前的列表中的数据重复发送两次。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">getDestinationDataObservableByCreate</span><span class="o">(</span><span class="n">url</span><span class="o">).</span><span class="na">repeat</span><span class="o">(</span><span class="mi">2</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">            <span class="o">.</span><span class="na">subscribeOn</span><span class="o">(</span><span class="n">Schedulers</span><span class="o">.</span><span class="na">io</span><span class="o">()).</span><span class="na">observeOn</span><span class="o">(</span><span class="n">AndroidSchedulers</span><span class="o">.</span><span class="na">mainThread</span><span class="o">())</span>
+</span></span><span class="line"><span class="cl">            <span class="o">.</span><span class="na">subscribe</span><span class="o">(</span><span class="n">subscriber</span><span class="o">);</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>修改下subscriber</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@Override</span>
+</span></span><span class="line"><span class="cl">            <span class="kd">public</span> <span class="kt">void</span> <span class="nf">onNext</span><span class="o">(</span><span class="n">DestinationDataModel</span> <span class="n">destinationDataModel</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">                <span class="k">if</span> <span class="o">(</span><span class="n">destinationRecyclerView</span><span class="o">.</span><span class="na">getAdapter</span><span class="o">()</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">                    <span class="n">DestinationRecyclerAdapter</span> <span class="n">adapter</span> <span class="o">=</span> <span class="k">new</span> <span class="n">DestinationRecyclerAdapter</span><span class="o">(</span><span class="n">getActivity</span><span class="o">(),</span> <span class="n">destinationDataModel</span><span class="o">.</span><span class="na">getDatas</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl">                    <span class="n">destinationRecyclerView</span><span class="o">.</span><span class="na">setAdapter</span><span class="o">(</span><span class="n">adapter</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">                <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">                    <span class="n">DestinationRecyclerAdapter</span> <span class="n">adapter</span> <span class="o">=</span> <span class="o">(</span><span class="n">DestinationRecyclerAdapter</span><span class="o">)</span> <span class="n">destinationRecyclerView</span><span class="o">.</span><span class="na">getAdapter</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">                    <span class="n">adapter</span><span class="o">.</span><span class="na">datas</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="mi">0</span><span class="o">).</span><span class="na">getInfos</span><span class="o">().</span><span class="na">addAll</span><span class="o">(</span><span class="n">destinationDataModel</span><span class="o">.</span><span class="na">getDatas</span><span class="o">().</span><span class="na">get</span><span class="o">(</span><span class="mi">0</span><span class="o">).</span><span class="na">getInfos</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl">                <span class="o">}</span>
+</span></span><span class="line"><span class="cl">            <span class="o">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>上面的结果是，请求两次网络。我们会看到数据重复了，同样的数据被发送了两次，并且是从头到尾的重复了两次。</p>
+<h3 id="defer">defer</h3>
+<p>延迟操作，等到订阅的时候再准备数据流。这里尤其对 just 和 from 操作符的效果最为明显,以下是国外的一个 just 的例子说明，from 的原理一样。
+<a href="http://blog.danlew.net/2015/07/23/deferring-observable-code-until-subscription-in-rxjava/" target="_blank" rel="noopener noreffer">借用一个国外的例子</a>
+
+<a href="http://www.jianshu.com/p/c83996149f5b" target="_blank" rel="noopener noreffer">国内的翻译</a>
+</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">SomeType</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl"><span class="kd">private</span> <span class="n">String</span> <span class="n">value</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kt">void</span> <span class="nf">setValue</span><span class="o">(</span><span class="n">String</span> <span class="n">value</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="k">this</span><span class="o">.</span><span class="na">value</span> <span class="o">=</span> <span class="n">value</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="n">Observable</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span> <span class="nf">valueObservable</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="k">return</span> <span class="n">Observable</span><span class="o">.</span><span class="na">just</span><span class="o">(</span><span class="n">value</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>对于以下代码的调用会出现怎么样的结果呢？</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">SomeType</span> <span class="n">instance</span> <span class="o">=</span> <span class="k">new</span> <span class="n">SomeType</span><span class="o">();</span>  
+</span></span><span class="line"><span class="cl"><span class="n">Observable</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span> <span class="n">value</span> <span class="o">=</span> <span class="n">instance</span><span class="o">.</span><span class="na">valueObservable</span><span class="o">();</span>  
+</span></span><span class="line"><span class="cl"><span class="n">instance</span><span class="o">.</span><span class="na">setValue</span><span class="o">(</span><span class="s">&#34;Some Value&#34;</span><span class="o">);</span>  
+</span></span><span class="line"><span class="cl"><span class="n">value</span><span class="o">.</span><span class="na">subscribe</span><span class="o">(</span><span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">::</span><span class="n">println</span><span class="o">);</span> <span class="c1">//订阅的时候发射数据
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>如果你认为会打印出 “Some Value”，那就错了。而实际打印结果是 “null”。因为在调用 Observable.just() 的时候，value 已经初始化了。
+just()，from() 这类能够创建 Observable 的操作符（译者注：创建 Observable 的操作符）在创建之初，就已经存储了对象的值，而不被订阅的时候。订阅的时候只是发射数据。
+这种情况，显然不是预期表现，我想要的 valueObservable() 是无论什么时候请求，都能够表现为当前值。所以我们需要延迟数据的创建直到有人订阅。有两个方法，一个是用 create 自主创建，我们可以自己精确的控制发射什么，什么时候发射，还有一个是用的 defer 延迟操作符。defer() 中的代码直到被订阅才会执行。我们只需要在请求数据的时候调用 Observable.just() 就行了，使用 defer() 操作符的唯一缺点就是，每次订阅都会创建一个新的 Observable 对象。create() 操作符则为每一个订阅者都使用同一个函数，所以，后者效率更高。</p>
+<p>因为我学习的时候，难以想清楚延迟和 create 操作符中的 call 的时间顺序和区别，我们用另外一个例子解释一下。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">private</span> <span class="n">Observable</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;</span> <span class="nf">getInt</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="n">SimpleDateFormat</span> <span class="n">sdf</span> <span class="o">=</span> <span class="k">new</span> <span class="n">SimpleDateFormat</span><span class="o">(</span><span class="s">&#34;yyyyMMdd_HHmmss&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">        <span class="n">String</span> <span class="n">currentDateandTime</span> <span class="o">=</span> <span class="n">sdf</span><span class="o">.</span><span class="na">format</span><span class="o">(</span><span class="k">new</span> <span class="n">Date</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl">        <span class="n">Log</span><span class="o">.</span><span class="na">e</span><span class="o">(</span><span class="s">&#34;GetInt&#34;</span><span class="o">,</span> <span class="n">currentDateandTime</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">Observable</span><span class="o">.</span><span class="na">create</span><span class="o">(</span><span class="k">new</span> <span class="n">Observable</span><span class="o">.</span><span class="na">OnSubscribe</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="nd">@Override</span>
+</span></span><span class="line"><span class="cl">            <span class="kd">public</span> <span class="kt">void</span> <span class="nf">call</span><span class="o">(</span><span class="n">Subscriber</span><span class="o">&lt;?</span> <span class="kd">super</span> <span class="n">Integer</span><span class="o">&gt;</span> <span class="n">subscriber</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">                <span class="k">if</span> <span class="o">(</span><span class="n">subscriber</span><span class="o">.</span><span class="na">isUnsubscribed</span><span class="o">())</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">                    <span class="k">return</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">                <span class="o">}</span>
+</span></span><span class="line"><span class="cl">                <span class="n">subscriber</span><span class="o">.</span><span class="na">onNext</span><span class="o">(</span><span class="mi">42</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">                <span class="n">subscriber</span><span class="o">.</span><span class="na">onCompleted</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">            <span class="o">}</span>
+</span></span><span class="line"><span class="cl">        <span class="o">});</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1">//simple defer
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="kd">private</span> <span class="kt">void</span> <span class="nf">simpleDefer</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">//defer中的getInt操作等到有人订阅deferObservable的时候才会被执行
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="c1">//假如这里不用defer，直接用getInt返回，那么调用simpleDefer的时候就会打印时间
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="n">deferObservable</span> <span class="o">=</span> <span class="n">Observable</span><span class="o">.</span><span class="na">defer</span><span class="o">(</span><span class="k">new</span> <span class="n">Func0</span><span class="o">&lt;</span><span class="n">Observable</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;&gt;()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="nd">@Override</span>
+</span></span><span class="line"><span class="cl">            <span class="kd">public</span> <span class="n">Observable</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;</span> <span class="nf">call</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">                <span class="k">return</span> <span class="n">getInt</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">            <span class="o">}</span>
+</span></span><span class="line"><span class="cl">        <span class="o">});</span>
+</span></span><span class="line"><span class="cl"><span class="c1">//        deferObservable.subscribe(new Action1&lt;Integer&gt;() {
+</span></span></span><span class="line"><span class="cl"><span class="c1">//            @Override
+</span></span></span><span class="line"><span class="cl"><span class="c1">//            public void call(Integer integer) {
+</span></span></span><span class="line"><span class="cl"><span class="c1">//                System.out.println(&#34;subscribe:&#34; + integer);
+</span></span></span><span class="line"><span class="cl"><span class="c1">//            }
+</span></span></span><span class="line"><span class="cl"><span class="c1">//        });
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="o">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>在不用延迟的情况下，我们调用 simpleDefer 返回一个数据流的时候就会打印时间，反之我们不用延迟的话，则会在调用 simpleDefer 的时候就已经打印了当前的时间。
+所以，这里被延迟的是我们 getInt 被调用的时机。注意：create 中的发射 42 和延迟 <em>无关</em>，这个 call 函数就是在 <em>发射</em> 数据，<em>订阅的时候才会发射数据</em> ，一旦订阅发生的额时候，就会发射42。</p>
+<p>总之记住，defer 延迟的是参数 function 中的操作。只要将需要延迟创建的操作放到 function 函数中即可。这个对于数据的新鲜度有要求的操作很有用。</p>
+<h3 id="filter">filter</h3>
+<p>我们接受到的数据常常用些是不满足我们的需求的，这时候就可以用 filter 操作符。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">getDestinationDataObservableByCreate</span><span class="o">(</span><span class="n">url</span><span class="o">).</span><span class="na">filter</span><span class="o">(</span><span class="k">new</span> <span class="n">Func1</span><span class="o">&lt;</span><span class="n">DestinationDataModel</span><span class="o">,</span> <span class="n">Boolean</span><span class="o">&gt;()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">           <span class="nd">@Override</span>
+</span></span><span class="line"><span class="cl">           <span class="kd">public</span> <span class="n">Boolean</span> <span class="nf">call</span><span class="o">(</span><span class="n">DestinationDataModel</span> <span class="n">destinationDataModel</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">               <span class="k">return</span> <span class="n">destinationDataModel</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">           <span class="o">}</span>
+</span></span><span class="line"><span class="cl">       <span class="o">})</span>
+</span></span><span class="line"><span class="cl">           <span class="o">.</span><span class="na">subscribeOn</span><span class="o">(</span><span class="n">Schedulers</span><span class="o">.</span><span class="na">io</span><span class="o">()).</span><span class="na">observeOn</span><span class="o">(</span><span class="n">AndroidSchedulers</span><span class="o">.</span><span class="na">mainThread</span><span class="o">())</span>
+</span></span><span class="line"><span class="cl">           <span class="o">.</span><span class="na">subscribe</span><span class="o">(</span><span class="n">subscriber</span><span class="o">);</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>比如我们可以对发射的数据中 null 数据进行过滤，虽然我们也可以在 onNext 或者在 subscriber 中进行过滤，那样就会破坏代码的业务逻辑，这样，每个函数只要注重自身的业务逻辑即可。</p>
+<h3 id="map">Map</h3>
+<p>我们有时候随着需求的变更，版本的迭代，可能用同一套数据可能会做不用的用处，亦或者同一个功能的同一个数据源，但是上层的应用对数据结构的需求发生了变化。这时候，如果我们去变更数据提供层，或者让上层去适配，都会破坏代码逻辑。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">getDestinationDataObservableByCreate</span><span class="o">(</span><span class="n">url</span><span class="o">).</span><span class="na">map</span><span class="o">(</span><span class="k">new</span> <span class="n">Func1</span><span class="o">&lt;</span><span class="n">DestinationDataModel</span><span class="o">,</span> <span class="n">String</span><span class="o">&gt;()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nd">@Override</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="n">String</span> <span class="nf">call</span><span class="o">(</span><span class="n">DestinationDataModel</span> <span class="n">destinationDataModel</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">destinationDataModel</span><span class="o">.</span><span class="na">getVersion</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}).</span><span class="na">subscribeOn</span><span class="o">(</span><span class="n">Schedulers</span><span class="o">.</span><span class="na">io</span><span class="o">()).</span><span class="na">observeOn</span><span class="o">(</span><span class="n">AndroidSchedulers</span><span class="o">.</span><span class="na">mainThread</span><span class="o">())</span>
+</span></span><span class="line"><span class="cl">    <span class="o">.</span><span class="na">subscribe</span><span class="o">(</span><span class="k">new</span> <span class="n">Action1</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="nd">@Override</span>
+</span></span><span class="line"><span class="cl">        <span class="kd">public</span> <span class="kt">void</span> <span class="nf">call</span><span class="o">(</span><span class="n">String</span> <span class="n">s</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">s</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">        <span class="o">}</span>
+</span></span><span class="line"><span class="cl">    <span class="o">});</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>看上面，我们并没有修改 getDestinationDataObservableByCreate 的业务逻辑，这样就不会影响其他的代码逻辑，也不会去贸然修改底层数据提供，用 map 操作符，我们就将 getDestinationDataObservableByCreate 发射的 DestinationDataModel 类型的数据，一个个变换成了 String 类型。
+map适用于这些数据结构的变化的操作。</p>
+<h3 id="flatmap--concatmap">FlatMap &amp;&amp; ConcatMap</h3>
+<p>对于一些 Observable 本身也会返回 Observable，我们可以将这些子 Observable 发射的数据进行统一，合并这些 Observables 发射的数据，最后将合并后的结果作为最终的 Observable。
+这就是为什么叫做铺平的原因。
+提示：合并部分是允许交叉的。意味着 flatMap() 不能够保证在最终生成的 Observable 中源 Observables 确切的发射顺序。ConcatMap 可以保证顺序，用法和 flatMap 一样。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">private</span> <span class="n">Observable</span><span class="o">&lt;</span><span class="n">Observable</span><span class="o">&lt;</span><span class="n">DestinationDataModel</span><span class="o">&gt;&gt;</span> <span class="nf">getDestinationDataObservableByFlatMap</span><span class="o">(</span><span class="kd">final</span> <span class="n">String</span> <span class="n">url</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">Observable</span><span class="o">.</span><span class="na">create</span><span class="o">(</span><span class="k">new</span> <span class="n">Observable</span><span class="o">.</span><span class="na">OnSubscribe</span><span class="o">&lt;</span><span class="n">Observable</span><span class="o">&lt;</span><span class="n">DestinationDataModel</span><span class="o">&gt;&gt;()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="nd">@Override</span>
+</span></span><span class="line"><span class="cl">            <span class="kd">public</span> <span class="kt">void</span> <span class="nf">call</span><span class="o">(</span><span class="n">Subscriber</span><span class="o">&lt;?</span> <span class="kd">super</span> <span class="n">Observable</span><span class="o">&lt;</span><span class="n">DestinationDataModel</span><span class="o">&gt;&gt;</span> <span class="n">subscriber</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">                <span class="n">Gson</span> <span class="n">gson</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Gson</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">                <span class="n">Request</span> <span class="n">request</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Request</span><span class="o">.</span><span class="na">Builder</span><span class="o">().</span><span class="na">url</span><span class="o">(</span><span class="n">url</span><span class="o">).</span><span class="na">build</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">                <span class="n">Response</span> <span class="n">response</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">                <span class="k">try</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">                    <span class="n">response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="na">newCall</span><span class="o">(</span><span class="n">request</span><span class="o">).</span><span class="na">execute</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">                    <span class="n">DestinationDataModel</span> <span class="n">destinationDataModel</span> <span class="o">=</span> <span class="n">gson</span><span class="o">.</span><span class="na">fromJson</span><span class="o">(</span><span class="n">response</span><span class="o">.</span><span class="na">body</span><span class="o">().</span><span class="na">string</span><span class="o">(),</span> <span class="n">DestinationDataModel</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">                    <span class="k">if</span> <span class="o">(</span><span class="n">subscriber</span><span class="o">.</span><span class="na">isUnsubscribed</span><span class="o">())</span> <span class="o">{</span><span class="c1">//判断连接是否断开，避免无谓的操作
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>                        <span class="k">return</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">                    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">                    <span class="n">subscriber</span><span class="o">.</span><span class="na">onNext</span><span class="o">(</span><span class="n">Observable</span><span class="o">.</span><span class="na">just</span><span class="o">(</span><span class="n">destinationDataModel</span><span class="o">));</span>
+</span></span><span class="line"><span class="cl">                    <span class="n">subscriber</span><span class="o">.</span><span class="na">onNext</span><span class="o">(</span><span class="n">Observable</span><span class="o">.</span><span class="na">just</span><span class="o">(</span><span class="n">destinationDataModel</span><span class="o">));</span>
+</span></span><span class="line"><span class="cl">                    <span class="n">subscriber</span><span class="o">.</span><span class="na">onCompleted</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">                    <span class="k">if</span> <span class="o">(!</span><span class="n">subscriber</span><span class="o">.</span><span class="na">isUnsubscribed</span><span class="o">())</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">                        <span class="n">subscriber</span><span class="o">.</span><span class="na">onCompleted</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">                    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">                <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">IOException</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">                    <span class="n">e</span><span class="o">.</span><span class="na">printStackTrace</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">                <span class="o">}</span>
+</span></span><span class="line"><span class="cl">            <span class="o">}</span>
+</span></span><span class="line"><span class="cl">        <span class="o">});</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">getDestinationDataObservableByFlatMap</span><span class="o">(</span><span class="n">url</span><span class="o">).</span><span class="na">flatMap</span><span class="o">(</span><span class="k">new</span> <span class="n">Func1</span><span class="o">&lt;</span><span class="n">Observable</span><span class="o">&lt;</span><span class="n">DestinationDataModel</span><span class="o">&gt;,</span> <span class="n">Observable</span><span class="o">&lt;</span><span class="n">DestinationDataModel</span><span class="o">&gt;&gt;()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="nd">@Override</span>
+</span></span><span class="line"><span class="cl">            <span class="kd">public</span> <span class="n">Observable</span><span class="o">&lt;</span><span class="n">DestinationDataModel</span><span class="o">&gt;</span> <span class="nf">call</span><span class="o">(</span><span class="n">Observable</span><span class="o">&lt;</span><span class="n">DestinationDataModel</span><span class="o">&gt;</span> <span class="n">destinationDataModelObservable</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">                <span class="k">return</span> <span class="n">destinationDataModelObservable</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">            <span class="o">}</span>
+</span></span><span class="line"><span class="cl">        <span class="o">})</span>
+</span></span><span class="line"><span class="cl">        <span class="o">.</span><span class="na">subscribeOn</span><span class="o">(</span><span class="n">Schedulers</span><span class="o">.</span><span class="na">io</span><span class="o">()).</span><span class="na">observeOn</span><span class="o">(</span><span class="n">AndroidSchedulers</span><span class="o">.</span><span class="na">mainThread</span><span class="o">())</span><span class="n">subscribe</span><span class="o">(</span><span class="n">subscriber</span><span class="o">);</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>上面我们用 subscriber.onNext(Observable.just(destinationDataModel));模拟发送两个 Observable,然后通过 flatMap 进行扁平化处理。我们看到效果是列表中有两组相同的数据。
+flatMap() 和 map() 有一个相同点：它也是把传入的参数转化之后返回另一个对象。 但需要注意，和 map() 不同的是， flatMap() 中返回的是个 Observable 对象，并且这个 Observable 对象并不是被直接发送到了 Subscriber 的回调方法中。
+flatMap() 的原理是这样的：</p>
+<ol>
+<li>使用传入的事件对象创建一个 Observable 对象；</li>
+<li>并不发送这个 Observable, 而是将它激活，于是它开始发送事件；</li>
+<li>每一个创建出来的 Observable 发送的事件，都被汇入同一个 Observable ，而这个 Observable 负责将这些事件统一交给 Subscriber 的回调方法。
+这三个步骤，把事件拆成了两级，通过一组新创建的 Observable 将初始的对象『铺平』之后通过统一路径分发了下去。 而这个『铺平』就是 flatMap() 所谓的 flat。</li>
+</ol>
+<h3 id="switchmap">SwitchMap</h3>
+<p>和上面的操作符类似 ，都是 Observable 发射 Observable,不同的是，这个操作不会合并数据项中的所有数据，而是当遇到后一个 Observable 发射数据的时候，就停止对前一个 Observable 的接收。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">getDestinationDataObservableByFlatMap</span><span class="o">(</span><span class="n">url</span><span class="o">).</span><span class="na">switchMap</span><span class="o">(</span><span class="k">new</span> <span class="n">Func1</span><span class="o">&lt;</span><span class="n">Observable</span><span class="o">&lt;</span><span class="n">DestinationDataModel</span><span class="o">&gt;,</span> <span class="n">Observable</span><span class="o">&lt;</span><span class="n">DestinationDataModel</span><span class="o">&gt;&gt;()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nd">@Override</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="n">Observable</span><span class="o">&lt;</span><span class="n">DestinationDataModel</span><span class="o">&gt;</span> <span class="nf">call</span><span class="o">(</span><span class="n">Observable</span><span class="o">&lt;</span><span class="n">DestinationDataModel</span><span class="o">&gt;</span> <span class="n">destinationDataModelObservable</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">destinationDataModelObservable</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}).</span><span class="na">subscribeOn</span><span class="o">(</span><span class="n">Schedulers</span><span class="o">.</span><span class="na">io</span><span class="o">()).</span><span class="na">observeOn</span><span class="o">(</span><span class="n">AndroidSchedulers</span><span class="o">.</span><span class="na">mainThread</span><span class="o">())</span>
+</span></span><span class="line"><span class="cl">    <span class="o">.</span><span class="na">subscribe</span><span class="o">(</span><span class="n">subscriber</span><span class="o">);</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>只要换个操作符即可 switchMap，这里因为发射的数据只有一个，效果不明显，如果是列表，交叉发射的话，会很明显，效果回事丢失一部分数据。</p>
+<h3 id="groupby">GroupBy</h3>
+<p>我们对数据按照某个依据进行分组。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">Observable</span><span class="o">&lt;</span><span class="n">GroupedObservable</span><span class="o">&lt;</span><span class="n">String</span><span class="o">,</span> <span class="n">DestinationDataModel</span><span class="o">&gt;&gt;</span> <span class="n">groupedObservableObservable</span> <span class="o">=</span> <span class="n">getDestinationDataObservableByCreate</span><span class="o">(</span><span class="n">url</span><span class="o">).</span><span class="na">groupBy</span><span class="o">(</span><span class="k">new</span> <span class="n">Func1</span><span class="o">&lt;</span><span class="n">DestinationDataModel</span><span class="o">,</span> <span class="n">String</span><span class="o">&gt;()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="nd">@Override</span>
+</span></span><span class="line"><span class="cl">            <span class="kd">public</span> <span class="n">String</span> <span class="nf">call</span><span class="o">(</span><span class="n">DestinationDataModel</span> <span class="n">destinationDataModel</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">                <span class="k">return</span> <span class="n">destinationDataModel</span><span class="o">.</span><span class="na">getVersion</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">            <span class="o">}</span>
+</span></span><span class="line"><span class="cl">        <span class="o">});</span>
+</span></span><span class="line"><span class="cl">        <span class="n">Observable</span><span class="o">.</span><span class="na">concat</span><span class="o">(</span><span class="n">groupedObservableObservable</span><span class="o">).</span><span class="na">subscribeOn</span><span class="o">(</span><span class="n">Schedulers</span><span class="o">.</span><span class="na">io</span><span class="o">()).</span><span class="na">observeOn</span><span class="o">(</span><span class="n">AndroidSchedulers</span><span class="o">.</span><span class="na">mainThread</span><span class="o">()).</span><span class="na">subscribe</span><span class="o">(</span><span class="n">subscriber</span><span class="o">);</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>以上依旧版本号对数据进行分组，一组的将在一起当做一个 Observable 发射。</p>
+<h3 id="merge">merge</h3>
+<p>对数据进行整合一起发射。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">Observable</span><span class="o">&lt;</span><span class="n">DestinationDataModel</span><span class="o">&gt;</span> <span class="n">merge1</span> <span class="o">=</span> <span class="n">getDestinationDataObservableByCreate</span><span class="o">(</span><span class="n">url</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">Observable</span><span class="o">&lt;</span><span class="n">DestinationDataModel</span><span class="o">&gt;</span> <span class="n">merge2</span> <span class="o">=</span> <span class="n">getDestinationDataObservableByCreate</span><span class="o">(</span><span class="n">url</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">Observable</span><span class="o">&lt;</span><span class="n">DestinationDataModel</span><span class="o">&gt;</span> <span class="n">merge</span> <span class="o">=</span> <span class="n">Observable</span><span class="o">.</span><span class="na">merge</span><span class="o">(</span><span class="n">merge1</span><span class="o">,</span> <span class="n">merge2</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">merge</span><span class="o">.</span><span class="na">subscribeOn</span><span class="o">(</span><span class="n">Schedulers</span><span class="o">.</span><span class="na">io</span><span class="o">()).</span><span class="na">observeOn</span><span class="o">(</span><span class="n">AndroidSchedulers</span><span class="o">.</span><span class="na">mainThread</span><span class="o">()).</span><span class="na">subscribe</span><span class="o">(</span><span class="n">subscriber</span><span class="o">);</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>merge 作为一个可观测序列，发射源 merge1，merge2 中的所有数据。注意发射的数据被交叉合并到一个 Observable 里面。如果同步的合并 Observable，它们将连接在一起并且不会交叉。</p>
+<h3 id="zip--join--combinelatest">zip $$ join &amp;&amp; combineLatest</h3>
+<p>上面的数据，是原样的放在一个可观测序列中进行发射的，然而如果我们想对源数据中两两的进行操作后再放到一个数据列中呢？</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">Observable</span><span class="o">&lt;</span><span class="n">DestinationDataModel</span><span class="o">&gt;</span> <span class="n">zip1</span> <span class="o">=</span> <span class="n">getDestinationDataObservableByCreate</span><span class="o">(</span><span class="n">url</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">       <span class="n">Observable</span><span class="o">&lt;</span><span class="n">DestinationDataModel</span><span class="o">&gt;</span> <span class="n">zip2</span> <span class="o">=</span> <span class="n">getDestinationDataObservableByCreate</span><span class="o">(</span><span class="n">url</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">       <span class="n">Observable</span><span class="o">&lt;</span><span class="n">DestinationDataModel</span><span class="o">&gt;</span> <span class="n">zip</span> <span class="o">=</span> <span class="n">Observable</span><span class="o">.</span><span class="na">zip</span><span class="o">(</span><span class="n">zip1</span><span class="o">,</span> <span class="n">zip2</span><span class="o">,</span> <span class="k">new</span> <span class="n">Func2</span><span class="o">&lt;</span><span class="n">DestinationDataModel</span><span class="o">,</span> <span class="n">DestinationDataModel</span><span class="o">,</span> <span class="n">DestinationDataModel</span><span class="o">&gt;()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">           <span class="nd">@Override</span>
+</span></span><span class="line"><span class="cl">           <span class="kd">public</span> <span class="n">DestinationDataModel</span> <span class="nf">call</span><span class="o">(</span><span class="n">DestinationDataModel</span> <span class="n">destinationDataModel</span><span class="o">,</span> <span class="n">DestinationDataModel</span> <span class="n">destinationDataModel2</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">               <span class="c1">//进行数据的合并操作
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>               <span class="n">destinationDataModel</span><span class="o">.</span><span class="na">setCode</span><span class="o">(</span><span class="n">destinationDataModel</span><span class="o">.</span><span class="na">getCode</span><span class="o">()</span> <span class="o">+</span> <span class="n">destinationDataModel2</span><span class="o">.</span><span class="na">getCode</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl">               <span class="k">return</span> <span class="n">destinationDataModel</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">           <span class="o">}</span>
+</span></span><span class="line"><span class="cl">       <span class="o">});</span>
+</span></span><span class="line"><span class="cl">       <span class="n">zip</span><span class="o">.</span><span class="na">subscribeOn</span><span class="o">(</span><span class="n">Schedulers</span><span class="o">.</span><span class="na">io</span><span class="o">()).</span><span class="na">observeOn</span><span class="o">(</span><span class="n">AndroidSchedulers</span><span class="o">.</span><span class="na">mainThread</span><span class="o">()).</span><span class="na">subscribe</span><span class="o">(</span><span class="n">subscriber</span><span class="o">);</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>上面在 Func2 中对两个数据源中的数据进行两两操作，我们只是简单的将 model 的 code 值相加来模拟合并操作，作为新的数据返回，假如两数据源的长度相同，则只会返回一个数据源长度的数据，假如长度不一样，以短的数据长度为准。</p>
+<p>zip 作用于最近未打包的两个 Observables,还有一个需求就是我们不一定要非都是未打包的，并不一定要两个数据源要一定的长度相等，这个时候可以用 combineLatest，相反，combineLatest() 作用于最近发射的数据项：如果 Observable1 发射了 A 并且 Observable2 发射了 B 和 C，combineLatest() 将会分组处理 AB 和 AC。</p>
+<p>join 操作符把类似于 combineLatest 操作符，也是两个 Observable 产生的结果进行合并，合并的结果组成一个新的 Observable，但是 join 操作符可以控制每个 Observable 产生结果的生命周期，在每个结果的生命周期内，可以与另一个 Observable 产生的结果按照一定的规则进行合并。</p>
+<h2 id="rxandroid-rxbinding">RxAndroid rxbinding</h2>
+<p>Jake 为 Android 控件写的包，这个的使用就太多了。这个我们以一个登陆界面为例。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-xml" data-lang="xml"><span class="line"><span class="cl"><span class="cp">&lt;?xml version=&#34;1.0&#34; encoding=&#34;utf-8&#34;?&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;LinearLayout</span> <span class="na">xmlns:android=</span><span class="s">&#34;http://schemas.android.com/apk/res/android&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="na">android:id=</span><span class="s">&#34;@+id/linearLayoutRoot&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="na">android:layout_width=</span><span class="s">&#34;match_parent&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="na">android:layout_height=</span><span class="s">&#34;match_parent&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="na">android:orientation=</span><span class="s">&#34;vertical&#34;</span><span class="nt">&gt;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;TextView</span>
+</span></span><span class="line"><span class="cl">        <span class="na">android:id=</span><span class="s">&#34;@+id/textViewRxAndroid&#34;</span>
+</span></span><span class="line"><span class="cl">        <span class="na">android:layout_width=</span><span class="s">&#34;match_parent&#34;</span>
+</span></span><span class="line"><span class="cl">        <span class="na">android:layout_height=</span><span class="s">&#34;wrap_content&#34;</span>
+</span></span><span class="line"><span class="cl">        <span class="na">android:text=</span><span class="s">&#34;Result&#34;</span> <span class="nt">/&gt;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;EditText</span>
+</span></span><span class="line"><span class="cl">        <span class="na">android:id=</span><span class="s">&#34;@+id/editTextRXAndroid&#34;</span>
+</span></span><span class="line"><span class="cl">        <span class="na">android:layout_width=</span><span class="s">&#34;match_parent&#34;</span>
+</span></span><span class="line"><span class="cl">        <span class="na">android:layout_height=</span><span class="s">&#34;wrap_content&#34;</span>
+</span></span><span class="line"><span class="cl">        <span class="na">android:hint=</span><span class="s">&#34;输入自己的内容，上面的textview会在400毫秒之后显示出来&#34;</span>
+</span></span><span class="line"><span class="cl">        <span class="na">android:textColor=</span><span class="s">&#34;@color/blue_light&#34;</span> <span class="nt">/&gt;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;EditText</span>
+</span></span><span class="line"><span class="cl">        <span class="na">android:id=</span><span class="s">&#34;@+id/email&#34;</span>
+</span></span><span class="line"><span class="cl">        <span class="na">android:layout_width=</span><span class="s">&#34;match_parent&#34;</span>
+</span></span><span class="line"><span class="cl">        <span class="na">android:layout_height=</span><span class="s">&#34;wrap_content&#34;</span>
+</span></span><span class="line"><span class="cl">        <span class="na">android:hint=</span><span class="s">&#34;Email&#34;</span>
+</span></span><span class="line"><span class="cl">        <span class="na">android:textColor=</span><span class="s">&#34;@color/blue_light&#34;</span> <span class="nt">/&gt;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;EditText</span>
+</span></span><span class="line"><span class="cl">        <span class="na">android:id=</span><span class="s">&#34;@+id/phone&#34;</span>
+</span></span><span class="line"><span class="cl">        <span class="na">android:layout_width=</span><span class="s">&#34;match_parent&#34;</span>
+</span></span><span class="line"><span class="cl">        <span class="na">android:layout_height=</span><span class="s">&#34;wrap_content&#34;</span>
+</span></span><span class="line"><span class="cl">        <span class="na">android:hint=</span><span class="s">&#34;Phone&#34;</span>
+</span></span><span class="line"><span class="cl">        <span class="na">android:textColor=</span><span class="s">&#34;@color/blue_light&#34;</span> <span class="nt">/&gt;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;EditText</span>
+</span></span><span class="line"><span class="cl">        <span class="na">android:id=</span><span class="s">&#34;@+id/username&#34;</span>
+</span></span><span class="line"><span class="cl">        <span class="na">android:layout_width=</span><span class="s">&#34;match_parent&#34;</span>
+</span></span><span class="line"><span class="cl">        <span class="na">android:layout_height=</span><span class="s">&#34;wrap_content&#34;</span>
+</span></span><span class="line"><span class="cl">        <span class="na">android:hint=</span><span class="s">&#34;UserName&#34;</span>
+</span></span><span class="line"><span class="cl">        <span class="na">android:textColor=</span><span class="s">&#34;@color/blue_light&#34;</span> <span class="nt">/&gt;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;Button</span>
+</span></span><span class="line"><span class="cl">        <span class="na">android:id=</span><span class="s">&#34;@+id/LoginButton&#34;</span>
+</span></span><span class="line"><span class="cl">        <span class="na">android:layout_width=</span><span class="s">&#34;wrap_content&#34;</span>
+</span></span><span class="line"><span class="cl">        <span class="na">android:layout_height=</span><span class="s">&#34;wrap_content&#34;</span>
+</span></span><span class="line"><span class="cl">        <span class="na">android:enabled=</span><span class="s">&#34;false&#34;</span>
+</span></span><span class="line"><span class="cl">        <span class="na">android:text=</span><span class="s">&#34;注册&#34;</span> <span class="nt">/&gt;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;/LinearLayout&gt;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>我们用第一个 TextView 来演示怎么样定时操作 TextView 的响应。场景常见于搜索，智能提示，我们不能用户输入什么就不停地网络请求。比如用户停止输入的内容有变，500秒之后再进行。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="c1">//两个事件源的时间间隔小于规定的时间单位的，都会被忽略。
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kd">private</span> <span class="kt">void</span> <span class="nf">simpleDebounce</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">RxTextView</span><span class="o">.</span><span class="na">textChangeEvents</span><span class="o">(</span><span class="n">editTextRXAndroid</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">            <span class="o">.</span><span class="na">debounce</span><span class="o">(</span><span class="mi">400</span><span class="o">,</span> <span class="n">TimeUnit</span><span class="o">.</span><span class="na">MILLISECONDS</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">            <span class="o">.</span><span class="na">observeOn</span><span class="o">(</span><span class="n">AndroidSchedulers</span><span class="o">.</span><span class="na">mainThread</span><span class="o">())</span>
+</span></span><span class="line"><span class="cl">            <span class="o">.</span><span class="na">subscribe</span><span class="o">(</span><span class="k">new</span> <span class="n">Observer</span><span class="o">&lt;</span><span class="n">TextViewTextChangeEvent</span><span class="o">&gt;()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">                <span class="nd">@Override</span>
+</span></span><span class="line"><span class="cl">                <span class="kd">public</span> <span class="kt">void</span> <span class="nf">onCompleted</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">                <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">                <span class="nd">@Override</span>
+</span></span><span class="line"><span class="cl">                <span class="kd">public</span> <span class="kt">void</span> <span class="nf">onError</span><span class="o">(</span><span class="n">Throwable</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">                <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">                <span class="nd">@Override</span>
+</span></span><span class="line"><span class="cl">                <span class="kd">public</span> <span class="kt">void</span> <span class="nf">onNext</span><span class="o">(</span><span class="n">TextViewTextChangeEvent</span> <span class="n">textViewTextChangeEvent</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">                  <span class="c1">//模拟响应
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>                    <span class="n">textViewRxAndroid</span><span class="o">.</span><span class="na">setText</span><span class="o">(</span><span class="n">textViewTextChangeEvent</span><span class="o">.</span><span class="na">text</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl">                <span class="o">}</span>
+</span></span><span class="line"><span class="cl">            <span class="o">});</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>以上的代码中，在400毫秒的时间窗口内，如若临近的事件发生间隔在400毫秒以内的，都将被忽略，当相差的时间间隔达到400毫秒到达的时候，发射最近的一次事件。</p>
+<p>在登录的时候，必须验证三要素都齐全才能进行注册的网络请求</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="c1">//使用combineLatest合并最近N个结点
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kd">private</span> <span class="kt">void</span> <span class="nf">simpleCombineLatest</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">Observable</span><span class="o">&lt;</span><span class="n">CharSequence</span><span class="o">&gt;</span> <span class="n">emailChangeObservable</span> <span class="o">=</span> <span class="n">RxTextView</span><span class="o">.</span><span class="na">textChanges</span><span class="o">(</span><span class="n">email</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">        <span class="n">Observable</span><span class="o">&lt;</span><span class="n">CharSequence</span><span class="o">&gt;</span> <span class="n">phoneChangeObservable</span> <span class="o">=</span> <span class="n">RxTextView</span><span class="o">.</span><span class="na">textChanges</span><span class="o">(</span><span class="n">phone</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">        <span class="n">Observable</span><span class="o">&lt;</span><span class="n">CharSequence</span><span class="o">&gt;</span> <span class="n">usernameChangeObservable</span> <span class="o">=</span> <span class="n">RxTextView</span><span class="o">.</span><span class="na">textChanges</span><span class="o">(</span><span class="n">username</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">        <span class="n">Observable</span><span class="o">.</span><span class="na">combineLatest</span><span class="o">(</span><span class="n">emailChangeObservable</span><span class="o">,</span> <span class="n">phoneChangeObservable</span><span class="o">,</span> <span class="n">usernameChangeObservable</span><span class="o">,</span> <span class="k">new</span> <span class="n">Func3</span><span class="o">&lt;</span><span class="n">CharSequence</span><span class="o">,</span> <span class="n">CharSequence</span><span class="o">,</span> <span class="n">CharSequence</span><span class="o">,</span> <span class="n">Boolean</span><span class="o">&gt;()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="nd">@Override</span>
+</span></span><span class="line"><span class="cl">            <span class="kd">public</span> <span class="n">Boolean</span> <span class="nf">call</span><span class="o">(</span><span class="n">CharSequence</span> <span class="n">charSequence</span><span class="o">,</span> <span class="n">CharSequence</span> <span class="n">charSequence2</span><span class="o">,</span> <span class="n">CharSequence</span> <span class="n">charSequence3</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">                <span class="k">if</span> <span class="o">(!</span><span class="n">TextUtils</span><span class="o">.</span><span class="na">isEmpty</span><span class="o">(</span><span class="n">charSequence</span><span class="o">)</span> <span class="o">&amp;&amp;</span> <span class="o">!</span><span class="n">TextUtils</span><span class="o">.</span><span class="na">isEmpty</span><span class="o">(</span><span class="n">charSequence2</span><span class="o">)</span> <span class="o">&amp;&amp;</span> <span class="o">!</span><span class="n">TextUtils</span><span class="o">.</span><span class="na">isEmpty</span><span class="o">(</span><span class="n">charSequence3</span><span class="o">))</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">                    <span class="k">return</span> <span class="kc">true</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">                <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">                    <span class="k">return</span> <span class="kc">false</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">                <span class="o">}</span>
+</span></span><span class="line"><span class="cl">            <span class="o">}</span>
+</span></span><span class="line"><span class="cl">        <span class="o">}).</span><span class="na">subscribe</span><span class="o">(</span><span class="k">new</span> <span class="n">Action1</span><span class="o">&lt;</span><span class="n">Boolean</span><span class="o">&gt;()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="nd">@Override</span>
+</span></span><span class="line"><span class="cl">            <span class="kd">public</span> <span class="kt">void</span> <span class="nf">call</span><span class="o">(</span><span class="n">Boolean</span> <span class="n">aBoolean</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">                <span class="k">if</span> <span class="o">(</span><span class="n">aBoolean</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">                    <span class="n">LoginButton</span><span class="o">.</span><span class="na">setEnabled</span><span class="o">(</span><span class="kc">true</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">                <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">                    <span class="n">LoginButton</span><span class="o">.</span><span class="na">setEnabled</span><span class="o">(</span><span class="kc">false</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">                <span class="o">}</span>
+</span></span><span class="line"><span class="cl">            <span class="o">}</span>
+</span></span><span class="line"><span class="cl">        <span class="o">});</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>我们使用 combineLatest 操作符，合并三个 TextView 的事件源，判断三个事件源都满足条件的时候，我们就返回 true，接着进行响应。</p>
+<p>有时候，我们获取数据的渠道有很多，最后我们还是需要放到一起进行显示。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl">  <span class="c1">//使用merge合并两个数据源。
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="kd">private</span> <span class="kt">void</span> <span class="nf">simpleMerge</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">Observable</span><span class="o">.</span><span class="na">merge</span><span class="o">(</span><span class="n">getDataFromFile</span><span class="o">(),</span> <span class="n">getDataFromNet</span><span class="o">())</span>
+</span></span><span class="line"><span class="cl">            <span class="o">.</span><span class="na">subscribeOn</span><span class="o">(</span><span class="n">Schedulers</span><span class="o">.</span><span class="na">io</span><span class="o">())</span>
+</span></span><span class="line"><span class="cl">            <span class="o">.</span><span class="na">observeOn</span><span class="o">(</span><span class="n">AndroidSchedulers</span><span class="o">.</span><span class="na">mainThread</span><span class="o">())</span>
+</span></span><span class="line"><span class="cl">            <span class="o">.</span><span class="na">subscribe</span><span class="o">(</span><span class="k">new</span> <span class="n">Action1</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">                <span class="nd">@Override</span>
+</span></span><span class="line"><span class="cl">                <span class="kd">public</span> <span class="kt">void</span> <span class="nf">call</span><span class="o">(</span><span class="n">String</span> <span class="n">s</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">                    <span class="n">textViewRxAndroid</span><span class="o">.</span><span class="na">setText</span><span class="o">(</span><span class="n">s</span> <span class="o">+</span> <span class="n">textViewRxAndroid</span><span class="o">.</span><span class="na">getText</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl">                <span class="o">}</span>
+</span></span><span class="line"><span class="cl">            <span class="o">});</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>以上我们对来自于本地的和网络请求的数据进行 merge 操作，产生新的数据流。</p>
+<p>对于数据获取，我们有时候也有优先级，先去判断内存中是否有数据，有我们取内存中的，依次接下里是本地缓存，再次我们再去请求网络获取数据。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="c1">//依次检查memory、disk、network
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="n">Observable</span><span class="o">.</span><span class="na">concat</span><span class="o">(</span><span class="n">memory</span><span class="o">,</span> <span class="n">disk</span><span class="o">,</span> <span class="n">network</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">            <span class="o">.</span><span class="na">first</span><span class="o">()</span>
+</span></span><span class="line"><span class="cl">            <span class="o">.</span><span class="na">subscribeOn</span><span class="o">(</span><span class="n">Schedulers</span><span class="o">.</span><span class="na">newThread</span><span class="o">())</span>
+</span></span><span class="line"><span class="cl">            <span class="o">.</span><span class="na">subscribe</span><span class="o">(</span><span class="k">new</span> <span class="n">Action1</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">                <span class="nd">@Override</span>
+</span></span><span class="line"><span class="cl">                <span class="kd">public</span> <span class="kt">void</span> <span class="nf">call</span><span class="o">(</span><span class="n">String</span> <span class="n">s</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">                    <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&#34;选择了：&#34;</span> <span class="o">+</span> <span class="n">s</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">                <span class="o">}</span>
+</span></span><span class="line"><span class="cl">            <span class="o">});</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>使用 timer 做定时操作。当有“x秒后执行y操作”类似的需求的时候，想到使用 timer</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">private</span> <span class="kt">void</span> <span class="nf">simpleTimer</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">Observable</span><span class="o">.</span><span class="na">timer</span><span class="o">(</span><span class="mi">2</span><span class="o">,</span> <span class="n">TimeUnit</span><span class="o">.</span><span class="na">SECONDS</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">            <span class="o">.</span><span class="na">subscribe</span><span class="o">(</span><span class="k">new</span> <span class="n">Observer</span><span class="o">&lt;</span><span class="n">Long</span><span class="o">&gt;()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">                <span class="nd">@Override</span>
+</span></span><span class="line"><span class="cl">                <span class="kd">public</span> <span class="kt">void</span> <span class="nf">onCompleted</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">                    <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&#34;现在是2秒之后&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">                <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">                <span class="nd">@Override</span>
+</span></span><span class="line"><span class="cl">                <span class="kd">public</span> <span class="kt">void</span> <span class="nf">onError</span><span class="o">(</span><span class="n">Throwable</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">                <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">                <span class="nd">@Override</span>
+</span></span><span class="line"><span class="cl">                <span class="kd">public</span> <span class="kt">void</span> <span class="nf">onNext</span><span class="o">(</span><span class="n">Long</span> <span class="n">aLong</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">                <span class="o">}</span>
+</span></span><span class="line"><span class="cl">            <span class="o">});</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>使用 interval 做周期性操作。当有“每隔xx秒后执行yy操作”类似的需求的时候，想到使用 interval</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">private</span> <span class="kt">void</span> <span class="nf">simpleInterval</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">Observable</span><span class="o">.</span><span class="na">interval</span><span class="o">(</span><span class="mi">2</span><span class="o">,</span> <span class="n">TimeUnit</span><span class="o">.</span><span class="na">SECONDS</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">            <span class="o">.</span><span class="na">subscribe</span><span class="o">(</span><span class="k">new</span> <span class="n">Observer</span><span class="o">&lt;</span><span class="n">Long</span><span class="o">&gt;()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">                <span class="nd">@Override</span>
+</span></span><span class="line"><span class="cl">                <span class="kd">public</span> <span class="kt">void</span> <span class="nf">onCompleted</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">                <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">                <span class="nd">@Override</span>
+</span></span><span class="line"><span class="cl">                <span class="kd">public</span> <span class="kt">void</span> <span class="nf">onError</span><span class="o">(</span><span class="n">Throwable</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">                <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">                <span class="nd">@Override</span>
+</span></span><span class="line"><span class="cl">                <span class="kd">public</span> <span class="kt">void</span> <span class="nf">onNext</span><span class="o">(</span><span class="n">Long</span> <span class="n">number</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">                <span class="o">}</span>
+</span></span><span class="line"><span class="cl">            <span class="o">});</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>以两秒为周期，不断的发送数据。</p>
+<p>使用 throttleFirst 防止按钮重复点击,ps：debounce 也能达到同样的效果</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl">    <span class="kd">private</span> <span class="kt">void</span> <span class="nf">simpleThrottleFirst</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">RxView</span><span class="o">.</span><span class="na">clicks</span><span class="o">(</span><span class="n">LoginButton</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">            <span class="o">.</span><span class="na">throttleFirst</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span> <span class="n">TimeUnit</span><span class="o">.</span><span class="na">SECONDS</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">            <span class="o">.</span><span class="na">subscribe</span><span class="o">(</span><span class="k">new</span> <span class="n">Subscriber</span><span class="o">&lt;</span><span class="n">Void</span><span class="o">&gt;()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">                <span class="nd">@Override</span>
+</span></span><span class="line"><span class="cl">                <span class="kd">public</span> <span class="kt">void</span> <span class="nf">onCompleted</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">                <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">                <span class="nd">@Override</span>
+</span></span><span class="line"><span class="cl">                <span class="kd">public</span> <span class="kt">void</span> <span class="nf">onError</span><span class="o">(</span><span class="n">Throwable</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">                <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">                <span class="nd">@Override</span>
+</span></span><span class="line"><span class="cl">                <span class="kd">public</span> <span class="kt">void</span> <span class="nf">onNext</span><span class="o">(</span><span class="n">Void</span> <span class="n">aVoid</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">                <span class="o">}</span>
+</span></span><span class="line"><span class="cl">            <span class="o">});</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>以上的含义是在一秒以内，只接收第一个数据，其他的将会被忽略。</p>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>Updated on 2016-02-26</span>
+            </div></div>
+        <div class="post-info-line">
+            <div class="post-info-md"><span>
+                            <a class="link-to-markdown" href="/2016/02/rxandroidintroduction2/index.md" target="_blank">Read Markdown</a>
+                        </span></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="Share on Twitter" data-sharer="twitter" data-url="https://tinggengyan.github.io/2016/02/rxandroidintroduction2/" data-title="RxAndroid入门分享(二)" data-hashtags="RxJava,Android,RxAndroid"><i class="fab fa-twitter fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Facebook" data-sharer="facebook" data-url="https://tinggengyan.github.io/2016/02/rxandroidintroduction2/" data-hashtag="RxJava"><i class="fab fa-facebook-square fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Hacker News" data-sharer="hackernews" data-url="https://tinggengyan.github.io/2016/02/rxandroidintroduction2/" data-title="RxAndroid入门分享(二)"><i class="fab fa-hacker-news fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Line" data-sharer="line" data-url="https://tinggengyan.github.io/2016/02/rxandroidintroduction2/" data-title="RxAndroid入门分享(二)"><i data-svg-src="https://cdn.jsdelivr.net/npm/simple-icons@6.20.0/icons/line.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on 微博" data-sharer="weibo" data-url="https://tinggengyan.github.io/2016/02/rxandroidintroduction2/" data-title="RxAndroid入门分享(二)"><i class="fab fa-weibo fa-fw" aria-hidden="true"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw" aria-hidden="true"></i>&nbsp;<a href="/tags/rxjava/">RxJava</a>,&nbsp;<a href="/tags/android/">Android</a>,&nbsp;<a href="/tags/rxandroid/">RxAndroid</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">Back</a></span>&nbsp;|&nbsp;<span><a href="/">Home</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/2016/02/layoutinflater%E4%B8%ADinflate%E7%9A%84%E4%BD%BF%E7%94%A8%E6%96%B9%E6%B3%95/" class="prev" rel="prev" title="LayoutInflater中inflate的使用方法"><i class="fas fa-angle-left fa-fw" aria-hidden="true"></i>LayoutInflater中inflate的使用方法</a>
+            <a href="/2016/03/rxjavaessential1/" class="next" rel="next" title="RxJava源码解析(一)">RxJava源码解析(一)<i class="fas fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+<div id="comments"><div id="valine" class="comment"></div><noscript>
+                Please enable JavaScript to view the comments powered by <a href="https://valine.js.org/">Valine</a>.
+            </noscript></div></article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.114.1">Hugo</a> | Theme - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw" aria-hidden="true"></i> LoveIt</a>
+                </div><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright fa-fw" aria-hidden="true"></i><span itemprop="copyrightYear">2019 - 2023</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank">Tinggeng</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+        </div>
+    </footer></div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="Back to Top">
+                <i class="fas fa-arrow-up fa-fw" aria-hidden="true"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="View Comments">
+                <i class="fas fa-comment fa-fw" aria-hidden="true"></i>
+            </a>
+        </div><link rel="stylesheet" href="/lib/valine/valine.min.css"><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/valine@1.4.18/dist/Valine.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/autocomplete.js@0.38.1/dist/autocomplete.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/algoliasearch@4.13.0/dist/algoliasearch-lite.umd.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lazysizes@5.3.1/lazysizes.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/clipboard@2.0.11/dist/clipboard.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/sharer.js@0.5.1/sharer.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"Copy to clipboard","maxShownLines":50},"comment":{"valine":{"appId":"","appKey":"","avatar":"mp","el":"#valine","emojiCDN":"https://cdn.jsdelivr.net/npm/emoji-datasource-google@14.0.0/img/google/64/","emojiMaps":{"100":"1f4af.png","alien":"1f47d.png","anger":"1f4a2.png","angry":"1f620.png","anguished":"1f627.png","astonished":"1f632.png","black_heart":"1f5a4.png","blue_heart":"1f499.png","blush":"1f60a.png","bomb":"1f4a3.png","boom":"1f4a5.png","broken_heart":"1f494.png","brown_heart":"1f90e.png","clown_face":"1f921.png","cold_face":"1f976.png","cold_sweat":"1f630.png","confounded":"1f616.png","confused":"1f615.png","cry":"1f622.png","crying_cat_face":"1f63f.png","cupid":"1f498.png","dash":"1f4a8.png","disappointed":"1f61e.png","disappointed_relieved":"1f625.png","dizzy":"1f4ab.png","dizzy_face":"1f635.png","drooling_face":"1f924.png","exploding_head":"1f92f.png","expressionless":"1f611.png","face_vomiting":"1f92e.png","face_with_cowboy_hat":"1f920.png","face_with_hand_over_mouth":"1f92d.png","face_with_head_bandage":"1f915.png","face_with_monocle":"1f9d0.png","face_with_raised_eyebrow":"1f928.png","face_with_rolling_eyes":"1f644.png","face_with_symbols_on_mouth":"1f92c.png","face_with_thermometer":"1f912.png","fearful":"1f628.png","flushed":"1f633.png","frowning":"1f626.png","ghost":"1f47b.png","gift_heart":"1f49d.png","green_heart":"1f49a.png","grimacing":"1f62c.png","grin":"1f601.png","grinning":"1f600.png","hankey":"1f4a9.png","hear_no_evil":"1f649.png","heart":"2764-fe0f.png","heart_decoration":"1f49f.png","heart_eyes":"1f60d.png","heart_eyes_cat":"1f63b.png","heartbeat":"1f493.png","heartpulse":"1f497.png","heavy_heart_exclamation_mark_ornament":"2763-fe0f.png","hole":"1f573-fe0f.png","hot_face":"1f975.png","hugging_face":"1f917.png","hushed":"1f62f.png","imp":"1f47f.png","innocent":"1f607.png","japanese_goblin":"1f47a.png","japanese_ogre":"1f479.png","joy":"1f602.png","joy_cat":"1f639.png","kiss":"1f48b.png","kissing":"1f617.png","kissing_cat":"1f63d.png","kissing_closed_eyes":"1f61a.png","kissing_heart":"1f618.png","kissing_smiling_eyes":"1f619.png","laughing":"1f606.png","left_speech_bubble":"1f5e8-fe0f.png","love_letter":"1f48c.png","lying_face":"1f925.png","mask":"1f637.png","money_mouth_face":"1f911.png","nauseated_face":"1f922.png","nerd_face":"1f913.png","neutral_face":"1f610.png","no_mouth":"1f636.png","open_mouth":"1f62e.png","orange_heart":"1f9e1.png","partying_face":"1f973.png","pensive":"1f614.png","persevere":"1f623.png","pleading_face":"1f97a.png","pouting_cat":"1f63e.png","purple_heart":"1f49c.png","rage":"1f621.png","relaxed":"263a-fe0f.png","relieved":"1f60c.png","revolving_hearts":"1f49e.png","right_anger_bubble":"1f5ef-fe0f.png","robot_face":"1f916.png","rolling_on_the_floor_laughing":"1f923.png","scream":"1f631.png","scream_cat":"1f640.png","see_no_evil":"1f648.png","shushing_face":"1f92b.png","skull":"1f480.png","skull_and_crossbones":"2620-fe0f.png","sleeping":"1f634.png","sleepy":"1f62a.png","slightly_frowning_face":"1f641.png","slightly_smiling_face":"1f642.png","smile":"1f604.png","smile_cat":"1f638.png","smiley":"1f603.png","smiley_cat":"1f63a.png","smiling_face_with_3_hearts":"1f970.png","smiling_imp":"1f608.png","smirk":"1f60f.png","smirk_cat":"1f63c.png","sneezing_face":"1f927.png","sob":"1f62d.png","space_invader":"1f47e.png","sparkling_heart":"1f496.png","speak_no_evil":"1f64a.png","speech_balloon":"1f4ac.png","star-struck":"1f929.png","stuck_out_tongue":"1f61b.png","stuck_out_tongue_closed_eyes":"1f61d.png","stuck_out_tongue_winking_eye":"1f61c.png","sunglasses":"1f60e.png","sweat":"1f613.png","sweat_drops":"1f4a6.png","sweat_smile":"1f605.png","thinking_face":"1f914.png","thought_balloon":"1f4ad.png","tired_face":"1f62b.png","triumph":"1f624.png","two_hearts":"1f495.png","unamused":"1f612.png","upside_down_face":"1f643.png","weary":"1f629.png","white_frowning_face":"2639-fe0f.png","white_heart":"1f90d.png","wink":"1f609.png","woozy_face":"1f974.png","worried":"1f61f.png","yawning_face":"1f971.png","yellow_heart":"1f49b.png","yum":"1f60b.png","zany_face":"1f92a.png","zipper_mouth_face":"1f910.png","zzz":"1f4a4.png"},"enableQQ":false,"highlight":true,"lang":"en","pageSize":10,"placeholder":"Your comment ...","recordIP":true,"serverURLs":"https://leancloud.hugoloveit.com","visitor":true}},"search":{"algoliaAppID":"","algoliaIndex":"","algoliaSearchKey":"","highlightTag":"em","maxResultLength":10,"noResultsFound":"No results found","snippetLength":30,"type":"algolia"}};</script><script type="text/javascript" src="/js/theme.min.js"></script><script type="text/javascript">
+            window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());
+            gtag('config', 'G-EVHJQ5NV0G', { 'anonymize_ip': true });
+        </script><script type="text/javascript" src="https://www.googletagmanager.com/gtag/js?id=G-EVHJQ5NV0G" async></script></body>
+</html>
