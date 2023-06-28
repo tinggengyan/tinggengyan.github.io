@@ -27,9 +27,7 @@ hasCJKLanguage = false
 # default amount of posts in each pages
 # 默认每页列表显示的文章数目
 paginate = 12
-# google analytics code [UA-XXXXXXXX-X]
-# 谷歌分析代号 [UA-XXXXXXXX-X]
-googleAnalytics = ""
+
 # copyright description used only for seo schema
 # 版权描述，仅仅用于 SEO
 copyright = ""
@@ -290,74 +288,12 @@ ignoreErrors = ["error-remote-getjson", "error-missing-instagram-accesstoken"]
     Instagram = ""
     Facebook = ""
     Telegram = ""
-    Medium = ""
-    Gitlab = ""
-    Youtubelegacy = ""
-    Youtubecustom = ""
-    Youtubechannel = ""
-    Tumblr = ""
-    Quora = ""
-    Keybase = ""
-    Pinterest = ""
-    Reddit = ""
-    Codepen = ""
-    FreeCodeCamp = ""
-    Bitbucket = ""
-    Stackoverflow = ""
-    Weibo = ""
-    Odnoklassniki = ""
-    VK = ""
-    Flickr = ""
-    Xing = ""
-    Snapchat = ""
-    Soundcloud = ""
-    Spotify = ""
-    Bandcamp = ""
-    Paypal = ""
-    Fivehundredpx = ""
-    Mix = ""
-    Goodreads = ""
-    Lastfm = ""
-    Foursquare = ""
-    Hackernews = ""
-    Kickstarter = ""
-    Patreon = ""
-    Steam = ""
-    Twitch = ""
-    Strava = ""
-    Skype = ""
-    Whatsapp = ""
     Zhihu = ""
     Douban = ""
-    Angellist = ""
-    Slidershare = ""
-    Jsfiddle = ""
-    Deviantart = ""
-    Behance = ""
-    Dribbble = ""
-    Wordpress = ""
-    Vine = ""
-    Googlescholar = ""
-    Researchgate = ""
-    Mastodon = ""
-    Thingiverse = ""
-    Devto = ""
-    Gitea = ""
-    XMPP = ""
-    Matrix = ""
     Bilibili = ""
     Discord = ""
     DiscordInvite = ""
-    Lichess = ""
-    ORCID = ""
-    Pleroma = ""
-    Kaggle = ""
-    MediaWiki= ""
-    Plume = ""
-    HackTheBox = ""
-    RootMe= ""
     Email = ""
-    RSS = ""
 
   # Page global config
   # 文章页面全局配置
@@ -502,8 +438,8 @@ ignoreErrors = ["error-remote-getjson", "error-missing-instagram-accesstoken"]
       # Valine 评论系统设置 (https://github.com/xCss/Valine)
       [params.page.comment.valine]
         enable = true
-        appId = "QGzwQXOqs5JOhN4RGPOkR2mR-MdYXbMMI"
-        appKey = "WBmoGyJtbqUswvfLh6L8iEBr"
+        appId = ""
+        appKey = ""
         placeholder = ""
         avatar = "mp"
         meta= ""
@@ -527,16 +463,7 @@ ignoreErrors = ["error-remote-getjson", "error-missing-instagram-accesstoken"]
         # 可以在你的项目下相同路径存放你自己的数据文件:
         # "assets/lib/valine/emoji/"
         emoji = ""
-      # Facebook comment config (https://developers.facebook.com/docs/plugins/comments)
-      # Facebook 评论系统设置 (https://developers.facebook.com/docs/plugins/comments)
-      [params.page.comment.facebook]
-        enable = false
-        width = "100%"
-        numPosts = 10
-        appId = ""
-        # automatically adapt the current theme i18n configuration when empty
-        # 为空时自动适配当前主题 i18n 配置
-        languageCode = ""
+
       # Telegram comments config (https://comments.app/)
       # Telegram comments 评论系统设置 (https://comments.app/)
       [params.page.comment.telegram]
@@ -623,7 +550,6 @@ ignoreErrors = ["error-remote-getjson", "error-missing-instagram-accesstoken"]
     # 打字结束之后光标的持续时间 (单位是毫秒, "-1" 代表无限大)
     duration = -1
 
-  # Site verification code for Google/Bing/Yandex/Pinterest/Baidu
   # 网站验证代码，用于 Google/Bing/Yandex/Pinterest/Baidu
   [params.verification]
     google = ""
@@ -645,10 +571,10 @@ ignoreErrors = ["error-remote-getjson", "error-missing-instagram-accesstoken"]
   # Analytics config
   # 网站分析配置
   [params.analytics]
-    enable = false
+    enable = true
     # Google Analytics
     [params.analytics.google]
-      id = ""
+      id = "G-EVHJQ5NV0G"
       # whether to anonymize IP
       # 是否匿名化用户 IP
       anonymizeIP = true
@@ -660,7 +586,7 @@ ignoreErrors = ["error-remote-getjson", "error-missing-instagram-accesstoken"]
       server = ""
     # Plausible Analytics
     [params.analytics.plausible]
-      dataDomain = ""
+      dataDomain = "tinggengyan.github.io"
     # Yandex Metrica
     [params.analytics.yandexMetrica]
       id = ""
@@ -749,17 +675,6 @@ ignoreErrors = ["error-remote-getjson", "error-missing-instagram-accesstoken"]
   posts = ":year/:month/:filename"
   flemo = ":year/:month/:filename"
 
-# Privacy config (https://gohugo.io/about/hugo-and-gdpr/)
-# 隐私信息配置 (https://gohugo.io/about/hugo-and-gdpr/)
-[privacy]
-  # privacy of the Google Analytics (replaced by params.analytics.google)
-  # Google Analytics 相关隐私 (被 params.analytics.google 替代)
-  [privacy.googleAnalytics]
-    # ...
-  [privacy.twitter]
-    enableDNT = true
-  [privacy.youtube]
-    privacyEnhanced = true
 
 # Options to make output .md files
 # 用于输出 Markdown 格式文档的设置
