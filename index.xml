@@ -39,7 +39,7 @@ JIT 的运行性能更高,但启动时间长。适合长时间运行的程序。
     <guid>https://tinggengyan.github.io/2022/04/android_summary/</guid>
     <description><![CDATA[概述 总结自己的 Android 知识，按照编码 -&gt; 运行，画了一张图，xmind 导出的图比较大，后续持续更新，迭代这部分的内容。
 下面是一些常见的知识,将会慢慢补充进思维导图内 Handler 与 Binder handler 处理的是 App 进程内的通信； binder 处理的是，App 进程间、application 和 framework 之间的通信；
-任务启动管理 - 启动框架 抽象任务 task； 优先级 ； countdownlatch 数值为依赖 task 的数量； 运行的 executor ； 被依赖的 task 列表； toWait 方法； notify 方法，countdownlatch 减一； 构造 task 的有向无环图； TaskManager： 管理所有的 task，及其拓扑关系； 管理需要执行的 task； countdownlatch 值为 Activity 跳转的生命周期 ActivityA跳转到ActivityB： 1 2 3 4 5 Activity A：onPause Activity B：onCreate Activity B：onStart Activity B：onResume Activity A：onStop ActivityB返回ActivityA： 1 2 3 4 5 6 Activity B：onPause Activity A：onRestart Activity A：onStart Activity A：onResume Activity B：onStop Activity B：onDestroy 旋转屏幕 不改配置，默认配置 1 2 3 4 5 6 7 onPause--&gt; onStop--&gt; onDestroy--&gt; onCreate--&gt; onStart--&gt; onRestoreInstanceState--&gt; onResume--&gt; 修改配置 1 onConfigChanged--&gt; Activity 的启动模式 参考链接1 仅仅适用于Activity启动Activity，并且采用的都是默认Intent，没有额外添加任何Flag]]></description>
+任务启动管理 - 启动框架 抽象任务 task； 优先级 ； countdownlatch 数值为依赖 task 的数量； 运行的 executor ； 被依赖的 task 列表； toWait 方法； notify 方法，countdownlatch 减一； 构造 task 的有向无环图； TaskManager： 管理所有的 task，及其拓扑关系； 管理需要执行的 task； countdownlatch 值为 Activity 跳转的生命周期 ActivityA跳转到ActivityB： 1 2 3 4 5 Activity A：onPause Activity B：onCreate Activity B：onStart Activity B：onResume Activity A：onStop ActivityB返回ActivityA： 1 2 3 4 5 6 Activity B：onPause Activity A：onRestart Activity A：onStart Activity A：onResume Activity B：onStop Activity B：onDestroy 旋转屏幕 不改配置，默认配置 1 2 3 4 5 6 7 onPause--&gt; onStop--&gt; onDestroy--&gt; onCreate--&gt; onStart--&gt; onRestoreInstanceState--&gt; onResume--&gt; 修改配置 1 onConfigChanged--&gt; Activity 的启动模式 参考链接1]]></description>
 </item>
 <item>
     <title>文档系统_程序员如何写好文档 (The documentation system)</title>
@@ -47,12 +47,13 @@ JIT 的运行性能更高,但启动时间长。适合长时间运行的程序。
     <pubDate>Sun, 03 Oct 2021 10:25:55 &#43;0000</pubDate>
     <author>Tinggeng</author>
     <guid>https://tinggengyan.github.io/2021/10/the-documentation-system_how_to_write_good_document/</guid>
-    <description><![CDATA[背景 文档是日常开发过程中非常重要的记录和交流的工具,也是学习新技术必然要阅读的材料.学习技术的时候,都会建议直接看官方文档,不同的技术网站,会看到 Guide,Tutorial,Wiki,Reference 等分类(也可能只包含其中一个或者几个). 我之前就一直对这几个英文单词有疑问,尤其是我在看 Android 开发者官网的时候,不明白每个分类的依据,间接导致,自己也没有学会如何写文档.后来发现了这篇文章,读完觉得很有道理. The documentation system ,窃以为非常好,值得我进行模仿学习.
+    <description><![CDATA[背景 文档是日常开发过程中非常重要的记录和交流的工具,也是学习新技术必然要阅读的材料.学习技术的时候,都会建议直接看官方文档,不同的技术网站,会看到 Guide,Tutorial,Wiki,Reference 等分类(也可能只包含其中一个或者几个). 我之前就一直对这几个英文单词有疑问,尤其是我在看 Android 开发者官网的时候,不明白每个分类的依据,间接导致,自己也没有学会如何写文档.后来发现了这篇文章,读完觉得很有道理. The documentation system,窃以为非常好,值得我进行模仿学习.
 以下的内容会进行自我理解的翻译,有意无意的删除一些冗余的修辞,如有幸被网上邻居搜到,建议看原文,非常简单.
 Summary 为了编写良好的软件文档,需要说一个秘密: 没有一个名为文档的东西,文档应该是四样东西的集合.
 这四样分别是是：tutorials(教程),how-to guides(如何做的引导),technical reference (技术参考),explanation(解释). 它们代表四种不同的目的或职能,并且这四种的写作方式都有差异.了解了这些差异,通常能巨大的提高文档的质量.
 关于即将描述的文档系统 这里的文档系统是非常简单的,近乎于全面适用行业内的方案.行文有个承诺: 如果将这些原则在实践中进行应用,将极大的提高写作文档的质量.
-有很多公司/组织/开源项目采用了本文所述的方案,详细见链接采用本方案的项目 Introduction 问题和解决方案 需要解决的问题 如果文档不够好,产品再好,人们也不会使用它.即使人们必须使用它,那也是因为他们别无选择,没有良好的文档,人们无法如你期望的那样使用你开发的产品.
+有很多公司/组织/开源项目采用了本文所述的方案,详细见链接采用本方案的项目
+Introduction 问题和解决方案 需要解决的问题 如果文档不够好,产品再好,人们也不会使用它.即使人们必须使用它,那也是因为他们别无选择,没有良好的文档,人们无法如你期望的那样使用你开发的产品.
 当然了,每个人都知道文档的重要性,每个人也都尝试去写好文档,最终也都失败了.
 这也不是写作的人不够努力,通常是他们没有按照正确的方式去做而已.
 本文介绍的文档系统,不是为了让你更加努力的工作,而是让你写作的文档更好,使用正确的方式进行写作,让文档更加易懂,更加容易维护: The right way is the easier way.
@@ -67,20 +68,26 @@ Tutorials(教程) How-to guides(如何做的引导) Reference(技术参考) Expl
     <author>Tinggeng</author>
     <guid>https://tinggengyan.github.io/2021/07/mysoftware/</guid>
     <description><![CDATA[概述 记录我平时使用的一些软件,提效的,娱乐的.
-快速打开 Raycast Alfred Contexts 目的: 用于快速打开应用软件和文件夹 其中比较知名的就是 Alfread了,我目前把它和Context进行配合使用.
+快速打开 Raycast Alfred Contexts
+目的: 用于快速打开应用软件和文件夹 其中比较知名的就是 Alfread了,我目前把它和Context进行配合使用.
 Raycast 和 Alfred 差不多,Raycast 我装了,但是用的频率不高,目前没发现他有什么特别的亮点,用来作为 Alfred 的备选,毕竟免费.
 Context有一个feature就是可以切换window,比如,AndroidStudio里打开了多个Project,形成了多个window,这说话,直接Alfred打开Androidstudio的话,只是打开了软件,至于哪个Window,有时候不清楚,这种情况下,Context 是个很好的补充. Context 的缺陷就是,他只是用来打开,已有的窗口的.
-输入法 搜狗输入法 目前国内也就搜狗输入法还行了,当然百度也有Mac版本,但是体验上,还是搜狗好点.
+输入法 搜狗输入法
+目前国内也就搜狗输入法还行了,当然百度也有Mac版本,但是体验上,还是搜狗好点.
 终端 iterm2 oh-my-zsh Mac 下很好的终端工具了.目前没发现其他替代品;
 Git fork Native开发,相比对sourceTree,颜值和性能都更高,无他,颜值即正义.
-Android开发 AndroidStudio 开发Android必备,只是有一点至今让我诟病的地方,就是ActivityStack的打印被删除了&hellip;
-C/Cpp开发 Clion VSC配置cpp开发环境也试过,繁琐.Mac 下的Xcode也用过,感觉一般, 不得不说,jetbrains做的IDE,真香.
-Java开发 IntellijIdea Eclipse NetBeans 目前在用的就是 IntellijIdea 了,其他的基本不用了.只有一个 NetBeans 在某些场景下是有优势的,那就是JavaSE GUI开发的时候.
+Android开发 AndroidStudio
+开发Android必备,只是有一点至今让我诟病的地方,就是ActivityStack的打印被删除了&hellip;
+C/Cpp开发 Clion
+VSC配置cpp开发环境也试过,繁琐.Mac 下的Xcode也用过,感觉一般, 不得不说,jetbrains做的IDE,真香.
+Java开发 IntellijIdea Eclipse NetBeans
+目前在用的就是 IntellijIdea 了,其他的基本不用了.只有一个 NetBeans 在某些场景下是有优势的,那就是JavaSE GUI开发的时候.
 清除广告 AdBlock Pro 清除Safari广告用; 看动漫太多的广告了,Chrome 上清除广告很容易,Safari就只能依赖这个plugin了.
 database DataGrip 一个客户端,支持查看所有的数据库,jetbrains太香了.
-分屏 Grid windows 系统有个自动管理窗口的功能,这个软件就是在Mac上实现类似的功能;
+分屏 Grid
+windows 系统有个自动管理窗口的功能,这个软件就是在Mac上实现类似的功能;
 扩展屏幕 Deskreen 只要有个浏览器就可以实现屏幕的扩展,有时候可以将自己的iPad用上.
-statusbar 隐藏图标 Dozer Bartender Dozer是开源的,Bartender 是收费的.]]></description>
+statusbar 隐藏图标 Dozer Bartender]]></description>
 </item>
 <item>
     <title>一张思维导图看 Java 【持续迭代】</title>
@@ -120,7 +127,7 @@ Java8 TREEIFY_THRESHOLD 用于判断是否需要将链表转换为红黑树的�
     <author>Tinggeng</author>
     <guid>https://tinggengyan.github.io/2020/09/aosp_build/</guid>
     <description><![CDATA[override 最近给电脑换了块SSD，装了Ubuntu 18.04。之前的aosp也不想copy过来了，直接重新编译一份，顺带看下新的SSD带来的提效。 因为手机是 nexus 6p，aosp 最后支持到 8.1. 记录下编译需要的操作。
-步骤 open jdk(https://openjdk.java.net/install/ ) 1 sudo apt install openjdk-8-jdk repo(https://gerrit.googlesource.com/git-repo/ ) AUTO 1 sudo apt-get install repo MANUALLY 1 2 3 4 $ mkdir -p ~/.bin $ PATH=&#34;${HOME}/.bin:${PATH}&#34; $ curl https://storage.googleapis.com/git-repo-downloads/repo &gt; ~/.bin/repo $ chmod a+rx ~/.bin/repo AOSP mirror 1 mkdir aosp 1 2 3 4 5 6 7 8 9 10 11 12 git config --global user.email &#34;tinggengyan@gmail.com&#34; git config --global user.]]></description>
+步骤 open jdk(https://openjdk.java.net/install/) 1 sudo apt install openjdk-8-jdk repo(https://gerrit.googlesource.com/git-repo/) AUTO 1 sudo apt-get install repo MANUALLY 1 2 3 4 $ mkdir -p ~/.bin $ PATH=&#34;${HOME}/.bin:${PATH}&#34; $ curl https://storage.googleapis.com/git-repo-downloads/repo &gt; ~/.bin/repo $ chmod a+rx ~/.bin/repo AOSP mirror 1 mkdir aosp 1 2 3 4 5 6 7 8 9 10 11 12 git config --global user.email &#34;tinggengyan@gmail.com&#34; git config --global user.name &#34;Tinggeng Yan&#34; sudo apt install python cd aosp # 切换指定版本分支 repo init -u https://mirrors.]]></description>
 </item>
 <item>
     <title>Activity启动流程概述</title>
@@ -128,7 +135,7 @@ Java8 TREEIFY_THRESHOLD 用于判断是否需要将链表转换为红黑树的�
     <pubDate>Thu, 23 Jul 2020 17:17:42 &#43;0000</pubDate>
     <author>Tinggeng</author>
     <guid>https://tinggengyan.github.io/2020/07/activity-launch-process-1/</guid>
-    <description><![CDATA[概述 花了点时间,debug了一下系统,跟踪了一下Activity的启动流程.画了一张图,作为综述. 分析的 compileSdkVersion 为 28. 用的是 draw.io 画的,源文件 .]]></description>
+    <description><![CDATA[概述 花了点时间,debug了一下系统,跟踪了一下Activity的启动流程.画了一张图,作为综述. 分析的 compileSdkVersion 为 28. 用的是 draw.io 画的,源文件.]]></description>
 </item>
 </channel>
 </rss>

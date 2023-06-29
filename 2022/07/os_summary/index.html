@@ -32,7 +32,9 @@ JIT 的运行性能更高,但启动时间长。适合长时间运行的程序。
 <meta name="application-name" content="Tinggeng">
 <meta name="apple-mobile-web-app-title" content="Tinggeng"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
         <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="https://tinggengyan.github.io/2022/07/os_summary/" /><link rel="prev" href="https://tinggengyan.github.io/2022/05/net-process/" /><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/normalize.css@8.0.1/normalize.min.css"><link rel="stylesheet" href="/css/style.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css"><script type="application/ld+json">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="https://tinggengyan.github.io/2022/07/os_summary/" /><link rel="prev" href="https://tinggengyan.github.io/2022/05/net-process/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css"></noscript><link rel="preload" href="https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css"></noscript><script type="application/ld+json">
     {
         "@context": "http://schema.org",
         "@type": "BlogPosting",
@@ -71,8 +73,7 @@ JIT 的运行性能更高,但启动时间长。适合长时间运行的程序。
                         </span>
                     </span><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
                     <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
-                </a>
-            </div>
+                </a></div>
         </div>
     </div>
 </header><header class="mobile" id="header-mobile">
@@ -115,8 +116,7 @@ JIT 的运行性能更高,但启动时间长。适合长时间运行的程序。
             <h2 class="toc-title">Contents</h2>
             <div class="toc-content" id="toc-content-auto"></div>
         </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">一张思维导图看操作系统 【持续迭代】</h1><div class="post-meta">
-            <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Tinggeng</a>
-</span>&nbsp;<span class="post-category">included in <a href="/categories/os/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>OS</a></span></div>
+            <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Tinggeng</a></span>&nbsp;<span class="post-category">included in <a href="/categories/os/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>OS</a></span></div>
             <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2022-07-17">2022-07-17</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;1109 words&nbsp;
                 <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;6 minutes&nbsp;<span id="/2022/07/os_summary/" class="leancloud_visitors" data-flag-title="一张思维导图看操作系统 【持续迭代】">
                         <i class="far fa-eye fa-fw" aria-hidden="true"></i>&nbsp;<span class=leancloud-visitors-count></span>&nbsp;views
@@ -175,15 +175,12 @@ JIT 的运行性能更高,但启动时间长。适合长时间运行的程序。
 </p>
 <h1 id="linux-整体结构图">linux 整体结构图</h1>
 <ul>
-<li>makelinux：<a href="https://makelinux.github.io/kernel/map/" target="_blank" rel="noopener noreffer">makelinux</a>
-</li>
+<li>makelinux：<a href="https://makelinux.github.io/kernel/map/" target="_blank" rel="noopener noreffer ">makelinux</a></li>
 </ul>
 <h1 id="解释器--编译器--jit--aot">解释器 &amp; 编译器 &amp; JIT &amp; AOT</h1>
 <ul>
-<li><a href="http://47.100.139.123/blog/article/132" target="_blank" rel="noopener noreffer">参考链接1</a>
-</li>
-<li><a href="https://github.com/chenzomi12/DeepLearningSystem/blob/main/Compiler/Tradition/01.introduction.pdf" target="_blank" rel="noopener noreffer">参考链接2</a>
-</li>
+<li><a href="http://47.100.139.123/blog/article/132" target="_blank" rel="noopener noreffer ">参考链接1</a></li>
+<li><a href="https://github.com/chenzomi12/DeepLearningSystem/blob/main/Compiler/Tradition/01.introduction.pdf" target="_blank" rel="noopener noreffer ">参考链接2</a></li>
 </ul>
 <p>JIT(Just In Time)和 AOT(Ahead Of Time)是两种不同的编译方式:</p>
 <p>JIT:</p>
@@ -357,8 +354,7 @@ JIT的优点是开发体验好,修改代码后无需重新编译,直接运行即
 </div>
 </div><h1 id="内存管理">内存管理</h1>
 <ul>
-<li><a href="https://blog.csdn.net/hguisu/article/details/5713164" target="_blank" rel="noopener noreffer">参考链接1</a>
-</li>
+<li><a href="https://blog.csdn.net/hguisu/article/details/5713164" target="_blank" rel="noopener noreffer ">参考链接1</a></li>
 </ul>
 <p>Linux 的内存管理可以简述如下:</p>
 <ol>
@@ -391,10 +387,8 @@ JIT的优点是开发体验好,修改代码后无需重新编译,直接运行即
 <h1 id="匿名映射--命名映射">匿名映射 &amp; 命名映射</h1>
 <h1 id="mmap">mmap</h1>
 <ul>
-<li><a href="https://www.cnblogs.com/huxiao-tee/p/4660352.html" target="_blank" rel="noopener noreffer">参考链接1</a>
-</li>
-<li><a href="https://stackoverflow.com/questions/5902629/mmap-msync-and-linux-process-termination" target="_blank" rel="noopener noreffer">参考链接2</a>
-</li>
+<li><a href="https://www.cnblogs.com/huxiao-tee/p/4660352.html" target="_blank" rel="noopener noreffer ">参考链接1</a></li>
+<li><a href="https://stackoverflow.com/questions/5902629/mmap-msync-and-linux-process-termination" target="_blank" rel="noopener noreffer ">参考链接2</a></li>
 </ul>
 <p><img
         class="lazyload"
@@ -418,8 +412,7 @@ JIT的优点是开发体验好,修改代码后无需重新编译,直接运行即
 <p><strong>适用场景</strong>
 mmap 比较适合于对同一块区域频繁读写的情况，推荐也使用线程来操作。用户日志、数据上报都满足这种场景，另外需要跨进程同步的时候，mmap 也是一个不错的选择。Android 跨进程通信有自己独有的 Binder 机制，它内部也是使用 mmap 实现。</p>
 <ul>
-<li>对于大文件，大的 value ，是不合适的，如何解决大文件读写的问题，<a href="https://www.cnblogs.com/xiaolincoding/p/13719610.html" target="_blank" rel="noopener noreffer">参考文章</a>
-
+<li>对于大文件，大的 value ，是不合适的，如何解决大文件读写的问题，<a href="https://www.cnblogs.com/xiaolincoding/p/13719610.html" target="_blank" rel="noopener noreffer ">参考文章</a>
 <strong>在高并发的场景下，针对大文件的传输的方式，应该使用「异步 I/O 」来替代零拷贝技术</strong>。</li>
 <li>针对大文件的传输，不应该使用 PageCache，也就是说不应该使用零拷贝技术，因为可能<em>由于 PageCache 被大文件占据，而导致「热点」小文件无法利用到 PageCache</em>，这样在高并发的环境下，会带来严重的性能问题。</li>
 </ul>
@@ -431,12 +424,7 @@ mmap 比较适合于对同一块区域频繁读写的情况，推荐也使用线
 <h2 id="mmap-的应用---日志库">mmap 的应用 - 日志库</h2>
 <p>由于内存Cache的存在，在写入数据的过程中一旦发生意外（Crash、后台被系统杀死，等），都可能会发生数据丢失的情况。而如果将写操作设计成同步的，数据丢失的情况会有所改善，但写操作的耗时会大大提升。mmap 的引入恰到好处的在这两者之间找到了一个平衡。mmap 对文件的读取操作跨过了页缓存，减少了数据的拷贝次数，用内存读写取代I/O读写，提高了文件读取效率； 对 mmap 内存的写操作，会直接进入系统page-cache；msync调用负责把脏的page-cache持久化到硬盘。当然对发生系统级错误和设备异常导致系统挂掉的情况，mmap 也是保证不了数据完整性的。</p>
 <p>这里需要特别说明一下：MMKV 实现的本质上跟前面讨论的KV方案是没有区别的，其最大的改进是利用 mmap 来代替 File 和 Database 的操作，利用 mmap I/O 操作的优势对数据丢失问题进行改善。但由于“内存-文件”两级缓存的存在，MMKV 也是无法彻底解决数据丢失问题的。当然对于终端设备的场景来看，这种丢失在很大程度上是可以忽略的。</p>
-<p>微信团队在封装 xlog 和 mmap 时采用了CPP代码来实现，主要是为了做到 Android 和 iOS 端的通用。实际上如果不考虑跨平台，则可以考虑使用 Java NIO 中的 <a href="https://developer.android.com/reference/java/nio/channels/FileChannel" target="_blank" rel="noopener noreffer">FileChannel</a>
- 或者 Android 中的 <a href="https://developer.android.com/reference/android/os/MemoryFile" target="_blank" rel="noopener noreffer">MemoryFile</a>
- 代替。 <a href="https://developer.android.com/reference/java/nio/channels/FileChannel" target="_blank" rel="noopener noreffer">FileChannel</a>
- 底层其实通过 mmap 实现的。而 <a href="https://developer.android.com/reference/android/os/MemoryFile" target="_blank" rel="noopener noreffer">MemoryFile</a>
- 则是 Android 中匿名共享内存在 Java 层的接口，至于 Android 匿名共享内存底层实现也利用了mmap。所以，<a href="https://developer.android.com/reference/java/nio/channels/FileChannel" target="_blank" rel="noopener noreffer">FileChannel</a>
- 和 MemoryFile 本质上与直接调用 mmap 是一样的。利用这些接口也可以降低大部分 Android 程序员的开发和维护成本，毕竟大家对 Java 相对更为熟悉。
+<p>微信团队在封装 xlog 和 mmap 时采用了CPP代码来实现，主要是为了做到 Android 和 iOS 端的通用。实际上如果不考虑跨平台，则可以考虑使用 Java NIO 中的 <a href="https://developer.android.com/reference/java/nio/channels/FileChannel" target="_blank" rel="noopener noreffer ">FileChannel</a> 或者 Android 中的 <a href="https://developer.android.com/reference/android/os/MemoryFile" target="_blank" rel="noopener noreffer ">MemoryFile</a> 代替。 <a href="https://developer.android.com/reference/java/nio/channels/FileChannel" target="_blank" rel="noopener noreffer ">FileChannel</a> 底层其实通过 mmap 实现的。而 <a href="https://developer.android.com/reference/android/os/MemoryFile" target="_blank" rel="noopener noreffer ">MemoryFile</a> 则是 Android 中匿名共享内存在 Java 层的接口，至于 Android 匿名共享内存底层实现也利用了mmap。所以，<a href="https://developer.android.com/reference/java/nio/channels/FileChannel" target="_blank" rel="noopener noreffer ">FileChannel</a> 和 MemoryFile 本质上与直接调用 mmap 是一样的。利用这些接口也可以降低大部分 Android 程序员的开发和维护成本，毕竟大家对 Java 相对更为熟悉。
 下面是在 KV 设计中另一种 Key 的设计方案：</p>
 <p><img
         class="lazyload"
@@ -508,10 +496,8 @@ mmap 比较适合于对同一块区域频繁读写的情况，推荐也使用线
 </ol>
 <h2 id="进程的调度算法">进程的调度算法</h2>
 <ul>
-<li><a href="https://www.cnblogs.com/wawlian/archive/2012/02/17/2356398.html" target="_blank" rel="noopener noreffer">参考链接1</a>
-</li>
-<li><a href="https://mp.weixin.qq.com/s/JWj6_BF9Xc84kQcyx6Nf_g" target="_blank" rel="noopener noreffer">参考链接2</a>
-</li>
+<li><a href="https://www.cnblogs.com/wawlian/archive/2012/02/17/2356398.html" target="_blank" rel="noopener noreffer ">参考链接1</a></li>
+<li><a href="https://mp.weixin.qq.com/s/JWj6_BF9Xc84kQcyx6Nf_g" target="_blank" rel="noopener noreffer ">参考链接2</a></li>
 </ul>
 <p><strong>先来先服务调度算法，（First Come First Severd, FCFS）</strong>
 先来后到，每次从就绪队列选择最先进入队列的进程，然后一直运行，直到进程退出或被阻塞，才会继续从队列中选择第一个进程接着运行。
@@ -597,8 +583,7 @@ FCFS 对长作业有利，适用于 CPU 繁忙型作业的系统，而不适用�
         title="https://cdn.xiaolincoding.com/gh/xiaolincoder/ImageHost/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/%E8%BF%9B%E7%A8%8B%E5%92%8C%E7%BA%BF%E7%A8%8B/10-%E8%BF%9B%E7%A8%8B%E4%B8%83%E4%B8%AD%E7%8A%B6%E6%80%81.jpg" /></p>
 <p><strong>线程状态图</strong></p>
 <ul>
-<li><a href="https://mp.weixin.qq.com/s?src=11&amp;timestamp=1682060660&amp;ver=4481&amp;signature=Flp5vsm4A43C845wUC2gQ0OlXmqEwCrlF7dh3ig8TGvAc1xxTHQeCtqN-*b0PrghBOyTANaahDRiPK1rqbeHPGpLDLUgt*ak1sGpnnfiwn*zRI*OlL*1YyjipCJGM-Z-&amp;new=1" target="_blank" rel="noopener noreffer">参考链接1</a>
-</li>
+<li><a href="https://mp.weixin.qq.com/s?src=11&amp;timestamp=1682060660&amp;ver=4481&amp;signature=Flp5vsm4A43C845wUC2gQ0OlXmqEwCrlF7dh3ig8TGvAc1xxTHQeCtqN-*b0PrghBOyTANaahDRiPK1rqbeHPGpLDLUgt*ak1sGpnnfiwn*zRI*OlL*1YyjipCJGM-Z-&amp;new=1" target="_blank" rel="noopener noreffer ">参考链接1</a></li>
 </ul>
 <p>线程调度的原则，考虑的就是速度快，需要考量的因素如下</p>
 <ul>
@@ -685,13 +670,10 @@ FCFS 对长作业有利，适用于 CPU 繁忙型作业的系统，而不适用�
 </ol>
 <p>这样就可以实现多个读线程并发访问,而写线程互斥访问的效果。这样可以最大限度地提高资源的并发访问效率。这就是读写锁的基本原理。读写锁是相比互斥锁更细粒度的锁机制,在许多场景下可以实现更高的并发效率,所以在操作系统和许多程序中得到广泛应用。</p>
 <p><strong>Java 中的读写锁</strong></p>
-<p>JUC 中 有 <a href="https://developer.android.com/reference/java/util/concurrent/locks/ReentrantReadWriteLock" target="_blank" rel="noopener noreffer">ReentrantReadWriteLock</a>
- 和 <a href="https://developer.android.com/reference/java/util/concurrent/locks/StampedLock?hl=en" target="_blank" rel="noopener noreffer">StampedLock</a>
- 这两个类，都是读写锁。
+<p>JUC 中 有 <a href="https://developer.android.com/reference/java/util/concurrent/locks/ReentrantReadWriteLock" target="_blank" rel="noopener noreffer ">ReentrantReadWriteLock</a> 和 <a href="https://developer.android.com/reference/java/util/concurrent/locks/StampedLock?hl=en" target="_blank" rel="noopener noreffer ">StampedLock</a> 这两个类，都是读写锁。
 区别在于 StampedLock 是读乐观的锁。</p>
 <h1 id="原子操作原理">原子操作原理</h1>
-<p><a href="https://zhuanlan.zhihu.com/p/33445834" target="_blank" rel="noopener noreffer">https://zhuanlan.zhihu.com/p/33445834</a>
-</p>
+<p><a href="https://zhuanlan.zhihu.com/p/33445834" target="_blank" rel="noopener noreffer ">https://zhuanlan.zhihu.com/p/33445834</a></p>
 <ul>
 <li>从用户角度，可以用原子操作来替换重量级的锁同步，从而提高程序性能。</li>
 <li>底层实现角度，原子操作可以用于构建各种更重量级的同步操作，比如锁或屏障之类的。</li>
@@ -935,10 +917,8 @@ TLB是 Translation Lookaside Buffer 的缩写,翻译为查找缓冲器。它是M
         title="https://www.dingmos.com/usr/uploads/2021/11/2076055272.jpg" /></p>
 <h1 id="内存碎片--内存整理">内存碎片 &amp; 内存整理</h1>
 <ul>
-<li><a href="https://jacktang816.github.io/post/memoryfragmentation/#%E5%88%86%E9%A1%B5%E5%92%8C%E5%88%86%E6%AE%B5%E7%9A%84%E4%B8%BB%E8%A6%81%E5%8C%BA%E5%88%AB" target="_blank" rel="noopener noreffer">参考链接 1</a>
-</li>
-<li><a href="https://www.cnblogs.com/tolimit/p/5286663.html" target="_blank" rel="noopener noreffer">参考链接 2</a>
-</li>
+<li><a href="https://jacktang816.github.io/post/memoryfragmentation/#%E5%88%86%E9%A1%B5%E5%92%8C%E5%88%86%E6%AE%B5%E7%9A%84%E4%B8%BB%E8%A6%81%E5%8C%BA%E5%88%AB" target="_blank" rel="noopener noreffer ">参考链接 1</a></li>
+<li><a href="https://www.cnblogs.com/tolimit/p/5286663.html" target="_blank" rel="noopener noreffer ">参考链接 2</a></li>
 </ul>
 <p><strong>内部碎片</strong>
 <img
@@ -991,7 +971,7 @@ TLB是 Translation Lookaside Buffer 的缩写,翻译为查找缓冲器。它是M
                             <a class="link-to-markdown" href="/2022/07/os_summary/index.md" target="_blank">Read Markdown</a>
                         </span></div>
             <div class="post-info-share">
-                <span><a href="javascript:void(0);" title="Share on Twitter" data-sharer="twitter" data-url="https://tinggengyan.github.io/2022/07/os_summary/" data-title="一张思维导图看操作系统 【持续迭代】" data-hashtags="OS"><i class="fab fa-twitter fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Facebook" data-sharer="facebook" data-url="https://tinggengyan.github.io/2022/07/os_summary/" data-hashtag="OS"><i class="fab fa-facebook-square fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Hacker News" data-sharer="hackernews" data-url="https://tinggengyan.github.io/2022/07/os_summary/" data-title="一张思维导图看操作系统 【持续迭代】"><i class="fab fa-hacker-news fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Line" data-sharer="line" data-url="https://tinggengyan.github.io/2022/07/os_summary/" data-title="一张思维导图看操作系统 【持续迭代】"><i data-svg-src="https://cdn.jsdelivr.net/npm/simple-icons@6.20.0/icons/line.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on 微博" data-sharer="weibo" data-url="https://tinggengyan.github.io/2022/07/os_summary/" data-title="一张思维导图看操作系统 【持续迭代】"><i class="fab fa-weibo fa-fw" aria-hidden="true"></i></a></span>
+                <span><a href="javascript:void(0);" title="Share on Twitter" data-sharer="twitter" data-url="https://tinggengyan.github.io/2022/07/os_summary/" data-title="一张思维导图看操作系统 【持续迭代】" data-hashtags="OS"><i class="fab fa-twitter fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Facebook" data-sharer="facebook" data-url="https://tinggengyan.github.io/2022/07/os_summary/" data-hashtag="OS"><i class="fab fa-facebook-square fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Hacker News" data-sharer="hackernews" data-url="https://tinggengyan.github.io/2022/07/os_summary/" data-title="一张思维导图看操作系统 【持续迭代】"><i class="fab fa-hacker-news fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Line" data-sharer="line" data-url="https://tinggengyan.github.io/2022/07/os_summary/" data-title="一张思维导图看操作系统 【持续迭代】"><i data-svg-src="https://cdn.jsdelivr.net/npm/simple-icons@7.3.0/icons/line.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on 微博" data-sharer="weibo" data-url="https://tinggengyan.github.io/2022/07/os_summary/" data-title="一张思维导图看操作系统 【持续迭代】"><i class="fab fa-weibo fa-fw" aria-hidden="true"></i></a></span>
             </div>
         </div>
     </div>
@@ -1009,7 +989,7 @@ TLB是 Translation Lookaside Buffer 的缩写,翻译为查找缓冲器。它是M
                 Please enable JavaScript to view the comments powered by <a href="https://valine.js.org/">Valine</a>.
             </noscript></div></article></div>
             </main><footer class="footer">
-        <div class="footer-container"><div class="footer-line">Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.114.1">Hugo</a> | Theme - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw" aria-hidden="true"></i> LoveIt</a>
+        <div class="footer-container"><div class="footer-line">Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.114.1">Hugo</a> | Theme - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.11"><i class="far fa-kiss-wink-heart fa-fw" aria-hidden="true"></i> LoveIt</a>
                 </div><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright fa-fw" aria-hidden="true"></i><span itemprop="copyrightYear">2019 - 2023</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank">Tinggeng</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
         </div>
     </footer></div>
@@ -1019,8 +999,8 @@ TLB是 Translation Lookaside Buffer 的缩写,翻译为查找缓冲器。它是M
             </a><a href="#" id="view-comments" class="fixed-button" title="View Comments">
                 <i class="fas fa-comment fa-fw" aria-hidden="true"></i>
             </a>
-        </div><link rel="stylesheet" href="/lib/valine/valine.min.css"><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/valine@1.4.18/dist/Valine.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/autocomplete.js@0.38.1/dist/autocomplete.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/algoliasearch@4.13.0/dist/algoliasearch-lite.umd.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lazysizes@5.3.1/lazysizes.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/clipboard@2.0.11/dist/clipboard.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/sharer.js@0.5.1/sharer.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"Copy to clipboard","maxShownLines":50},"comment":{"valine":{"appId":"","appKey":"","avatar":"mp","el":"#valine","emojiCDN":"https://cdn.jsdelivr.net/npm/emoji-datasource-google@14.0.0/img/google/64/","emojiMaps":{"100":"1f4af.png","alien":"1f47d.png","anger":"1f4a2.png","angry":"1f620.png","anguished":"1f627.png","astonished":"1f632.png","black_heart":"1f5a4.png","blue_heart":"1f499.png","blush":"1f60a.png","bomb":"1f4a3.png","boom":"1f4a5.png","broken_heart":"1f494.png","brown_heart":"1f90e.png","clown_face":"1f921.png","cold_face":"1f976.png","cold_sweat":"1f630.png","confounded":"1f616.png","confused":"1f615.png","cry":"1f622.png","crying_cat_face":"1f63f.png","cupid":"1f498.png","dash":"1f4a8.png","disappointed":"1f61e.png","disappointed_relieved":"1f625.png","dizzy":"1f4ab.png","dizzy_face":"1f635.png","drooling_face":"1f924.png","exploding_head":"1f92f.png","expressionless":"1f611.png","face_vomiting":"1f92e.png","face_with_cowboy_hat":"1f920.png","face_with_hand_over_mouth":"1f92d.png","face_with_head_bandage":"1f915.png","face_with_monocle":"1f9d0.png","face_with_raised_eyebrow":"1f928.png","face_with_rolling_eyes":"1f644.png","face_with_symbols_on_mouth":"1f92c.png","face_with_thermometer":"1f912.png","fearful":"1f628.png","flushed":"1f633.png","frowning":"1f626.png","ghost":"1f47b.png","gift_heart":"1f49d.png","green_heart":"1f49a.png","grimacing":"1f62c.png","grin":"1f601.png","grinning":"1f600.png","hankey":"1f4a9.png","hear_no_evil":"1f649.png","heart":"2764-fe0f.png","heart_decoration":"1f49f.png","heart_eyes":"1f60d.png","heart_eyes_cat":"1f63b.png","heartbeat":"1f493.png","heartpulse":"1f497.png","heavy_heart_exclamation_mark_ornament":"2763-fe0f.png","hole":"1f573-fe0f.png","hot_face":"1f975.png","hugging_face":"1f917.png","hushed":"1f62f.png","imp":"1f47f.png","innocent":"1f607.png","japanese_goblin":"1f47a.png","japanese_ogre":"1f479.png","joy":"1f602.png","joy_cat":"1f639.png","kiss":"1f48b.png","kissing":"1f617.png","kissing_cat":"1f63d.png","kissing_closed_eyes":"1f61a.png","kissing_heart":"1f618.png","kissing_smiling_eyes":"1f619.png","laughing":"1f606.png","left_speech_bubble":"1f5e8-fe0f.png","love_letter":"1f48c.png","lying_face":"1f925.png","mask":"1f637.png","money_mouth_face":"1f911.png","nauseated_face":"1f922.png","nerd_face":"1f913.png","neutral_face":"1f610.png","no_mouth":"1f636.png","open_mouth":"1f62e.png","orange_heart":"1f9e1.png","partying_face":"1f973.png","pensive":"1f614.png","persevere":"1f623.png","pleading_face":"1f97a.png","pouting_cat":"1f63e.png","purple_heart":"1f49c.png","rage":"1f621.png","relaxed":"263a-fe0f.png","relieved":"1f60c.png","revolving_hearts":"1f49e.png","right_anger_bubble":"1f5ef-fe0f.png","robot_face":"1f916.png","rolling_on_the_floor_laughing":"1f923.png","scream":"1f631.png","scream_cat":"1f640.png","see_no_evil":"1f648.png","shushing_face":"1f92b.png","skull":"1f480.png","skull_and_crossbones":"2620-fe0f.png","sleeping":"1f634.png","sleepy":"1f62a.png","slightly_frowning_face":"1f641.png","slightly_smiling_face":"1f642.png","smile":"1f604.png","smile_cat":"1f638.png","smiley":"1f603.png","smiley_cat":"1f63a.png","smiling_face_with_3_hearts":"1f970.png","smiling_imp":"1f608.png","smirk":"1f60f.png","smirk_cat":"1f63c.png","sneezing_face":"1f927.png","sob":"1f62d.png","space_invader":"1f47e.png","sparkling_heart":"1f496.png","speak_no_evil":"1f64a.png","speech_balloon":"1f4ac.png","star-struck":"1f929.png","stuck_out_tongue":"1f61b.png","stuck_out_tongue_closed_eyes":"1f61d.png","stuck_out_tongue_winking_eye":"1f61c.png","sunglasses":"1f60e.png","sweat":"1f613.png","sweat_drops":"1f4a6.png","sweat_smile":"1f605.png","thinking_face":"1f914.png","thought_balloon":"1f4ad.png","tired_face":"1f62b.png","triumph":"1f624.png","two_hearts":"1f495.png","unamused":"1f612.png","upside_down_face":"1f643.png","weary":"1f629.png","white_frowning_face":"2639-fe0f.png","white_heart":"1f90d.png","wink":"1f609.png","woozy_face":"1f974.png","worried":"1f61f.png","yawning_face":"1f971.png","yellow_heart":"1f49b.png","yum":"1f60b.png","zany_face":"1f92a.png","zipper_mouth_face":"1f910.png","zzz":"1f4a4.png"},"enableQQ":false,"highlight":true,"lang":"en","pageSize":10,"placeholder":"Your comment ...","recordIP":true,"serverURLs":"https://leancloud.hugoloveit.com","visitor":true}},"search":{"algoliaAppID":"","algoliaIndex":"","algoliaSearchKey":"","highlightTag":"em","maxResultLength":10,"noResultsFound":"No results found","snippetLength":30,"type":"algolia"}};</script><script type="text/javascript" src="/js/theme.min.js"></script><script type="text/javascript">
+        </div><link rel="stylesheet" href="/lib/valine/valine.min.css"><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/valine@1.5.0/dist/Valine.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/autocomplete.js@0.38.1/dist/autocomplete.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/algoliasearch@4.13.1/dist/algoliasearch-lite.umd.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lazysizes@5.3.2/lazysizes.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/clipboard@2.0.11/dist/clipboard.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/sharer.js@0.5.1/sharer.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"Copy to clipboard","maxShownLines":50},"comment":{"valine":{"appId":"","appKey":"","avatar":"mp","el":"#valine","emojiCDN":"https://cdn.jsdelivr.net/npm/emoji-datasource-google@14.0.0/img/google/64/","emojiMaps":{"100":"1f4af.png","alien":"1f47d.png","anger":"1f4a2.png","angry":"1f620.png","anguished":"1f627.png","astonished":"1f632.png","black_heart":"1f5a4.png","blue_heart":"1f499.png","blush":"1f60a.png","bomb":"1f4a3.png","boom":"1f4a5.png","broken_heart":"1f494.png","brown_heart":"1f90e.png","clown_face":"1f921.png","cold_face":"1f976.png","cold_sweat":"1f630.png","confounded":"1f616.png","confused":"1f615.png","cry":"1f622.png","crying_cat_face":"1f63f.png","cupid":"1f498.png","dash":"1f4a8.png","disappointed":"1f61e.png","disappointed_relieved":"1f625.png","dizzy":"1f4ab.png","dizzy_face":"1f635.png","drooling_face":"1f924.png","exploding_head":"1f92f.png","expressionless":"1f611.png","face_vomiting":"1f92e.png","face_with_cowboy_hat":"1f920.png","face_with_hand_over_mouth":"1f92d.png","face_with_head_bandage":"1f915.png","face_with_monocle":"1f9d0.png","face_with_raised_eyebrow":"1f928.png","face_with_rolling_eyes":"1f644.png","face_with_symbols_on_mouth":"1f92c.png","face_with_thermometer":"1f912.png","fearful":"1f628.png","flushed":"1f633.png","frowning":"1f626.png","ghost":"1f47b.png","gift_heart":"1f49d.png","green_heart":"1f49a.png","grimacing":"1f62c.png","grin":"1f601.png","grinning":"1f600.png","hankey":"1f4a9.png","hear_no_evil":"1f649.png","heart":"2764-fe0f.png","heart_decoration":"1f49f.png","heart_eyes":"1f60d.png","heart_eyes_cat":"1f63b.png","heartbeat":"1f493.png","heartpulse":"1f497.png","heavy_heart_exclamation_mark_ornament":"2763-fe0f.png","hole":"1f573-fe0f.png","hot_face":"1f975.png","hugging_face":"1f917.png","hushed":"1f62f.png","imp":"1f47f.png","innocent":"1f607.png","japanese_goblin":"1f47a.png","japanese_ogre":"1f479.png","joy":"1f602.png","joy_cat":"1f639.png","kiss":"1f48b.png","kissing":"1f617.png","kissing_cat":"1f63d.png","kissing_closed_eyes":"1f61a.png","kissing_heart":"1f618.png","kissing_smiling_eyes":"1f619.png","laughing":"1f606.png","left_speech_bubble":"1f5e8-fe0f.png","love_letter":"1f48c.png","lying_face":"1f925.png","mask":"1f637.png","money_mouth_face":"1f911.png","nauseated_face":"1f922.png","nerd_face":"1f913.png","neutral_face":"1f610.png","no_mouth":"1f636.png","open_mouth":"1f62e.png","orange_heart":"1f9e1.png","partying_face":"1f973.png","pensive":"1f614.png","persevere":"1f623.png","pleading_face":"1f97a.png","pouting_cat":"1f63e.png","purple_heart":"1f49c.png","rage":"1f621.png","relaxed":"263a-fe0f.png","relieved":"1f60c.png","revolving_hearts":"1f49e.png","right_anger_bubble":"1f5ef-fe0f.png","robot_face":"1f916.png","rolling_on_the_floor_laughing":"1f923.png","scream":"1f631.png","scream_cat":"1f640.png","see_no_evil":"1f648.png","shushing_face":"1f92b.png","skull":"1f480.png","skull_and_crossbones":"2620-fe0f.png","sleeping":"1f634.png","sleepy":"1f62a.png","slightly_frowning_face":"1f641.png","slightly_smiling_face":"1f642.png","smile":"1f604.png","smile_cat":"1f638.png","smiley":"1f603.png","smiley_cat":"1f63a.png","smiling_face_with_3_hearts":"1f970.png","smiling_imp":"1f608.png","smirk":"1f60f.png","smirk_cat":"1f63c.png","sneezing_face":"1f927.png","sob":"1f62d.png","space_invader":"1f47e.png","sparkling_heart":"1f496.png","speak_no_evil":"1f64a.png","speech_balloon":"1f4ac.png","star-struck":"1f929.png","stuck_out_tongue":"1f61b.png","stuck_out_tongue_closed_eyes":"1f61d.png","stuck_out_tongue_winking_eye":"1f61c.png","sunglasses":"1f60e.png","sweat":"1f613.png","sweat_drops":"1f4a6.png","sweat_smile":"1f605.png","thinking_face":"1f914.png","thought_balloon":"1f4ad.png","tired_face":"1f62b.png","triumph":"1f624.png","two_hearts":"1f495.png","unamused":"1f612.png","upside_down_face":"1f643.png","weary":"1f629.png","white_frowning_face":"2639-fe0f.png","white_heart":"1f90d.png","wink":"1f609.png","woozy_face":"1f974.png","worried":"1f61f.png","yawning_face":"1f971.png","yellow_heart":"1f49b.png","yum":"1f60b.png","zany_face":"1f92a.png","zipper_mouth_face":"1f910.png","zzz":"1f4a4.png"},"enableQQ":false,"highlight":true,"lang":"en","pageSize":10,"placeholder":"Your comment ...","recordIP":true,"serverURLs":"https://leancloud.hugoloveit.com","visitor":true}},"search":{"algoliaAppID":"","algoliaIndex":"","algoliaSearchKey":"","highlightTag":"em","maxResultLength":10,"noResultsFound":"No results found","snippetLength":30,"type":"algolia"}};</script><script type="text/javascript" src="/js/theme.min.js"></script><script type="text/javascript">
             window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());
             gtag('config', 'G-EVHJQ5NV0G', { 'anonymize_ip': true });
-        </script><script type="text/javascript" src="https://www.googletagmanager.com/gtag/js?id=G-EVHJQ5NV0G" async></script></body>
+        </script><script type="text/javascript" src="https://www.googletagmanager.com/gtag/js?id=G-EVHJQ5NV0G" async></script><script type="text/javascript" src="https://plausible.io/js/plausible.js" async defer data-domain="tinggengyan.github.io"></script></body>
 </html>

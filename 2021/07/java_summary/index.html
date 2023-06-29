@@ -22,7 +22,9 @@ Java8 TREEIFY_THRESHOLD 用于判断是否需要将链表转换为红黑树的�
 <meta name="application-name" content="Tinggeng">
 <meta name="apple-mobile-web-app-title" content="Tinggeng"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
         <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="https://tinggengyan.github.io/2021/07/java_summary/" /><link rel="prev" href="https://tinggengyan.github.io/2021/06/cronet-build/" /><link rel="next" href="https://tinggengyan.github.io/2021/07/mysoftware/" /><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/normalize.css@8.0.1/normalize.min.css"><link rel="stylesheet" href="/css/style.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css"><script type="application/ld+json">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="https://tinggengyan.github.io/2021/07/java_summary/" /><link rel="prev" href="https://tinggengyan.github.io/2021/06/cronet-build/" /><link rel="next" href="https://tinggengyan.github.io/2021/07/mysoftware/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css"></noscript><link rel="preload" href="https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css"></noscript><script type="application/ld+json">
     {
         "@context": "http://schema.org",
         "@type": "BlogPosting",
@@ -31,7 +33,7 @@ Java8 TREEIFY_THRESHOLD 用于判断是否需要将链表转换为红黑树的�
         "mainEntityOfPage": {
             "@type": "WebPage",
             "@id": "https:\/\/tinggengyan.github.io\/2021\/07\/java_summary\/"
-        },"image": ["https:\/\/tinggengyan.github.io\/images\/Apple-Devices-Preview.png"],"genre": "posts","keywords": "Java,JVM","wordcount":  1704 ,
+        },"image": ["https:\/\/tinggengyan.github.io\/images\/Apple-Devices-Preview.png"],"genre": "posts","keywords": "Java,JVM","wordcount":  1703 ,
         "url": "https:\/\/tinggengyan.github.io\/2021\/07\/java_summary\/","datePublished": "2021-07-03T16:29:04+00:00","dateModified": "2021-07-03T16:29:04+00:00","publisher": {
             "@type": "Organization",
             "name": "xxxx","logo": "https:\/\/tinggengyan.github.io\/img\/avatar.png"},"author": {
@@ -61,8 +63,7 @@ Java8 TREEIFY_THRESHOLD 用于判断是否需要将链表转换为红黑树的�
                         </span>
                     </span><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
                     <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
-                </a>
-            </div>
+                </a></div>
         </div>
     </div>
 </header><header class="mobile" id="header-mobile">
@@ -105,9 +106,8 @@ Java8 TREEIFY_THRESHOLD 用于判断是否需要将链表转换为红黑树的�
             <h2 class="toc-title">Contents</h2>
             <div class="toc-content" id="toc-content-auto"></div>
         </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">一张思维导图看 Java 【持续迭代】</h1><div class="post-meta">
-            <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Tinggeng</a>
-</span>&nbsp;<span class="post-category">included in <a href="/categories/java/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Java</a></span></div>
-            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2021-07-03">2021-07-03</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;1704 words&nbsp;
+            <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Tinggeng</a></span>&nbsp;<span class="post-category">included in <a href="/categories/java/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Java</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2021-07-03">2021-07-03</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;1703 words&nbsp;
                 <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;8 minutes&nbsp;<span id="/2021/07/java_summary/" class="leancloud_visitors" data-flag-title="一张思维导图看 Java 【持续迭代】">
                         <i class="far fa-eye fa-fw" aria-hidden="true"></i>&nbsp;<span class=leancloud-visitors-count></span>&nbsp;views
                     </span>&nbsp;</div>
@@ -342,14 +342,10 @@ Java8 TREEIFY_THRESHOLD 用于判断是否需要将链表转换为红黑树的�
 <h1 id="hashmap-原理">HashMap 原理</h1>
 <p>可参考的文章</p>
 <ul>
-<li><a href="https://zhuanlan.zhihu.com/p/200997545" target="_blank" rel="noopener noreffer">HashMap原理，循环链表是如何产生的</a>
-</li>
-<li><a href="https://crossoverjie.top/2018/07/23/java-senior/ConcurrentHashMap/" target="_blank" rel="noopener noreffer">HashMap? ConcurrentHashMap? 相信看完这篇没人能难住你！</a>
-</li>
-<li><a href="https://zhuanlan.zhihu.com/p/263523069" target="_blank" rel="noopener noreffer">转换红黑树的阈值为何设置为8</a>
-</li>
-<li><a href="https://hg.openjdk.org/jdk8/jdk8/jdk/file/687fd7c7986d/src/share/classes/java/util/HashMap.java#l174" target="_blank" rel="noopener noreffer">官方comment</a>
-</li>
+<li><a href="https://zhuanlan.zhihu.com/p/200997545" target="_blank" rel="noopener noreffer ">HashMap原理，循环链表是如何产生的</a></li>
+<li><a href="https://crossoverjie.top/2018/07/23/java-senior/ConcurrentHashMap/" target="_blank" rel="noopener noreffer ">HashMap? ConcurrentHashMap? 相信看完这篇没人能难住你！</a></li>
+<li><a href="https://zhuanlan.zhihu.com/p/263523069" target="_blank" rel="noopener noreffer ">转换红黑树的阈值为何设置为8</a></li>
+<li><a href="https://hg.openjdk.org/jdk8/jdk8/jdk/file/687fd7c7986d/src/share/classes/java/util/HashMap.java#l174" target="_blank" rel="noopener noreffer ">官方comment</a></li>
 </ul>
 <h2 id="结构">结构</h2>
 <ul>
@@ -452,8 +448,7 @@ Java8 TREEIFY_THRESHOLD 用于判断是否需要将链表转换为红黑树的�
 <p>阈值为何是 8 和 6，这个是一个概率问题，是用泊松分布计算出来。</p>
 <h1 id="concurrenthashmap">ConcurrentHashMap</h1>
 <ul>
-<li><a href="https://mp.weixin.qq.com/s/My4P_BBXDnAGX1gh630ZKw" target="_blank" rel="noopener noreffer">可以参考的文章</a>
-
+<li><a href="https://mp.weixin.qq.com/s/My4P_BBXDnAGX1gh630ZKw" target="_blank" rel="noopener noreffer ">可以参考的文章</a>
 HashTable是一个线程安全的类，它使用synchronized来锁住整张Hash表来实现线程安全，即每次锁住整张表让线程独占，相当于所有线程进行读写时都去竞争一把锁，导致效率非常低下。ConcurrentHashMap可以做到读取数据不加锁，并且其内部的结构可以让其在进行写操作的时候能够将锁的粒度保持地尽量地小，允许多个修改操作并发进行，其关键在于使用了<strong>锁分段技术</strong>。它使用了多个锁来控制对hash表的不同部分进行的修改。对于JDK1.7版本的实现, ConcurrentHashMap内部使用段(Segment)来表示这些不同的部分，每个段其实就是一个小的Hashtable，它们有自己的锁。只要多个修改操作发生在不同的段上，它们就可以并发进行。JDK1.8的实现降低锁的粒度，<strong>JDK1.7版本锁的粒度是基于Segment的</strong>，包含多个HashEntry，而<strong>JDK1.8锁的粒度就是HashEntry（首节点）</strong>。
 JAVA7之前ConcurrentHashMap主要采用锁机制，在对某个Segment进行操作时，将该Segment锁定，不允许对其进行非查询操作，而在<strong>JAVA8之后采用CAS无锁算法</strong>，这种乐观操作在完成前进行判断，如果符合预期结果才给予执行，对并发操作提供良好的优化.</li>
 </ul>
@@ -518,8 +513,7 @@ hashmap 优势降低。</p>
 <h1 id="设计模式">设计模式</h1>
 <h2 id="创建型5">创建型（5）</h2>
 <h3 id="单例模式">单例模式</h3>
-<p><a href="https://www.cnblogs.com/xz816111/p/8470048.html" target="_blank" rel="noopener noreffer">参考的文章</a>
-</p>
+<p><a href="https://www.cnblogs.com/xz816111/p/8470048.html" target="_blank" rel="noopener noreffer ">参考的文章</a></p>
 <p>双重检查锁的意义</p>
 <ul>
 <li>外层的判空，是为了提升性能；</li>
@@ -791,8 +785,7 @@ Retrofit 应用：Retrofit 通过动态代理，为我们定义的请求接口�
 <h2 id="leakcanary-的应用">LeakCanary 的应用</h2>
 <p>可以参考的文章</p>
 <ol>
-<li><a href="https://blog.csdn.net/c10WTiybQ1Ye3/article/details/122954616" target="_blank" rel="noopener noreffer">通过一个 Java 演示原理</a>
-；</li>
+<li><a href="https://blog.csdn.net/c10WTiybQ1Ye3/article/details/122954616" target="_blank" rel="noopener noreffer ">通过一个 Java 演示原理</a>；</li>
 </ol>
 <p>LeakCanary 的检测原理是：</p>
 <ul>
@@ -816,8 +809,7 @@ Retrofit 应用：Retrofit 通过动态代理，为我们定义的请求接口�
 <h1 id="threadlocal">ThreadLocal</h1>
 <p>可以参考的文章</p>
 <ol>
-<li><a href="https://www.cnblogs.com/hongdada/p/12108611.html" target="_blank" rel="noopener noreffer">ThreadLocal原理及魔数0x61c88647</a>
-</li>
+<li><a href="https://www.cnblogs.com/hongdada/p/12108611.html" target="_blank" rel="noopener noreffer ">ThreadLocal原理及魔数0x61c88647</a></li>
 </ol>
 <p>ThreadLocal是一种线程封闭技术。ThreadLocal提供了get和set等访问接口或方法，这些方法为每个使用该变量的线程都<strong>存有一份独立的副本</strong>，因此get总是返回由<strong>当前执行线程</strong>在调用set时设置的最新值。</p>
 <p>从ThreadLocal的set和get方法可以看出，它们所操作的对象都是当前线程的<strong>localValues对象的table数组</strong>，因此在不同线程中访问同一个ThreadLocal的set和get方法，它们对ThreadLocal所做的<strong>读写操作仅限于各自线程的内部</strong>，这就是为什么ThreadLocal可以在多个线程中互不干扰地存储和修改数据。</p>
@@ -973,8 +965,7 @@ Retrofit 应用：Retrofit 通过动态代理，为我们定义的请求接口�
 </div><p>针对修改 list 内容的变更，不在原有的数据上修改，而是进行 copy，修改完成之后，调用<code>setArray(newElements);</code>   重新指向新数据即可。</p>
 <h1 id="javautilconcurrent-包的学习">java.util.concurrent 包的学习</h1>
 <ol>
-<li><a href="https://blog.csdn.net/wbwjx/article/details/57856045" target="_blank" rel="noopener noreffer">参考资料一</a>
-</li>
+<li><a href="https://blog.csdn.net/wbwjx/article/details/57856045" target="_blank" rel="noopener noreffer ">参考资料一</a></li>
 </ol>
 <p><img
         class="lazyload"
@@ -1030,8 +1021,7 @@ Retrofit 应用：Retrofit 通过动态代理，为我们定义的请求接口�
 <p>等待的线程是需要阻塞的，与 CountDownLatch 的区别是，CountDownLatch 只是进行了计数而已，不会被阻塞，CyclicBarrier 的线程是会被阻塞的。</p>
 <h3 id="exchanger">Exchanger</h3>
 <ul>
-<li><a href="https://www.jianshu.com/p/990ae2ab1ae0" target="_blank" rel="noopener noreffer">参考资料</a>
-</li>
+<li><a href="https://www.jianshu.com/p/990ae2ab1ae0" target="_blank" rel="noopener noreffer ">参考资料</a></li>
 </ul>
 <p>Exchanger 是 JDK 1.5 开始提供的一个用于两个工作线程之间交换数据的封装工具类，简单说就是一个线程在完成一定的事务后想与另一个线程交换数据，则第一个先拿出数据的线程会一直等待第二个线程，直到第二个线程拿着数据到来时才能彼此交换对应数据。</p>
 <h3 id="semaphore">Semaphore</h3>
@@ -1061,14 +1051,10 @@ Retrofit 应用：Retrofit 通过动态代理，为我们定义的请求接口�
 </ol>
 <h3 id="reentrantlock">ReentrantLock</h3>
 <ul>
-<li><a href="https://juejin.cn/post/6844904058302513159#heading-15" target="_blank" rel="noopener noreffer">可参考的文章1</a>
-</li>
-<li><a href="https://stackoverflow.com/questions/11821801/why-use-a-reentrantlock-if-one-can-use-synchronizedthis" target="_blank" rel="noopener noreffer">可参考的文章2</a>
-</li>
-<li><a href="https://blog.csdn.net/m0_45406092/article/details/113789547" target="_blank" rel="noopener noreffer">可参考的文章3</a>
-</li>
-<li><a href="https://winterbe.com/posts/2015/04/30/java8-concurrency-tutorial-synchronized-locks-examples/" target="_blank" rel="noopener noreffer">可参考的文章4</a>
-</li>
+<li><a href="https://juejin.cn/post/6844904058302513159#heading-15" target="_blank" rel="noopener noreffer ">可参考的文章1</a></li>
+<li><a href="https://stackoverflow.com/questions/11821801/why-use-a-reentrantlock-if-one-can-use-synchronizedthis" target="_blank" rel="noopener noreffer ">可参考的文章2</a></li>
+<li><a href="https://blog.csdn.net/m0_45406092/article/details/113789547" target="_blank" rel="noopener noreffer ">可参考的文章3</a></li>
+<li><a href="https://winterbe.com/posts/2015/04/30/java8-concurrency-tutorial-synchronized-locks-examples/" target="_blank" rel="noopener noreffer ">可参考的文章4</a></li>
 </ul>
 <blockquote>
 <ul>
@@ -1128,8 +1114,7 @@ Retrofit 应用：Retrofit 通过动态代理，为我们定义的请求接口�
 </ol>
 <h4 id="线程池">线程池</h4>
 <ul>
-<li><a href="https://mp.weixin.qq.com/s/NDOx94yY06OnHjrYq2lVYw" target="_blank" rel="noopener noreffer">可以参考的资源1</a>
-</li>
+<li><a href="https://mp.weixin.qq.com/s/NDOx94yY06OnHjrYq2lVYw" target="_blank" rel="noopener noreffer ">可以参考的资源1</a></li>
 </ul>
 <p>线程池就是事先将多个线程对象放到一个容器中，使用的时候就不用new线程而是直接去池中拿线程即可，节省了开辟子线程的时间，提高了代码执行效率。</p>
 <p>熟悉对象池、连接池的朋友肯定对池化技术不陌生，一般池化技术的使用方式是从池子里拿出资源，然后使用，用完了之后归还。但是线程池的实现不太一样，不是说我们从线程池里面拿一个线程来执行任务，等任务执行完了之后再归还线程，你可以想一下这样做是否合理。线程池的常见实现更像是一个黑盒存在，我们设置好线程池的大小之后，直接往线程池里面丢任务，然后就不管了。</p>
@@ -1185,8 +1170,7 @@ Retrofit 应用：Retrofit 通过动态代理，为我们定义的请求接口�
 <pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">When a new task is submitted in method `[execute(java.lang.Runnable)](https://developer.android.com/reference/java/util/concurrent/ThreadPoolExecutor#execute(java.lang.Runnable))`, if fewer than corePoolSize threads are running, a new thread is created to handle the request, even if other worker threads are idle.
 </span></span></code></pre></td></tr></table>
 </div>
-</div><p><a href="https://developer.android.com/reference/java/util/concurrent/ThreadPoolExecutor" target="_blank" rel="noopener noreffer">参考链接</a>
-</p>
+</div><p><a href="https://developer.android.com/reference/java/util/concurrent/ThreadPoolExecutor" target="_blank" rel="noopener noreffer ">参考链接</a></p>
 <p>答案 ：新创建一个线程执行任务。</p>
 <h5 id="原生线程池的核心线程一定伴随着任务慢慢创建的吗">原生线程池的核心线程一定伴随着任务慢慢创建的吗？</h5>
 <p>并不是，线程池提供了两个方法：</p>
@@ -1290,14 +1274,10 @@ execute 方法想必大家都不陌生，就是给线程池提交任务的方法
 <p>提供更多的锁机制
 实现阻塞锁和与之相关依赖于先进先出队列等待队列的同步器；</p>
 </blockquote>
-<p><a href="https://mp.weixin.qq.com/s/iNz6sTen2CSOdLE0j7qu9A" target="_blank" rel="noopener noreffer">参考的文章1</a>
-
-<a href="https://mp.weixin.qq.com/s/hB5ncpe7_tVovQj1sNlDRA" target="_blank" rel="noopener noreffer">参考的文章2</a>
-
-<a href="https://mp.weixin.qq.com/s/trsjgUFRrz40Simq2VKxTA" target="_blank" rel="noopener noreffer">参考文章3</a>
-
-<a href="https://www.bilibili.com/video/BV1V84y1H7oF/?spm_id_from=333.788&amp;vd_source=2383886846e4aa5e7cf6fd52f9d0a367" target="_blank" rel="noopener noreffer">参考的原理讲解</a>
-</p>
+<p><a href="https://mp.weixin.qq.com/s/iNz6sTen2CSOdLE0j7qu9A" target="_blank" rel="noopener noreffer ">参考的文章1</a>
+<a href="https://mp.weixin.qq.com/s/hB5ncpe7_tVovQj1sNlDRA" target="_blank" rel="noopener noreffer ">参考的文章2</a>
+<a href="https://mp.weixin.qq.com/s/trsjgUFRrz40Simq2VKxTA" target="_blank" rel="noopener noreffer ">参考文章3</a>
+<a href="https://www.bilibili.com/video/BV1V84y1H7oF/?spm_id_from=333.788&amp;vd_source=2383886846e4aa5e7cf6fd52f9d0a367" target="_blank" rel="noopener noreffer ">参考的原理讲解</a></p>
 <h2 id="基于许可的多线程控制">基于许可的多线程控制</h2>
 <p>为了控制多个线程访问共享资源 ，我们需要为每个访问共享区间的线程派发一个许可。拿到一个许可的线程才能进入共享区间活动。当线程完成工作后，离开共享区间时，必须要归还许可，以确保后续的线程可以正常取得许可。如果许可用完了，那么线程进入共享区间时，就必须等待，这就是控制多线程并行的基本思想。</p>
 <h2 id="管程">管程</h2>
@@ -1352,8 +1332,7 @@ execute 方法想必大家都不陌生，就是给线程池提交任务的方法
 </ul>
 <h1 id="java-对象真实占用的内存大小">Java 对象真实占用的内存大小</h1>
 <ul>
-<li><a href="https://www.cnblogs.com/rickiyang/p/14206724.html" target="_blank" rel="noopener noreffer">可以参考的资源1</a>
-</li>
+<li><a href="https://www.cnblogs.com/rickiyang/p/14206724.html" target="_blank" rel="noopener noreffer ">可以参考的资源1</a></li>
 </ul>
 <p><img
         class="lazyload"
@@ -1397,10 +1376,8 @@ execute 方法想必大家都不陌生，就是给线程池提交任务的方法
 <p>引用类型在 32 位系统上每个引用对象占用 4 byte，在 64 位系统上每个引用对象占用 8 byte。</p>
 <h2 id="java-对象到底占用多大内存">Java 对象到底占用多大内存</h2>
 <ul>
-<li><a href="https://hg.openjdk.org/jdk8u/jdk8u/hotspot/file/6f33e450999c/src/share/vm/oops/markOop.hpp" target="_blank" rel="noopener noreffer">可供参考的资料1</a>
-</li>
-<li><a href="https://github.com/openjdk/jol" target="_blank" rel="noopener noreffer">JOL</a>
-</li>
+<li><a href="https://hg.openjdk.org/jdk8u/jdk8u/hotspot/file/6f33e450999c/src/share/vm/oops/markOop.hpp" target="_blank" rel="noopener noreffer ">可供参考的资料1</a></li>
+<li><a href="https://github.com/openjdk/jol" target="_blank" rel="noopener noreffer ">JOL</a></li>
 </ul>
 <p><strong>首先记住公式，对象由 对象头 + 实例数据 + padding 填充字节组成，虚拟机规范要求对象所占内存必须是 8 的倍数，padding 就是干这个的</strong>。</p>
 <p>对象头由 Markword + 类指针kclass（该指针指向该类型在方法区的元类型） 组成。</p>
@@ -1418,7 +1395,7 @@ execute 方法想必大家都不陌生，就是给线程池提交任务的方法
                             <a class="link-to-markdown" href="/2021/07/java_summary/index.md" target="_blank">Read Markdown</a>
                         </span></div>
             <div class="post-info-share">
-                <span><a href="javascript:void(0);" title="Share on Twitter" data-sharer="twitter" data-url="https://tinggengyan.github.io/2021/07/java_summary/" data-title="一张思维导图看 Java 【持续迭代】" data-hashtags="Java,JVM"><i class="fab fa-twitter fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Facebook" data-sharer="facebook" data-url="https://tinggengyan.github.io/2021/07/java_summary/" data-hashtag="Java,JVM"><i class="fab fa-facebook-square fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Hacker News" data-sharer="hackernews" data-url="https://tinggengyan.github.io/2021/07/java_summary/" data-title="一张思维导图看 Java 【持续迭代】"><i class="fab fa-hacker-news fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Line" data-sharer="line" data-url="https://tinggengyan.github.io/2021/07/java_summary/" data-title="一张思维导图看 Java 【持续迭代】"><i data-svg-src="https://cdn.jsdelivr.net/npm/simple-icons@6.20.0/icons/line.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on 微博" data-sharer="weibo" data-url="https://tinggengyan.github.io/2021/07/java_summary/" data-title="一张思维导图看 Java 【持续迭代】"><i class="fab fa-weibo fa-fw" aria-hidden="true"></i></a></span>
+                <span><a href="javascript:void(0);" title="Share on Twitter" data-sharer="twitter" data-url="https://tinggengyan.github.io/2021/07/java_summary/" data-title="一张思维导图看 Java 【持续迭代】" data-hashtags="Java,JVM"><i class="fab fa-twitter fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Facebook" data-sharer="facebook" data-url="https://tinggengyan.github.io/2021/07/java_summary/" data-hashtag="Java,JVM"><i class="fab fa-facebook-square fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Hacker News" data-sharer="hackernews" data-url="https://tinggengyan.github.io/2021/07/java_summary/" data-title="一张思维导图看 Java 【持续迭代】"><i class="fab fa-hacker-news fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Line" data-sharer="line" data-url="https://tinggengyan.github.io/2021/07/java_summary/" data-title="一张思维导图看 Java 【持续迭代】"><i data-svg-src="https://cdn.jsdelivr.net/npm/simple-icons@7.3.0/icons/line.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on 微博" data-sharer="weibo" data-url="https://tinggengyan.github.io/2021/07/java_summary/" data-title="一张思维导图看 Java 【持续迭代】"><i class="fab fa-weibo fa-fw" aria-hidden="true"></i></a></span>
             </div>
         </div>
     </div>
@@ -1437,7 +1414,7 @@ execute 方法想必大家都不陌生，就是给线程池提交任务的方法
                 Please enable JavaScript to view the comments powered by <a href="https://valine.js.org/">Valine</a>.
             </noscript></div></article></div>
             </main><footer class="footer">
-        <div class="footer-container"><div class="footer-line">Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.114.1">Hugo</a> | Theme - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw" aria-hidden="true"></i> LoveIt</a>
+        <div class="footer-container"><div class="footer-line">Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.114.1">Hugo</a> | Theme - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.11"><i class="far fa-kiss-wink-heart fa-fw" aria-hidden="true"></i> LoveIt</a>
                 </div><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright fa-fw" aria-hidden="true"></i><span itemprop="copyrightYear">2019 - 2023</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank">Tinggeng</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
         </div>
     </footer></div>
@@ -1447,8 +1424,8 @@ execute 方法想必大家都不陌生，就是给线程池提交任务的方法
             </a><a href="#" id="view-comments" class="fixed-button" title="View Comments">
                 <i class="fas fa-comment fa-fw" aria-hidden="true"></i>
             </a>
-        </div><link rel="stylesheet" href="/lib/valine/valine.min.css"><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/valine@1.4.18/dist/Valine.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/autocomplete.js@0.38.1/dist/autocomplete.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/algoliasearch@4.13.0/dist/algoliasearch-lite.umd.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lazysizes@5.3.1/lazysizes.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/clipboard@2.0.11/dist/clipboard.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/sharer.js@0.5.1/sharer.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"Copy to clipboard","maxShownLines":50},"comment":{"valine":{"appId":"","appKey":"","avatar":"mp","el":"#valine","emojiCDN":"https://cdn.jsdelivr.net/npm/emoji-datasource-google@14.0.0/img/google/64/","emojiMaps":{"100":"1f4af.png","alien":"1f47d.png","anger":"1f4a2.png","angry":"1f620.png","anguished":"1f627.png","astonished":"1f632.png","black_heart":"1f5a4.png","blue_heart":"1f499.png","blush":"1f60a.png","bomb":"1f4a3.png","boom":"1f4a5.png","broken_heart":"1f494.png","brown_heart":"1f90e.png","clown_face":"1f921.png","cold_face":"1f976.png","cold_sweat":"1f630.png","confounded":"1f616.png","confused":"1f615.png","cry":"1f622.png","crying_cat_face":"1f63f.png","cupid":"1f498.png","dash":"1f4a8.png","disappointed":"1f61e.png","disappointed_relieved":"1f625.png","dizzy":"1f4ab.png","dizzy_face":"1f635.png","drooling_face":"1f924.png","exploding_head":"1f92f.png","expressionless":"1f611.png","face_vomiting":"1f92e.png","face_with_cowboy_hat":"1f920.png","face_with_hand_over_mouth":"1f92d.png","face_with_head_bandage":"1f915.png","face_with_monocle":"1f9d0.png","face_with_raised_eyebrow":"1f928.png","face_with_rolling_eyes":"1f644.png","face_with_symbols_on_mouth":"1f92c.png","face_with_thermometer":"1f912.png","fearful":"1f628.png","flushed":"1f633.png","frowning":"1f626.png","ghost":"1f47b.png","gift_heart":"1f49d.png","green_heart":"1f49a.png","grimacing":"1f62c.png","grin":"1f601.png","grinning":"1f600.png","hankey":"1f4a9.png","hear_no_evil":"1f649.png","heart":"2764-fe0f.png","heart_decoration":"1f49f.png","heart_eyes":"1f60d.png","heart_eyes_cat":"1f63b.png","heartbeat":"1f493.png","heartpulse":"1f497.png","heavy_heart_exclamation_mark_ornament":"2763-fe0f.png","hole":"1f573-fe0f.png","hot_face":"1f975.png","hugging_face":"1f917.png","hushed":"1f62f.png","imp":"1f47f.png","innocent":"1f607.png","japanese_goblin":"1f47a.png","japanese_ogre":"1f479.png","joy":"1f602.png","joy_cat":"1f639.png","kiss":"1f48b.png","kissing":"1f617.png","kissing_cat":"1f63d.png","kissing_closed_eyes":"1f61a.png","kissing_heart":"1f618.png","kissing_smiling_eyes":"1f619.png","laughing":"1f606.png","left_speech_bubble":"1f5e8-fe0f.png","love_letter":"1f48c.png","lying_face":"1f925.png","mask":"1f637.png","money_mouth_face":"1f911.png","nauseated_face":"1f922.png","nerd_face":"1f913.png","neutral_face":"1f610.png","no_mouth":"1f636.png","open_mouth":"1f62e.png","orange_heart":"1f9e1.png","partying_face":"1f973.png","pensive":"1f614.png","persevere":"1f623.png","pleading_face":"1f97a.png","pouting_cat":"1f63e.png","purple_heart":"1f49c.png","rage":"1f621.png","relaxed":"263a-fe0f.png","relieved":"1f60c.png","revolving_hearts":"1f49e.png","right_anger_bubble":"1f5ef-fe0f.png","robot_face":"1f916.png","rolling_on_the_floor_laughing":"1f923.png","scream":"1f631.png","scream_cat":"1f640.png","see_no_evil":"1f648.png","shushing_face":"1f92b.png","skull":"1f480.png","skull_and_crossbones":"2620-fe0f.png","sleeping":"1f634.png","sleepy":"1f62a.png","slightly_frowning_face":"1f641.png","slightly_smiling_face":"1f642.png","smile":"1f604.png","smile_cat":"1f638.png","smiley":"1f603.png","smiley_cat":"1f63a.png","smiling_face_with_3_hearts":"1f970.png","smiling_imp":"1f608.png","smirk":"1f60f.png","smirk_cat":"1f63c.png","sneezing_face":"1f927.png","sob":"1f62d.png","space_invader":"1f47e.png","sparkling_heart":"1f496.png","speak_no_evil":"1f64a.png","speech_balloon":"1f4ac.png","star-struck":"1f929.png","stuck_out_tongue":"1f61b.png","stuck_out_tongue_closed_eyes":"1f61d.png","stuck_out_tongue_winking_eye":"1f61c.png","sunglasses":"1f60e.png","sweat":"1f613.png","sweat_drops":"1f4a6.png","sweat_smile":"1f605.png","thinking_face":"1f914.png","thought_balloon":"1f4ad.png","tired_face":"1f62b.png","triumph":"1f624.png","two_hearts":"1f495.png","unamused":"1f612.png","upside_down_face":"1f643.png","weary":"1f629.png","white_frowning_face":"2639-fe0f.png","white_heart":"1f90d.png","wink":"1f609.png","woozy_face":"1f974.png","worried":"1f61f.png","yawning_face":"1f971.png","yellow_heart":"1f49b.png","yum":"1f60b.png","zany_face":"1f92a.png","zipper_mouth_face":"1f910.png","zzz":"1f4a4.png"},"enableQQ":false,"highlight":true,"lang":"en","pageSize":10,"placeholder":"Your comment ...","recordIP":true,"serverURLs":"https://leancloud.hugoloveit.com","visitor":true}},"search":{"algoliaAppID":"","algoliaIndex":"","algoliaSearchKey":"","highlightTag":"em","maxResultLength":10,"noResultsFound":"No results found","snippetLength":30,"type":"algolia"}};</script><script type="text/javascript" src="/js/theme.min.js"></script><script type="text/javascript">
+        </div><link rel="stylesheet" href="/lib/valine/valine.min.css"><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/valine@1.5.0/dist/Valine.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/autocomplete.js@0.38.1/dist/autocomplete.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/algoliasearch@4.13.1/dist/algoliasearch-lite.umd.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lazysizes@5.3.2/lazysizes.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/clipboard@2.0.11/dist/clipboard.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/sharer.js@0.5.1/sharer.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"Copy to clipboard","maxShownLines":50},"comment":{"valine":{"appId":"","appKey":"","avatar":"mp","el":"#valine","emojiCDN":"https://cdn.jsdelivr.net/npm/emoji-datasource-google@14.0.0/img/google/64/","emojiMaps":{"100":"1f4af.png","alien":"1f47d.png","anger":"1f4a2.png","angry":"1f620.png","anguished":"1f627.png","astonished":"1f632.png","black_heart":"1f5a4.png","blue_heart":"1f499.png","blush":"1f60a.png","bomb":"1f4a3.png","boom":"1f4a5.png","broken_heart":"1f494.png","brown_heart":"1f90e.png","clown_face":"1f921.png","cold_face":"1f976.png","cold_sweat":"1f630.png","confounded":"1f616.png","confused":"1f615.png","cry":"1f622.png","crying_cat_face":"1f63f.png","cupid":"1f498.png","dash":"1f4a8.png","disappointed":"1f61e.png","disappointed_relieved":"1f625.png","dizzy":"1f4ab.png","dizzy_face":"1f635.png","drooling_face":"1f924.png","exploding_head":"1f92f.png","expressionless":"1f611.png","face_vomiting":"1f92e.png","face_with_cowboy_hat":"1f920.png","face_with_hand_over_mouth":"1f92d.png","face_with_head_bandage":"1f915.png","face_with_monocle":"1f9d0.png","face_with_raised_eyebrow":"1f928.png","face_with_rolling_eyes":"1f644.png","face_with_symbols_on_mouth":"1f92c.png","face_with_thermometer":"1f912.png","fearful":"1f628.png","flushed":"1f633.png","frowning":"1f626.png","ghost":"1f47b.png","gift_heart":"1f49d.png","green_heart":"1f49a.png","grimacing":"1f62c.png","grin":"1f601.png","grinning":"1f600.png","hankey":"1f4a9.png","hear_no_evil":"1f649.png","heart":"2764-fe0f.png","heart_decoration":"1f49f.png","heart_eyes":"1f60d.png","heart_eyes_cat":"1f63b.png","heartbeat":"1f493.png","heartpulse":"1f497.png","heavy_heart_exclamation_mark_ornament":"2763-fe0f.png","hole":"1f573-fe0f.png","hot_face":"1f975.png","hugging_face":"1f917.png","hushed":"1f62f.png","imp":"1f47f.png","innocent":"1f607.png","japanese_goblin":"1f47a.png","japanese_ogre":"1f479.png","joy":"1f602.png","joy_cat":"1f639.png","kiss":"1f48b.png","kissing":"1f617.png","kissing_cat":"1f63d.png","kissing_closed_eyes":"1f61a.png","kissing_heart":"1f618.png","kissing_smiling_eyes":"1f619.png","laughing":"1f606.png","left_speech_bubble":"1f5e8-fe0f.png","love_letter":"1f48c.png","lying_face":"1f925.png","mask":"1f637.png","money_mouth_face":"1f911.png","nauseated_face":"1f922.png","nerd_face":"1f913.png","neutral_face":"1f610.png","no_mouth":"1f636.png","open_mouth":"1f62e.png","orange_heart":"1f9e1.png","partying_face":"1f973.png","pensive":"1f614.png","persevere":"1f623.png","pleading_face":"1f97a.png","pouting_cat":"1f63e.png","purple_heart":"1f49c.png","rage":"1f621.png","relaxed":"263a-fe0f.png","relieved":"1f60c.png","revolving_hearts":"1f49e.png","right_anger_bubble":"1f5ef-fe0f.png","robot_face":"1f916.png","rolling_on_the_floor_laughing":"1f923.png","scream":"1f631.png","scream_cat":"1f640.png","see_no_evil":"1f648.png","shushing_face":"1f92b.png","skull":"1f480.png","skull_and_crossbones":"2620-fe0f.png","sleeping":"1f634.png","sleepy":"1f62a.png","slightly_frowning_face":"1f641.png","slightly_smiling_face":"1f642.png","smile":"1f604.png","smile_cat":"1f638.png","smiley":"1f603.png","smiley_cat":"1f63a.png","smiling_face_with_3_hearts":"1f970.png","smiling_imp":"1f608.png","smirk":"1f60f.png","smirk_cat":"1f63c.png","sneezing_face":"1f927.png","sob":"1f62d.png","space_invader":"1f47e.png","sparkling_heart":"1f496.png","speak_no_evil":"1f64a.png","speech_balloon":"1f4ac.png","star-struck":"1f929.png","stuck_out_tongue":"1f61b.png","stuck_out_tongue_closed_eyes":"1f61d.png","stuck_out_tongue_winking_eye":"1f61c.png","sunglasses":"1f60e.png","sweat":"1f613.png","sweat_drops":"1f4a6.png","sweat_smile":"1f605.png","thinking_face":"1f914.png","thought_balloon":"1f4ad.png","tired_face":"1f62b.png","triumph":"1f624.png","two_hearts":"1f495.png","unamused":"1f612.png","upside_down_face":"1f643.png","weary":"1f629.png","white_frowning_face":"2639-fe0f.png","white_heart":"1f90d.png","wink":"1f609.png","woozy_face":"1f974.png","worried":"1f61f.png","yawning_face":"1f971.png","yellow_heart":"1f49b.png","yum":"1f60b.png","zany_face":"1f92a.png","zipper_mouth_face":"1f910.png","zzz":"1f4a4.png"},"enableQQ":false,"highlight":true,"lang":"en","pageSize":10,"placeholder":"Your comment ...","recordIP":true,"serverURLs":"https://leancloud.hugoloveit.com","visitor":true}},"search":{"algoliaAppID":"","algoliaIndex":"","algoliaSearchKey":"","highlightTag":"em","maxResultLength":10,"noResultsFound":"No results found","snippetLength":30,"type":"algolia"}};</script><script type="text/javascript" src="/js/theme.min.js"></script><script type="text/javascript">
             window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());
             gtag('config', 'G-EVHJQ5NV0G', { 'anonymize_ip': true });
-        </script><script type="text/javascript" src="https://www.googletagmanager.com/gtag/js?id=G-EVHJQ5NV0G" async></script></body>
+        </script><script type="text/javascript" src="https://www.googletagmanager.com/gtag/js?id=G-EVHJQ5NV0G" async></script><script type="text/javascript" src="https://plausible.io/js/plausible.js" async defer data-domain="tinggengyan.github.io"></script></body>
 </html>

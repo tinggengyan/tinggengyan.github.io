@@ -16,7 +16,9 @@
 <meta name="apple-mobile-web-app-title" content="Tinggeng"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
         <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
         <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="https://tinggengyan.github.io/" /><link rel="alternate" href="/index.xml" type="application/rss+xml" title="Tinggeng">
-    <link rel="feed" href="/index.xml" type="application/rss+xml" title="Tinggeng"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/normalize.css@8.0.1/normalize.min.css"><link rel="stylesheet" href="/css/style.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css"><script type="application/ld+json">
+    <link rel="feed" href="/index.xml" type="application/rss+xml" title="Tinggeng"><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css"></noscript><link rel="preload" href="https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css"></noscript><script type="application/ld+json">
     {
         "@context": "http://schema.org",
         "@type": "WebSite",
@@ -47,8 +49,7 @@
                         </span>
                     </span><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
                     <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
-                </a>
-            </div>
+                </a></div>
         </div>
     </div>
 </header><header class="mobile" id="header-mobile">
@@ -97,8 +98,7 @@
         title="../img/avatar.png" /></a></div><h1 class="home-title">This Tinggeng</h1><div class="home-subtitle"><div id="id-1" class="typeit"></div></div><div class="links"></div></div>
 <article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
         <a href="/2016/12/messgaemechanism/">Android消息机制_Java层</a>
-    </h1><div class="post-meta"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Tinggeng</a>
-</span>&nbsp;<span class="post-publish">published on <time datetime="2016-12-17">2016-12-17</time></span>&nbsp;<span class="post-category">included in <a href="/categories/mobile/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Mobile</a>&nbsp;<a href="/categories/android/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Android</a></span></div><div class="content">概述 本文记录 Android 的消息机制在 java 层的原理分析.
+    </h1><div class="post-meta"><span class="post-author"><a href="/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Tinggeng</a></span>&nbsp;<span class="post-publish">published on <time datetime="2016-12-17">2016-12-17</time></span>&nbsp;<span class="post-category">included in <a href="/categories/mobile/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Mobile</a>&nbsp;<a href="/categories/android/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Android</a></span></div><div class="content">概述 本文记录 Android 的消息机制在 java 层的原理分析.
 背景 在学习 Binder,IPC 的时候,涉及到消息机制,顺带整理一下.
 概述 进程:系统进行资源分配和调度的基本单位. 在 Andrid 中,对于每个 App 运行时前,系统都会为其创建一个进程，App 就运行在一个进程中.
 线程: 作为程序执行的最小单元。 该线程与 App 所在进程之间资源共享，从 Linux 角度来说进程与线程除了是否共享资源外，并没有本质的区别，都是一个 task_struct 结构体，在 CPU 看来进程或线程无非就是一段可执行的代码.
@@ -111,8 +111,7 @@ What 什么是消息机制?消息机制的三大要素:
                 <i class="fas fa-tags fa-fw" aria-hidden="true"></i>&nbsp;<a href="/tags/message/">Message</a>,&nbsp;<a href="/tags/handler/">Handler</a>,&nbsp;<a href="/tags/%E6%B6%88%E6%81%AF%E6%9C%BA%E5%88%B6/">消息机制</a></div></div>
 </article><article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
         <a href="/2016/11/annotation/">Annotation 使用备忘</a>
-    </h1><div class="post-meta"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Tinggeng</a>
-</span>&nbsp;<span class="post-publish">published on <time datetime="2016-11-16">2016-11-16</time></span>&nbsp;<span class="post-category">included in <a href="/categories/programming/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Programming</a>&nbsp;<a href="/categories/java/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Java</a></span></div><div class="content">概述 本文记录注解 Annotation 的概念和使用.
+    </h1><div class="post-meta"><span class="post-author"><a href="/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Tinggeng</a></span>&nbsp;<span class="post-publish">published on <time datetime="2016-11-16">2016-11-16</time></span>&nbsp;<span class="post-category">included in <a href="/categories/programming/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Programming</a>&nbsp;<a href="/categories/java/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Java</a></span></div><div class="content">概述 本文记录注解 Annotation 的概念和使用.
 Annotation 注解 Why 需要注解 在代码中常有些重复的代码，这些代码纯手工太耗时。可以通过一定的标记，然后处理即可。
 What 是注解? Annotation 分类 标准 Annotation 包括 Override, Deprecated, SuppressWarnings，是 java 自带的几个注解，他们由编译器来识别，不会进行编译，不影响代码运行。 元 Annotation @Retention, @Target, @Inherited, @Documented，它们是用来定义 Annotation 的 Annotation。也就是当我们要自定义注解时，需要使用它们。 自定义 Annotation 自定义的 Annotation。 自定义的注解也分为三类，通过元Annotation - @Retention 定义： @Retention(RetentionPolicy.SOURCE) 源码时注解，一般用来作为编译器标记。如 Override, Deprecated, SuppressWarnings。 @Retention(RetentionPolicy.RUNTIME) 运行时注解，在运行时通过反射去识别的注解，这种注解最大的缺点就是反射消耗性能。 @Retention(RetentionPolicy.CLASS) 编译时注解，在编译时被识别并处理的注解，相当于自动生成代码，没有反射，和正常的手写代码无二。 Annotation 的工作原理 APT(Annotation Processing Tool) 根据不同类型的注解，采取不同的处理方式，对于 SOURCE 类型的注解，它只会存在代码中，当进行编译成 class 的时候，就会被抛弃了。 RUNTIME 类型的则一直存到 class 文件中，一直存在虚拟机的运行期。CLASS 类型的注解只存到编译期，会根据 处理器的要求进行处理，生成代码或者其他处理方式，处理完只会，就不会存在了，而如果生成了文件，则会一直存在，被打包。
 术语解释 Element: 表示一个程序元素，比如包、类或者方法。每个元素都表示一个静态的语言级构造（不表示虚拟机的运行时构造）。 元素应该使用 equals(Object)方法进行比较。不保证总是使用相同的对象表示某个特定的元素。要实现基于 Element 对象类的操作，可以使用 visitor 或者使用 getKind() 方法的结果。使用 instanceof 确定此建模层次结构中某一对象的有效类未必可靠，因为一个实现可以选择让单个对象实现多个 Element 子接口。 在 JDK 1.</div><div class="post-footer">
@@ -120,8 +119,7 @@ What 是注解? Annotation 分类 标准 Annotation 包括 Override, Deprecated,
                 <i class="fas fa-tags fa-fw" aria-hidden="true"></i>&nbsp;<a href="/tags/annotation/">Annotation</a></div></div>
 </article><article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
         <a href="/2016/10/markdown%E5%B8%B8%E7%94%A8%E8%AF%AD%E6%B3%95/">Markdown 常用语法</a>
-    </h1><div class="post-meta"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Tinggeng</a>
-</span>&nbsp;<span class="post-publish">published on <time datetime="2016-10-17">2016-10-17</time></span>&nbsp;<span class="post-category">included in <a href="/categories/tool/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Tool</a>&nbsp;<a href="/categories/editor/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Editor</a></span></div><div class="content">概述 本文记录 Markdown 写作时常用的一些语法.
+    </h1><div class="post-meta"><span class="post-author"><a href="/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Tinggeng</a></span>&nbsp;<span class="post-publish">published on <time datetime="2016-10-17">2016-10-17</time></span>&nbsp;<span class="post-category">included in <a href="/categories/tool/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Tool</a>&nbsp;<a href="/categories/editor/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Editor</a></span></div><div class="content">概述 本文记录 Markdown 写作时常用的一些语法.
 Why 平时人们都会进行一些简单的笔记记录，这些文字如果用 Word 就会感觉太复杂，用 txt 又显得单薄，一点格式都没有，不利于书写。自然人们希望有一种方法，能消除这两个缺点的方法，既能有常用的格式，又能方便记忆，简单快捷. Markdown 是满足这种需要的，所以记录总结一些常用的 Markdown 符号，方便记忆.
 What Markdown 是一种轻量级的「标记语言」，Markdown 简单快捷，导出格式也随心所欲，你可以导出 HTML 格式的文件用来网站发布，也可以十分方便的导出 PDF 格式，方便阅读。
 How 1. 标题级别的 语法：
@@ -138,8 +136,7 @@ How 1. 标题级别的 语法：
                 <i class="fas fa-tags fa-fw" aria-hidden="true"></i>&nbsp;<a href="/tags/markdown/">Markdown</a></div></div>
 </article><article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
         <a href="/2016/10/git%E5%AE%9E%E8%B7%B5%E7%AC%94%E8%AE%B0/">git实践笔记</a>
-    </h1><div class="post-meta"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Tinggeng</a>
-</span>&nbsp;<span class="post-publish">published on <time datetime="2016-10-15">2016-10-15</time></span>&nbsp;<span class="post-category">included in <a href="/categories/tool/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Tool</a>&nbsp;<a href="/categories/git/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Git</a></span></div><div class="content">概述 本文记录常用 git 的功能和命令.
+    </h1><div class="post-meta"><span class="post-author"><a href="/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Tinggeng</a></span>&nbsp;<span class="post-publish">published on <time datetime="2016-10-15">2016-10-15</time></span>&nbsp;<span class="post-category">included in <a href="/categories/tool/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Tool</a>&nbsp;<a href="/categories/git/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Git</a></span></div><div class="content">概述 本文记录常用 git 的功能和命令.
 Git实践笔记 Why 一年多前一边工作一边学,做的笔记,后来换了工作,改用SVN,git也就生疏了,最近公司打算换git了,正好重新整理一下笔记.
 What git是目前最好的版本控制工具,是一种动态异步的版本控制工具,对于版本控制的发展历程,可以参考别的文章.目前各个开源管理平台基本上都是用的git,git是必备的技能.
 简介 Linus花了两周时间自己用C写了一个分布式版本控制系统，这就是Git!大写的牛逼!一个月之内，Linux系统的源码已经由Git管理了! 起初的git只能在linux和Unix上运行。
@@ -152,8 +149,7 @@ What git是目前最好的版本控制工具,是一种动态异步的版本控�
                 <i class="fas fa-tags fa-fw" aria-hidden="true"></i>&nbsp;<a href="/tags/git/">Git</a></div></div>
 </article><article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
         <a href="/2016/10/jsbridge%E5%88%86%E6%9E%90/">JsBridge分析</a>
-    </h1><div class="post-meta"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Tinggeng</a>
-</span>&nbsp;<span class="post-publish">published on <time datetime="2016-10-13">2016-10-13</time></span>&nbsp;<span class="post-category">included in <a href="/categories/mobile/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Mobile</a>&nbsp;<a href="/categories/android/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Android</a></span></div><div class="content">序 本篇分析大头鬼的 JsBridge 库.
+    </h1><div class="post-meta"><span class="post-author"><a href="/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Tinggeng</a></span>&nbsp;<span class="post-publish">published on <time datetime="2016-10-13">2016-10-13</time></span>&nbsp;<span class="post-category">included in <a href="/categories/mobile/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Mobile</a>&nbsp;<a href="/categories/android/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Android</a></span></div><div class="content">序 本篇分析大头鬼的 JsBridge 库.
 js bridge 分析大头鬼的 JS 库 主要的任务都交给了 JS 库去执行，整个框架的主要过程分为三个过程，native 通过发送消息调用 JS 方法，在 JS 层的消息处理,将消息处理完成之后返回。
 Java调用JS 方法 对于 native 想要调用 JS 代码的时候，会调用自定义的 BridgeWebView 的 send 方法进行发送消息，对于消息，我们可以自定义处理器和回调处理方法，发出去的消息不是立即处理的，而是将其进行封装，成 Message 对象，如果该消息后续有回调，需要记录回调等待后续的处理，而后添加到队列中。进行排队，等待处理。
 Java 消息的分发 这个消息的分发是指的 native 层面的消息分发，当页面加载 finish 之后，会调用 dispatch 方法对刚刚进入队列中的 Message 对象进行分发。解析出 Message 携带的内容，按照约定，生成对应的 JS 脚本，交由 JS 库处理。
@@ -163,8 +159,7 @@ JS 库对消息的处理 这里处理的其实是一个 URL ，在 JS 库层面�
                 <i class="fas fa-tags fa-fw" aria-hidden="true"></i>&nbsp;<a href="/tags/jsbridge/">JsBridge</a></div></div>
 </article><article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
         <a href="/2016/10/linux%E5%AD%A6%E4%B9%A0%E5%A4%87%E5%BF%98/">Linux学习备忘</a>
-    </h1><div class="post-meta"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Tinggeng</a>
-</span>&nbsp;<span class="post-publish">published on <time datetime="2016-10-07">2016-10-07</time></span>&nbsp;<span class="post-category">included in <a href="/categories/computerfoundation/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>ComputerFoundation</a>&nbsp;<a href="/categories/os/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>OS</a></span></div><div class="content">概述 本文记录学习 Linux 的记录.
+    </h1><div class="post-meta"><span class="post-author"><a href="/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Tinggeng</a></span>&nbsp;<span class="post-publish">published on <time datetime="2016-10-07">2016-10-07</time></span>&nbsp;<span class="post-category">included in <a href="/categories/computerfoundation/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>ComputerFoundation</a>&nbsp;<a href="/categories/os/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>OS</a></span></div><div class="content">概述 本文记录学习 Linux 的记录.
 命令 软件安装 deb 文件安装 直接双击,安装,ubuntu 上会自动调用软件管理器安装.
 zip文件安装 这种是包含了源码的,通过命令解压,设置环境变量.
 1 zip zipFileName.zip tar.gz 源代码安装 在终端中进行解压操作;
@@ -209,7 +204,7 @@ apt-get remove 软件包名称： 删除已安装的软件包（保留配置文�
                     </span>
                 </li></ul></div></div>
             </main><footer class="footer">
-        <div class="footer-container"><div class="footer-line">Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.114.1">Hugo</a> | Theme - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw" aria-hidden="true"></i> LoveIt</a>
+        <div class="footer-container"><div class="footer-line">Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.114.1">Hugo</a> | Theme - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.11"><i class="far fa-kiss-wink-heart fa-fw" aria-hidden="true"></i> LoveIt</a>
                 </div><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright fa-fw" aria-hidden="true"></i><span itemprop="copyrightYear">2019 - 2023</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank">Tinggeng</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
         </div>
     </footer></div>
@@ -219,8 +214,8 @@ apt-get remove 软件包名称： 删除已安装的软件包（保留配置文�
             </a><a href="#" id="view-comments" class="fixed-button" title="View Comments">
                 <i class="fas fa-comment fa-fw" aria-hidden="true"></i>
             </a>
-        </div><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/autocomplete.js@0.38.1/dist/autocomplete.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/algoliasearch@4.13.0/dist/algoliasearch-lite.umd.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lazysizes@5.3.1/lazysizes.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/clipboard@2.0.11/dist/clipboard.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/sharer.js@0.5.1/sharer.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/typeit@8.5.4/dist/index.umd.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"Copy to clipboard","maxShownLines":50},"data":{"id-1":"Deep Think Like A child"},"search":{"algoliaAppID":"","algoliaIndex":"","algoliaSearchKey":"","highlightTag":"em","maxResultLength":10,"noResultsFound":"No results found","snippetLength":30,"type":"algolia"},"typeit":{"cursorChar":"|","cursorSpeed":1000,"data":{"id-1":["id-1"]},"duration":-1,"speed":100}};</script><script type="text/javascript" src="/js/theme.min.js"></script><script type="text/javascript">
+        </div><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/autocomplete.js@0.38.1/dist/autocomplete.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/algoliasearch@4.13.1/dist/algoliasearch-lite.umd.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lazysizes@5.3.2/lazysizes.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/clipboard@2.0.11/dist/clipboard.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/sharer.js@0.5.1/sharer.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/typeit@8.6.0/dist/index.umd.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"Copy to clipboard","maxShownLines":50},"data":{"id-1":"Deep Think Like A child"},"search":{"algoliaAppID":"","algoliaIndex":"","algoliaSearchKey":"","highlightTag":"em","maxResultLength":10,"noResultsFound":"No results found","snippetLength":30,"type":"algolia"},"typeit":{"cursorChar":"|","cursorSpeed":1000,"data":{"id-1":["id-1"]},"duration":-1,"speed":100}};</script><script type="text/javascript" src="/js/theme.min.js"></script><script type="text/javascript">
             window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());
             gtag('config', 'G-EVHJQ5NV0G', { 'anonymize_ip': true });
-        </script><script type="text/javascript" src="https://www.googletagmanager.com/gtag/js?id=G-EVHJQ5NV0G" async></script></body>
+        </script><script type="text/javascript" src="https://www.googletagmanager.com/gtag/js?id=G-EVHJQ5NV0G" async></script><script type="text/javascript" src="https://plausible.io/js/plausible.js" async defer data-domain="tinggengyan.github.io"></script></body>
 </html>

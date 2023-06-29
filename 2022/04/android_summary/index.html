@@ -7,7 +7,7 @@
         <title>一张思维导图看 Android【持续迭代】 - Tinggeng</title><meta name="Description" content="Tinggeng"><meta property="og:title" content="一张思维导图看 Android【持续迭代】" />
 <meta property="og:description" content="概述 总结自己的 Android 知识，按照编码 -&gt; 运行，画了一张图，xmind 导出的图比较大，后续持续更新，迭代这部分的内容。
 下面是一些常见的知识,将会慢慢补充进思维导图内 Handler 与 Binder handler 处理的是 App 进程内的通信； binder 处理的是，App 进程间、application 和 framework 之间的通信；
-任务启动管理 - 启动框架 抽象任务 task； 优先级 ； countdownlatch 数值为依赖 task 的数量； 运行的 executor ； 被依赖的 task 列表； toWait 方法； notify 方法，countdownlatch 减一； 构造 task 的有向无环图； TaskManager： 管理所有的 task，及其拓扑关系； 管理需要执行的 task； countdownlatch 值为 Activity 跳转的生命周期 ActivityA跳转到ActivityB： 1 2 3 4 5 Activity A：onPause Activity B：onCreate Activity B：onStart Activity B：onResume Activity A：onStop ActivityB返回ActivityA： 1 2 3 4 5 6 Activity B：onPause Activity A：onRestart Activity A：onStart Activity A：onResume Activity B：onStop Activity B：onDestroy 旋转屏幕 不改配置，默认配置 1 2 3 4 5 6 7 onPause--&gt; onStop--&gt; onDestroy--&gt; onCreate--&gt; onStart--&gt; onRestoreInstanceState--&gt; onResume--&gt; 修改配置 1 onConfigChanged--&gt; Activity 的启动模式 参考链接1 仅仅适用于Activity启动Activity，并且采用的都是默认Intent，没有额外添加任何Flag" />
+任务启动管理 - 启动框架 抽象任务 task； 优先级 ； countdownlatch 数值为依赖 task 的数量； 运行的 executor ； 被依赖的 task 列表； toWait 方法； notify 方法，countdownlatch 减一； 构造 task 的有向无环图； TaskManager： 管理所有的 task，及其拓扑关系； 管理需要执行的 task； countdownlatch 值为 Activity 跳转的生命周期 ActivityA跳转到ActivityB： 1 2 3 4 5 Activity A：onPause Activity B：onCreate Activity B：onStart Activity B：onResume Activity A：onStop ActivityB返回ActivityA： 1 2 3 4 5 6 Activity B：onPause Activity A：onRestart Activity A：onStart Activity A：onResume Activity B：onStop Activity B：onDestroy 旋转屏幕 不改配置，默认配置 1 2 3 4 5 6 7 onPause--&gt; onStop--&gt; onDestroy--&gt; onCreate--&gt; onStart--&gt; onRestoreInstanceState--&gt; onResume--&gt; 修改配置 1 onConfigChanged--&gt; Activity 的启动模式 参考链接1" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://tinggengyan.github.io/2022/04/android_summary/" /><meta property="article:section" content="posts" />
 <meta property="article:published_time" content="2022-04-03T16:19:04+00:00" />
@@ -16,11 +16,13 @@
 <meta name="twitter:title" content="一张思维导图看 Android【持续迭代】"/>
 <meta name="twitter:description" content="概述 总结自己的 Android 知识，按照编码 -&gt; 运行，画了一张图，xmind 导出的图比较大，后续持续更新，迭代这部分的内容。
 下面是一些常见的知识,将会慢慢补充进思维导图内 Handler 与 Binder handler 处理的是 App 进程内的通信； binder 处理的是，App 进程间、application 和 framework 之间的通信；
-任务启动管理 - 启动框架 抽象任务 task； 优先级 ； countdownlatch 数值为依赖 task 的数量； 运行的 executor ； 被依赖的 task 列表； toWait 方法； notify 方法，countdownlatch 减一； 构造 task 的有向无环图； TaskManager： 管理所有的 task，及其拓扑关系； 管理需要执行的 task； countdownlatch 值为 Activity 跳转的生命周期 ActivityA跳转到ActivityB： 1 2 3 4 5 Activity A：onPause Activity B：onCreate Activity B：onStart Activity B：onResume Activity A：onStop ActivityB返回ActivityA： 1 2 3 4 5 6 Activity B：onPause Activity A：onRestart Activity A：onStart Activity A：onResume Activity B：onStop Activity B：onDestroy 旋转屏幕 不改配置，默认配置 1 2 3 4 5 6 7 onPause--&gt; onStop--&gt; onDestroy--&gt; onCreate--&gt; onStart--&gt; onRestoreInstanceState--&gt; onResume--&gt; 修改配置 1 onConfigChanged--&gt; Activity 的启动模式 参考链接1 仅仅适用于Activity启动Activity，并且采用的都是默认Intent，没有额外添加任何Flag"/>
+任务启动管理 - 启动框架 抽象任务 task； 优先级 ； countdownlatch 数值为依赖 task 的数量； 运行的 executor ； 被依赖的 task 列表； toWait 方法； notify 方法，countdownlatch 减一； 构造 task 的有向无环图； TaskManager： 管理所有的 task，及其拓扑关系； 管理需要执行的 task； countdownlatch 值为 Activity 跳转的生命周期 ActivityA跳转到ActivityB： 1 2 3 4 5 Activity A：onPause Activity B：onCreate Activity B：onStart Activity B：onResume Activity A：onStop ActivityB返回ActivityA： 1 2 3 4 5 6 Activity B：onPause Activity A：onRestart Activity A：onStart Activity A：onResume Activity B：onStop Activity B：onDestroy 旋转屏幕 不改配置，默认配置 1 2 3 4 5 6 7 onPause--&gt; onStop--&gt; onDestroy--&gt; onCreate--&gt; onStart--&gt; onRestoreInstanceState--&gt; onResume--&gt; 修改配置 1 onConfigChanged--&gt; Activity 的启动模式 参考链接1"/>
 <meta name="application-name" content="Tinggeng">
 <meta name="apple-mobile-web-app-title" content="Tinggeng"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
         <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="https://tinggengyan.github.io/2022/04/android_summary/" /><link rel="prev" href="https://tinggengyan.github.io/2021/10/the-documentation-system_how_to_write_good_document/" /><link rel="next" href="https://tinggengyan.github.io/2022/05/net-process/" /><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/normalize.css@8.0.1/normalize.min.css"><link rel="stylesheet" href="/css/style.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css"><script type="application/ld+json">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="https://tinggengyan.github.io/2022/04/android_summary/" /><link rel="prev" href="https://tinggengyan.github.io/2021/10/the-documentation-system_how_to_write_good_document/" /><link rel="next" href="https://tinggengyan.github.io/2022/05/net-process/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css"></noscript><link rel="preload" href="https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css"></noscript><script type="application/ld+json">
     {
         "@context": "http://schema.org",
         "@type": "BlogPosting",
@@ -29,7 +31,7 @@
         "mainEntityOfPage": {
             "@type": "WebPage",
             "@id": "https:\/\/tinggengyan.github.io\/2022\/04\/android_summary\/"
-        },"image": ["https:\/\/tinggengyan.github.io\/images\/Apple-Devices-Preview.png"],"genre": "posts","keywords": "Android","wordcount":  1710 ,
+        },"image": ["https:\/\/tinggengyan.github.io\/images\/Apple-Devices-Preview.png"],"genre": "posts","keywords": "Android","wordcount":  1709 ,
         "url": "https:\/\/tinggengyan.github.io\/2022\/04\/android_summary\/","datePublished": "2022-04-03T16:19:04+00:00","dateModified": "2022-04-03T16:19:04+00:00","publisher": {
             "@type": "Organization",
             "name": "xxxx","logo": "https:\/\/tinggengyan.github.io\/img\/avatar.png"},"author": {
@@ -59,8 +61,7 @@
                         </span>
                     </span><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
                     <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
-                </a>
-            </div>
+                </a></div>
         </div>
     </div>
 </header><header class="mobile" id="header-mobile">
@@ -103,9 +104,8 @@
             <h2 class="toc-title">Contents</h2>
             <div class="toc-content" id="toc-content-auto"></div>
         </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">一张思维导图看 Android【持续迭代】</h1><div class="post-meta">
-            <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Tinggeng</a>
-</span>&nbsp;<span class="post-category">included in <a href="/categories/android/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Android</a></span></div>
-            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2022-04-03">2022-04-03</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;1710 words&nbsp;
+            <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Tinggeng</a></span>&nbsp;<span class="post-category">included in <a href="/categories/android/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Android</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2022-04-03">2022-04-03</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;1709 words&nbsp;
                 <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;9 minutes&nbsp;<span id="/2022/04/android_summary/" class="leancloud_visitors" data-flag-title="一张思维导图看 Android【持续迭代】">
                         <i class="far fa-eye fa-fw" aria-hidden="true"></i>&nbsp;<span class=leancloud-visitors-count></span>&nbsp;views
                     </span>&nbsp;</div>
@@ -430,8 +430,7 @@ binder 处理的是，App 进程间、application 和 framework 之间的通信�
 </span></span></code></pre></td></tr></table>
 </div>
 </div><h1 id="activity-的启动模式">Activity 的启动模式</h1>
-<p><a href="https://www.jianshu.com/p/b3a95747ee91" target="_blank" rel="noopener noreffer">参考链接1</a>
-</p>
+<p><a href="https://www.jianshu.com/p/b3a95747ee91" target="_blank" rel="noopener noreffer ">参考链接1</a></p>
 <p><strong>仅仅适用于Activity启动Activity，并且采用的都是默认Intent，没有额外添加任何Flag</strong></p>
 <ul>
 <li>standard：标准启动模式（默认启动模式），每次都会启动一个新的activity实例。</li>
@@ -451,8 +450,7 @@ binder 处理的是，App 进程间、application 和 framework 之间的通信�
 <p>具有这个标记的Activity不会出现在历史Activity的列表中，在某些情况下我们不希望用户通过历史列表回到我们的Activity的时候这个标记比较有用。它等同于在xml中指定Activity的属性<code>android``:excludeFromRecents=&quot;true&quot;</code></p>
 <h1 id="activity-的启动流程">Activity 的启动流程</h1>
 <ul>
-<li><a href="https://linguanghua.github.io/Programming-Tech-Books/advanced/Activity%E5%90%AF%E5%8A%A8%E6%B5%81%E7%A8%8B.html" target="_blank" rel="noopener noreffer">参考链接1</a>
-</li>
+<li><a href="https://linguanghua.github.io/Programming-Tech-Books/advanced/Activity%E5%90%AF%E5%8A%A8%E6%B5%81%E7%A8%8B.html" target="_blank" rel="noopener noreffer ">参考链接1</a></li>
 </ul>
 <p><img
         class="lazyload"
@@ -681,8 +679,7 @@ binder 处理的是，App 进程间、application 和 framework 之间的通信�
 <p><strong>LMK驱动层在用户空间指定了一组内存临界值及与之一一对应的一组 oom_adj 值，</strong> <strong>当系统剩余内存位于内存临界值中的一个范围内时，如果一个进程的 oom_adj 值大于或等于这个临界值对应的oom_adj值就会被杀掉。</strong></p>
 <h1 id="binder">Binder</h1>
 <ul>
-<li><a href="http://gityuan.com/2015/11/28/binder-summary/" target="_blank" rel="noopener noreffer">可参考链接</a>
-</li>
+<li><a href="http://gityuan.com/2015/11/28/binder-summary/" target="_blank" rel="noopener noreffer ">可参考链接</a></li>
 </ul>
 <ol>
 <li>从IPC角度来说：Binder是Android中的一种跨进程通信方式，该通信方式在linux中没有，是Android独有；</li>
@@ -833,8 +830,7 @@ Oneway 表示客户端不关服务端的返回值，甚至也不关系执行是�
 <p>入队的时候，会按照时间顺序进行排序。</p>
 <h1 id="ams-1">AMS</h1>
 <ul>
-<li><a href="https://cloud.tencent.com/developer/article/1466430" target="_blank" rel="noopener noreffer">参考链接1</a>
-</li>
+<li><a href="https://cloud.tencent.com/developer/article/1466430" target="_blank" rel="noopener noreffer ">参考链接1</a></li>
 </ul>
 <h2 id="关键的类">关键的类</h2>
 <ol>
@@ -906,10 +902,8 @@ Context.getSystemService()方法获取AMS的实例，然后调用其提供的API
 </ol>
 <h2 id="view-的绘制原理">View 的绘制原理</h2>
 <ul>
-<li><a href="https://www.youtube.com/watch?v=1iaHxmfZGGc" target="_blank" rel="noopener noreffer">参考链接1</a>
-</li>
-<li><a href="https://www.bilibili.com/video/BV19V4y1V79X/?spm_id_from=333.337.search-card.all.click&amp;vd_source=2383886846e4aa5e7cf6fd52f9d0a367" target="_blank" rel="noopener noreffer">参考链接2</a>
-</li>
+<li><a href="https://www.youtube.com/watch?v=1iaHxmfZGGc" target="_blank" rel="noopener noreffer ">参考链接1</a></li>
+<li><a href="https://www.bilibili.com/video/BV19V4y1V79X/?spm_id_from=333.337.search-card.all.click&amp;vd_source=2383886846e4aa5e7cf6fd52f9d0a367" target="_blank" rel="noopener noreffer ">参考链接2</a></li>
 </ul>
 <h3 id="屏幕的刷新机制">屏幕的刷新机制：</h3>
 <ol>
@@ -959,8 +953,7 @@ surfaceView在其宿主Activity窗口上挖了一个“洞”，这个“洞”�
 <h2 id="activityrecord-中的-token-是啥时候创建的作用是什么">ActivityRecord 中的 token 是啥时候创建的？作用是什么？</h2>
 <ul>
 <li>
-<p><a href="https://www.cnblogs.com/mingfeng002/p/10951883.html" target="_blank" rel="noopener noreffer">可参考的链接1</a>
- ，这个文章写得很好。</p>
+<p><a href="https://www.cnblogs.com/mingfeng002/p/10951883.html" target="_blank" rel="noopener noreffer ">可参考的链接1</a> ，这个文章写得很好。</p>
 </li>
 <li>
 <p>时机：在创建 ActivityRecord 对象的时候，就会创建 token。</p>
@@ -1019,8 +1012,7 @@ surfaceView在其宿主Activity窗口上挖了一个“洞”，这个“洞”�
 </ul>
 <h1 id="badtoken-问题案例">badToken 问题案例</h1>
 <p>那为什么窗口显示的时候会出现BadTokenException？</p>
-<p>很明显是WindowManagerService 的<a href="http://androidxref.com/8.0.0_r4/xref/frameworks/base/services/core/java/com/android/server/wm/WindowManagerService.java#mWindowMap" target="_blank" rel="noopener noreffer">mWindowMap</a>
- 已经找不到对应的token，那为什么会出现这种情况呢？从表面上看那肯定是addview的时候，activity或者toast生成的token，已经被清除了。</p>
+<p>很明显是WindowManagerService 的<a href="http://androidxref.com/8.0.0_r4/xref/frameworks/base/services/core/java/com/android/server/wm/WindowManagerService.java#mWindowMap" target="_blank" rel="noopener noreffer ">mWindowMap</a> 已经找不到对应的token，那为什么会出现这种情况呢？从表面上看那肯定是addview的时候，activity或者toast生成的token，已经被清除了。</p>
 <p>我们来分析上述的问题，BadTokenException能够产生的情形蛮多的，就当前的调用栈看，是在handleResumeActivity的时候出现问题。</p>
 <ol>
 <li>情况一
@@ -1050,8 +1042,7 @@ ActivityManagerService 里面成员变量 mHandler 的 Looper，不会被Client-
 <li>在show的时候catch (WindowManager.BadTokenException e)；</li>
 </ol>
 <h1 id="热修复">热修复</h1>
-<p><a href="https://mp.weixin.qq.com/s?__biz=MzAwNDY1ODY2OQ==&amp;mid=2649286384&amp;idx=1&amp;sn=f1aff31d6a567674759be476bcd12549&amp;scene=4#wechat_redirect" target="_blank" rel="noopener noreffer">https://mp.weixin.qq.com/s?__biz=MzAwNDY1ODY2OQ==&mid=2649286384&idx=1&sn=f1aff31d6a567674759be476bcd12549&scene=4#wechat_redirect</a>
-</p>
+<p><a href="https://mp.weixin.qq.com/s?__biz=MzAwNDY1ODY2OQ==&amp;mid=2649286384&amp;idx=1&amp;sn=f1aff31d6a567674759be476bcd12549&amp;scene=4#wechat_redirect" target="_blank" rel="noopener noreffer ">https://mp.weixin.qq.com/s?__biz=MzAwNDY1ODY2OQ==&mid=2649286384&idx=1&sn=f1aff31d6a567674759be476bcd12549&scene=4#wechat_redirect</a></p>
 <h2 id="类加载">类加载</h2>
 <h3 id="android中classloader的种类特点">Android中ClassLoader的种类&amp;特点</h3>
 <ul>
@@ -1079,8 +1070,7 @@ ActivityManagerService 里面成员变量 mHandler 的 Looper，不会被Client-
 <li>依赖Android底层源码，如果厂商修改了虚拟机方法，替换机制就可能出问题。</li>
 </ul>
 <h3 id="native-修复sophix">【native 修复】Sophix</h3>
-<p><a href="https://developer.aliyun.com/article/103527" target="_blank" rel="noopener noreffer">https://developer.aliyun.com/article/103527</a>
-</p>
+<p><a href="https://developer.aliyun.com/article/103527" target="_blank" rel="noopener noreffer ">https://developer.aliyun.com/article/103527</a></p>
 <h4 id="原理-1">原理</h4>
 <p>Sophix在Andfix基础上提出了一种新的思路，通过计算地址偏移对ArtMethod整体做替换，从而解决了底层结构兼容性问题。从方法创建的源码上看，类的方法数组是通过开辟连续的空间，然后逐个new出来。也就是说ArtMethod的内存地址排列是连续的，因此可以通过两个方法的地址的差计算出。ArtMethod的大小，然后通过memcpy直接拷贝即可完成方法的替换。</p>
 <h4 id="问题-1">问题</h4>
@@ -1156,8 +1146,7 @@ app启动后开启独立进程，自研了一套算法进行合并</p>
 <p>类似类加载的方式，so加载的时候实际也是从classloader中查找路径，可以把补丁so库的路径插入到nativeLibraryDirectories数组的最前面，优先加载补丁库达到修复的目的。</p>
 <h1 id="插件化">插件化</h1>
 <ul>
-<li><a href="https://bytedance.feishu.cn/wiki/wikcnwJbYjeGOIEtWLlGGFBZzhe" target="_blank" rel="noopener noreffer">参考链接1</a>
-</li>
+<li><a href="https://bytedance.feishu.cn/wiki/wikcnwJbYjeGOIEtWLlGGFBZzhe" target="_blank" rel="noopener noreffer ">参考链接1</a></li>
 </ul>
 <h2 id="目的">目的</h2>
 <p>插件一般也是以一个apk的文件形式存在，然后被宿主apk动态加载并运行。这么做的好处是：</p>
@@ -1175,8 +1164,7 @@ app启动后开启独立进程，自研了一套算法进行合并</p>
 </ul>
 <h2 id="so-文件的安装处理">SO 文件的安装处理</h2>
 <ul>
-<li><a href="https://cloud.tencent.com/developer/article/1199441" target="_blank" rel="noopener noreffer">APK安装流程详解4——安装中关于so库的那些事</a>
-</li>
+<li><a href="https://cloud.tencent.com/developer/article/1199441" target="_blank" rel="noopener noreffer ">APK安装流程详解4——安装中关于so库的那些事</a></li>
 </ul>
 <h3 id="classloader与so的关系">ClassLoader与SO的关系</h3>
 <ul>
@@ -1304,8 +1292,7 @@ app启动后开启独立进程，自研了一套算法进行合并</p>
 <p>这种方案使得丧失了静态广播的特性，体现在不需要启动App就可以启动一个静态广播。当然这里我们不能浅显的认为，App的启动一定是打开某个Activity，通常情况下启动首页的MainActivity只是启动App的一种。Receiver作为四大组件之一，也支持外部调起，进而创建进程，启动应用，接收到广播。尤其推送Push场景下，当App进程已死后，其它伙伴应用可通过发送静态广播来唤醒App。当采用了这种静态转动态的方案后，插件中的所有静态广播特性丧失，即不在支持在App没启动和插件没就绪的情况下，接收到广播。后续我们会对此方案持续改进。</p>
 <h2 id="contentprovider的插件化">ContentProvider的插件化</h2>
 <h3 id="主进程插件化">主进程插件化</h3>
-<p>比较简单。类似Receiver的插件化解决方案，把插件中声明在Manifest的静态广播转动态广播&quot;注册&quot;在宿主中。其实Provider也可以这么实现，这时不叫&quot;注册&quot;，叫&quot;安装&quot;。该方法位于 <a href="http://aosp.opersys.com/xref/android-8.0.0_r1/xref/frameworks/base/core/java/android/app/ActivityThread.java#5838" target="_blank" rel="noopener noreffer">ActivityThread.installContentProvider</a>
-方法中，我们可以反射调用该方法，把插件中的Providers作为第二个参数填充进去即可。</p>
+<p>比较简单。类似Receiver的插件化解决方案，把插件中声明在Manifest的静态广播转动态广播&quot;注册&quot;在宿主中。其实Provider也可以这么实现，这时不叫&quot;注册&quot;，叫&quot;安装&quot;。该方法位于 <a href="http://aosp.opersys.com/xref/android-8.0.0_r1/xref/frameworks/base/core/java/android/app/ActivityThread.java#5838" target="_blank" rel="noopener noreffer ">ActivityThread.installContentProvider</a>方法中，我们可以反射调用该方法，把插件中的Providers作为第二个参数填充进去即可。</p>
 <ul>
 <li>时机：越早越好。因为Provider更多场景是给第三方App用得，插件中的Provider必须要安装在宿主中才能生效，越早安装，第三方App等待的时间就越短。App安装自身Provider时机是ActivityThread.installContentProvider()方法执行，会在App进程启动时立刻执行，比Application.onCreate()早，略晚于Application.attchBaseContext()。Mira在使用一个插件前，都必须要preload()预加载。其中包括很重要的一步是将插件中的Provider安装在宿主中。即插件初始化调用之前，我们取得插件中的Provider列表，修改providerInfo.applicationInfo.packageName包名为宿主包名，反射调用ActivityThread.installContentProvider()方法安装即可。所以如果可能，尽可能早得preload()插件。</li>
 <li>参照PMS通过PackageParser解析Apk，Mira中PluginPackangeManager用于管理插件安装包相关内容，包括解析插件Apk，解析Manifest，创建Package，提取四大组件等。在此调用getProviders()获取插件中的Provider列表。</li>
@@ -1323,7 +1310,7 @@ app启动后开启独立进程，自研了一套算法进行合并</p>
                             <a class="link-to-markdown" href="/2022/04/android_summary/index.md" target="_blank">Read Markdown</a>
                         </span></div>
             <div class="post-info-share">
-                <span><a href="javascript:void(0);" title="Share on Twitter" data-sharer="twitter" data-url="https://tinggengyan.github.io/2022/04/android_summary/" data-title="一张思维导图看 Android【持续迭代】" data-hashtags="Android"><i class="fab fa-twitter fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Facebook" data-sharer="facebook" data-url="https://tinggengyan.github.io/2022/04/android_summary/" data-hashtag="Android"><i class="fab fa-facebook-square fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Hacker News" data-sharer="hackernews" data-url="https://tinggengyan.github.io/2022/04/android_summary/" data-title="一张思维导图看 Android【持续迭代】"><i class="fab fa-hacker-news fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Line" data-sharer="line" data-url="https://tinggengyan.github.io/2022/04/android_summary/" data-title="一张思维导图看 Android【持续迭代】"><i data-svg-src="https://cdn.jsdelivr.net/npm/simple-icons@6.20.0/icons/line.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on 微博" data-sharer="weibo" data-url="https://tinggengyan.github.io/2022/04/android_summary/" data-title="一张思维导图看 Android【持续迭代】"><i class="fab fa-weibo fa-fw" aria-hidden="true"></i></a></span>
+                <span><a href="javascript:void(0);" title="Share on Twitter" data-sharer="twitter" data-url="https://tinggengyan.github.io/2022/04/android_summary/" data-title="一张思维导图看 Android【持续迭代】" data-hashtags="Android"><i class="fab fa-twitter fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Facebook" data-sharer="facebook" data-url="https://tinggengyan.github.io/2022/04/android_summary/" data-hashtag="Android"><i class="fab fa-facebook-square fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Hacker News" data-sharer="hackernews" data-url="https://tinggengyan.github.io/2022/04/android_summary/" data-title="一张思维导图看 Android【持续迭代】"><i class="fab fa-hacker-news fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Line" data-sharer="line" data-url="https://tinggengyan.github.io/2022/04/android_summary/" data-title="一张思维导图看 Android【持续迭代】"><i data-svg-src="https://cdn.jsdelivr.net/npm/simple-icons@7.3.0/icons/line.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on 微博" data-sharer="weibo" data-url="https://tinggengyan.github.io/2022/04/android_summary/" data-title="一张思维导图看 Android【持续迭代】"><i class="fab fa-weibo fa-fw" aria-hidden="true"></i></a></span>
             </div>
         </div>
     </div>
@@ -1342,7 +1329,7 @@ app启动后开启独立进程，自研了一套算法进行合并</p>
                 Please enable JavaScript to view the comments powered by <a href="https://valine.js.org/">Valine</a>.
             </noscript></div></article></div>
             </main><footer class="footer">
-        <div class="footer-container"><div class="footer-line">Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.114.1">Hugo</a> | Theme - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw" aria-hidden="true"></i> LoveIt</a>
+        <div class="footer-container"><div class="footer-line">Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.114.1">Hugo</a> | Theme - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.11"><i class="far fa-kiss-wink-heart fa-fw" aria-hidden="true"></i> LoveIt</a>
                 </div><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright fa-fw" aria-hidden="true"></i><span itemprop="copyrightYear">2019 - 2023</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank">Tinggeng</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
         </div>
     </footer></div>
@@ -1352,8 +1339,8 @@ app启动后开启独立进程，自研了一套算法进行合并</p>
             </a><a href="#" id="view-comments" class="fixed-button" title="View Comments">
                 <i class="fas fa-comment fa-fw" aria-hidden="true"></i>
             </a>
-        </div><link rel="stylesheet" href="/lib/valine/valine.min.css"><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/valine@1.4.18/dist/Valine.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/autocomplete.js@0.38.1/dist/autocomplete.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/algoliasearch@4.13.0/dist/algoliasearch-lite.umd.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lazysizes@5.3.1/lazysizes.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/clipboard@2.0.11/dist/clipboard.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/sharer.js@0.5.1/sharer.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"Copy to clipboard","maxShownLines":50},"comment":{"valine":{"appId":"","appKey":"","avatar":"mp","el":"#valine","emojiCDN":"https://cdn.jsdelivr.net/npm/emoji-datasource-google@14.0.0/img/google/64/","emojiMaps":{"100":"1f4af.png","alien":"1f47d.png","anger":"1f4a2.png","angry":"1f620.png","anguished":"1f627.png","astonished":"1f632.png","black_heart":"1f5a4.png","blue_heart":"1f499.png","blush":"1f60a.png","bomb":"1f4a3.png","boom":"1f4a5.png","broken_heart":"1f494.png","brown_heart":"1f90e.png","clown_face":"1f921.png","cold_face":"1f976.png","cold_sweat":"1f630.png","confounded":"1f616.png","confused":"1f615.png","cry":"1f622.png","crying_cat_face":"1f63f.png","cupid":"1f498.png","dash":"1f4a8.png","disappointed":"1f61e.png","disappointed_relieved":"1f625.png","dizzy":"1f4ab.png","dizzy_face":"1f635.png","drooling_face":"1f924.png","exploding_head":"1f92f.png","expressionless":"1f611.png","face_vomiting":"1f92e.png","face_with_cowboy_hat":"1f920.png","face_with_hand_over_mouth":"1f92d.png","face_with_head_bandage":"1f915.png","face_with_monocle":"1f9d0.png","face_with_raised_eyebrow":"1f928.png","face_with_rolling_eyes":"1f644.png","face_with_symbols_on_mouth":"1f92c.png","face_with_thermometer":"1f912.png","fearful":"1f628.png","flushed":"1f633.png","frowning":"1f626.png","ghost":"1f47b.png","gift_heart":"1f49d.png","green_heart":"1f49a.png","grimacing":"1f62c.png","grin":"1f601.png","grinning":"1f600.png","hankey":"1f4a9.png","hear_no_evil":"1f649.png","heart":"2764-fe0f.png","heart_decoration":"1f49f.png","heart_eyes":"1f60d.png","heart_eyes_cat":"1f63b.png","heartbeat":"1f493.png","heartpulse":"1f497.png","heavy_heart_exclamation_mark_ornament":"2763-fe0f.png","hole":"1f573-fe0f.png","hot_face":"1f975.png","hugging_face":"1f917.png","hushed":"1f62f.png","imp":"1f47f.png","innocent":"1f607.png","japanese_goblin":"1f47a.png","japanese_ogre":"1f479.png","joy":"1f602.png","joy_cat":"1f639.png","kiss":"1f48b.png","kissing":"1f617.png","kissing_cat":"1f63d.png","kissing_closed_eyes":"1f61a.png","kissing_heart":"1f618.png","kissing_smiling_eyes":"1f619.png","laughing":"1f606.png","left_speech_bubble":"1f5e8-fe0f.png","love_letter":"1f48c.png","lying_face":"1f925.png","mask":"1f637.png","money_mouth_face":"1f911.png","nauseated_face":"1f922.png","nerd_face":"1f913.png","neutral_face":"1f610.png","no_mouth":"1f636.png","open_mouth":"1f62e.png","orange_heart":"1f9e1.png","partying_face":"1f973.png","pensive":"1f614.png","persevere":"1f623.png","pleading_face":"1f97a.png","pouting_cat":"1f63e.png","purple_heart":"1f49c.png","rage":"1f621.png","relaxed":"263a-fe0f.png","relieved":"1f60c.png","revolving_hearts":"1f49e.png","right_anger_bubble":"1f5ef-fe0f.png","robot_face":"1f916.png","rolling_on_the_floor_laughing":"1f923.png","scream":"1f631.png","scream_cat":"1f640.png","see_no_evil":"1f648.png","shushing_face":"1f92b.png","skull":"1f480.png","skull_and_crossbones":"2620-fe0f.png","sleeping":"1f634.png","sleepy":"1f62a.png","slightly_frowning_face":"1f641.png","slightly_smiling_face":"1f642.png","smile":"1f604.png","smile_cat":"1f638.png","smiley":"1f603.png","smiley_cat":"1f63a.png","smiling_face_with_3_hearts":"1f970.png","smiling_imp":"1f608.png","smirk":"1f60f.png","smirk_cat":"1f63c.png","sneezing_face":"1f927.png","sob":"1f62d.png","space_invader":"1f47e.png","sparkling_heart":"1f496.png","speak_no_evil":"1f64a.png","speech_balloon":"1f4ac.png","star-struck":"1f929.png","stuck_out_tongue":"1f61b.png","stuck_out_tongue_closed_eyes":"1f61d.png","stuck_out_tongue_winking_eye":"1f61c.png","sunglasses":"1f60e.png","sweat":"1f613.png","sweat_drops":"1f4a6.png","sweat_smile":"1f605.png","thinking_face":"1f914.png","thought_balloon":"1f4ad.png","tired_face":"1f62b.png","triumph":"1f624.png","two_hearts":"1f495.png","unamused":"1f612.png","upside_down_face":"1f643.png","weary":"1f629.png","white_frowning_face":"2639-fe0f.png","white_heart":"1f90d.png","wink":"1f609.png","woozy_face":"1f974.png","worried":"1f61f.png","yawning_face":"1f971.png","yellow_heart":"1f49b.png","yum":"1f60b.png","zany_face":"1f92a.png","zipper_mouth_face":"1f910.png","zzz":"1f4a4.png"},"enableQQ":false,"highlight":true,"lang":"en","pageSize":10,"placeholder":"Your comment ...","recordIP":true,"serverURLs":"https://leancloud.hugoloveit.com","visitor":true}},"search":{"algoliaAppID":"","algoliaIndex":"","algoliaSearchKey":"","highlightTag":"em","maxResultLength":10,"noResultsFound":"No results found","snippetLength":30,"type":"algolia"}};</script><script type="text/javascript" src="/js/theme.min.js"></script><script type="text/javascript">
+        </div><link rel="stylesheet" href="/lib/valine/valine.min.css"><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/valine@1.5.0/dist/Valine.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/autocomplete.js@0.38.1/dist/autocomplete.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/algoliasearch@4.13.1/dist/algoliasearch-lite.umd.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lazysizes@5.3.2/lazysizes.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/clipboard@2.0.11/dist/clipboard.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/sharer.js@0.5.1/sharer.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"Copy to clipboard","maxShownLines":50},"comment":{"valine":{"appId":"","appKey":"","avatar":"mp","el":"#valine","emojiCDN":"https://cdn.jsdelivr.net/npm/emoji-datasource-google@14.0.0/img/google/64/","emojiMaps":{"100":"1f4af.png","alien":"1f47d.png","anger":"1f4a2.png","angry":"1f620.png","anguished":"1f627.png","astonished":"1f632.png","black_heart":"1f5a4.png","blue_heart":"1f499.png","blush":"1f60a.png","bomb":"1f4a3.png","boom":"1f4a5.png","broken_heart":"1f494.png","brown_heart":"1f90e.png","clown_face":"1f921.png","cold_face":"1f976.png","cold_sweat":"1f630.png","confounded":"1f616.png","confused":"1f615.png","cry":"1f622.png","crying_cat_face":"1f63f.png","cupid":"1f498.png","dash":"1f4a8.png","disappointed":"1f61e.png","disappointed_relieved":"1f625.png","dizzy":"1f4ab.png","dizzy_face":"1f635.png","drooling_face":"1f924.png","exploding_head":"1f92f.png","expressionless":"1f611.png","face_vomiting":"1f92e.png","face_with_cowboy_hat":"1f920.png","face_with_hand_over_mouth":"1f92d.png","face_with_head_bandage":"1f915.png","face_with_monocle":"1f9d0.png","face_with_raised_eyebrow":"1f928.png","face_with_rolling_eyes":"1f644.png","face_with_symbols_on_mouth":"1f92c.png","face_with_thermometer":"1f912.png","fearful":"1f628.png","flushed":"1f633.png","frowning":"1f626.png","ghost":"1f47b.png","gift_heart":"1f49d.png","green_heart":"1f49a.png","grimacing":"1f62c.png","grin":"1f601.png","grinning":"1f600.png","hankey":"1f4a9.png","hear_no_evil":"1f649.png","heart":"2764-fe0f.png","heart_decoration":"1f49f.png","heart_eyes":"1f60d.png","heart_eyes_cat":"1f63b.png","heartbeat":"1f493.png","heartpulse":"1f497.png","heavy_heart_exclamation_mark_ornament":"2763-fe0f.png","hole":"1f573-fe0f.png","hot_face":"1f975.png","hugging_face":"1f917.png","hushed":"1f62f.png","imp":"1f47f.png","innocent":"1f607.png","japanese_goblin":"1f47a.png","japanese_ogre":"1f479.png","joy":"1f602.png","joy_cat":"1f639.png","kiss":"1f48b.png","kissing":"1f617.png","kissing_cat":"1f63d.png","kissing_closed_eyes":"1f61a.png","kissing_heart":"1f618.png","kissing_smiling_eyes":"1f619.png","laughing":"1f606.png","left_speech_bubble":"1f5e8-fe0f.png","love_letter":"1f48c.png","lying_face":"1f925.png","mask":"1f637.png","money_mouth_face":"1f911.png","nauseated_face":"1f922.png","nerd_face":"1f913.png","neutral_face":"1f610.png","no_mouth":"1f636.png","open_mouth":"1f62e.png","orange_heart":"1f9e1.png","partying_face":"1f973.png","pensive":"1f614.png","persevere":"1f623.png","pleading_face":"1f97a.png","pouting_cat":"1f63e.png","purple_heart":"1f49c.png","rage":"1f621.png","relaxed":"263a-fe0f.png","relieved":"1f60c.png","revolving_hearts":"1f49e.png","right_anger_bubble":"1f5ef-fe0f.png","robot_face":"1f916.png","rolling_on_the_floor_laughing":"1f923.png","scream":"1f631.png","scream_cat":"1f640.png","see_no_evil":"1f648.png","shushing_face":"1f92b.png","skull":"1f480.png","skull_and_crossbones":"2620-fe0f.png","sleeping":"1f634.png","sleepy":"1f62a.png","slightly_frowning_face":"1f641.png","slightly_smiling_face":"1f642.png","smile":"1f604.png","smile_cat":"1f638.png","smiley":"1f603.png","smiley_cat":"1f63a.png","smiling_face_with_3_hearts":"1f970.png","smiling_imp":"1f608.png","smirk":"1f60f.png","smirk_cat":"1f63c.png","sneezing_face":"1f927.png","sob":"1f62d.png","space_invader":"1f47e.png","sparkling_heart":"1f496.png","speak_no_evil":"1f64a.png","speech_balloon":"1f4ac.png","star-struck":"1f929.png","stuck_out_tongue":"1f61b.png","stuck_out_tongue_closed_eyes":"1f61d.png","stuck_out_tongue_winking_eye":"1f61c.png","sunglasses":"1f60e.png","sweat":"1f613.png","sweat_drops":"1f4a6.png","sweat_smile":"1f605.png","thinking_face":"1f914.png","thought_balloon":"1f4ad.png","tired_face":"1f62b.png","triumph":"1f624.png","two_hearts":"1f495.png","unamused":"1f612.png","upside_down_face":"1f643.png","weary":"1f629.png","white_frowning_face":"2639-fe0f.png","white_heart":"1f90d.png","wink":"1f609.png","woozy_face":"1f974.png","worried":"1f61f.png","yawning_face":"1f971.png","yellow_heart":"1f49b.png","yum":"1f60b.png","zany_face":"1f92a.png","zipper_mouth_face":"1f910.png","zzz":"1f4a4.png"},"enableQQ":false,"highlight":true,"lang":"en","pageSize":10,"placeholder":"Your comment ...","recordIP":true,"serverURLs":"https://leancloud.hugoloveit.com","visitor":true}},"search":{"algoliaAppID":"","algoliaIndex":"","algoliaSearchKey":"","highlightTag":"em","maxResultLength":10,"noResultsFound":"No results found","snippetLength":30,"type":"algolia"}};</script><script type="text/javascript" src="/js/theme.min.js"></script><script type="text/javascript">
             window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());
             gtag('config', 'G-EVHJQ5NV0G', { 'anonymize_ip': true });
-        </script><script type="text/javascript" src="https://www.googletagmanager.com/gtag/js?id=G-EVHJQ5NV0G" async></script></body>
+        </script><script type="text/javascript" src="https://www.googletagmanager.com/gtag/js?id=G-EVHJQ5NV0G" async></script><script type="text/javascript" src="https://plausible.io/js/plausible.js" async defer data-domain="tinggengyan.github.io"></script></body>
 </html>

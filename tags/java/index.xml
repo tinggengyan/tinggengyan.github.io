@@ -11,20 +11,26 @@
     <author>Tinggeng</author>
     <guid>https://tinggengyan.github.io/2021/07/mysoftware/</guid>
     <description><![CDATA[概述 记录我平时使用的一些软件,提效的,娱乐的.
-快速打开 Raycast Alfred Contexts 目的: 用于快速打开应用软件和文件夹 其中比较知名的就是 Alfread了,我目前把它和Context进行配合使用.
+快速打开 Raycast Alfred Contexts
+目的: 用于快速打开应用软件和文件夹 其中比较知名的就是 Alfread了,我目前把它和Context进行配合使用.
 Raycast 和 Alfred 差不多,Raycast 我装了,但是用的频率不高,目前没发现他有什么特别的亮点,用来作为 Alfred 的备选,毕竟免费.
 Context有一个feature就是可以切换window,比如,AndroidStudio里打开了多个Project,形成了多个window,这说话,直接Alfred打开Androidstudio的话,只是打开了软件,至于哪个Window,有时候不清楚,这种情况下,Context 是个很好的补充. Context 的缺陷就是,他只是用来打开,已有的窗口的.
-输入法 搜狗输入法 目前国内也就搜狗输入法还行了,当然百度也有Mac版本,但是体验上,还是搜狗好点.
+输入法 搜狗输入法
+目前国内也就搜狗输入法还行了,当然百度也有Mac版本,但是体验上,还是搜狗好点.
 终端 iterm2 oh-my-zsh Mac 下很好的终端工具了.目前没发现其他替代品;
 Git fork Native开发,相比对sourceTree,颜值和性能都更高,无他,颜值即正义.
-Android开发 AndroidStudio 开发Android必备,只是有一点至今让我诟病的地方,就是ActivityStack的打印被删除了&hellip;
-C/Cpp开发 Clion VSC配置cpp开发环境也试过,繁琐.Mac 下的Xcode也用过,感觉一般, 不得不说,jetbrains做的IDE,真香.
-Java开发 IntellijIdea Eclipse NetBeans 目前在用的就是 IntellijIdea 了,其他的基本不用了.只有一个 NetBeans 在某些场景下是有优势的,那就是JavaSE GUI开发的时候.
+Android开发 AndroidStudio
+开发Android必备,只是有一点至今让我诟病的地方,就是ActivityStack的打印被删除了&hellip;
+C/Cpp开发 Clion
+VSC配置cpp开发环境也试过,繁琐.Mac 下的Xcode也用过,感觉一般, 不得不说,jetbrains做的IDE,真香.
+Java开发 IntellijIdea Eclipse NetBeans
+目前在用的就是 IntellijIdea 了,其他的基本不用了.只有一个 NetBeans 在某些场景下是有优势的,那就是JavaSE GUI开发的时候.
 清除广告 AdBlock Pro 清除Safari广告用; 看动漫太多的广告了,Chrome 上清除广告很容易,Safari就只能依赖这个plugin了.
 database DataGrip 一个客户端,支持查看所有的数据库,jetbrains太香了.
-分屏 Grid windows 系统有个自动管理窗口的功能,这个软件就是在Mac上实现类似的功能;
+分屏 Grid
+windows 系统有个自动管理窗口的功能,这个软件就是在Mac上实现类似的功能;
 扩展屏幕 Deskreen 只要有个浏览器就可以实现屏幕的扩展,有时候可以将自己的iPad用上.
-statusbar 隐藏图标 Dozer Bartender Dozer是开源的,Bartender 是收费的.]]></description>
+statusbar 隐藏图标 Dozer Bartender]]></description>
 </item>
 <item>
     <title>jdk携带的一个HttpServer实现</title>

@@ -10,7 +10,7 @@
     <pubDate>Thu, 23 Jul 2020 17:17:42 &#43;0000</pubDate>
     <author>Tinggeng</author>
     <guid>https://tinggengyan.github.io/2020/07/activity-launch-process-1/</guid>
-    <description><![CDATA[概述 花了点时间,debug了一下系统,跟踪了一下Activity的启动流程.画了一张图,作为综述. 分析的 compileSdkVersion 为 28. 用的是 draw.io 画的,源文件 .]]></description>
+    <description><![CDATA[概述 花了点时间,debug了一下系统,跟踪了一下Activity的启动流程.画了一张图,作为综述. 分析的 compileSdkVersion 为 28. 用的是 draw.io 画的,源文件.]]></description>
 </item>
 <item>
     <title>Activity 在横竖屏切换情况下的生命周期变化</title>
