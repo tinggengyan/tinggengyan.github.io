@@ -49,7 +49,7 @@ statusbar 隐藏图标 Dozer Bartender]]></description>
     <author>Tinggeng</author>
     <guid>https://tinggengyan.github.io/2020/09/aosp_build/</guid>
     <description><![CDATA[override 最近给电脑换了块SSD，装了Ubuntu 18.04。之前的aosp也不想copy过来了，直接重新编译一份，顺带看下新的SSD带来的提效。 因为手机是 nexus 6p，aosp 最后支持到 8.1. 记录下编译需要的操作。
-步骤 open jdk(https://openjdk.java.net/install/) 1 sudo apt install openjdk-8-jdk repo(https://gerrit.googlesource.com/git-repo/) AUTO 1 sudo apt-get install repo MANUALLY 1 2 3 4 $ mkdir -p ~/.bin $ PATH=&#34;${HOME}/.bin:${PATH}&#34; $ curl https://storage.googleapis.com/git-repo-downloads/repo &gt; ~/.bin/repo $ chmod a+rx ~/.bin/repo AOSP mirror 1 mkdir aosp 1 2 3 4 5 6 7 8 9 10 11 12 git config --global user.email &#34;tinggengyan@gmail.com&#34; git config --global user.name &#34;Tinggeng Yan&#34; sudo apt install python cd aosp # 切换指定版本分支 repo init -u https://mirrors.]]></description>
+步骤 open jdk(https://openjdk.java.net/install/) 1 sudo apt install openjdk-8-jdk repo(https://gerrit.googlesource.com/git-repo/) AUTO 1 sudo apt-get install repo MANUALLY 1 2 3 4 $ mkdir -p ~/.bin $ PATH=&#34;${HOME}/.bin:${PATH}&#34; $ curl https://storage.googleapis.com/git-repo-downloads/repo &gt; ~/.bin/repo $ chmod a+rx ~/.bin/repo AOSP mirror 1 mkdir aosp 1 2 3 4 5 6 7 8 9 10 11 12 git config --global user.email &#34;tinggengyan@gmail.com&#34; git config --global user.name &#34;Tinggeng Yan&#34; sudo apt install python cd aosp ## 切换指定版本分支 repo init -u https://mirrors.]]></description>
 </item>
 <item>
     <title>Activity启动流程概述</title>

@@ -132,25 +132,30 @@ apt-get remove 软件包名称： 删除已安装的软件包（保留配置文�
                 </div>
                 <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
   <ul>
-    <li><a href="#软件安装">软件安装</a>
+    <li><a href="#概述">概述</a></li>
+    <li><a href="#命令">命令</a>
       <ul>
-        <li><a href="#deb-文件安装">deb 文件安装</a></li>
-        <li><a href="#zip文件安装">zip文件安装</a></li>
-        <li><a href="#targz-源代码安装">tar.gz 源代码安装</a></li>
-        <li><a href="#rpm-文件安装">rpm 文件安装</a></li>
+        <li><a href="#软件安装">软件安装</a>
+          <ul>
+            <li><a href="#deb-文件安装">deb 文件安装</a></li>
+            <li><a href="#zip文件安装">zip文件安装</a></li>
+            <li><a href="#targz-源代码安装">tar.gz 源代码安装</a></li>
+            <li><a href="#rpm-文件安装">rpm 文件安装</a></li>
+          </ul>
+        </li>
+        <li><a href="#卸载">卸载</a></li>
       </ul>
     </li>
-    <li><a href="#卸载">卸载</a></li>
   </ul>
 </nav></div>
-            </div><div class="content" id="content"><h1 id="概述">概述</h1>
+            </div><div class="content" id="content"><h2 id="概述">概述</h2>
 <p>本文记录学习 Linux 的记录.</p>
 <!-- more -->
-<h1 id="命令">命令</h1>
-<h2 id="软件安装">软件安装</h2>
-<h3 id="deb-文件安装">deb 文件安装</h3>
+<h2 id="命令">命令</h2>
+<h3 id="软件安装">软件安装</h3>
+<h4 id="deb-文件安装">deb 文件安装</h4>
 <p>直接双击,安装,ubuntu 上会自动调用软件管理器安装.</p>
-<h3 id="zip文件安装">zip文件安装</h3>
+<h4 id="zip文件安装">zip文件安装</h4>
 <p>这种是包含了源码的,通过命令解压,设置环境变量.</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
@@ -160,7 +165,7 @@ apt-get remove 软件包名称： 删除已安装的软件包（保留配置文�
 <pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">zip zipFileName.zip
 </span></span></code></pre></td></tr></table>
 </div>
-</div><h3 id="targz-源代码安装">tar.gz 源代码安装</h3>
+</div><h4 id="targz-源代码安装">tar.gz 源代码安装</h4>
 <p>在终端中进行解压操作;</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
@@ -177,8 +182,8 @@ apt-get remove 软件包名称： 删除已安装的软件包（保留配置文�
 <li>设置环境变量的方法</li>
 </ul>
 <p>有三种环境变量的设置方法,一种是临时性的,只在本次的命令行中有效,一种是针对当前用户的,还有一种就是全局性的,针对所有用的.</p>
-<h3 id="rpm-文件安装">rpm 文件安装</h3>
-<h2 id="卸载">卸载</h2>
+<h4 id="rpm-文件安装">rpm 文件安装</h4>
+<h3 id="卸载">卸载</h3>
 <ul>
 <li>
 <p>apt-get autoclean:

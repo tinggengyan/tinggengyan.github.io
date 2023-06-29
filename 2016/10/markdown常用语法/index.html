@@ -12,12 +12,12 @@ How 1. 标题级别的 语法：
 # 一级标题 ## 二级标题 ### 三级标题 #### 四级标题 ##### 五级标题 ###### 六级标题
 标题的级别根据#的个数来区分。正常的文本内容不需要取管，直接输入即可。
 效果:
-一级标题 二级标题 三级标题 四级标题 五级标题 六级标题 2. 序列效果 无序序列语法：
+一级标题 二级标题 三级标题 四级标题 五级标题 ####### 六级标题
+2. 序列效果 无序序列语法：
 * 包含的要点 * 包含的要点 - 包含的要点 - 包含的要点
 无序序列效果:
 包含的要点 包含的要点 包含的要点 包含的要点 有序序列语法：
-\1. 第一点 \2. 第二点 \1. 第三点
-无序序列效果:" />
+\1. 第一点 \2. 第二点 \1. 第三点" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://tinggengyan.github.io/2016/10/markdown%E5%B8%B8%E7%94%A8%E8%AF%AD%E6%B3%95/" /><meta property="article:section" content="posts" />
 <meta property="article:published_time" content="2016-10-17T23:38:28+00:00" />
@@ -31,12 +31,12 @@ How 1. 标题级别的 语法：
 # 一级标题 ## 二级标题 ### 三级标题 #### 四级标题 ##### 五级标题 ###### 六级标题
 标题的级别根据#的个数来区分。正常的文本内容不需要取管，直接输入即可。
 效果:
-一级标题 二级标题 三级标题 四级标题 五级标题 六级标题 2. 序列效果 无序序列语法：
+一级标题 二级标题 三级标题 四级标题 五级标题 ####### 六级标题
+2. 序列效果 无序序列语法：
 * 包含的要点 * 包含的要点 - 包含的要点 - 包含的要点
 无序序列效果:
 包含的要点 包含的要点 包含的要点 包含的要点 有序序列语法：
-\1. 第一点 \2. 第二点 \1. 第三点
-无序序列效果:"/>
+\1. 第一点 \2. 第二点 \1. 第三点"/>
 <meta name="application-name" content="Tinggeng">
 <meta name="apple-mobile-web-app-title" content="Tinggeng"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
         <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
@@ -51,7 +51,7 @@ How 1. 标题级别的 语法：
         "mainEntityOfPage": {
             "@type": "WebPage",
             "@id": "https:\/\/tinggengyan.github.io\/2016\/10\/markdown%E5%B8%B8%E7%94%A8%E8%AF%AD%E6%B3%95\/"
-        },"image": ["https:\/\/tinggengyan.github.io\/images\/Apple-Devices-Preview.png"],"genre": "posts","keywords": "Markdown","wordcount":  174 ,
+        },"image": ["https:\/\/tinggengyan.github.io\/images\/Apple-Devices-Preview.png"],"genre": "posts","keywords": "Markdown","wordcount":  175 ,
         "url": "https:\/\/tinggengyan.github.io\/2016\/10\/markdown%E5%B8%B8%E7%94%A8%E8%AF%AD%E6%B3%95\/","datePublished": "2016-10-17T23:38:28+00:00","dateModified": "2016-10-17T23:38:28+00:00","publisher": {
             "@type": "Organization",
             "name": "xxxx","logo": "https:\/\/tinggengyan.github.io\/img\/avatar.png"},"author": {
@@ -125,7 +125,7 @@ How 1. 标题级别的 语法：
             <div class="toc-content" id="toc-content-auto"></div>
         </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">Markdown 常用语法</h1><div class="post-meta">
             <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Tinggeng</a></span>&nbsp;<span class="post-category">included in <a href="/categories/tool/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Tool</a>&nbsp;<a href="/categories/editor/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Editor</a></span></div>
-            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2016-10-17">2016-10-17</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;174 words&nbsp;
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2016-10-17">2016-10-17</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;175 words&nbsp;
                 <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;One minute&nbsp;<span id="/2016/10/markdown%E5%B8%B8%E7%94%A8%E8%AF%AD%E6%B3%95/" class="leancloud_visitors" data-flag-title="Markdown 常用语法">
                         <i class="far fa-eye fa-fw" aria-hidden="true"></i>&nbsp;<span class=leancloud-visitors-count></span>&nbsp;views
                     </span>&nbsp;</div>
@@ -136,48 +136,52 @@ How 1. 标题级别的 语法：
                 </div>
                 <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
   <ul>
-    <li><a href="#1-标题级别的">1. 标题级别的</a></li>
-  </ul>
-
-  <ul>
-    <li><a href="#二级标题">二级标题</a>
+    <li><a href="#概述">概述</a></li>
+    <li><a href="#why">Why</a></li>
+    <li><a href="#what">What</a></li>
+    <li><a href="#how">How</a>
       <ul>
-        <li><a href="#三级标题">三级标题</a>
+        <li><a href="#1-标题级别的">1. 标题级别的</a></li>
+      </ul>
+    </li>
+    <li><a href="#一级标题">一级标题</a>
+      <ul>
+        <li><a href="#二级标题">二级标题</a>
           <ul>
-            <li><a href="#四级标题">四级标题</a>
+            <li><a href="#三级标题">三级标题</a>
               <ul>
-                <li><a href="#五级标题">五级标题</a>
+                <li><a href="#四级标题">四级标题</a>
                   <ul>
-                    <li><a href="#六级标题">六级标题</a></li>
+                    <li><a href="#五级标题">五级标题</a></li>
                   </ul>
                 </li>
               </ul>
             </li>
           </ul>
         </li>
+        <li><a href="#2-序列效果">2. 序列效果</a></li>
+        <li><a href="#3-强调文字">3. 强调文字</a></li>
+        <li><a href="#4-引用内容">4. 引用内容</a></li>
+        <li><a href="#5-超链接">5. 超链接</a></li>
+        <li><a href="#6-引用外部图片">6. 引用外部图片</a></li>
+        <li><a href="#7-分割线">7. 分割线</a></li>
+        <li><a href="#8-表格">8. 表格</a></li>
+        <li><a href="#9-引入代码块">9. 引入代码块</a></li>
       </ul>
     </li>
-    <li><a href="#2-序列效果">2. 序列效果</a></li>
-    <li><a href="#3-强调文字">3. 强调文字</a></li>
-    <li><a href="#4-引用内容">4. 引用内容</a></li>
-    <li><a href="#5-超链接">5. 超链接</a></li>
-    <li><a href="#6-引用外部图片">6. 引用外部图片</a></li>
-    <li><a href="#7-分割线">7. 分割线</a></li>
-    <li><a href="#8-表格">8. 表格</a></li>
-    <li><a href="#9-引入代码块">9. 引入代码块</a></li>
     <li><a href="#对于想输入代码的时候直接替换上面的java-即可实现代码的高亮">对于想输入代码的时候，直接替换上面的java 即可实现代码的高亮。</a></li>
   </ul>
 </nav></div>
-            </div><div class="content" id="content"><h1 id="概述">概述</h1>
+            </div><div class="content" id="content"><h2 id="概述">概述</h2>
 <p>本文记录 Markdown 写作时常用的一些语法.</p>
 <!-- more -->
-<h1 id="why">Why</h1>
+<h2 id="why">Why</h2>
 <p>平时人们都会进行一些简单的笔记记录，这些文字如果用 Word 就会感觉太复杂，用 txt 又显得单薄，一点格式都没有，不利于书写。自然人们希望有一种方法，能消除这两个缺点的方法，既能有常用的格式，又能方便记忆，简单快捷.
 Markdown 是满足这种需要的，所以记录总结一些常用的 Markdown 符号，方便记忆.</p>
-<h1 id="what">What</h1>
+<h2 id="what">What</h2>
 <p>Markdown 是一种轻量级的「标记语言」，Markdown 简单快捷，导出格式也随心所欲，你可以导出 HTML 格式的文件用来网站发布，也可以十分方便的导出 PDF 格式，方便阅读。</p>
-<h1 id="how">How</h1>
-<h2 id="1-标题级别的">1. 标题级别的</h2>
+<h2 id="how">How</h2>
+<h3 id="1-标题级别的">1. 标题级别的</h3>
 <p><strong>语法：</strong></p>
 <blockquote>
 <p># 一级标题
@@ -189,13 +193,13 @@ Markdown 是满足这种需要的，所以记录总结一些常用的 Markdown �
 </blockquote>
 <p>标题的级别根据#的个数来区分。正常的文本内容不需要取管，直接输入即可。</p>
 <p><strong>效果:</strong></p>
-<h1 id="一级标题">一级标题</h1>
-<h2 id="二级标题">二级标题</h2>
-<h3 id="三级标题">三级标题</h3>
-<h4 id="四级标题">四级标题</h4>
-<h5 id="五级标题">五级标题</h5>
-<h6 id="六级标题">六级标题</h6>
-<h2 id="2-序列效果">2. 序列效果</h2>
+<h2 id="一级标题">一级标题</h2>
+<h3 id="二级标题">二级标题</h3>
+<h4 id="三级标题">三级标题</h4>
+<h5 id="四级标题">四级标题</h5>
+<h6 id="五级标题">五级标题</h6>
+<p>####### 六级标题</p>
+<h3 id="2-序列效果">2. 序列效果</h3>
 <p><strong>无序序列语法：</strong></p>
 <blockquote>
 </blockquote>
@@ -226,7 +230,7 @@ Markdown 是满足这种需要的，所以记录总结一些常用的 Markdown �
 </ol>
 <p>对于想输入一些知识点的结构的情况，需要以列表的形式展示的时候，可以采用这种标记。可以根据具体的情况才有无序的列表和有序的列表。
 对于无序的情况，可以输入“-”也可以输入“*”，都可以。对于有序的情况，输入对于的数字加上英文符号的点，加上空格，紧跟文本内容。其中的数字可以随意,解析的时候自动累加哪怕都写的1，根据具体的解析平台可能存在差异，故而最好能按照顺序写这个数字。</p>
-<h2 id="3-强调文字">3. 强调文字</h2>
+<h3 id="3-强调文字">3. 强调文字</h3>
 <p><strong>斜体语法:</strong></p>
 <blockquote>
 </blockquote>
@@ -240,7 +244,7 @@ Markdown 是满足这种需要的，所以记录总结一些常用的 Markdown �
 <p><strong>加粗效果:</strong></p>
 <p><strong>需要加粗的文字写在这里</strong></p>
 <p>文本中需要加粗来强调的内容和需要以斜体展示的内容，用星号包裹，区别就是星号的个数。</p>
-<h2 id="4-引用内容">4. 引用内容</h2>
+<h3 id="4-引用内容">4. 引用内容</h3>
 <p><strong>引用语法:</strong></p>
 <blockquote>
 </blockquote>
@@ -249,7 +253,7 @@ Markdown 是满足这种需要的，所以记录总结一些常用的 Markdown �
 <blockquote>
 <p>引用的内容，对于一些需要标注了引用了别人的信息的情况下需要以这种形式展示，可以写在这个大于号的后面即可。</p>
 </blockquote>
-<h2 id="5-超链接">5. 超链接</h2>
+<h3 id="5-超链接">5. 超链接</h3>
 <p><strong>超链接语法:</strong></p>
 <blockquote>
 </blockquote>
@@ -257,7 +261,7 @@ Markdown 是满足这种需要的，所以记录总结一些常用的 Markdown �
 <p><strong>超链接效果:</strong></p>
 <p><a href="www.baidu.com" rel="">展示的文本</a></p>
 <p>对于文本需要有超链接的情况下，可以采用这种方式。</p>
-<h2 id="6-引用外部图片">6. 引用外部图片</h2>
+<h3 id="6-引用外部图片">6. 引用外部图片</h3>
 <p><strong>引用外部图片语法:</strong></p>
 <blockquote>
 </blockquote>
@@ -284,7 +288,7 @@ Markdown 是满足这种需要的，所以记录总结一些常用的 Markdown �
         data-sizes="auto"
         alt="http://upload-images.jianshu.io/upload_images/706636-d83548cdf2353f55.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240"
         title="图片说明展示的文本" /></a></p>
-<h2 id="7-分割线">7. 分割线</h2>
+<h3 id="7-分割线">7. 分割线</h3>
 <p><strong>分割线语法:</strong></p>
 <blockquote>
 </blockquote>
@@ -297,7 +301,7 @@ Markdown 是满足这种需要的，所以记录总结一些常用的 Markdown �
 <p>星号分割线</p>
 <hr>
 <p>分割线可以用来分割段落和大的模块内容。</p>
-<h2 id="8-表格">8. 表格</h2>
+<h3 id="8-表格">8. 表格</h3>
 <p><strong>表格语法：</strong></p>
 <blockquote>
 </blockquote>
@@ -335,7 +339,7 @@ Markdown 是满足这种需要的，所以记录总结一些常用的 Markdown �
 </tbody>
 </table>
 <p>用竖直的线和减号进行标示，就可以插入一个简单的表格。</p>
-<h2 id="9-引入代码块">9. 引入代码块</h2>
+<h3 id="9-引入代码块">9. 引入代码块</h3>
 <p><strong>引入代码的语法：</strong></p>
 <blockquote>
 </blockquote>

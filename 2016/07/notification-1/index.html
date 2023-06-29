@@ -122,19 +122,24 @@ TaskStackBuilder 简介 Utility class for constructing synthetic back stacks for
                 </div>
                 <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
   <ul>
-    <li><a href="#taskstackbuilder-简介">TaskStackBuilder 简介</a></li>
-    <li><a href="#实现步骤">实现步骤</a></li>
-    <li><a href="#总结">总结</a></li>
+    <li><a href="#概述">概述</a></li>
+    <li><a href="#背景">背景:</a>
+      <ul>
+        <li><a href="#taskstackbuilder-简介">TaskStackBuilder 简介</a></li>
+        <li><a href="#实现步骤">实现步骤</a></li>
+        <li><a href="#总结">总结</a></li>
+      </ul>
+    </li>
   </ul>
 </nav></div>
-            </div><div class="content" id="content"><h1 id="概述">概述</h1>
+            </div><div class="content" id="content"><h2 id="概述">概述</h2>
 <p>本文记录点击 Notification ,然后停留在 APP 内,而不是返回主页.</p>
 <!-- more -->
-<h1 id="背景">背景:</h1>
+<h2 id="背景">背景:</h2>
 <p>一个App会通过通知(Notification)的形式推广自己产品的内容，点击通知，想要看到推送的详情页，点击返回的时候，我们想让用户返回的是App的主页，而不是桌面。这样可以提高转化率等。以前的实现方式是通过重写了每个activity的返回键的响应，现在可以通过TaskStackBuilder 来实现。在网上查看了很多资料，真正正确的倒是没找到。</p>
-<h2 id="taskstackbuilder-简介">TaskStackBuilder 简介</h2>
+<h3 id="taskstackbuilder-简介">TaskStackBuilder 简介</h3>
 <p>Utility class for constructing synthetic back stacks for cross-task navigation on Android 3.0 and newer.是一个能够构造返回栈，来实现跨task导航的一个工具类。因为可以构造任务栈，所以，我们可以轻松的实现一个activity返回的上一个任务是什么。</p>
-<h2 id="实现步骤">实现步骤</h2>
+<h3 id="实现步骤">实现步骤</h3>
 <p>1.首先创建一个点击了notification之后跳转到的详情页的intent对象。</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
@@ -207,7 +212,7 @@ TaskStackBuilder 简介 Utility class for constructing synthetic back stacks for
 </span></span><span class="line"><span class="cl">        <span class="n">mNotificationManager</span><span class="o">.</span><span class="na">notify</span><span class="o">(</span><span class="mi">0</span><span class="o">,</span> <span class="n">mBuilder</span><span class="o">.</span><span class="na">build</span><span class="o">());</span>
 </span></span></code></pre></td></tr></table>
 </div>
-</div><h2 id="总结">总结</h2>
+</div><h3 id="总结">总结</h3>
 <p>实现的要点在于notification的设置。</p>
 </div><div class="post-footer" id="post-footer">
     <div class="post-info">

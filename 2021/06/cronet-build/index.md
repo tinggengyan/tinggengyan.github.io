@@ -1,22 +1,22 @@
 # cronet_build
 
-# 概述
+## 概述
 记录编译Cronet for Android 的过程和步骤.
 
 <!-- more -->
 
-# 准备工具
+## 准备工具
 1. install  depot_tools
 
 ```shell
-# 下载
+## 下载
 $ git clone https://chromium.googlesource.com/chromium/tools/depot_tools.git
 ```
 
 2. 添加进path,或者 .bashrc/.zshrc
 
 ```shell
-# 将 /path/to/depot_tools 天换成自己安装的目录即可
+## 将 /path/to/depot_tools 天换成自己安装的目录即可
 $ export PATH="$PATH:/path/to/depot_tools"
 ```
 
@@ -34,13 +34,13 @@ $ export PATH="$PATH:${HOME}/depot_tools"
 $ export PATH="$PATH:${HOME}/ide/depot_tools"
 ```
 
-# 下载代码
+## 下载代码
 
 1. 找个目录,clone代码,我选择的是   ~/workspace/chromium
 1. 拉取代码,因为我不想要history,如果想要history,去掉 --no-history 即可.
 
 ```shell
-# 这个命令是第一次拉取代码使用
+## 这个命令是第一次拉取代码使用
 $ fetch --nohooks --no-history chromium
 ```
 
@@ -51,7 +51,7 @@ $ fetch --nohooks --no-history chromium
 ​
 ![sync warning](/img/cronet_build/sync_warning.png)
 
-## 非初次同步,则执行同步代码的命令
+### 非初次同步,则执行同步代码的命令
 
 ```shell
 $ gclient sync
@@ -65,13 +65,13 @@ $ gclient sync
 
 ![sync_success](/img/cronet_build/sync_success.png)
 
-# 切换到src目录下
+## 切换到src目录下
 
 ```shell
 $cd src
 ```
 
-# 安装额外依赖
+## 安装额外依赖
 
 ```shell
 $ ./build/install-build-deps.sh
@@ -90,17 +90,17 @@ $ ./build/install-build-deps.sh --no-chromeos-fonts
 
 ```
 
-# Run the hooks
+## Run the hooks
 
 ```shell
 $ gclient runhooks
 ```
 
-# build
+## build
 
-## 需求一: Building Cronet for development and debugging
+### 需求一: Building Cronet for development and debugging
 
-### 第一步: 设置out_dir,生成ninja文件
+#### 第一步: 设置out_dir,生成ninja文件
 
 ```shell
 $ ./components/cronet/tools/cr_cronet.py gn --out_dir=out/Cronet
@@ -114,7 +114,7 @@ $ ./components/cronet/tools/cr_cronet.py gn --out_dir=out/Cronet
 
 ![build_gn_ninja](/img/cronet_build/build_gn_ninja.png)
 
-### 第二步: Running the ninja files
+#### 第二步: Running the ninja files
 
 ```shell
 $ ninja -C out/Cronet cronet_package
@@ -123,7 +123,7 @@ $ ninja -C out/Cronet cronet_package
 ![build_success](/img/cronet_build/build_success.png)
 
 
-### 生成物解释
+#### 生成物解释
 
 编译完,用作Android开发的库都在 chromium/src/out/Cronet/cronet 目录下.
 
@@ -137,7 +137,7 @@ $ ninja -C out/Cronet cronet_package
 5. 反混淆文件: 也在该目录下.
 
 
-## 需求二: build mobile release
+### 需求二: build mobile release
 
 ```shell
 $ ./components/cronet/tools/cr_cronet.py gn --release
@@ -147,11 +147,11 @@ $ ninja -C out/Release cronet_package
 ![mobile_release](/img/cronet_build/mobile_release.png)
 
 
-## 需求三: 其他abi
+### 需求三: 其他abi
 默认不指定参数的情况下,生成的是 ARMv7 32位的库,如果需要其他版本的库,可以通过添加如下参数,进行生成.
 
 
-### 方案一是,修改 [cr_cronet.py](https://chromium.googlesource.com/chromium/src/+/refs/heads/main/components/cronet/tools/cr_cronet.py) 文件的 gn_args 变量,按照需求修改成如下的值.
+#### 方案一是,修改 [cr_cronet.py](https://chromium.googlesource.com/chromium/src/+/refs/heads/main/components/cronet/tools/cr_cronet.py) 文件的 gn_args 变量,按照需求修改成如下的值.
 ​
 - For ARMv8 64-bit: target_cpu="arm64"
 - For x86 32-bit: target_cpu="x86"
@@ -161,10 +161,10 @@ $ ninja -C out/Release cronet_package
 ![cr_cronet.py](/img/cronet_build/cr_cronet.py.png)
 
 
-### 方案二: 交互式,不需要修改文件
+#### 方案二: 交互式,不需要修改文件
 
 ```shell
-# 交互修改参数
+## 交互修改参数
 $ gn args out/Cronet
 
 ```
@@ -213,10 +213,10 @@ $ ninja -C out/Cronet cronet_package
 
 
 
-# 其他,iOS编译
+## 其他,iOS编译
 曾经也编译过iOS版本,步骤差不多,按照文档来,但是当时有个问题,在此记录下.
 1. 按照[iOS编译文档](https://chromium.googlesource.com/chromium/src/+/master/docs/ios/build_instructions.md) 操作执行,生成需要的文件夹;
 2. 如果当时fetch的时候,参数不是 iOS,则需要确认 .gclient ,最后一行有  target_os = [ "ios" ]   ,然后再执行 gclient sync,下载iOS的依赖; [文档说明](https://chromium.googlesource.com/chromium/src/+/0e94f26e8/docs/ios_build_instructions.md)
 
-# Ref
+## Ref
 1. [Cronet build instructions](https://chromium.googlesource.com/chromium/src/+/HEAD/components/cronet/build_instructions.md)

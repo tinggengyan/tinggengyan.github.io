@@ -124,15 +124,20 @@ project 目录下新建一个目录 aars(名字应该随意),新建的 aars 文�
                 </div>
                 <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
   <ul>
-    <li><a href="#未成功方案">未成功方案</a></li>
-    <li><a href="#亲测有效方案">亲测有效方案</a></li>
+    <li><a href="#概述">概述</a></li>
+    <li><a href="#androidstudio如何引用aar依赖">AndroidStudio如何引用aar依赖</a>
+      <ul>
+        <li><a href="#未成功方案">未成功方案</a></li>
+        <li><a href="#亲测有效方案">亲测有效方案</a></li>
+      </ul>
+    </li>
   </ul>
 </nav></div>
-            </div><div class="content" id="content"><h1 id="概述">概述</h1>
+            </div><div class="content" id="content"><h2 id="概述">概述</h2>
 <p>本文介绍 AndroidStudio 项目如何如何进行 aar 包依赖.</p>
 <!-- more -->
-<h1 id="androidstudio如何引用aar依赖">AndroidStudio如何引用aar依赖</h1>
-<h2 id="未成功方案">未成功方案</h2>
+<h2 id="androidstudio如何引用aar依赖">AndroidStudio如何引用aar依赖</h2>
+<h3 id="未成功方案">未成功方案</h3>
 <p>google 了一圈，网上的方法基本都是以下这种，在 <em>module/build.gradle</em> 文件中添加如下代码.同时将 aar 文件 copy 到 libs 文件夹下.</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
@@ -151,7 +156,7 @@ project 目录下新建一个目录 aars(名字应该随意),新建的 aars 文�
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>我尝试了很多次,没有成功.</p>
-<h2 id="亲测有效方案">亲测有效方案</h2>
+<h3 id="亲测有效方案">亲测有效方案</h3>
 <p>采用了以下方法成功了,和上面的内容一致,只是位置不一样.</p>
 <ol>
 <li>

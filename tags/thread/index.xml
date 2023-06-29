@@ -12,7 +12,7 @@
     <guid>https://tinggengyan.github.io/2016/06/rxjavathreaddemo/</guid>
     <description><![CDATA[概述 本文仅作记录如何在上层使用代码进行 RxJava 的线程切换.
 RxJava 线程管理 RxJava 中通过两个关键的方法 subscribeOn 和 observeOn 实现线程的切换，都说 RxJava 是可以任性的随意切换线程，到底可以多任性呢，在哪任性呢，代码上怎么体现呢？下面通过一个非常简单的例子 演示一下如何使用，源码讨论请移步另一篇文章。
-##　测试代码
+###　测试代码
 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 52 53 54 55 56 57 58 59 60 61 62 63 64 65 66 67 68 69 70 71 72 73 74 //验证多线程切换的情况 private void multiThreadSwitch() { Observable.]]></description>
 </item>
 </channel>

@@ -128,39 +128,67 @@ JIT 的运行性能更高,但启动时间长。适合长时间运行的程序。
                 </div>
                 <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
   <ul>
-    <li>
+    <li><a href="#概述">概述</a></li>
+    <li><a href="#linux-整体结构图">linux 整体结构图</a></li>
+    <li><a href="#解释器--编译器--jit--aot">解释器 &amp; 编译器 &amp; JIT &amp; AOT</a></li>
+    <li><a href="#动态链接静态链接">动态链接、静态链接</a></li>
+    <li><a href="#linux的软链接和硬链接吗">Linux的软链接和硬链接吗？</a>
       <ul>
         <li>
           <ul>
             <li>
               <ul>
-                <li><a href="#硬连接">硬连接</a></li>
-                <li><a href="#软连接">软连接</a></li>
+                <li>
+                  <ul>
+                    <li><a href="#硬连接">硬连接</a></li>
+                    <li><a href="#软连接">软连接</a></li>
+                  </ul>
+                </li>
               </ul>
             </li>
           </ul>
         </li>
       </ul>
     </li>
-  </ul>
-
-  <ul>
-    <li><a href="#mmap-的应用---日志库">mmap 的应用 - 日志库</a></li>
-  </ul>
-
-  <ul>
-    <li><a href="#区别联系">区别联系</a></li>
-    <li><a href="#进程的调度算法">进程的调度算法</a></li>
-    <li><a href="#死锁和死锁避免">死锁和死锁避免</a></li>
-    <li><a href="#线程的状态以及转换">线程的状态以及转换</a></li>
-    <li><a href="#重开线程">重开线程</a></li>
-  </ul>
-
-  <ul>
-    <li><a href="#读写锁的原理">读写锁的原理</a></li>
+    <li><a href="#内存管理">内存管理</a></li>
+    <li><a href="#匿名映射--命名映射">匿名映射 &amp; 命名映射</a></li>
+    <li><a href="#mmap">mmap</a>
+      <ul>
+        <li><a href="#mmap-的应用---日志库">mmap 的应用 - 日志库</a></li>
+      </ul>
+    </li>
+    <li><a href="#直接-io-与-非直接-io">直接 IO 与 非直接 IO</a></li>
+    <li><a href="#阻塞与非阻塞-io-vs-同步与异步-io">阻塞与非阻塞 I/O VS 同步与异步 I/O</a></li>
+    <li><a href="#进程和线程">进程和线程</a>
+      <ul>
+        <li><a href="#区别联系">区别联系</a></li>
+        <li><a href="#进程的调度算法">进程的调度算法</a></li>
+        <li><a href="#死锁和死锁避免">死锁和死锁避免</a></li>
+        <li><a href="#线程的状态以及转换">线程的状态以及转换</a></li>
+        <li><a href="#重开线程">重开线程</a></li>
+      </ul>
+    </li>
+    <li><a href="#进程和线程内存地址空间的区别">进程和线程内存地址空间的区别</a></li>
+    <li><a href="#线程同步机制">线程同步机制</a>
+      <ul>
+        <li><a href="#读写锁的原理">读写锁的原理</a></li>
+      </ul>
+    </li>
+    <li><a href="#原子操作原理">原子操作原理</a></li>
+    <li><a href="#字符编码">字符编码</a></li>
+    <li><a href="#虚拟内存virt--常驻内存resident--共享内存-shared">虚拟内存(Virt) &amp; 常驻内存(Resident) &amp; 共享内存 (Shared)</a></li>
+    <li><a href="#free--available">Free &amp; Available</a></li>
+    <li><a href="#buffer--cached">Buffer &amp; Cached</a></li>
+    <li><a href="#huge-page-的作用和利弊">Huge Page 的作用和利弊</a></li>
+    <li><a href="#x86的虚拟地址物理地址逻辑地址">X86的虚拟地址，物理地址，逻辑地址</a></li>
+    <li><a href="#内存回收过程">内存回收过程</a></li>
+    <li><a href="#虚拟地址和物理地址的翻译mmu--tlb">虚拟地址和物理地址的翻译(MMU &amp; TLB)</a></li>
+    <li><a href="#drop-cache以后可用内存不增加的主要原因">Drop Cache以后可用内存不增加的主要原因</a></li>
+    <li><a href="#buddy-分配器--slab-分配器">Buddy 分配器 &amp; Slab 分配器</a></li>
+    <li><a href="#内存碎片--内存整理">内存碎片 &amp; 内存整理</a></li>
   </ul>
 </nav></div>
-            </div><div class="content" id="content"><h1 id="概述">概述</h1>
+            </div><div class="content" id="content"><h2 id="概述">概述</h2>
 <p>总结自己的操作系统的知识，按照编码 -&gt; 运行，画了一张图，xmind 导出的图比较大，目前这部分的内容还比较少，后续持续更新，迭代这部分的内容。</p>
 <p><img
         class="lazyload"
@@ -173,11 +201,11 @@ JIT 的运行性能更高,但启动时间长。适合长时间运行的程序。
 <p style="text-align:center;color:#8EC0E4;font-size:1.5em;font-weight: bold;">
 下面是一些常见的知识,将会慢慢补充进思维导图内
 </p>
-<h1 id="linux-整体结构图">linux 整体结构图</h1>
+<h2 id="linux-整体结构图">linux 整体结构图</h2>
 <ul>
 <li>makelinux：<a href="https://makelinux.github.io/kernel/map/" target="_blank" rel="noopener noreffer ">makelinux</a></li>
 </ul>
-<h1 id="解释器--编译器--jit--aot">解释器 &amp; 编译器 &amp; JIT &amp; AOT</h1>
+<h2 id="解释器--编译器--jit--aot">解释器 &amp; 编译器 &amp; JIT &amp; AOT</h2>
 <ul>
 <li><a href="http://47.100.139.123/blog/article/132" target="_blank" rel="noopener noreffer ">参考链接1</a></li>
 <li><a href="https://github.com/chenzomi12/DeepLearningSystem/blob/main/Compiler/Tradition/01.introduction.pdf" target="_blank" rel="noopener noreffer ">参考链接2</a></li>
@@ -291,7 +319,7 @@ JIT的优点是开发体验好,修改代码后无需重新编译,直接运行即
 </ul>
 <p>所以,总体来说,虽然Android运行环境本质上是一种JIT虚拟机,但是从Android 7.0开始,Google为了追求更高的运行性能,允许开发者选择AOT方式启动APP。这使得Android可以很好的适用JIT和AOT各自的优势,是一种非常灵活的设计。
 所以答案是:Android既使用JIT,也使用AOT,并可以根据需要选择两种方式或混合使用。</p>
-<h1 id="动态链接静态链接">动态链接、静态链接</h1>
+<h2 id="动态链接静态链接">动态链接、静态链接</h2>
 <p>动态链接和静态链接都是程序中调用库文件的方式,但有以下主要区别:</p>
 <ol>
 <li>链接时间:
@@ -330,11 +358,11 @@ JIT的优点是开发体验好,修改代码后无需重新编译,直接运行即
 </li>
 <li>大部分情况下,我们选择动态链接来利用库文件。</li>
 </ul>
-<h1 id="linux的软链接和硬链接吗">Linux的软链接和硬链接吗？</h1>
+<h2 id="linux的软链接和硬链接吗">Linux的软链接和硬链接吗？</h2>
 <p>Linux链接分两种，一种被称为硬链接（Hard Link），另一种被称为符号链接（Symbolic Link）。默认情况下，ln命令产生硬链接。</p>
-<h5 id="硬连接">硬连接</h5>
+<h6 id="硬连接">硬连接</h6>
 <p>硬连接指通过索引节点来进行连接。在Linux的文件系统中，保存在磁盘分区中的文件不管是什么类型都给它分配一个编号，称为索引节点号(Inode Index)。在Linux中，多个文件名指向同一索引节点是存在的。一般这种连接就是硬连接。硬连接的作用是允许一个文件拥有多个有效路径名，这样用户就可以建立硬连接到重要文件，以防止“误删”的功能。其原因如上所述，因为对应该目录的索引节点有一个以上的连接。只删除一个连接并不影响索引节点本身和其它的连接，只有当最后一个连接被删除后，文件的数据块及目录的连接才会被释放。也就是说，文件真正删除的条件是与之相关的所有硬连接文件均被删除。</p>
-<h5 id="软连接">软连接</h5>
+<h6 id="软连接">软连接</h6>
 <p>另外一种连接称之为符号连接（Symbolic Link），也叫软连接。软链接文件有类似于Windows的快捷方式。它实际上是一个特殊的文件。在符号连接中，文件实际上是一个文本文件，其中包含的有另一文件的位置信息。</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
@@ -345,14 +373,14 @@ JIT的优点是开发体验好,修改代码后无需重新编译,直接运行即
 </span><span class="lnt">5
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># 创建软链接</span>
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1">## 创建软链接</span>
 </span></span><span class="line"><span class="cl">ln -s file1 link1 
 </span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="c1"># 创建硬链接</span>
+</span></span><span class="line"><span class="cl"><span class="c1">## 创建硬链接</span>
 </span></span><span class="line"><span class="cl">ln file1 link2
 </span></span></code></pre></td></tr></table>
 </div>
-</div><h1 id="内存管理">内存管理</h1>
+</div><h2 id="内存管理">内存管理</h2>
 <ul>
 <li><a href="https://blog.csdn.net/hguisu/article/details/5713164" target="_blank" rel="noopener noreffer ">参考链接1</a></li>
 </ul>
@@ -384,8 +412,8 @@ JIT的优点是开发体验好,修改代码后无需重新编译,直接运行即
 <li>文件映射是共享的,父子进程可以共享同一映射。匿名映射默认是私有的,要启用 MAP_SHARED 标志来共享。</li>
 </ul>
 <p>这些内存映射方式提供了一种高效的 I/O 方式,用户空间应用可以像访问内存一样访问文件,这加快了文件访问速度。同时也带来方便的进程间通信方式。总之,内存映射是Linux下一个强大而高效的 IPC 机制。</p>
-<h1 id="匿名映射--命名映射">匿名映射 &amp; 命名映射</h1>
-<h1 id="mmap">mmap</h1>
+<h2 id="匿名映射--命名映射">匿名映射 &amp; 命名映射</h2>
+<h2 id="mmap">mmap</h2>
 <ul>
 <li><a href="https://www.cnblogs.com/huxiao-tee/p/4660352.html" target="_blank" rel="noopener noreffer ">参考链接1</a></li>
 <li><a href="https://stackoverflow.com/questions/5902629/mmap-msync-and-linux-process-termination" target="_blank" rel="noopener noreffer ">参考链接2</a></li>
@@ -421,7 +449,7 @@ mmap 比较适合于对同一块区域频繁读写的情况，推荐也使用线
 <li>传输大文件的时候，使用「异步 I/O + 直接 I/O」；</li>
 <li>传输小文件的时候，则使用「零拷贝技术」；</li>
 </ul>
-<h2 id="mmap-的应用---日志库">mmap 的应用 - 日志库</h2>
+<h3 id="mmap-的应用---日志库">mmap 的应用 - 日志库</h3>
 <p>由于内存Cache的存在，在写入数据的过程中一旦发生意外（Crash、后台被系统杀死，等），都可能会发生数据丢失的情况。而如果将写操作设计成同步的，数据丢失的情况会有所改善，但写操作的耗时会大大提升。mmap 的引入恰到好处的在这两者之间找到了一个平衡。mmap 对文件的读取操作跨过了页缓存，减少了数据的拷贝次数，用内存读写取代I/O读写，提高了文件读取效率； 对 mmap 内存的写操作，会直接进入系统page-cache；msync调用负责把脏的page-cache持久化到硬盘。当然对发生系统级错误和设备异常导致系统挂掉的情况，mmap 也是保证不了数据完整性的。</p>
 <p>这里需要特别说明一下：MMKV 实现的本质上跟前面讨论的KV方案是没有区别的，其最大的改进是利用 mmap 来代替 File 和 Database 的操作，利用 mmap I/O 操作的优势对数据丢失问题进行改善。但由于“内存-文件”两级缓存的存在，MMKV 也是无法彻底解决数据丢失问题的。当然对于终端设备的场景来看，这种丢失在很大程度上是可以忽略的。</p>
 <p>微信团队在封装 xlog 和 mmap 时采用了CPP代码来实现，主要是为了做到 Android 和 iOS 端的通用。实际上如果不考虑跨平台，则可以考虑使用 Java NIO 中的 <a href="https://developer.android.com/reference/java/nio/channels/FileChannel" target="_blank" rel="noopener noreffer ">FileChannel</a> 或者 Android 中的 <a href="https://developer.android.com/reference/android/os/MemoryFile" target="_blank" rel="noopener noreffer ">MemoryFile</a> 代替。 <a href="https://developer.android.com/reference/java/nio/channels/FileChannel" target="_blank" rel="noopener noreffer ">FileChannel</a> 底层其实通过 mmap 实现的。而 <a href="https://developer.android.com/reference/android/os/MemoryFile" target="_blank" rel="noopener noreffer ">MemoryFile</a> 则是 Android 中匿名共享内存在 Java 层的接口，至于 Android 匿名共享内存底层实现也利用了mmap。所以，<a href="https://developer.android.com/reference/java/nio/channels/FileChannel" target="_blank" rel="noopener noreffer ">FileChannel</a> 和 MemoryFile 本质上与直接调用 mmap 是一样的。利用这些接口也可以降低大部分 Android 程序员的开发和维护成本，毕竟大家对 Java 相对更为熟悉。
@@ -454,7 +482,7 @@ mmap 比较适合于对同一块区域频繁读写的情况，推荐也使用线
 </ul>
 <p>因此，这里如何做是一个“度”的问题，而这个“度”的把握则取决于对设备和产品的理解。对微信来说，他们的理解是 append 就够了，个人理解是可以做一定程度（“简单”）复用策略的，通过复用减缓到达空间上限的时间，因为每次加载时 Key 的去重以及回写都是有一定的性能开销的。
 这样设计 Key 相对更加灵活，可以对数据加密、编码等根据需要搭配，做到不同形式数据的混存</p>
-<h1 id="直接-io-与-非直接-io">直接 IO 与 非直接 IO</h1>
+<h2 id="直接-io-与-非直接-io">直接 IO 与 非直接 IO</h2>
 <p>我们都知道磁盘 I/O 是非常慢的，所以 Linux 内核为了减少磁盘 I/O 次数，在系统调用后，会把用户数据拷贝到内核中缓存起来，这个内核缓存空间也就是「页缓存」，只有当缓存满足某些条件的时候，才发起磁盘 I/O 的请求。</p>
 <p>那么，根据是「否利用操作系统的缓存」，可以把文件 I/O 分为直接 I/O 与非直接 I/O：</p>
 <ul>
@@ -470,7 +498,7 @@ mmap 比较适合于对同一块区域频繁读写的情况，推荐也使用线
 <li>当内存十分紧张，无法再分配页面时，也会把内核缓存的数据刷到磁盘上；</li>
 <li>内核缓存的数据的缓存时间超过某个时间时，也会把数据刷到磁盘上；</li>
 </ul>
-<h1 id="阻塞与非阻塞-io-vs-同步与异步-io">阻塞与非阻塞 I/O VS 同步与异步 I/O</h1>
+<h2 id="阻塞与非阻塞-io-vs-同步与异步-io">阻塞与非阻塞 I/O VS 同步与异步 I/O</h2>
 <p><strong>IO 整体分为两个过程</strong></p>
 <ol>
 <li>数据准备的过程；</li>
@@ -478,8 +506,8 @@ mmap 比较适合于对同一块区域频繁读写的情况，推荐也使用线
 </ol>
 <p>阻塞 I/O 会阻塞在「过程 1 」和「过程 2」，而非阻塞 I/O 和基于非阻塞 I/O 的多路复用只会阻塞在「过程 2」，所以这三个都可以认为是同步 I/O。</p>
 <p>异步 I/O 则不同，「过程 1 」和「过程 2 」都不会阻塞。</p>
-<h1 id="进程和线程">进程和线程</h1>
-<h2 id="区别联系">区别联系</h2>
+<h2 id="进程和线程">进程和线程</h2>
+<h3 id="区别联系">区别联系</h3>
 <p>进程和线程的主要差别在于它们是不同的操作系统资源管理方式。</p>
 <ul>
 <li>进程有独立的地址空间，一个进程崩溃后，在保护模式下不会对其它进程产生影响，</li>
@@ -494,7 +522,7 @@ mmap 比较适合于对同一块区域频繁读写的情况，推荐也使用线
 <li>线程在执行过程中与进程还是有区别的。每个独立的线程有一个程序运行的入口、顺序执行序列和程序的出口。但是线程不能够独立执行，必须依存在应用程序中，由应用程序提供多个线程执行控制。</li>
 <li>【重要】从逻辑角度来看，多线程的意义在于一个应用程序中，有多个执行部分可以同时执行。但操作系统并没有将多个线程看做多个独立的应用，来实现进程的调度和管理以及资源分配。</li>
 </ol>
-<h2 id="进程的调度算法">进程的调度算法</h2>
+<h3 id="进程的调度算法">进程的调度算法</h3>
 <ul>
 <li><a href="https://www.cnblogs.com/wawlian/archive/2012/02/17/2356398.html" target="_blank" rel="noopener noreffer ">参考链接1</a></li>
 <li><a href="https://mp.weixin.qq.com/s/JWj6_BF9Xc84kQcyx6Nf_g" target="_blank" rel="noopener noreffer ">参考链接2</a></li>
@@ -553,7 +581,7 @@ FCFS 对长作业有利，适用于 CPU 繁忙型作业的系统，而不适用�
 <li>当较高优先级的队列为空，才调度较低优先级的队列中的进程运行。如果进程运行时，有新进程进入较高优先级的队列，则停止当前运行的进程并将其移入到原队列末尾，接着让较高优先级的进程运行；</li>
 </ul>
 <p>可以发现，对于短作业可能可以在第一级队列很快被处理完。对于长作业，如果在第一级队列处理不完，可以移入下次队列等待被执行，虽然等待的时间变长了，但是运行时间也会更长了，所以该算法很好的兼顾了长短作业，同时有较好的响应时间。</p>
-<h2 id="死锁和死锁避免">死锁和死锁避免</h2>
+<h3 id="死锁和死锁避免">死锁和死锁避免</h3>
 <p><strong>死锁产生的原因</strong>有以下几个:</p>
 <ol>
 <li>互斥条件:一个资源一次只能被一个进程使用；</li>
@@ -571,7 +599,7 @@ FCFS 对长作业有利，适用于 CPU 繁忙型作业的系统，而不适用�
 <li>设置资源请求超时时间:如果在一定时间内不能获取资源,则放弃请求。避免一直等待下去。</li>
 <li>减少对资源的请求数目:合理分配和调度资源,避免过多进程同时请求少量资源。</li>
 </ol>
-<h2 id="线程的状态以及转换">线程的状态以及转换</h2>
+<h3 id="线程的状态以及转换">线程的状态以及转换</h3>
 <p>*<em>进程的状态图</em>
 <img
         class="lazyload"
@@ -630,15 +658,15 @@ FCFS 对长作业有利，适用于 CPU 繁忙型作业的系统，而不适用�
 比如 socket 编程时，调用如 accept()，read() 这种阻塞方法时，线程处于什么状态呢？
 答案是处于 RUNNABLE 状态，但实际上这个线程是得不到运行权的，因为在操作系统层面处于阻塞态，需要等到 IO 就绪，才能变为就绪态。
 但是在 Java 层面，JVM 认为等待 IO 与等待 CPU 执行权，都是一样的。</p>
-<h2 id="重开线程">重开线程</h2>
+<h3 id="重开线程">重开线程</h3>
 <p>Java 中的线程是不可以重开的；</p>
-<h1 id="进程和线程内存地址空间的区别">进程和线程内存地址空间的区别</h1>
+<h2 id="进程和线程内存地址空间的区别">进程和线程内存地址空间的区别</h2>
 <ul>
 <li>进程的地址空间是私有的,互不共享。</li>
 <li>线程共享进程的地址空间,可以访问进程内所有变量和资源。</li>
 <li>不同进程的线程不能共享地址空间。</li>
 </ul>
-<h1 id="线程同步机制">线程同步机制</h1>
+<h2 id="线程同步机制">线程同步机制</h2>
 <ol>
 <li>锁(Lock)。锁是最基本的线程同步机制,它允许线程对共享资源的访问进行互斥,从而保证同一时间只有一个线程可以访问该资源。常见的锁有互斥锁、读写锁等。</li>
 <li>条件变量(Condition Variable)。条件变量允许线程等待某个条件满足后再继续执行。它通常与锁一起使用,锁保证访问共享资源的互斥,条件变量允许等待某个条件。</li>
@@ -659,7 +687,7 @@ FCFS 对长作业有利，适用于 CPU 繁忙型作业的系统，而不适用�
 <li>锁的实现通常更轻量级,性能开销较小。信号量的实现相对复杂一些,性能开销较大。</li>
 </ol>
 <p>所以总体来说,虽然锁和信号量都是用于线程同步的机制,但是锁是一种互斥的同步方式,而信号量是一种控制访问数量的同步机制。根据不同的需求,可以选择使用锁或者信号量来实现线程同步。</p>
-<h2 id="读写锁的原理">读写锁的原理</h2>
+<h3 id="读写锁的原理">读写锁的原理</h3>
 <p>读写锁是操作系统中用于保护共享资源的一种锁机制。它允许多个读线程同时访问一个资源,但在写线程访问时会阻塞所有读线程和其他写线程。读写锁的主要原理是:</p>
 <ol>
 <li>维护一个读计数器和一个写标志。读计数器记录当前有多少个读线程正在访问资源,写标志表示是否有写线程正在访问资源。</li>
@@ -672,7 +700,7 @@ FCFS 对长作业有利，适用于 CPU 繁忙型作业的系统，而不适用�
 <p><strong>Java 中的读写锁</strong></p>
 <p>JUC 中 有 <a href="https://developer.android.com/reference/java/util/concurrent/locks/ReentrantReadWriteLock" target="_blank" rel="noopener noreffer ">ReentrantReadWriteLock</a> 和 <a href="https://developer.android.com/reference/java/util/concurrent/locks/StampedLock?hl=en" target="_blank" rel="noopener noreffer ">StampedLock</a> 这两个类，都是读写锁。
 区别在于 StampedLock 是读乐观的锁。</p>
-<h1 id="原子操作原理">原子操作原理</h1>
+<h2 id="原子操作原理">原子操作原理</h2>
 <p><a href="https://zhuanlan.zhihu.com/p/33445834" target="_blank" rel="noopener noreffer ">https://zhuanlan.zhihu.com/p/33445834</a></p>
 <ul>
 <li>从用户角度，可以用原子操作来替换重量级的锁同步，从而提高程序性能。</li>
@@ -708,7 +736,7 @@ FCFS 对长作业有利，适用于 CPU 繁忙型作业的系统，而不适用�
 </ol>
 <p>总之,CAS能够保证原子操作的原子性、可见性、有序性和互斥性这四个要素。这些特性共同确保了CAS的原子操作正确性,使其可以实现线程同步等功能。
 所以,CAS之所以可以保证原子性,关键在于它是CPU提供的原子指令,内部可以锁总线并包含连续的三步原子操作,这些特征共同满足原子操作的四个要素,从而实现了原子性。</p>
-<h1 id="字符编码">字符编码</h1>
+<h2 id="字符编码">字符编码</h2>
 <p><strong>Unicode 和 ANSI 的区别</strong></p>
 <p>Unicode 和 ANSI 是两种字符编码标准,主要区别如下:</p>
 <ol>
@@ -760,7 +788,7 @@ FCFS 对长作业有利，适用于 CPU 繁忙型作业的系统，而不适用�
 <li>传输:字节数量的不同会影响传输的带宽要求。</li>
 <li>兼容性:只有使用相同的字符编码和编码方式的系统或软件之间才具有良好的兼容性。所以选择恰当的字符编码方式对实现字符编码非常重要。</li>
 </ul>
-<h1 id="虚拟内存virt--常驻内存resident--共享内存-shared">虚拟内存(Virt) &amp; 常驻内存(Resident) &amp; 共享内存 (Shared)</h1>
+<h2 id="虚拟内存virt--常驻内存resident--共享内存-shared">虚拟内存(Virt) &amp; 常驻内存(Resident) &amp; 共享内存 (Shared)</h2>
 <ul>
 <li>虚拟内存(Virt):进程地址空间的大小,包括实际使用的物理内存以及交换空间。虚拟内存的值通常比实际的物理内存和交换空间之和要大。</li>
 <li>常驻内存(Resident):进程正在使用的物理内存大小。常驻内存是实际分配给进程的物理内存,用于存储进程当前正在使用的数据和指令。</li>
@@ -778,7 +806,7 @@ FCFS 对长作业有利，适用于 CPU 繁忙型作业的系统，而不适用�
 <li>共享内存是被多个进程共享使用的内存部分。</li>
 </ul>
 <p>所以这三者之间存在包含关系和部分重叠的关系。</p>
-<h1 id="free--available">Free &amp; Available</h1>
+<h2 id="free--available">Free &amp; Available</h2>
 <ul>
 <li>
 <p>&ldquo;Free&quot;表示当前没有被分配使用的内存空间大小。也就是说，这是操作系统内存管理系统中未被分配给任何进程使用的内存。</p>
@@ -793,7 +821,7 @@ FCFS 对长作业有利，适用于 CPU 繁忙型作业的系统，而不适用�
 <li>被回收内存：已经被进程占用但是已经释放的内存空间，这些内存可以被重新分配给其他进程使用。</li>
 <li>虚拟内存：系统中使用的虚拟内存，其中包括已经被分配但当前未被使用的虚拟内存空间。</li>
 </ol>
-<h1 id="buffer--cached">Buffer &amp; Cached</h1>
+<h2 id="buffer--cached">Buffer &amp; Cached</h2>
 <ul>
 <li>
 <p>&ldquo;Buffer&quot;是指操作系统为了提高文件系统性能而使用的一种缓存机制，用于存储正在进行读写操作的数据。当应用程序读取数据时，数据会被缓存到Buffer中，当应用程序写入数据时，数据也会先被缓存到Buffer中，再由操作系统写入磁盘。这样可以减少磁盘IO操作，提高文件系统性能。</p>
@@ -803,7 +831,7 @@ FCFS 对长作业有利，适用于 CPU 繁忙型作业的系统，而不适用�
 </li>
 </ul>
 <p>区别在于，Buffer主要用于文件系统的读写操作，而Cached则是为了提高系统性能而缓存常用数据和程序代码。另外，Buffer中的数据可能是尚未被写入磁盘的脏数据，而Cached中的数据则是已经被读取或执行的数据。</p>
-<h1 id="huge-page-的作用和利弊">Huge Page 的作用和利弊</h1>
+<h2 id="huge-page-的作用和利弊">Huge Page 的作用和利弊</h2>
 <p>Huge Page是一种增大操作系统页面大小的技术，它将操作系统页面的大小从默认的4KB增大到2MB或更大。它的作用主要是为了提高系统性能，但也存在一些利弊。</p>
 <p><strong>作用：</strong></p>
 <ol>
@@ -827,7 +855,7 @@ FCFS 对长作业有利，适用于 CPU 繁忙型作业的系统，而不适用�
 <li>可移植性差：不是所有的操作系统和处理器架构都支持Huge Page，因此使用Huge Page可能导致应用程序在不同的系统上的可移植性降低。</li>
 <li>不适合小内存设备。Huge Page适合大内存服务器等设备使用,对于内存受限的小设备,Huge Page可能造成过多内存浪费。</li>
 </ol>
-<h1 id="x86的虚拟地址物理地址逻辑地址">X86的虚拟地址，物理地址，逻辑地址</h1>
+<h2 id="x86的虚拟地址物理地址逻辑地址">X86的虚拟地址，物理地址，逻辑地址</h2>
 <p>虚拟地址，物理地址和逻辑地址都是在计算机中用于寻址的概念，它们的区别和联系如下：</p>
 <ol>
 <li>虚拟地址（Virtual Address）：虚拟地址也称为虚地址，它是由CPU生成的一个地址，用于表示进程中的内存地址。在使用虚拟内存的系统中，虚拟地址可以被映射到物理地址或者磁盘中的交换空间。应用程序通常只能访问虚拟地址，而不是物理地址或逻辑地址。</li>
@@ -841,9 +869,9 @@ FCFS 对长作业有利，适用于 CPU 繁忙型作业的系统，而不适用�
 <li>对于一个单模块的应用而言，逻辑地址和虚拟地址是不需要区分的；</li>
 <li>但是对于多模块的应用而言，每个模块可能存在相同的逻辑地址，但是当链接之后，他的虚拟地址就不一样了。</li>
 </ol>
-<h1 id="内存回收过程">内存回收过程</h1>
+<h2 id="内存回收过程">内存回收过程</h2>
 <p>xxxxx</p>
-<h1 id="虚拟地址和物理地址的翻译mmu--tlb">虚拟地址和物理地址的翻译(MMU &amp; TLB)</h1>
+<h2 id="虚拟地址和物理地址的翻译mmu--tlb">虚拟地址和物理地址的翻译(MMU &amp; TLB)</h2>
 <ol>
 <li>MMU 首先将虚拟地址分割成多个部分,通常分为<strong>页目录索引、页表索引和页内偏移</strong>等部分。</li>
 <li>MMU 使用页目录索引查询页目录,获得对应页表的基地址。</li>
@@ -901,9 +929,9 @@ TLB是 Translation Lookaside Buffer 的缩写,翻译为查找缓冲器。它是M
 <li>TLB刷新:当页表内容更改时,需要刷新TLB中对应条目,保证映射关系的同步。</li>
 </ol>
 <p>TLB作为MMU的高速缓存,对提高地址转换效率非常关键。不同的TLB结构、管理策略在命中率和成本之间进行权衡,以达到最佳的性能。TLB技术的运用使得虚拟内存得以高效实现。</p>
-<h1 id="drop-cache以后可用内存不增加的主要原因">Drop Cache以后可用内存不增加的主要原因</h1>
+<h2 id="drop-cache以后可用内存不增加的主要原因">Drop Cache以后可用内存不增加的主要原因</h2>
 <p>pending</p>
-<h1 id="buddy-分配器--slab-分配器">Buddy 分配器 &amp; Slab 分配器</h1>
+<h2 id="buddy-分配器--slab-分配器">Buddy 分配器 &amp; Slab 分配器</h2>
 <p><strong>buddy</strong></p>
 <p>![[Pasted image 20230424211438.png]]</p>
 <p><strong>slab</strong></p>
@@ -915,7 +943,7 @@ TLB是 Translation Lookaside Buffer 的缩写,翻译为查找缓冲器。它是M
         data-sizes="auto"
         alt="https://www.dingmos.com/usr/uploads/2021/11/2076055272.jpg"
         title="https://www.dingmos.com/usr/uploads/2021/11/2076055272.jpg" /></p>
-<h1 id="内存碎片--内存整理">内存碎片 &amp; 内存整理</h1>
+<h2 id="内存碎片--内存整理">内存碎片 &amp; 内存整理</h2>
 <ul>
 <li><a href="https://jacktang816.github.io/post/memoryfragmentation/#%E5%88%86%E9%A1%B5%E5%92%8C%E5%88%86%E6%AE%B5%E7%9A%84%E4%B8%BB%E8%A6%81%E5%8C%BA%E5%88%AB" target="_blank" rel="noopener noreffer ">参考链接 1</a></li>
 <li><a href="https://www.cnblogs.com/tolimit/p/5286663.html" target="_blank" rel="noopener noreffer ">参考链接 2</a></li>

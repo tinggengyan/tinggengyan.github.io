@@ -1,26 +1,26 @@
 # 文档系统_程序员如何写好文档 (The documentation system)
 
 
-# 背景
+## 背景
 文档是日常开发过程中非常重要的记录和交流的工具,也是学习新技术必然要阅读的材料.学习技术的时候,都会建议直接看官方文档,不同的技术网站,会看到 **Guide**,**Tutorial**,**Wiki**,**Reference** 等分类(也可能只包含其中一个或者几个). 我之前就一直对这几个英文单词有疑问,尤其是我在看 Android 开发者官网的时候,不明白每个分类的依据,间接导致,自己也没有学会如何写文档.后来发现了这篇文章,读完觉得很有道理. [The documentation system](https://documentation.divio.com/introduction/),窃以为非常好,值得我进行模仿学习.
 
 以下的内容会进行自我理解的翻译,有意无意的删除一些冗余的修辞,如有幸被网上邻居搜到,建议看原文,非常简单.
 
-# Summary
+## Summary
 为了编写良好的软件文档,需要说一个秘密: 没有一个名为文档的东西,文档应该是四样东西的集合.
 
 这四样分别是是：`tutorials`(教程),`how-to guides`(如何做的引导),`technical reference` (技术参考),`explanation`(解释). 它们代表四种不同的目的或职能,并且这四种的写作方式都有差异.了解了这些差异,通常能巨大的提高文档的质量.
 
-## 关于即将描述的文档系统
+### 关于即将描述的文档系统
 ![System](https://documentation.divio.com/_images/overview.png)
 这里的文档系统是非常简单的,近乎于全面适用行业内的方案.行文有个承诺: 如果将这些原则在实践中进行应用,将极大的提高写作文档的质量.
 
 有很多公司/组织/开源项目采用了本文所述的方案,详细见链接[采用本方案的项目](https://documentation.divio.com/adoption/#adoption)
 
 
-# Introduction
-## 问题和解决方案
-### 需要解决的问题
+## Introduction
+### 问题和解决方案
+#### 需要解决的问题
 如果文档不够好,产品再好,人们也不会使用它.即使人们必须使用它,那也是因为他们别无选择,没有良好的文档,人们无法如你期望的那样使用你开发的产品.
 
 当然了,每个人都知道文档的重要性,每个人也都尝试去写好文档,最终也都失败了.
@@ -28,7 +28,7 @@
 这也不是写作的人不够努力,通常是他们没有按照正确的方式去做而已.
 
 本文介绍的文档系统,不是为了让你更加努力的工作,而是让你写作的文档更好,使用正确的方式进行写作,让文档更加易懂,更加容易维护: The right way is the easier way.
-### 文档系统的秘密
+#### 文档系统的秘密
 有一个不应该是秘密的秘密: 文档应该围绕四种不能的功能目的进行构造: `tutorials`(教程),`how-to guides`(如何做的引导),`technical reference` (技术参考),`explanation`(解释).每一种都需要有独立的写作模式. 软件的使用者在不同的情况下,需要不同的文档,故而,大部分的软件,对于这四种文档,都需要包含. 
 
 文档将围绕这四种进行构建,并且四种文档需要独立的创建.
@@ -49,17 +49,17 @@
 
 接下里的章节中,将会针对这四种类型的文档,分别进行详细的描述.
 
-### 让文档自己工作
-#### 对于作者而言
+#### 让文档自己工作
+##### 对于作者而言
 对于文档的作者而言,最大的难题是不知道他们该做这些什么. 作者为了让自己想表达的内容以合适的方式排列在一起,不停的写再重写,不停的反复.
 通过这种文档系统结构,将会使得写作更加容易,因为该方案将文档进行明确的职责区分,将文档进行明确的隔离,这样使得写作和维护都很容易,也很容易使用和查找.
 虽然说文档不能自己完成,但是现在编写文档的时候,可以做到不用操心哪些内容应该包含,哪些内容不应该包含.在职责明确的背景下,我们很容易知道在什么地方,写什么,怎么写.
 
-#### 对于读者而言
+##### 对于读者而言
 对于读者言,可以更好的与软件进行交互了,在试用的不同阶段,可以很快的找到自己需要的资料.
 按照上述四个象限进行编写文档,有助于软件吸引和留住用户,他们可以快速接入,更加高效的使用软件.
 
-# Tutorials
+## Tutorials
 Tutorials(教程) 是由课程组合而成,内容都是些课程,目的是带领读者通过一系列步骤来完成某种项目.项目的作者需要这些 Tutorials(教程 ),一次向初学者展示他们可以用作者的软件可以获取到的东西.
 
 Tutorials(教程) 是以学习为导向的,具体来说,Tutorials(教程) 是教会学习者如何使用,成为一个使用者,而不是学习项目本身.
@@ -78,7 +78,7 @@ Tutorials(教程) 是以学习为导向的,具体来说,Tutorials(教程) 是教
 
 Tutorial 必须对初学者有用,简单有意义,而且紧跟软件的发版节奏,及时保持最新状态.
 
-## 和烹饪类比
+### 和烹饪类比
 ![孩子学烹饪](https://documentation.divio.com/_images/anselmo.jpg)
 可以类比教一个孩子如何烹饪.
 
@@ -90,23 +90,23 @@ Tutorial 必须对初学者有用,简单有意义,而且紧跟软件的发版节
 
 
 当我们学一门新的手艺和技巧的时候,总是从使用这个手艺或技巧开始.
-## 如何写好Tutorial (How to write good tutorials)
+### 如何写好Tutorial (How to write good tutorials)
 
 
-### 让学习者在使用中学(Allow the user to learn by doing)
+#### 让学习者在使用中学(Allow the user to learn by doing)
 
 在事情的初期阶段,我们通过实际使用来学.这也是我们学习说话和走路使用的方法.
 
 在软件的Tutorial中,都是软件的初学者需要做的事情.学习者在阅读Tutorial后可以知晓,从一个简单入门的项目向一个更复杂的项目需要使用的工具和步骤.
 
-### 让学习者开始动起来 (Get the user started)
+#### 让学习者开始动起来 (Get the user started)
 
 对于初学者进行手把手式的讲解,是让人更容易接受的.而不是将初学者当作一个经验丰富的用户.有时候,传授的内容可能不是所谓的“正确”方式,因为刚开始的时候,不要传授所谓的最佳实践.
 
 Tutorial 的最核心的点是,让学习者开始行动起来,让他踏上使用的旅程,而不是要一次性将他们带到旅途的终点.
 
 
-### 确保Tutorial是可用的 (Make sure that your tutorial works)
+#### 确保Tutorial是可用的 (Make sure that your tutorial works)
 
 作为指导者,还有一个很重要的任务,就是让学习者充满自信,自信于在你的指导下,通过软件,以自己的能力,可以完成Tutorial中要求的内容.
 
@@ -114,12 +114,12 @@ Tutorial 的最核心的点是,让学习者开始行动起来,让他踏上使用
 
 如果学习者在学习过程中,进行的操作不顺利,产生错误或者意想不到的结果,即使这个不是你的原因,你的Tutorial就算是失败了.学习者如果跟你面对面交流,那么你可以直接线下指导,但是绝大部分情况,都是直接阅读Tutorial的,那就很难直接指导.所以,在写作Tutorial的时候,就需要想方设法的我避免这个样的事情发生.
 
-### 确保阅读者的操作能获得及时反馈(Ensure the user sees results immediately)
+#### 确保阅读者的操作能获得及时反馈(Ensure the user sees results immediately)
 
 学习者在过程中执行的所有操作应该是完成一些学习者阅读时已经可理解的操作,无论这个操作有多小,都必须让阅读者明白目的.试想一下,你的一个学生,在看到一个效果之前,需要阅读两页的文档,且执行一些自身都觉得奇怪的操作,这个过程也太长了.学习者进行的每一步操作,应该做到尽快明显且可见.,执行的动作和效果之间的联系也需要清晰明了.
 
 Tutorial整体或者其中的任一章节结束的时候,他的结尾,都必须是个有意义的总结,让学习者一顿操作下来是有意义的.
-### 让你的Tutorial是重复的,可反复操作的(Make your tutorial repeatable)
+#### 让你的Tutorial是重复的,可反复操作的(Make your tutorial repeatable)
 
 你的Tutorial必须是非常可靠,可复现的.这点并不容易,原因在于,学习者使用的操作系统可能不一样,经验和使用工具的水平并不一样,更重要的是,学习者使用的软件和资料也与此同时发生了变化.
 
@@ -127,21 +127,21 @@ Tutorial必须适应这么多情况,在这些情况下都能正常工作.
 
 所以 Tutorial 需要定期进行详细的测试,以保证它持续的有效.
 
-### 聚焦在具体的步骤中,而不是抽象的概念里(Focus on concrete steps, not abstract concepts)
+#### 聚焦在具体的步骤中,而不是抽象的概念里(Focus on concrete steps, not abstract concepts)
 
 Tutorial 必须是具体的,围绕着规格说明进行开展的,有明确的步骤和步骤对应的结果.
 
 进行抽象概念的介绍的诱惑力太大,毕竟,计算机的强大也是来自于此,然而,大多数的学习都是由具体到抽象,反过来是个比较糟糕的学习方式.
 
-### 必要的解释要尽量的少(Provide the minimum necessary explanation)
+#### 必要的解释要尽量的少(Provide the minimum necessary explanation)
 
 在完成 Tutorial 中不需要了解的知识,不要进行解释.额外的扩展和讨论是可以的,但是不应该出现在 Tutorial 中.在 Tutorial 中,只会令学习者分心,还会干扰学习目的.只有必要的解释才可以放在这部分,其他的可以提供链接导航.
 
-### 关注于哪些用户需要执行的步骤 (Focus only on the steps the user needs to take)
+#### 关注于哪些用户需要执行的步骤 (Focus only on the steps the user needs to take)
 
 Tutorial 需要关注的是手头的任务.也许你的命令还有很多的其他的可选项,也许你的API还有很多其他的使用方式,但是对于学习者当前的任务而言,并不需要. 
 
-## Divio 中的一个 Tutorial 例子(Example from Divio’s documentation)
+### Divio 中的一个 Tutorial 例子(Example from Divio’s documentation)
 
 可以看下这个 [Tutorial](https://docs.divio.com/en/latest/introduction/)
 ![Django](https://documentation.divio.com/_images/django-tutorial-example.png)
@@ -151,7 +151,7 @@ Tutorial 需要关注的是手头的任务.也许你的命令还有很多的其�
 注意,Tutorial 目录都没有指明学习什么,而聚焦在应该做些什么,做什么的顺序.
 
 
-# 如何做的指南(How-to guides)
+## 如何做的指南(How-to guides)
 “How-to-guides”是通过指引读者进行一系列的步骤以解决现实中特定的问题。
 
 Guide 是食谱，是为了解决一个特定问题的指导方案。举个例子，如何创建一个web表单；如何启用LDAP权限验证。
@@ -165,7 +165,7 @@ guide始终是目标为导向的。
 - 和 Tutorial 不同的是, Guide 是比较容易写好的，这部分内容是比较轻松，比较容易写的。
 
 
-## 和烹饪类比
+### 和烹饪类比
 ![食谱](https://documentation.divio.com/_images/recipe.jpg)
 
 可以想象成某样食物的食谱。
@@ -174,37 +174,37 @@ guide始终是目标为导向的。
 
 从来没有任何烹饪经验的人，只靠食谱，是很难完成一道菜的烹饪的，所以说，食谱本来不是烹饪课的一部份。与此同时，如果有经验的厨师，发现食谱在描述一些他们早就掌握的基础能力，基础的技巧，他们就会很愤怒。
 
-## 如果编写一份好的guide(How to write good how-to guides)
-### 提供一系列的步骤(Provide a series of steps)
+### 如果编写一份好的guide(How to write good how-to guides)
+#### 提供一系列的步骤(Provide a series of steps)
 
 Guide 必须包含一些读者必须操作的步骤（这个在 Tutorial 也有类似的需求）。作者并不需要从头开始描述步骤，以一个相对合理的点进行开始描述即可。Guide 必须是可靠的，但是，Guide 并不需要保证像 Tutorial 一样的可重复性。
 
-### 聚焦于结果(Focus on results)
+#### 聚焦于结果(Focus on results)
 
 Guide 必须聚焦于某个特定的目标。与目标无关的任何其他事情都是分心的。和 Tutorial 一样，详细的解释并不适合放这儿。
 
-### 解决某个特定的问题(Solve a particular problem)
+#### 解决某个特定的问题(Solve a particular problem)
 
 Guide 必须的标题命名也必须是有明确指向一个问题的，比如： 如何。。。
 
 Guide 和 Tutorial 的另一个不同点是，阅读 Guide 的人知道自己阅读 Guide 需要什么，最终的目的是什么，他们已经知道阅读完 Guide 自己将获得什么，他们只是不知道该怎么做而已。而对于 Tutorial 而言，读者其实并不知道自己将获得什么，读者阅读完获得的内容，完全是由作者说了算。
 
-### 不要解释概念(Don’t explain concepts)
+#### 不要解释概念(Don’t explain concepts)
 
 guide中不需要解释任何东西，guide只适合放些解决问题的步骤，如果有解释的需求，可以进行超链接。
 
-### 也许允许存在一些弹性变通(Allow for some flexibility)
+#### 也许允许存在一些弹性变通(Allow for some flexibility)
 
 一份 Guide 针对同一件事应该是允许存在一些不同的处理方式的。Guide中能让读者采取变通的地方应该做到显而易见。不要让guide太过特殊，一点通用型和灵活性都没有。
-### Leave things out(将事情抛诸脑后)
+#### Leave things out(将事情抛诸脑后)
 
 实用性比完整性更有价值.Tutorial (教程)需要是完整的,有头有尾的指导. Guide 并不需要这样.Guide 可以从作者认为合适的地方开始和结束。Guide 也不需要提及那些仅仅因为它与主题相关,但是并不是关键内容的部分.臃肿的 Guide 并不能帮助用户快速找到解决方案.
 
-### 名字很重要(Name guides well)
+#### 名字很重要(Name guides well)
 
 Guide 的标题很重要,标题必须能准确告诉读者,文章的内容具体是干什么的. "How to create a class-based view (如何创建一个基于类的视图)" 就是个很好的标题. 然而像 "(Creating a class-based)创建基于类的视图" 和 "Class-based views (基于类的视图)"就更差劲了.
 
-## Divio 中的 Guide 例子(Example from Divio’s documentation)
+### Divio 中的 Guide 例子(Example from Divio’s documentation)
 
 看一下这个文档[our how-to guides](https://docs.divio.com/en/latest/how-to/).
 ![Divio中的例子](https://documentation.divio.com/_images/django-how-to-example.png)
@@ -213,7 +213,7 @@ Guide 的标题很重要,标题必须能准确告诉读者,文章的内容具体
 
 虽然我在 Tutorial 和 Guide 都是服务用户的需求.但是,Tutorial 的内容是作者在告诉读者,作者认为读者应该知道的内容. 然而,Guide,是作者在回答读者问的问题.
 
-# 参考(Reference guides)
+## 参考(Reference guides)
 
 Reference是机械的技术说明，说明如何进行操作。
 
@@ -231,7 +231,7 @@ Reference应该是简单直切主题的。
 
 Reference比较容易写好，甚至在某种程度上来说，都可以自动生成。但是这还远远不够。 
 
-## 和烹饪进行类比(Analogy from cooking)
+### 和烹饪进行类比(Analogy from cooking)
 ![生姜](https://documentation.divio.com/_images/ginger.jpg)
 
 想象一下百科全书上有一篇关于生姜作为原材料的文章。
@@ -242,28 +242,28 @@ Reference比较容易写好，甚至在某种程度上来说，都可以自动�
 
 还有一些潜在问题风险也是我们想获取的。比如。生姜可能会导致胃灼热，与一些抗凝血的药一起食用会有副作用。
 
-## 如何写一篇好的 Reference(How to write good reference guides)
+### 如何写一篇好的 Reference(How to write good reference guides)
 
-### Reference是围绕代码进行结构的组织(Structure the documentation around the code)
+#### Reference是围绕代码进行结构的组织(Structure the documentation around the code)
 
 将reference的结构和代码的结构保持一致，这样使用者看代码的同时，可以同时看到reference。这种方式也有利于开发维护文档，及时知晓哪块缺少文档，哪块需要更新。
 
-### 保持连贯性(Be consistent)
+#### 保持连贯性(Be consistent)
 
 在书写Reference的过程中，结构，语气和格式都需要保持一致。就像一本百科全书和字典那样。
 
 
-### 只做内容描述(Do nothing but describe)
+#### 只做内容描述(Do nothing but describe)
 
 技术Reference只需要尽可能的描述完整，描述清楚就行。其他的像解释，讨论，指导，命令，猜测，观点等等，不仅会让读者分心，也会让Reference难以使用，维护困难。可以在适当的时候，在Reference中提供简单的example进行演示。
 
 不要在Reference中忍不住指引读者，使用超出基本操作之外的操作来完成某项完整的需求.更不要在 reference 中试图对一些概念进行解释或者进行一些主题讨论.相反,如果有类似的需求,可以放一个链接,导航到 Guide,Explanation 和 Tutorial 部分.
 
-### 一定要精确 (Be accurate)
+#### 一定要精确 (Be accurate)
 
 Reference 这部分的内容必须时刻保持最新,紧跟软件的更新和发展,但凡 reference 和软件有一丝的不一致,就可能将读者或者用户带入沟里.
 
-## 以Divio的文档作为例子(Example from Divio’s documentation)
+### 以Divio的文档作为例子(Example from Divio’s documentation)
 
 可以看下这个链接里的[例子](https://docs.divio.com/en/latest/reference/divio-cli) 
 
@@ -276,7 +276,7 @@ Reference 这部分的内容必须时刻保持最新,紧跟软件的更新和发
 这部分的内容的易读性可能没那么好,但是这部分的目的是为了尽快无干扰的找到相关功能的信息.
 
 
-# Explanation
+## Explanation
 
 Explanation(解释) 或者 discussion(讨论)是要阐明一个特定的主题. 这其实扩大了文档对主题的覆盖范围.
 
@@ -290,7 +290,7 @@ Discussions (讨论)并没有看上去的那么容易,想象一下,你手里有�
 
 一个topic (主题)不是像 Guide(指南) 一样,解决一个特定的问题,传授一些特有的步骤; 也不是像tutorial(教程)一样,在向读者传授你认为读者他们应该掌握的内容.也不是由机器来决定的 reference . 这部分的内容完全是有作者自己来界定讨论的内容,以及覆盖的范围.所以这部分的内容看上是比较随意的.
 
-## 类比烹饪(Analogy from cooking)
+### 类比烹饪(Analogy from cooking)
 ![烹饪](https://documentation.divio.com/_images/mcgee.jpg)
 
 考虑下,在进行历史,科技和科学的上下文和背景下,进行烹饪的讨论. 讨论的内容会是烹饪和厨房.
@@ -303,25 +303,25 @@ Discussions (讨论)并没有看上去的那么容易,想象一下,你手里有�
 
 当我们需要闲暇事件,离开厨房的时候,从更高的层次上,来加深对烹饪的理解时,了解更多关厨房的主题时,我们就会选择阅读这部分内容.
 
-## 如何写好一份 explanation(How to write a good explanation)
+### 如何写好一份 explanation(How to write a good explanation)
 
-### 提供上下文环境(Provide context)
+#### 提供上下文环境(Provide context)
 
 Explanations 可以用来提供上下文和背景. 例如,在 Django或者 CMS 中如何处理 Web  表单.
 
 在这部分,可以解释为什么是如此处理,相关的设计决策,历史原因,技术限制等等.
 
-### 讨论替代方案和建议意见(Discuss alternatives and opinions)
+#### 讨论替代方案和建议意见(Discuss alternatives and opinions)
 
 Explanation  可以考虑进行替代方案,或者同一问题的多种不同解决方案.举个例子,在一篇关于 Django 部署的文章中,可以讨论和评估不同的服务器部署.
 
 Discussions  也可以用来讨论两种相反的意见和选择. 举个例子,是否需要将测试模块放入源码工程的包下面.
 
-### 不要进行指导,也不要提供技术支持(Don’t instruct, or provide technical reference)
+#### 不要进行指导,也不要提供技术支持(Don’t instruct, or provide technical reference)
 
 Explanation 应该做一些其他部分的文档没有做的事情. Explanation 不适合对读者进行指导如何进行操作,也不适合提供技术解决方案.这些内容都是其他文档的职责.
 
-## Example from Divio’s documentation
+### Example from Divio’s documentation
 Divio 文档中的一个[例子](https://docs.divio.com/en/latest/reference/divio-cli)
 
 ![Divio](https://documentation.divio.com/_images/divio-explanation-example.png)
@@ -332,8 +332,8 @@ Divio 文档中的一个[例子](https://docs.divio.com/en/latest/reference/divi
 这些文章的内容提供了一个更加广阔的图景,更加清晰地上下文. 读者作为一个用户,作为一个使用方,也许他们并不需要知道处理一个问题的方式为何如此.但是当他们知道这些背景和缘由之后,他们会对产品更加满足,自身也会更加的快乐.
 
 
-# 关于文档的结构(About the structure)
-## 为什么这个不明显(Why isn’t this obvious?)
+## 关于文档的结构(About the structure)
+### 为什么这个不明显(Why isn’t this obvious?)
 
 这个结构是非常清晰的,而且是能其效果的. 但是为什么让人觉得这个结构没那么明显呢?原因是,这四个类型的文档,处在四个象限,每个象限的和其相邻的象限在特征上是有重叠.
 
@@ -344,16 +344,16 @@ Divio 文档中的一个[例子](https://docs.divio.com/en/latest/reference/divi
 > Guides 和 Reference 都有关于我们在工作时应该做的内容.
 > Reference 和 Explanation 都有理论知识的内容.
 > Tutorials 和 Explanation 相较于实际的工作内容,对学习有莫大的帮助.
-### 坍塌的趋势(The tendency to collapse)
+#### 坍塌的趋势(The tendency to collapse)
 考虑到这些文档之间的重叠部分,不同类型的文档相互之间变得混淆并相互混合也就不足为奇了.事实上,这些不同类型的文档彼此之间存在一种难以抗拒的力量,让他们之间纠缠不清.它的作用是坍塌式的结构,这就是为什么这么多文档看起来像这样.
 ![文档之间坍塌](https://documentation.divio.com/_images/collapse.png)
 
 
-# 省略的内容
+## 省略的内容
 
 后面有一些使用本结构的文档链接和介绍,就不再翻译了.
 
-# 总结
+## 总结
 
 文章中最后也有说明,不是所有的文档都需要具备齐全这四种类型,最重要的是,知道有这四种类型,注意阅读者的分级分层,内容的重点和意图.
 

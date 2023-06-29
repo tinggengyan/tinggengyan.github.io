@@ -1,9 +1,9 @@
 # IPC_Binder_java_1
 
-# 背景
+## 背景
 由于 Binder 很复杂,这个分多篇展开,目前先将零碎的知识整合,在后面几篇进行总结.
 
-# 概述:
+## 概述:
 Binder 用于进程间通信，而 Handler 消息机制用于同进程的线程间通信。
 Binder 的英文涵义是别针，回形针的意思。
 在 Android 中 Binder 的存在是为了完成进程间的通信，将进程"别" 在一起。比如说：普通应用可以调用播放器提供的服务：播放、暂停、停止等功能。
@@ -11,7 +11,7 @@ Binder 是工作在 Linux 层面，属于一个驱动，只是这个驱动是不
 
 <!-- more -->
 
-## Binder 框架：一种架构
+### Binder 框架：一种架构
 
 Binder 框架提供 服务端接口、Binder 驱动、客户端接口 三个模块。
 ![Binder架构](https://github.com/tinggengyan/tinggengyan.github.io/blob/source/imgur/Binder%E6%A1%86%E6%9E%B6%E5%9B%BE.png?raw=true)
@@ -34,14 +34,14 @@ Binder 框架提供 服务端接口、Binder 驱动、客户端接口 三个模�
 客户端利用这个引用去发送消息给驱动，驱动利用这个引用去发送消息给服务端， 整个过程像客户端直接调用了服务端，事实上是通过 Binder 驱动中转了，存在两个 Binder 对象，一个是服务端的 Binder 对象， 一个是 驱动中的 Binder  对象，区别中，Binder 驱动中不会产生额外的线程，而服务端的 Binder 在创建之初就有一个隐含的线程。
 
 
-## 设计 Server 端
+### 设计 Server 端
 
 设计 server 端只需要新建一个继承 Binder 的 service 即可，当启动这个 service 的时候，在 ddms 中的 thread 会发现多了一个 Binder thread 。
 定义完  service ，接下来需要重载 onTrasact 方法，并从 data 变量中读取客户端传递进来的参数。 假如，这里有很多参数，那么怎么知道参数的顺序呢？所以，这个需要一个双方的约定。
 方法的第一个参数 code 是用来标记不同的服务端函数的。
 如果想要返回结果，则在 reply 中调用相关的函数写入即可。
 
-## 设计 Binder  客户端
+### 设计 Binder  客户端
 
 对于客户端要想使用服务端的服务函数，则必须先获取服务端在 Binder 驱动中对应的 mRemote 对象。在获取到该对象之后，就可以调用该变量的 transact 方法。
 public final boolean transact(int code, Parcel data, Parcel reply,  int flags)
@@ -54,7 +54,7 @@ data  中能放的类型都是常用的原子类型，String，int ，long 等�
 对于最后一个参数 flags ，表示的是 IPC 调用的模式，分为：双向，用0 表示，含义是服务端执行完之后会返回一定的数据；还有一种是单向，用1 表示，含义是不返回任何数据。
 同样的，返回到结果都是在 reply 中，客户端从这个 reply 中取的数据，这部分顺序也必须实现约定好。
 
-## 使用 service
+### 使用 service
 在编写 Binder 服务端和客户端的过程中，会伴随着两个问题。
 
   * 客户端如何获得服务端的 Binder 对象引用
@@ -70,7 +70,7 @@ data  中能放的类型都是常用的原子类型，String，int ，long 等�
 
 
 
-### 获取 Binder 对象
+#### 获取 Binder 对象
 
 看下几个启动 service 相关的方法，这些方法在 android.app.ContextWrapper 类中。
 
@@ -99,7 +99,7 @@ bindService 方法第一个参数是启动 service 的intent ，第二个参数�
 
 ![Binder客户端和服务端的调用过程](https://github.com/tinggengyan/tinggengyan.github.io/blob/source/imgur/Binder%E5%AE%A2%E6%88%B7%E7%AB%AF%E5%92%8C%E6%9C%8D%E5%8A%A1%E7%AB%AF%E7%9A%84%E8%B0%83%E7%94%A8%E8%BF%87%E7%A8%8B.png?raw=true)
 
-## 保证参数顺序的工具-AIDL
+### 保证参数顺序的工具-AIDL
 
 在数据传递的过程中，需要实现约定好服务函数所对应的 code 的 int 值，需要约定好参数的写入顺序。在 Android 中的 AIDL 就是这么个工具。
 AIDL 可以将一个 AIDL 文件转换成一个 Java  类文件，同时重载 transact 和 onTransact 方法。关于服务函数对应的 int 值和参数的读写书序，都统一做了处理。这样，开发者只需要专注于服务代码本身了。
@@ -126,12 +126,12 @@ aidl 文件中可以引用其他的 Java 类，但是需要遵循以下要求：
 
 ![Binder架构](https://github.com/tinggengyan/tinggengyan.github.io/blob/source/imgur/Binder_3.png?raw=true)
 
-# 总结
+## 总结
 本篇最后,放一张图进行总结.
 ![Binder绑定的流程](https://github.com/tinggengyan/tinggengyan.github.io/blob/source/imgur/Binder%E7%BB%91%E5%AE%9A%E7%9A%84%E6%B5%81%E7%A8%8B.png?raw=true)
 
 
-# 感激,非常感激，万分的感激！
+## 感激,非常感激，万分的感激！
 感谢以下的文章以及其作者和翻译的开发者们,排名不分先后
 * [柯元旦](https://book.douban.com/subject/6811238/)
 * [gityuan](http://gityuan.com/2015/12/26/handler-message-framework/)

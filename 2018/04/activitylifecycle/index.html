@@ -114,31 +114,40 @@
                 </div>
                 <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
   <ul>
-    <li><a href="#第一次启动">第一次启动</a></li>
-    <li><a href="#第一次切换成横屏">第一次切换成横屏</a></li>
-    <li><a href="#再切换成竖屏">再切换成竖屏</a></li>
-    <li><a href="#小结">小结</a></li>
-  </ul>
-
-  <ul>
-    <li><a href="#第一次启动-1">第一次启动</a></li>
-    <li><a href="#第一次切换成横屏-1">第一次切换成横屏</a></li>
-    <li><a href="#再切换成竖屏-1">再切换成竖屏</a></li>
-    <li><a href="#小结-1">小结</a></li>
-  </ul>
-
-  <ul>
-    <li><a href="#第一次启动-2">第一次启动</a></li>
-    <li><a href="#第一次切换成横屏-2">第一次切换成横屏</a></li>
-    <li><a href="#再切换成竖屏-2">再切换成竖屏</a></li>
-    <li><a href="#小结-2">小结</a></li>
+    <li><a href="#概述">概述</a></li>
+    <li><a href="#不做任何配置的情况下">不做任何配置的情况下</a>
+      <ul>
+        <li><a href="#第一次启动">第一次启动</a></li>
+        <li><a href="#第一次切换成横屏">第一次切换成横屏</a></li>
+        <li><a href="#再切换成竖屏">再切换成竖屏</a></li>
+        <li><a href="#小结">小结</a></li>
+      </ul>
+    </li>
+    <li><a href="#配置-configchangesorientation">配置 configChanges=&ldquo;orientation&rdquo;</a>
+      <ul>
+        <li><a href="#第一次启动-1">第一次启动</a></li>
+        <li><a href="#第一次切换成横屏-1">第一次切换成横屏</a></li>
+        <li><a href="#再切换成竖屏-1">再切换成竖屏</a></li>
+        <li><a href="#小结-1">小结</a></li>
+      </ul>
+    </li>
+    <li><a href="#配置-configchangesorientationscreensize">配置 configChanges=&ldquo;orientation|screenSize&rdquo;</a>
+      <ul>
+        <li><a href="#第一次启动-2">第一次启动</a></li>
+        <li><a href="#第一次切换成横屏-2">第一次切换成横屏</a></li>
+        <li><a href="#再切换成竖屏-2">再切换成竖屏</a></li>
+        <li><a href="#小结-2">小结</a></li>
+      </ul>
+    </li>
+    <li><a href="#总结">总结</a></li>
+    <li><a href="#参考">参考</a></li>
   </ul>
 </nav></div>
-            </div><div class="content" id="content"><h1 id="概述">概述</h1>
+            </div><div class="content" id="content"><h2 id="概述">概述</h2>
 <p>Activity 在横竖屏切换的时候,生命周期是不一样的,本地通过打印 log 的方式,看下区别.测试的机器是 Android6.0 .</p>
 <!-- more -->
-<h1 id="不做任何配置的情况下">不做任何配置的情况下</h1>
-<h2 id="第一次启动">第一次启动</h2>
+<h2 id="不做任何配置的情况下">不做任何配置的情况下</h2>
+<h3 id="第一次启动">第一次启动</h3>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
@@ -152,7 +161,7 @@
 </span></span></span></code></pre></td></tr></table>
 </div>
 </div><hr>
-<h2 id="第一次切换成横屏">第一次切换成横屏</h2>
+<h3 id="第一次切换成横屏">第一次切换成横屏</h3>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
@@ -178,7 +187,7 @@
 </span></span></span></code></pre></td></tr></table>
 </div>
 </div><hr>
-<h2 id="再切换成竖屏">再切换成竖屏</h2>
+<h3 id="再切换成竖屏">再切换成竖屏</h3>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
@@ -202,10 +211,10 @@
 </span></span></span></code></pre></td></tr></table>
 </div>
 </div><hr>
-<h2 id="小结">小结</h2>
+<h3 id="小结">小结</h3>
 <p>默认情况下，每次旋转屏幕都会销毁当前的Activity对象，同时调用 onSaveInstanceState 方法，保存当前的界面状态；之后重新创建 Activity对象， onCreate 参数不为空，回调  onRestoreInstanceState 方法进行恢复。</p>
-<h1 id="配置-configchangesorientation">配置 configChanges=&ldquo;orientation&rdquo;</h1>
-<h2 id="第一次启动-1">第一次启动</h2>
+<h2 id="配置-configchangesorientation">配置 configChanges=&ldquo;orientation&rdquo;</h2>
+<h3 id="第一次启动-1">第一次启动</h3>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
@@ -219,7 +228,7 @@
 </span></span></span></code></pre></td></tr></table>
 </div>
 </div><hr>
-<h2 id="第一次切换成横屏-1">第一次切换成横屏</h2>
+<h3 id="第一次切换成横屏-1">第一次切换成横屏</h3>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
@@ -243,7 +252,7 @@
 </span></span></span></code></pre></td></tr></table>
 </div>
 </div><hr>
-<h2 id="再切换成竖屏-1">再切换成竖屏</h2>
+<h3 id="再切换成竖屏-1">再切换成竖屏</h3>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
@@ -267,12 +276,12 @@
 </span></span></span></code></pre></td></tr></table>
 </div>
 </div><hr>
-<h2 id="小结-1">小结</h2>
+<h3 id="小结-1">小结</h3>
 <p>配置 orientation 的情况下，和默认情况一致。</p>
 <hr>
-<h1 id="配置-configchangesorientationscreensize">配置 configChanges=&ldquo;orientation|screenSize&rdquo;</h1>
+<h2 id="配置-configchangesorientationscreensize">配置 configChanges=&ldquo;orientation|screenSize&rdquo;</h2>
 <p>根据官方的介绍，这个两个值，在api大于13 之后，应该一起使用</p>
-<h2 id="第一次启动-2">第一次启动</h2>
+<h3 id="第一次启动-2">第一次启动</h3>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
@@ -286,7 +295,7 @@
 </span></span></span></code></pre></td></tr></table>
 </div>
 </div><hr>
-<h2 id="第一次切换成横屏-2">第一次切换成横屏</h2>
+<h3 id="第一次切换成横屏-2">第一次切换成横屏</h3>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
@@ -296,7 +305,7 @@
 </span></span></span></code></pre></td></tr></table>
 </div>
 </div><hr>
-<h2 id="再切换成竖屏-2">再切换成竖屏</h2>
+<h3 id="再切换成竖屏-2">再切换成竖屏</h3>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
@@ -306,11 +315,11 @@
 </span></span></span></code></pre></td></tr></table>
 </div>
 </div><hr>
-<h2 id="小结-2">小结</h2>
+<h3 id="小结-2">小结</h3>
 <p>当配置了 screenSize 。则不会再销毁重建了，而是回调 onConfigurationChanged 方法。</p>
-<h1 id="总结">总结</h1>
+<h2 id="总结">总结</h2>
 <p>在不做配置默认的情况下,Activity 是被销毁,然后重新启动的.但是在 manifest 中进行相应的配置之后,就表示 Activity 自行处理配置的更改,将阻止 Activity 的销毁重新启动,而是保持运行状态,并且回调 onConfigurationChanged 方法.官方的建议是万不得已的情况下才能使用.</p>
-<h1 id="参考">参考</h1>
+<h2 id="参考">参考</h2>
 <ul>
 <li><a href="https://developer.android.com/guide/topics/manifest/activity-element.html?hl=zh-cn" target="_blank" rel="noopener noreffer ">AndroidDeveloper</a></li>
 <li><a href="https://developer.android.com/guide/topics/resources/runtime-changes?hl=zh-cn" target="_blank" rel="noopener noreffer ">处理运行时变更</a></li>

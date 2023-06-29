@@ -128,70 +128,75 @@ What git是目前最好的版本控制工具,是一种动态异步的版本控�
                 </div>
                 <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
   <ul>
-    <li><a href="#why">Why</a></li>
-    <li><a href="#what">What</a></li>
-    <li><a href="#简介">简介</a></li>
-    <li><a href="#安装git">安装git</a></li>
-    <li><a href="#创建版本库repository">创建版本库（repository）</a></li>
-    <li><a href="#查看仓库的修改状态">查看仓库的修改状态</a></li>
-    <li><a href="#版本回退">版本回退：</a></li>
-    <li><a href="#工作区和暂存区">工作区和暂存区：</a>
+    <li><a href="#概述">概述</a></li>
+    <li><a href="#git实践笔记">Git实践笔记</a>
       <ul>
-        <li><a href="#管理修改">管理修改：</a></li>
-        <li><a href="#撤销修改">撤销修改：</a></li>
-        <li><a href="#删除文件">删除文件：</a></li>
-      </ul>
-    </li>
-    <li><a href="#远程仓库">远程仓库</a></li>
-    <li><a href="#添加远程库">添加远程库</a>
-      <ul>
-        <li><a href="#小结">小结</a></li>
-      </ul>
-    </li>
-    <li><a href="#远程克隆">远程克隆</a></li>
-    <li><a href="#分支创建与合并">分支创建与合并</a></li>
-    <li><a href="#变基操作">变基操作</a></li>
-    <li><a href="#冲突处理">冲突处理</a></li>
-    <li><a href="#分支管理策略">分支管理策略：</a>
-      <ul>
-        <li><a href="#bug分支">Bug分支：</a></li>
-        <li><a href="#feature分支">feature分支：</a></li>
-        <li><a href="#多人协作开发">多人协作开发：</a></li>
-        <li><a href="#抓取分支">抓取分支</a>
+        <li><a href="#why">Why</a></li>
+        <li><a href="#what">What</a></li>
+        <li><a href="#简介">简介</a></li>
+        <li><a href="#安装git">安装git</a></li>
+        <li><a href="#创建版本库repository">创建版本库（repository）</a></li>
+        <li><a href="#查看仓库的修改状态">查看仓库的修改状态</a></li>
+        <li><a href="#版本回退">版本回退：</a></li>
+        <li><a href="#工作区和暂存区">工作区和暂存区：</a>
           <ul>
-            <li><a href="#小结-1">小结</a></li>
+            <li><a href="#管理修改">管理修改：</a></li>
+            <li><a href="#撤销修改">撤销修改：</a></li>
+            <li><a href="#删除文件">删除文件：</a></li>
           </ul>
         </li>
-      </ul>
-    </li>
-    <li><a href="#标签管理">标签管理</a>
-      <ul>
-        <li><a href="#创建标签">创建标签</a>
+        <li><a href="#远程仓库">远程仓库</a></li>
+        <li><a href="#添加远程库">添加远程库</a>
           <ul>
-            <li><a href="#小结-2">小结</a></li>
-            <li><a href="#操作标签">操作标签</a></li>
+            <li><a href="#小结">小结</a></li>
           </ul>
         </li>
+        <li><a href="#远程克隆">远程克隆</a></li>
+        <li><a href="#分支创建与合并">分支创建与合并</a></li>
+        <li><a href="#变基操作">变基操作</a></li>
+        <li><a href="#冲突处理">冲突处理</a></li>
+        <li><a href="#分支管理策略">分支管理策略：</a>
+          <ul>
+            <li><a href="#bug分支">Bug分支：</a></li>
+            <li><a href="#feature分支">feature分支：</a></li>
+            <li><a href="#多人协作开发">多人协作开发：</a></li>
+            <li><a href="#抓取分支">抓取分支</a>
+              <ul>
+                <li><a href="#小结-1">小结</a></li>
+              </ul>
+            </li>
+          </ul>
+        </li>
+        <li><a href="#标签管理">标签管理</a>
+          <ul>
+            <li><a href="#创建标签">创建标签</a>
+              <ul>
+                <li><a href="#小结-2">小结</a></li>
+                <li><a href="#操作标签">操作标签</a></li>
+              </ul>
+            </li>
+          </ul>
+        </li>
+        <li><a href="#忽略特殊文件">忽略特殊文件</a></li>
+        <li><a href="#配置别名">配置别名</a></li>
+        <li><a href="#搭建git服务器">搭建git服务器</a></li>
+        <li><a href="#感激非常感激万分的感激">感激,非常感激，万分的感激！</a></li>
       </ul>
     </li>
-    <li><a href="#忽略特殊文件">忽略特殊文件</a></li>
-    <li><a href="#配置别名">配置别名</a></li>
-    <li><a href="#搭建git服务器">搭建git服务器</a></li>
-    <li><a href="#感激非常感激万分的感激">感激,非常感激，万分的感激！</a></li>
   </ul>
 </nav></div>
-            </div><div class="content" id="content"><h1 id="概述">概述</h1>
+            </div><div class="content" id="content"><h2 id="概述">概述</h2>
 <p>本文记录常用 git 的功能和命令.</p>
 <!-- more -->
-<h1 id="git实践笔记">Git实践笔记</h1>
-<h2 id="why">Why</h2>
+<h2 id="git实践笔记">Git实践笔记</h2>
+<h3 id="why">Why</h3>
 <p>一年多前一边工作一边学,做的笔记,后来换了工作,改用SVN,git也就生疏了,最近公司打算换git了,正好重新整理一下笔记.</p>
-<h2 id="what">What</h2>
+<h3 id="what">What</h3>
 <p>git是目前最好的版本控制工具,是一种动态异步的版本控制工具,对于版本控制的发展历程,可以参考别的文章.目前各个开源管理平台基本上都是用的git,git是必备的技能.</p>
-<h2 id="简介">简介</h2>
+<h3 id="简介">简介</h3>
 <p>Linus花了两周时间自己用C写了一个分布式版本控制系统，这就是Git!大写的牛逼!一个月之内，Linux系统的源码已经由Git管理了!
 起初的git只能在linux和Unix上运行。</p>
-<h2 id="安装git">安装git</h2>
+<h3 id="安装git">安装git</h3>
 <ul>
 <li>在Linux上安装Git</li>
 </ul>
@@ -221,7 +226,7 @@ git config命令的&ndash;global参数，用了这个参数，表示你这台机
 <pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">$ git config --global --list查看当前的所有设置清单列表。
 </span></span></code></pre></td></tr></table>
 </div>
-</div><h2 id="创建版本库repository">创建版本库（repository）</h2>
+</div><h3 id="创建版本库repository">创建版本库（repository）</h3>
 <p>如果你使用Windows系统，为了避免遇到各种莫名其妙的问题，请确保目录名（包括父目录）不包含中文。
 一共三步：初始化，添加文件，提交</p>
 <div class="highlight"><div class="chroma">
@@ -240,7 +245,7 @@ git config命令的&ndash;global参数，用了这个参数，表示你这台机
 </span></span><span class="line"><span class="cl">$ git commit -m <span class="s2">&#34;提交的信息&#34;</span>
 </span></span></code></pre></td></tr></table>
 </div>
-</div><h2 id="查看仓库的修改状态">查看仓库的修改状态</h2>
+</div><h3 id="查看仓库的修改状态">查看仓库的修改状态</h3>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
@@ -255,7 +260,7 @@ git config命令的&ndash;global参数，用了这个参数，表示你这台机
 </span></span><span class="line"><span class="cl">这个命令可以查看修改的具体内容。
 </span></span></code></pre></td></tr></table>
 </div>
-</div><h2 id="版本回退">版本回退：</h2>
+</div><h3 id="版本回退">版本回退：</h3>
 <p>每当你觉得文件修改到一定程度的时候，就可以“保存一个快照”，这个快照在Git中被称为 <em>commit</em>。一旦你把文件改乱了，或者误删了文件，还可以从最近的一个commit恢复，然后继续工作。版本控制系统肯定有某个命令可以告诉我们历史记录，在Git中，我们用git log命令查看。</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
@@ -297,7 +302,7 @@ git config命令的&ndash;global参数，用了这个参数，表示你这台机
 HEAD指向的版本就是当前版本，因此，Git允许我们在版本的历史之间穿梭，使用命令git reset     &ndash;hard commit_id。
 穿梭前，用git log可以查看提交历史，以便确定要回退到哪个版本。
 要重返未来，用git reflog查看命令历史，以便确定要回到未来的哪个版本。</p>
-<h2 id="工作区和暂存区">工作区和暂存区：</h2>
+<h3 id="工作区和暂存区">工作区和暂存区：</h3>
 <ul>
 <li>工作区：就是在电脑上能看到的目录；一般就是项目文件的根目录；</li>
 <li>版本库：工作区有一个隐藏目录.git文件夹，属于仓库文件，不属于工作区，是Git的版本库；</li>
@@ -308,9 +313,9 @@ HEAD指向的版本就是当前版本，因此，Git允许我们在版本的历�
 <li>第一步是用git add把文件从工作区添加到暂存区，实际上就是把文件修改添加到暂存区；</li>
 <li>第二步是用git commit提交更改，实际上就是把暂存区的所有内容提交到当前分支。</li>
 </ol>
-<h3 id="管理修改">管理修改：</h3>
+<h4 id="管理修改">管理修改：</h4>
 <p>工作区的内容，必须add到暂存区以后才会在提交的时候被提交到库里。每次修改，如果不add到暂存区，那就不会加入到commit中</p>
-<h3 id="撤销修改">撤销修改：</h3>
+<h4 id="撤销修改">撤销修改：</h4>
 <p>git checkout &ndash; file可以丢弃工作区的修改.把file文件在工作区的修改全部撤销，这里有两种情况：</p>
 <ul>
 <li>一种是readme.txt自修改后还没有被放到暂存区，现在，撤销修改就回到和版本库一模一样的状态；</li>
@@ -323,18 +328,18 @@ git reset命令既可以回退版本，也可以把暂存区的修改回退到�
 <li>场景1：当你改乱了工作区某个文件的内容，想直接丢弃工作区的修改时，用命令 <em>git checkout &ndash; file</em>。</li>
 <li>场景2：当你不但改乱了工作区某个文件的内容，还添加到了暂存区时，想丢弃修改，分两步，第一步用命令 <em>git reset HEAD file</em>，就回到了场景1，第二步按场景1操作。</li>
 </ul>
-<h3 id="删除文件">删除文件：</h3>
+<h4 id="删除文件">删除文件：</h4>
 <p>在Git中，删除也是一个修改操作</p>
 <p>直接在文件管理器中把没用的文件删了，Git知道你删除了文件，因此，工作区和版本库就不一致了，git status命令会立刻告诉你哪些文件被删除了。</p>
 <ol>
 <li>用命令git rm删掉，并且git commit，用来从版本库中删除该文件.</li>
 <li>用命令git checkout &ndash; file ，这样实现用版本库里的版本替换工作区的版本，无论工作区是修改还是删除，都可以“一键还原”。</li>
 </ol>
-<h2 id="远程仓库">远程仓库</h2>
+<h3 id="远程仓库">远程仓库</h3>
 <p>生成公私密钥：$ ssh-keygen -t rsa -C &ldquo;<a href="mailto:youremail@example.com" rel="">youremail@example.com</a>&rdquo;
 在用户目录下有.ssh目录，id_rsa和id_rsa.pub这两个文件。
 id_rsa是私钥，不能泄露出去，id_rsa.pub是公钥，可以放心地告诉任何人。</p>
-<h2 id="添加远程库">添加远程库</h2>
+<h3 id="添加远程库">添加远程库</h3>
 <ul>
 <li>在github上新建一个仓库。</li>
 <li>GitHub告诉我们，可以从这个仓库克隆出新的仓库，也可以把一个已有的本地仓库与之关联，然后，把本地仓库的内容推送到GitHub仓库。</li>
@@ -361,7 +366,7 @@ id_rsa是私钥，不能泄露出去，id_rsa.pub是公钥，可以放心地告�
 <pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl"> $ git push origin master
 </span></span></code></pre></td></tr></table>
 </div>
-</div><h3 id="小结">小结</h3>
+</div><h4 id="小结">小结</h4>
 <p>要关联一个远程库，使用命令</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
@@ -372,9 +377,9 @@ id_rsa是私钥，不能泄露出去，id_rsa.pub是公钥，可以放心地告�
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>关联后，使用命令<em>git push -u origin master</em>第一次推送master分支的所有内容；此后，每次本地提交后，只要有必要，就可以使用命令<em>git push origin master</em>推送最新修改；</p>
-<h2 id="远程克隆">远程克隆</h2>
+<h3 id="远程克隆">远程克隆</h3>
 <p>git clone <a href="mailto:git@github.com" rel="">git@github.com</a>:michaelliao/gitskills.git</p>
-<h2 id="分支创建与合并">分支创建与合并</h2>
+<h3 id="分支创建与合并">分支创建与合并</h3>
 <p>Git里，有个分支叫主分支，即master分支。HEAD严格来说不是指向提交，而是指向master，master才是指向提交的，所以，HEAD指向的就是当前分支。
 Git用master指向最新的提交，再用HEAD指向master，就能确定当前分支，以及当前分支的提交点。
 当我们创建新的分支，例如dev时，Git新建了一个指针叫dev，指向master相同的提交，再把HEAD指向dev，就表示当前分支在dev上。
@@ -392,7 +397,7 @@ Git用master指向最新的提交，再用HEAD指向master，就能确定当前�
 </span></span><span class="line"><span class="cl">$ git merge dev 命令用于将当前的分支和dev分支合并。
 </span></span></code></pre></td></tr></table>
 </div>
-</div><h2 id="变基操作">变基操作</h2>
+</div><h3 id="变基操作">变基操作</h3>
 <p>对于merge操作，会合并两个分支，并且产生一个新的提交，这对于整体的 log 查看并不美观。</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
@@ -460,7 +465,7 @@ Git用master指向最新的提交，再用HEAD指向master，就能确定当前�
 <li>合并某分支到当前分支：git merge <name></li>
 <li>删除分支：git branch -d <name></li>
 </ul>
-<h2 id="冲突处理">冲突处理</h2>
+<h3 id="冲突处理">冲突处理</h3>
 <p>Git用</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
@@ -482,7 +487,7 @@ Git用master指向最新的提交，再用HEAD指向master，就能确定当前�
 </div>
 </div><p>命令，查看一下分支合并.</p>
 <p><a href="https://app.yinxiang.com/Home.action#n=f311ba79-a871-47a5-bea1-0fbcb2277ea8&amp;b=403e83c5-7d1d-4991-bc1b-9a6d80235d0b&amp;ses=4&amp;sh=1&amp;sds=5&amp;" target="_blank" rel="noopener noreffer ">https://app.yinxiang.com/Home.action#n=f311ba79-a871-47a5-bea1-0fbcb2277ea8&b=403e83c5-7d1d-4991-bc1b-9a6d80235d0b&ses=4&sh=1&sds=5&</a></p>
-<h2 id="分支管理策略">分支管理策略：</h2>
+<h3 id="分支管理策略">分支管理策略：</h3>
 <p>合并分支时，如果可能，Git会用Fast forward模式，但这种模式下，删除分支后，会丢掉分支信息。
 如果要强制禁用Fast forward模式，Git就会在merge时生成一个新的commit，这样，从分支历史上就可以看出分支信息。</p>
 <div class="highlight"><div class="chroma">
@@ -495,7 +500,7 @@ Git用master指向最新的提交，再用HEAD指向master，就能确定当前�
 </div>
 </div><p><strong>策略：</strong>
 首先，master分支应该是非常稳定的，也就是仅用来发布新版本，平时不能在上面干活；那在哪干活呢？干活都在dev分支上，也就是说，dev分支是不稳定的，到某个时候，比如1.0版本发布时，再把dev分支合并到master上，在master分支发布1.0版本；你和你的小伙伴们每个人都在dev分支上干活，每个人都有自己的分支，时不时地往dev分支上合并就可以了。</p>
-<h3 id="bug分支">Bug分支：</h3>
+<h4 id="bug分支">Bug分支：</h4>
 <p>当出现bug的时候需要修复BUG，但是此时的工作区还有文件没有提交，此时的文件又不能提交，此时可以使用git的暂存功能。Git还提供了一个stash功能，可以把当前工作现场“储藏”起来，等以后恢复现场后继续工作。 执行完stash之后的工作区就是一个干净的工作区。</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
@@ -520,9 +525,9 @@ Git用master指向最新的提交，再用HEAD指向master，就能确定当前�
 <pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl"><span class="nv">$git</span> stash apply stash@<span class="o">{</span>0<span class="o">}</span>
 </span></span></code></pre></td></tr></table>
 </div>
-</div><h3 id="feature分支">feature分支：</h3>
+</div><h4 id="feature分支">feature分支：</h4>
 <p>新增一个功能的生活，最好新建一个分支，之后再合并。没有和和分支在删除的时候，git会给出友情提醒，所以删除的时候，需要使用git branch -D <name>强行删除。</p>
-<h3 id="多人协作开发">多人协作开发：</h3>
+<h4 id="多人协作开发">多人协作开发：</h4>
 <p>当你从远程仓库克隆时，实际上Git自动把本地的master分支和远程的master分支对应起来了，并且，远程仓库的默认名称是origin。要查看远程库的信息，用 <em>git remote</em>；
 用git remote -v显示更详细的信息；</p>
 <div class="highlight"><div class="chroma">
@@ -554,13 +559,13 @@ Git用master指向最新的提交，再用HEAD指向master，就能确定当前�
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>在Git中，分支完全可以在本地自己藏着玩，是否推送，视你的心情而定！</p>
-<h3 id="抓取分支">抓取分支</h3>
+<h4 id="抓取分支">抓取分支</h4>
 <p>git pull把最新的提交从origin下相应的分支抓下来。
 因此，多人协作的工作模式通常是这样：</p>
 <ol>
 <li>首先，可以试图用git push origin branch-name推送自己的修改；如果推送失败，则因为远程分支比你的本地更新，需要先用git pull试图合并；如果合并有冲突，则解决冲突，并在本地提交；没有冲突或者解决掉冲突后，再用git push origin branch-name推送就能成功！如果git pull提示“no tracking information”，则说明本地分支和远程分支的链接关系没有创建，用命令 <em>git branch &ndash;set-upstream branch-name origin/branch-name</em>。</li>
 </ol>
-<h4 id="小结-1">小结</h4>
+<h5 id="小结-1">小结</h5>
 <ul>
 <li>查看远程库信息，使用git remote -v；</li>
 <li>本地新建的分支如果不推送到远程，对其他人就是不可见的；</li>
@@ -569,9 +574,9 @@ Git用master指向最新的提交，再用HEAD指向master，就能确定当前�
 <li>建立本地分支和远程分支的关联，使用git branch &ndash;set-upstream branch-name origin/branch-name；</li>
 <li>从远程抓取分支，使用git pull，如果有冲突，要先处理冲突。</li>
 </ul>
-<h2 id="标签管理">标签管理</h2>
+<h3 id="标签管理">标签管理</h3>
 <p>发布一个版本时，我们通常先在版本库中打一个标签，这样，就唯一确定了打标签时刻的版本。将来无论什么时候，取某个标签的版本，就是把那个打标签的时刻的历史版本取出来。所以，标签也是版本库的一个快照。Git的标签虽然是版本库的快照，但其实它就是指向某个commit的指针（跟分支很像对不对？但是分支可以移动，标签不能移动），所以，创建和删除标签都是瞬间完成的。</p>
-<h3 id="创建标签">创建标签</h3>
+<h4 id="创建标签">创建标签</h4>
 <p>git tag <name>就可以打一个新标签；
 git tag 查看所有标签；
 默认标签是打在最新提交的commit上的。有时候，如果忘了打标签，可以通过</p>
@@ -597,23 +602,23 @@ git tag 查看所有标签；
 <pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">$ git tag -a v0.1 -m <span class="s2">&#34;version 0.1 released&#34;</span> <span class="m">3628164</span>
 </span></span></code></pre></td></tr></table>
 </div>
-</div><h4 id="小结-2">小结</h4>
+</div><h5 id="小结-2">小结</h5>
 <ul>
 <li>命令git tag <name>用于新建一个标签，默认为HEAD，也可以指定一个commit id；</li>
 <li>git tag -a <tagname> -m &ldquo;blablabla&hellip;&ldquo;可以指定标签信息；</li>
 <li>git tag -s <tagname> -m &ldquo;blablabla&hellip;&ldquo;可以用PGP签名标签；</li>
 <li>命令git tag可以查看所有标签。</li>
 </ul>
-<h4 id="操作标签">操作标签</h4>
+<h5 id="操作标签">操作标签</h5>
 <ul>
 <li>命令git push origin <tagname>可以推送一个本地标签；</li>
 <li>命令git push origin &ndash;tags可以推送全部未推送过的本地标签；</li>
 <li>命令git tag -d <tagname>可以删除一个本地标签；</li>
 <li>先在本地删除一个标签，再命令git push origin :refs/tags/<tagname>可以删除一个远程标签。</li>
 </ul>
-<h2 id="忽略特殊文件">忽略特殊文件</h2>
+<h3 id="忽略特殊文件">忽略特殊文件</h3>
 <p>忽略某些文件时，需要编写.gitignore；.gitignore文件本身要放到版本库里，并且可以对.gitignore做版本管理！</p>
-<h2 id="配置别名">配置别名</h2>
+<h3 id="配置别名">配置别名</h3>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
@@ -627,9 +632,9 @@ git tag 查看所有标签；
 单个仓库的Git配置文件都放在.git/config文件中。
 当前用户的Git配置文件放在用户主目录下的一个隐藏文件.gitconfig中。
 别名就在[alias]后面，要删除别名，直接把对应的行删掉即可。</p>
-<h2 id="搭建git服务器">搭建git服务器</h2>
+<h3 id="搭建git服务器">搭建git服务器</h3>
 <p>后加.</p>
-<h2 id="感激非常感激万分的感激">感激,非常感激，万分的感激！</h2>
+<h3 id="感激非常感激万分的感激">感激,非常感激，万分的感激！</h3>
 <p>感谢以下的文章以及其作者和翻译的开发者们,排名不分先后</p>
 <ul>
 <li><a href="https://git-scm.com/book/zh/v1/" target="_blank" rel="noopener noreffer ">Pro Git</a></li>

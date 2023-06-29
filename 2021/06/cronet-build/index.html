@@ -6,10 +6,10 @@
         <meta name="robots" content="noodp" />
         <title>cronet_build - Tinggeng</title><meta name="Description" content="Tinggeng"><meta property="og:title" content="cronet_build" />
 <meta property="og:description" content="概述 记录编译Cronet for Android 的过程和步骤.
-准备工具 install depot_tools 1 2 # 下载 $ git clone https://chromium.googlesource.com/chromium/tools/depot_tools.git 添加进path,或者 .bashrc/.zshrc 1 2 # 将 /path/to/depot_tools 天换成自己安装的目录即可 $ export PATH=&#34;$PATH:/path/to/depot_tools&#34; 如果安装的位置是home目录下,上述命令切勿使用 ~,使用绝对路径或者 HOME 替代.
+准备工具 install depot_tools 1 2 ## 下载 $ git clone https://chromium.googlesource.com/chromium/tools/depot_tools.git 添加进path,或者 .bashrc/.zshrc 1 2 ## 将 /path/to/depot_tools 天换成自己安装的目录即可 $ export PATH=&#34;$PATH:/path/to/depot_tools&#34; 如果安装的位置是home目录下,上述命令切勿使用 ~,使用绝对路径或者 HOME 替代.
 1 $ export PATH=&#34;$PATH:${HOME}/depot_tools&#34; 我的安装路径是 ~/ide/depot_tools
 所以,我执行的命令是
-1 $ export PATH=&#34;$PATH:${HOME}/ide/depot_tools&#34; 下载代码 找个目录,clone代码,我选择的是 ~/workspace/chromium 拉取代码,因为我不想要history,如果想要history,去掉 &ndash;no-history 即可. 1 2 # 这个命令是第一次拉取代码使用 $ fetch --nohooks --no-history chromium 根据网速,快的话办小时,慢的话,数小时之后完成. 20G的东西，我的网速很慢，过了一夜吧，也没具体看多久，这个工具有个问题，没有进度条。。。 当命令结束之后,目录下就会出现隐藏文件.gclient 和 文件夹 src. ​ 假如中间中断过，或者直接拷贝了一份已有的源码，非第一次拉取代码,可能会提示如下内容。 ​ 非初次同步,则执行同步代码的命令 1 $ gclient sync 进入漫长的等待&hellip;" />
+1 $ export PATH=&#34;$PATH:${HOME}/ide/depot_tools&#34; 下载代码 找个目录,clone代码,我选择的是 ~/workspace/chromium 拉取代码,因为我不想要history,如果想要history,去掉 &ndash;no-history 即可. 1 2 ## 这个命令是第一次拉取代码使用 $ fetch --nohooks --no-history chromium 根据网速,快的话办小时,慢的话,数小时之后完成. 20G的东西，我的网速很慢，过了一夜吧，也没具体看多久，这个工具有个问题，没有进度条。。。 当命令结束之后,目录下就会出现隐藏文件.gclient 和 文件夹 src. ​ 假如中间中断过，或者直接拷贝了一份已有的源码，非第一次拉取代码,可能会提示如下内容。 ​ 非初次同步,则执行同步代码的命令 1 $ gclient sync 进入漫长的等待&hellip;" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://tinggengyan.github.io/2021/06/cronet-build/" /><meta property="article:section" content="posts" />
 <meta property="article:published_time" content="2021-06-02T00:04:12+00:00" />
@@ -17,10 +17,10 @@
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="cronet_build"/>
 <meta name="twitter:description" content="概述 记录编译Cronet for Android 的过程和步骤.
-准备工具 install depot_tools 1 2 # 下载 $ git clone https://chromium.googlesource.com/chromium/tools/depot_tools.git 添加进path,或者 .bashrc/.zshrc 1 2 # 将 /path/to/depot_tools 天换成自己安装的目录即可 $ export PATH=&#34;$PATH:/path/to/depot_tools&#34; 如果安装的位置是home目录下,上述命令切勿使用 ~,使用绝对路径或者 HOME 替代.
+准备工具 install depot_tools 1 2 ## 下载 $ git clone https://chromium.googlesource.com/chromium/tools/depot_tools.git 添加进path,或者 .bashrc/.zshrc 1 2 ## 将 /path/to/depot_tools 天换成自己安装的目录即可 $ export PATH=&#34;$PATH:/path/to/depot_tools&#34; 如果安装的位置是home目录下,上述命令切勿使用 ~,使用绝对路径或者 HOME 替代.
 1 $ export PATH=&#34;$PATH:${HOME}/depot_tools&#34; 我的安装路径是 ~/ide/depot_tools
 所以,我执行的命令是
-1 $ export PATH=&#34;$PATH:${HOME}/ide/depot_tools&#34; 下载代码 找个目录,clone代码,我选择的是 ~/workspace/chromium 拉取代码,因为我不想要history,如果想要history,去掉 &ndash;no-history 即可. 1 2 # 这个命令是第一次拉取代码使用 $ fetch --nohooks --no-history chromium 根据网速,快的话办小时,慢的话,数小时之后完成. 20G的东西，我的网速很慢，过了一夜吧，也没具体看多久，这个工具有个问题，没有进度条。。。 当命令结束之后,目录下就会出现隐藏文件.gclient 和 文件夹 src. ​ 假如中间中断过，或者直接拷贝了一份已有的源码，非第一次拉取代码,可能会提示如下内容。 ​ 非初次同步,则执行同步代码的命令 1 $ gclient sync 进入漫长的等待&hellip;"/>
+1 $ export PATH=&#34;$PATH:${HOME}/ide/depot_tools&#34; 下载代码 找个目录,clone代码,我选择的是 ~/workspace/chromium 拉取代码,因为我不想要history,如果想要history,去掉 &ndash;no-history 即可. 1 2 ## 这个命令是第一次拉取代码使用 $ fetch --nohooks --no-history chromium 根据网速,快的话办小时,慢的话,数小时之后完成. 20G的东西，我的网速很慢，过了一夜吧，也没具体看多久，这个工具有个问题，没有进度条。。。 当命令结束之后,目录下就会出现隐藏文件.gclient 和 文件夹 src. ​ 假如中间中断过，或者直接拷贝了一份已有的源码，非第一次拉取代码,可能会提示如下内容。 ​ 非初次同步,则执行同步代码的命令 1 $ gclient sync 进入漫长的等待&hellip;"/>
 <meta name="application-name" content="Tinggeng">
 <meta name="apple-mobile-web-app-title" content="Tinggeng"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
         <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
@@ -120,30 +120,42 @@
                 </div>
                 <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
   <ul>
-    <li><a href="#非初次同步则执行同步代码的命令">非初次同步,则执行同步代码的命令</a></li>
-  </ul>
-
-  <ul>
-    <li><a href="#需求一-building-cronet-for-development-and-debugging">需求一: Building Cronet for development and debugging</a>
+    <li><a href="#概述">概述</a></li>
+    <li><a href="#准备工具">准备工具</a></li>
+    <li><a href="#下载代码">下载代码</a>
       <ul>
-        <li><a href="#第一步-设置out_dir生成ninja文件">第一步: 设置out_dir,生成ninja文件</a></li>
-        <li><a href="#第二步-running-the-ninja-files">第二步: Running the ninja files</a></li>
-        <li><a href="#生成物解释">生成物解释</a></li>
+        <li><a href="#非初次同步则执行同步代码的命令">非初次同步,则执行同步代码的命令</a></li>
       </ul>
     </li>
-    <li><a href="#需求二-build-mobile-release">需求二: build mobile release</a></li>
-    <li><a href="#需求三-其他abi">需求三: 其他abi</a>
+    <li><a href="#切换到src目录下">切换到src目录下</a></li>
+    <li><a href="#安装额外依赖">安装额外依赖</a></li>
+    <li><a href="#run-the-hooks">Run the hooks</a></li>
+    <li><a href="#build">build</a>
       <ul>
-        <li><a href="#方案一是修改-cr_cronetpyhttpschromiumgooglesourcecomchromiumsrcrefsheadsmaincomponentscronettoolscr_cronetpy-文件的-gn_args-变量按照需求修改成如下的值">方案一是,修改 <a href="https://chromium.googlesource.com/chromium/src/+/refs/heads/main/components/cronet/tools/cr_cronet.py">cr_cronet.py</a> 文件的 gn_args 变量,按照需求修改成如下的值.</a></li>
-        <li><a href="#方案二-交互式不需要修改文件">方案二: 交互式,不需要修改文件</a></li>
+        <li><a href="#需求一-building-cronet-for-development-and-debugging">需求一: Building Cronet for development and debugging</a>
+          <ul>
+            <li><a href="#第一步-设置out_dir生成ninja文件">第一步: 设置out_dir,生成ninja文件</a></li>
+            <li><a href="#第二步-running-the-ninja-files">第二步: Running the ninja files</a></li>
+            <li><a href="#生成物解释">生成物解释</a></li>
+          </ul>
+        </li>
+        <li><a href="#需求二-build-mobile-release">需求二: build mobile release</a></li>
+        <li><a href="#需求三-其他abi">需求三: 其他abi</a>
+          <ul>
+            <li><a href="#方案一是修改-cr_cronetpyhttpschromiumgooglesourcecomchromiumsrcrefsheadsmaincomponentscronettoolscr_cronetpy-文件的-gn_args-变量按照需求修改成如下的值">方案一是,修改 <a href="https://chromium.googlesource.com/chromium/src/+/refs/heads/main/components/cronet/tools/cr_cronet.py">cr_cronet.py</a> 文件的 gn_args 变量,按照需求修改成如下的值.</a></li>
+            <li><a href="#方案二-交互式不需要修改文件">方案二: 交互式,不需要修改文件</a></li>
+          </ul>
+        </li>
       </ul>
     </li>
+    <li><a href="#其他ios编译">其他,iOS编译</a></li>
+    <li><a href="#ref">Ref</a></li>
   </ul>
 </nav></div>
-            </div><div class="content" id="content"><h1 id="概述">概述</h1>
+            </div><div class="content" id="content"><h2 id="概述">概述</h2>
 <p>记录编译Cronet for Android 的过程和步骤.</p>
 <!-- more -->
-<h1 id="准备工具">准备工具</h1>
+<h2 id="准备工具">准备工具</h2>
 <ol>
 <li>install  depot_tools</li>
 </ol>
@@ -153,7 +165,7 @@
 </span><span class="lnt">2
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl"><span class="c1"># 下载</span>
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl"><span class="c1">## 下载</span>
 </span></span><span class="line"><span class="cl">$ git clone https://chromium.googlesource.com/chromium/tools/depot_tools.git
 </span></span></code></pre></td></tr></table>
 </div>
@@ -166,7 +178,7 @@
 </span><span class="lnt">2
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl"><span class="c1"># 将 /path/to/depot_tools 天换成自己安装的目录即可</span>
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl"><span class="c1">## 将 /path/to/depot_tools 天换成自己安装的目录即可</span>
 </span></span><span class="line"><span class="cl">$ <span class="nb">export</span> <span class="nv">PATH</span><span class="o">=</span><span class="s2">&#34;</span><span class="nv">$PATH</span><span class="s2">:/path/to/depot_tools&#34;</span>
 </span></span></code></pre></td></tr></table>
 </div>
@@ -189,7 +201,7 @@
 <pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">$ <span class="nb">export</span> <span class="nv">PATH</span><span class="o">=</span><span class="s2">&#34;</span><span class="nv">$PATH</span><span class="s2">:</span><span class="si">${</span><span class="nv">HOME</span><span class="si">}</span><span class="s2">/ide/depot_tools&#34;</span>
 </span></span></code></pre></td></tr></table>
 </div>
-</div><h1 id="下载代码">下载代码</h1>
+</div><h2 id="下载代码">下载代码</h2>
 <ol>
 <li>找个目录,clone代码,我选择的是   ~/workspace/chromium</li>
 <li>拉取代码,因为我不想要history,如果想要history,去掉 &ndash;no-history 即可.</li>
@@ -200,7 +212,7 @@
 </span><span class="lnt">2
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl"><span class="c1"># 这个命令是第一次拉取代码使用</span>
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl"><span class="c1">## 这个命令是第一次拉取代码使用</span>
 </span></span><span class="line"><span class="cl">$ fetch --nohooks --no-history chromium
 </span></span></code></pre></td></tr></table>
 </div>
@@ -217,7 +229,7 @@
         data-sizes="auto"
         alt="/img/cronet_build/sync_warning.png"
         title="sync warning" /></p>
-<h2 id="非初次同步则执行同步代码的命令">非初次同步,则执行同步代码的命令</h2>
+<h3 id="非初次同步则执行同步代码的命令">非初次同步,则执行同步代码的命令</h3>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
@@ -244,7 +256,7 @@
         data-sizes="auto"
         alt="/img/cronet_build/sync_success.png"
         title="sync_success" /></p>
-<h1 id="切换到src目录下">切换到src目录下</h1>
+<h2 id="切换到src目录下">切换到src目录下</h2>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
@@ -253,7 +265,7 @@
 <pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl"><span class="nv">$cd</span> src
 </span></span></code></pre></td></tr></table>
 </div>
-</div><h1 id="安装额外依赖">安装额外依赖</h1>
+</div><h2 id="安装额外依赖">安装额外依赖</h2>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
@@ -282,7 +294,7 @@
 <pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">$ ./build/install-build-deps.sh --no-chromeos-fonts
 </span></span></code></pre></td></tr></table>
 </div>
-</div><h1 id="run-the-hooks">Run the hooks</h1>
+</div><h2 id="run-the-hooks">Run the hooks</h2>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
@@ -291,9 +303,9 @@
 <pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">$ gclient runhooks
 </span></span></code></pre></td></tr></table>
 </div>
-</div><h1 id="build">build</h1>
-<h2 id="需求一-building-cronet-for-development-and-debugging">需求一: Building Cronet for development and debugging</h2>
-<h3 id="第一步-设置out_dir生成ninja文件">第一步: 设置out_dir,生成ninja文件</h3>
+</div><h2 id="build">build</h2>
+<h3 id="需求一-building-cronet-for-development-and-debugging">需求一: Building Cronet for development and debugging</h3>
+<h4 id="第一步-设置out_dir生成ninja文件">第一步: 设置out_dir,生成ninja文件</h4>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
@@ -313,7 +325,7 @@
         data-sizes="auto"
         alt="/img/cronet_build/build_gn_ninja.png"
         title="build_gn_ninja" /></p>
-<h3 id="第二步-running-the-ninja-files">第二步: Running the ninja files</h3>
+<h4 id="第二步-running-the-ninja-files">第二步: Running the ninja files</h4>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
@@ -330,7 +342,7 @@
         data-sizes="auto"
         alt="/img/cronet_build/build_success.png"
         title="build_success" /></p>
-<h3 id="生成物解释">生成物解释</h3>
+<h4 id="生成物解释">生成物解释</h4>
 <p>编译完,用作Android开发的库都在 chromium/src/out/Cronet/cronet 目录下.</p>
 <p><img
         class="lazyload"
@@ -348,7 +360,7 @@
 <li>头文件: include目录下有对应的头文件.</li>
 <li>反混淆文件: 也在该目录下.</li>
 </ol>
-<h2 id="需求二-build-mobile-release">需求二: build mobile release</h2>
+<h3 id="需求二-build-mobile-release">需求二: build mobile release</h3>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
@@ -367,9 +379,9 @@
         data-sizes="auto"
         alt="/img/cronet_build/mobile_release.png"
         title="mobile_release" /></p>
-<h2 id="需求三-其他abi">需求三: 其他abi</h2>
+<h3 id="需求三-其他abi">需求三: 其他abi</h3>
 <p>默认不指定参数的情况下,生成的是 ARMv7 32位的库,如果需要其他版本的库,可以通过添加如下参数,进行生成.</p>
-<h3 id="方案一是修改-cr_cronetpyhttpschromiumgooglesourcecomchromiumsrcrefsheadsmaincomponentscronettoolscr_cronetpy-文件的-gn_args-变量按照需求修改成如下的值">方案一是,修改 <a href="https://chromium.googlesource.com/chromium/src/&#43;/refs/heads/main/components/cronet/tools/cr_cronet.py" target="_blank" rel="noopener noreffer ">cr_cronet.py</a> 文件的 gn_args 变量,按照需求修改成如下的值.</h3>
+<h4 id="方案一是修改-cr_cronetpyhttpschromiumgooglesourcecomchromiumsrcrefsheadsmaincomponentscronettoolscr_cronetpy-文件的-gn_args-变量按照需求修改成如下的值">方案一是,修改 <a href="https://chromium.googlesource.com/chromium/src/&#43;/refs/heads/main/components/cronet/tools/cr_cronet.py" target="_blank" rel="noopener noreffer ">cr_cronet.py</a> 文件的 gn_args 变量,按照需求修改成如下的值.</h4>
 <p>​</p>
 <ul>
 <li>For ARMv8 64-bit: target_cpu=&ldquo;arm64&rdquo;</li>
@@ -384,14 +396,14 @@
         data-sizes="auto"
         alt="/img/cronet_build/cr_cronet.py.png"
         title="cr_cronet.py" /></p>
-<h3 id="方案二-交互式不需要修改文件">方案二: 交互式,不需要修改文件</h3>
+<h4 id="方案二-交互式不需要修改文件">方案二: 交互式,不需要修改文件</h4>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl"><span class="c1"># 交互修改参数</span>
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl"><span class="c1">## 交互修改参数</span>
 </span></span><span class="line"><span class="cl">$ gn args out/Cronet
 </span></span></code></pre></td></tr></table>
 </div>
@@ -474,13 +486,13 @@
         data-sizes="auto"
         alt="/img/cronet_build/abi_so.png"
         title="abi_so" /></p>
-<h1 id="其他ios编译">其他,iOS编译</h1>
+<h2 id="其他ios编译">其他,iOS编译</h2>
 <p>曾经也编译过iOS版本,步骤差不多,按照文档来,但是当时有个问题,在此记录下.</p>
 <ol>
 <li>按照<a href="https://chromium.googlesource.com/chromium/src/&#43;/master/docs/ios/build_instructions.md" target="_blank" rel="noopener noreffer ">iOS编译文档</a> 操作执行,生成需要的文件夹;</li>
 <li>如果当时fetch的时候,参数不是 iOS,则需要确认 .gclient ,最后一行有  target_os = [ &ldquo;ios&rdquo; ]   ,然后再执行 gclient sync,下载iOS的依赖; <a href="https://chromium.googlesource.com/chromium/src/&#43;/0e94f26e8/docs/ios_build_instructions.md" target="_blank" rel="noopener noreffer ">文档说明</a></li>
 </ol>
-<h1 id="ref">Ref</h1>
+<h2 id="ref">Ref</h2>
 <ol>
 <li><a href="https://chromium.googlesource.com/chromium/src/&#43;/HEAD/components/cronet/build_instructions.md" target="_blank" rel="noopener noreffer ">Cronet build instructions</a></li>
 </ol>

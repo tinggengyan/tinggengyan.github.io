@@ -1,6 +1,6 @@
 # Annotation 使用备忘
 
-# 概述
+## 概述
 
 本文记录使用 javapoet 以及 auto-service 进行编译时注解的过程以及注意点. 
 
@@ -9,16 +9,16 @@
 最近又使用了一次编译时注解,期间产生了不少问题.
 
 
-# 术语的解释
+## 术语的解释
 
-##  Element 
+###  Element 
 这个代表被注解的元素.这个类有个很重要的方法,getEnclosingElement:这方法的含义是获取 包裹 element 最外围的元素.比如类的最外围的元素是 package.
 ```java
     PackageElement pkgElement = (PackageElement) element.getEnclosingElement();
 ```
 其他方法都很简单.
 
-## javapoet 库中一些重要的接口和方法
+### javapoet 库中一些重要的接口和方法
 
 1. TypeName: 对应了 java 代码中的一个类型元素,常用于声明一个方法参数,还有一些 collection 范型使用.
 ```java
@@ -105,7 +105,7 @@ TypeSpec typeSpec = TypeSpec.classBuilder("className")
 
 
 
-# 使用的注意事项
+## 使用的注意事项
 1. 新版的 studio 以及不需要 android-apt
 2. 对于注解器的依赖可以通过 annotationProcessor project(':processor') 来对注解器工程进行依赖
 3. 对于注解配置选项可以在 gradle 中进行配置

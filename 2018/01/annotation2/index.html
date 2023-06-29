@@ -122,16 +122,22 @@ javapoet 库中一些重要的接口和方法 TypeName: 对应了 java 代码中
                 </div>
                 <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
   <ul>
-    <li><a href="#element">Element</a></li>
-    <li><a href="#javapoet-库中一些重要的接口和方法">javapoet 库中一些重要的接口和方法</a></li>
+    <li><a href="#概述">概述</a></li>
+    <li><a href="#术语的解释">术语的解释</a>
+      <ul>
+        <li><a href="#element">Element</a></li>
+        <li><a href="#javapoet-库中一些重要的接口和方法">javapoet 库中一些重要的接口和方法</a></li>
+      </ul>
+    </li>
+    <li><a href="#使用的注意事项">使用的注意事项</a></li>
   </ul>
 </nav></div>
-            </div><div class="content" id="content"><h1 id="概述">概述</h1>
+            </div><div class="content" id="content"><h2 id="概述">概述</h2>
 <p>本文记录使用 javapoet 以及 auto-service 进行编译时注解的过程以及注意点.</p>
 <!-- more -->
 <p>最近又使用了一次编译时注解,期间产生了不少问题.</p>
-<h1 id="术语的解释">术语的解释</h1>
-<h2 id="element">Element</h2>
+<h2 id="术语的解释">术语的解释</h2>
+<h3 id="element">Element</h3>
 <p>这个代表被注解的元素.这个类有个很重要的方法,getEnclosingElement:这方法的含义是获取 包裹 element 最外围的元素.比如类的最外围的元素是 package.</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
@@ -142,7 +148,7 @@ javapoet 库中一些重要的接口和方法 TypeName: 对应了 java 代码中
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>其他方法都很简单.</p>
-<h2 id="javapoet-库中一些重要的接口和方法">javapoet 库中一些重要的接口和方法</h2>
+<h3 id="javapoet-库中一些重要的接口和方法">javapoet 库中一些重要的接口和方法</h3>
 <ol>
 <li>TypeName: 对应了 java 代码中的一个类型元素,常用于声明一个方法参数,还有一些 collection 范型使用.</li>
 </ol>
@@ -289,7 +295,7 @@ javapoet 库中一些重要的接口和方法 TypeName: 对应了 java 代码中
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="n">JavaFile</span> <span class="n">javaFile</span> <span class="o">=</span> <span class="n">JavaFile</span><span class="o">.</span><span class="na">builder</span><span class="o">(</span><span class="s">&#34;com.steve.pkg&#34;</span><span class="o">,</span> <span class="n">typeSpec</span><span class="o">).</span><span class="na">build</span><span class="o">();</span>
 </span></span></code></pre></td></tr></table>
 </div>
-</div><h1 id="使用的注意事项">使用的注意事项</h1>
+</div><h2 id="使用的注意事项">使用的注意事项</h2>
 <ol>
 <li>新版的 studio 以及不需要 android-apt</li>
 <li>对于注解器的依赖可以通过 annotationProcessor project(&rsquo;:processor&rsquo;) 来对注解器工程进行依赖</li>

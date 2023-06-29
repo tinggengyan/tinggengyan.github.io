@@ -124,32 +124,47 @@ Request and response multiplexing: 请求与响应复用 在 HTTP/1."/>
                 </div>
                 <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
   <ul>
-    <li><a href="#http2-的主要目标是">HTTP/2 的主要目标是:</a></li>
-    <li><a href="#重要的两点">重要的两点</a></li>
-  </ul>
-
-  <ul>
-    <li><a href="#简单概括一下">简单概括一下:</a></li>
+    <li><a href="#概述">概述</a></li>
+    <li><a href="#背景">背景</a>
+      <ul>
+        <li><a href="#http2-的主要目标是">HTTP/2 的主要目标是:</a></li>
+        <li><a href="#重要的两点">重要的两点</a></li>
+      </ul>
+    </li>
+    <li><a href="#binary-framing-layer-二进制分帧层">Binary framing layer: 二进制分帧层</a></li>
+    <li><a href="#数据流消息和帧">数据流、消息和帧</a>
+      <ul>
+        <li><a href="#简单概括一下">简单概括一下:</a></li>
+      </ul>
+    </li>
+    <li><a href="#request-and-response-multiplexing-请求与响应复用">Request and response multiplexing: 请求与响应复用</a></li>
+    <li><a href="#stream-prioritization数据流优先级">Stream prioritization:数据流优先级</a></li>
+    <li><a href="#one-connection-per-origin-每个源都有个连接">One connection per origin: 每个源,都有个连接</a></li>
+    <li><a href="#flow-control-流控制">Flow control: 流控制</a></li>
+    <li><a href="#server-push-服务器推送">Server push: 服务器推送</a></li>
+    <li><a href="#header-compression-header-压缩">Header compression: header 压缩</a></li>
+    <li><a href="#读完文章后的待解决问题需要更进一步的研究">读完文章后的待解决问题,需要更进一步的研究</a></li>
+    <li><a href="#reference">Reference</a></li>
   </ul>
 </nav></div>
-            </div><div class="content" id="content"><h1 id="概述">概述</h1>
+            </div><div class="content" id="content"><h2 id="概述">概述</h2>
 <p>HTTP/2 仍是对之前 HTTP 标准的扩展,而非替代.HTTP 的应用语义不变，提供的功能不变,HTTP 方法、状态代码、URI 和标头字段等这些核心概念也不变.</p>
 <!-- more -->
-<h1 id="背景">背景</h1>
+<h2 id="背景">背景</h2>
 <p>本文是对Google博客上文章的翻译和笔记.以及一些待解决的问题记录. Google 博客上这篇文章的中文版有很多翻译错误.</p>
-<h2 id="http2-的主要目标是">HTTP/2 的主要目标是:</h2>
+<h3 id="http2-的主要目标是">HTTP/2 的主要目标是:</h3>
 <ul>
 <li>通过支持完整的请求与响应的多路复用来减少延迟;</li>
 <li>通过有效压缩 HTTP 标头字段将协议开销降至最低;</li>
 <li>增加对请求优先级和服务器推送的支持;</li>
 </ul>
-<h2 id="重要的两点">重要的两点</h2>
+<h3 id="重要的两点">重要的两点</h3>
 <ul>
 <li>HTTP/2 没有改动 HTTP 的应用语义。HTTP 方法、状态代码、URI 和标头字段等核心概念一如往常;</li>
 <li>HTTP/2 修改了<strong>数据格式化(分帧)<strong>以及在客户端与服务器间</strong>传输的方式</strong>;</li>
 </ul>
 <p>这两点统帅全局，通过新的<strong>分帧层</strong>向我们的应用隐藏了所有复杂性。可以实现在同一连接上 进行多个并发交换.</p>
-<h1 id="binary-framing-layer-二进制分帧层">Binary framing layer: 二进制分帧层</h1>
+<h2 id="binary-framing-layer-二进制分帧层">Binary framing layer: 二进制分帧层</h2>
 <p>HTTP/2 所有性能增强的核心在于新的二进制分帧层，它定义了如何封装 HTTP 消息并在客户端与服务器之间传输。
 <img
         class="lazyload"
@@ -161,13 +176,13 @@ Request and response multiplexing: 请求与响应复用 在 HTTP/1."/>
         title="二进制分帧层" /></p>
 <p>这里所谓的“层”，指的是位于<strong>套接字接口与应用可见的高级HTTP API之间</strong>一个经过优化的新编码机制:HTTP 的语义（包括各种动词、方法、标头）都不受影响，不同的是传输期间对它们的<strong>编码方式变了</strong>。</p>
 <p>HTTP/1.x 协议以换行符作为纯文本的分隔符，而 HTTP/2 将所有传输的信息分割为更小的<strong>消息和帧</strong>，并采用<strong>二进制格式</strong>对它们编码。</p>
-<h1 id="数据流消息和帧">数据流、消息和帧</h1>
+<h2 id="数据流消息和帧">数据流、消息和帧</h2>
 <ul>
 <li>数据流：已建立的连接内的<strong>双向</strong>字节流，可以承载一条或多条消息。</li>
 <li>消息：与逻辑请求或响应消息对应的完整的<strong>一系列帧</strong>。</li>
 <li>帧：HTTP/2 通信的<strong>最小单位</strong>，每个帧都包含帧头，至少也会标识出当前帧所属的数据流。</li>
 </ul>
-<h2 id="简单概括一下">简单概括一下:</h2>
+<h3 id="简单概括一下">简单概括一下:</h3>
 <ul>
 <li>所有通信都在一个 TCP 连接上完成，此连接可以承载任意数量的双向数据流。</li>
 <li>每个数据流都有一个<strong>唯一的标识符</strong>和<strong>可选的优先级</strong>信息，用于承载双向消息。</li>
@@ -183,7 +198,7 @@ Request and response multiplexing: 请求与响应复用 在 HTTP/1."/>
         alt="https://github.com/tinggengyan/tinggengyan.github.io/blob/source/imgur/H2_First/H2_first_stream_connection.png?raw=true"
         title="stream和connection之间的关系" /></p>
 <p>HTTP/2 将 HTTP 协议通信分解为二进制编码帧的交换，这些帧对应着特定数据流中的消息。所有这些都在一个 TCP 连接内复用。</p>
-<h1 id="request-and-response-multiplexing-请求与响应复用">Request and response multiplexing: 请求与响应复用</h1>
+<h2 id="request-and-response-multiplexing-请求与响应复用">Request and response multiplexing: 请求与响应复用</h2>
 <p>在 HTTP/1.x 中，如果客户端要想发起多个并行请求以提升性能，则必须使用多个 TCP 连接.</p>
 <blockquote>
 <p>即: 多个并行请求 == 多个 TCP 连接;</p>
@@ -201,7 +216,7 @@ Request and response multiplexing: 请求与响应复用 在 HTTP/1."/>
 客户端正在向服务器传输一个 DATA 帧（数据流 5）.
 服务器正向客户端交错发送数据流 1 和数据流 3 的一系列帧。</p>
 <p>优点:显著提高效率;</p>
-<h1 id="stream-prioritization数据流优先级">Stream prioritization:数据流优先级</h1>
+<h2 id="stream-prioritization数据流优先级">Stream prioritization:数据流优先级</h2>
 <p>将数据分解为帧之后,这些帧就可以实现多路复用,故而,这些帧的顺序就很重要.</p>
 <p>所以H2允许每个数据流都有一个关联的优先级和依赖关系.</p>
 <p>H2 允许:</p>
@@ -238,7 +253,7 @@ C优先于AB 拿到全部资源,此时与权重无关,由依赖关系决定.</p>
 <p>除此之外,优先级和依赖关系还允许客户端在任意的时间点进行修改.这样就允许了浏览器更进一步的优化;换句话中,我们可以在和用户的交互的过程中,修改依赖关系和权重,来达到用户的交互和其他的一些信号.</p>
 <p>PS: 对于权重和依赖关系,只是客户端请求的一个偏好,服务端并不保证一定会按照这个依赖关系和权重进行资源的分配;
 虽然看上去似乎有违直觉,可是,我们不能因为高优先级的请求block了,而不顾低优先级的任务;</p>
-<h1 id="one-connection-per-origin-每个源都有个连接">One connection per origin: 每个源,都有个连接</h1>
+<h2 id="one-connection-per-origin-每个源都有个连接">One connection per origin: 每个源,都有个连接</h2>
 <blockquote>
 <p>即多路复用.</p>
 </blockquote>
@@ -248,7 +263,7 @@ C优先于AB 拿到全部资源,此时与权重无关,由依赖关系决定.</p>
 <p>大多数的HTTP连接都是急促而短暂的,但是TCP对于长连和批量数据进行了优化.  通过复用连接,提高了连接的利用率,也降低了协议的开销.</p>
 <p>可以减少占用的内存和处理空间，也可以缩短完整连接路径;</p>
 <p>连接数量减少,可以减少开销较大的 TLS 连接数、提升会话重用率，以及从整体上减少所需的客户端和服务器资源。</p>
-<h1 id="flow-control-流控制">Flow control: 流控制</h1>
+<h2 id="flow-control-流控制">Flow control: 流控制</h2>
 <p>流控制是为了防止出现,接收方繁忙,负载较高,或者仅仅只想为特定的数据流分配固定的资源,然而发送方已经不停的发送;</p>
 <p>这和TCP的控制流类似,然而H2的多个数据流在单一的TCP连接上复用,然而TCP的控制不够精细,也为提供应用级别的API来控制单一流的传输控制.</p>
 <p>H2提供了一组简单的构建块, 来允许客户端和服务端各自的<strong>流级别</strong>和<strong>连接级别</strong>的控制;</p>
@@ -260,7 +275,7 @@ C优先于AB 拿到全部资源,此时与权重无关,由依赖关系决定.</p>
 </ul>
 <p>H2未指定任何的流控制算法,替代的,提供了构建块将具体的算法实现交给了客户端和服务端,实现自定义的策略,以实现资源分配和资源的使用; 也可以实现自定义的传输能力以提高真实和感知性能.</p>
 <p>举例: 应用层流控制允许浏览器将流控制窗口设置为0 ,以达到暂停一部分流的加载,先加载优先级更高的流,等到适当的时候再通过调整窗口的大小以重新恢复低优先级的资源加载.</p>
-<h1 id="server-push-服务器推送">Server push: 服务器推送</h1>
+<h2 id="server-push-服务器推送">Server push: 服务器推送</h2>
 <p>H2可以实现向客户端发送多个响应. 即可实现无需客户端主动请求的情况,实现对客户端的推送.</p>
 <p><img
         class="lazyload"
@@ -285,7 +300,7 @@ C优先于AB 拿到全部资源,此时与权重无关,由依赖关系决定.</p>
 </ul>
 <p>推送的每个资源都是一个数据流，客户端可以对推送的流进行多路复用,设定优先级。
 浏览器强制执行的唯一安全限制是，推送的资源必须符合原点相同这一政策：服务器对所提供内容必须具有权威性。</p>
-<h1 id="header-compression-header-压缩">Header compression: header 压缩</h1>
+<h2 id="header-compression-header-压缩">Header compression: header 压缩</h2>
 <p>传统H1的 header 使用的是纯文本,这会对传输过程带来500–800 字节的额外开销.
 H2使用了 <em>HPACK</em> 压缩方式,对请求头和响应头的元数据进行压缩,进而减少开销.
 采用两种技术:</p>
@@ -309,7 +324,7 @@ H2使用了 <em>HPACK</em> 压缩方式,对请求头和响应头的元数据进�
 进而带来的结果是,每次请求,因为对未曾出现过的值使用了静态哈夫曼编码,对在两侧静态或者动态表中都出现的使用了索引值而不是直接的原始值,因而这次请求会因此而减小;</li>
 </ul>
 <p>H2中的请求和相应的header字段的定义保持不变,仅有的一个小例外是: 所有的 header 字段的名字必须是小写, 请求行被分割成独立: <em>:method</em>, <em>:scheme</em>, <em>:authority</em>, 和 <em>:path</em> 等伪header字段.</p>
-<h1 id="读完文章后的待解决问题需要更进一步的研究">读完文章后的待解决问题,需要更进一步的研究</h1>
+<h2 id="读完文章后的待解决问题需要更进一步的研究">读完文章后的待解决问题,需要更进一步的研究</h2>
 <ol>
 <li>H2中的request line最终变成的格式是什么样的?</li>
 <li>message被切割成frame,这些frame是按照什么规则切割的?文章中的举例是 header 和 data payload .</li>
@@ -324,7 +339,7 @@ H2使用了 <em>HPACK</em> 压缩方式,对请求头和响应头的元数据进�
 <li>文中提到对重复的内容传递 index values ,指的是什么? 同样的问题,那怎么和对应的key对应上?</li>
 <li>静态表和动态表格式是什么样的?</li>
 </ol>
-<h1 id="reference">Reference</h1>
+<h2 id="reference">Reference</h2>
 <p><a href="https://developers.google.com/web/fundamentals/performance/http2/#top_of_page" target="_blank" rel="noopener noreffer ">Introduction to HTTP/2</a></p>
 </div><div class="post-footer" id="post-footer">
     <div class="post-info">

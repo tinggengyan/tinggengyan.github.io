@@ -118,130 +118,137 @@ JNI 层调用传递的数据尽量少,调用的频率尽量低; JNI Java 调用 
                 </div>
                 <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
   <ul>
-    <li><a href="#general">General</a></li>
-    <li><a href="#javavm--jnienv">JavaVM &amp; JNIEnv</a>
+    <li><a href="#override">Override</a></li>
+    <li><a href="#tips">Tips</a>
       <ul>
-        <li><a href="#注意点">注意点</a></li>
-      </ul>
-    </li>
-    <li><a href="#thread">Thread</a>
-      <ul>
-        <li><a href="#注意点-1">注意点</a></li>
-      </ul>
-    </li>
-    <li><a href="#jclass-jmethodid-and-jfieldid">jclass, jmethodID, and jfieldID</a>
-      <ul>
-        <li><a href="#注意点-2">注意点</a></li>
-      </ul>
-    </li>
-    <li><a href="#local-and-global-references">Local and global references</a>
-      <ul>
-        <li><a href="#local-references">Local references</a>
+        <li><a href="#general">General</a></li>
+        <li><a href="#javavm--jnienv">JavaVM &amp; JNIEnv</a>
           <ul>
-            <li><a href="#local-的限制">Local 的限制</a>
+            <li><a href="#注意点">注意点</a></li>
+          </ul>
+        </li>
+        <li><a href="#thread">Thread</a>
+          <ul>
+            <li><a href="#注意点-1">注意点</a></li>
+          </ul>
+        </li>
+        <li><a href="#jclass-jmethodid-and-jfieldid">jclass, jmethodID, and jfieldID</a>
+          <ul>
+            <li><a href="#注意点-2">注意点</a></li>
+          </ul>
+        </li>
+        <li><a href="#local-and-global-references">Local and global references</a>
+          <ul>
+            <li><a href="#local-references">Local references</a>
               <ul>
-                <li><a href="#80-之前和具体版本相关">8.0 之前(和具体版本相关)</a></li>
-                <li><a href="#80-之后">8.0 之后</a></li>
+                <li><a href="#local-的限制">Local 的限制</a>
+                  <ul>
+                    <li><a href="#80-之前和具体版本相关">8.0 之前(和具体版本相关)</a></li>
+                    <li><a href="#80-之后">8.0 之后</a></li>
+                  </ul>
+                </li>
+              </ul>
+            </li>
+            <li><a href="#global-references">global references</a></li>
+            <li><a href="#引用的适用范围">引用的适用范围</a>
+              <ul>
+                <li><a href="#版本限制">版本限制</a></li>
+              </ul>
+            </li>
+            <li><a href="#引用之间的比较">引用之间的比较</a></li>
+            <li><a href="#注意点-3">注意点:</a></li>
+          </ul>
+        </li>
+        <li><a href="#utf-8-and-utf-16-strings">UTF-8 and UTF-16 strings</a>
+          <ul>
+            <li><a href="#java-与-jni-编码不一致">Java 与 JNI 编码不一致</a>
+              <ul>
+                <li><a href="#利弊">利弊</a></li>
               </ul>
             </li>
           </ul>
         </li>
-        <li><a href="#global-references">global references</a></li>
-        <li><a href="#引用的适用范围">引用的适用范围</a>
+        <li><a href="#注意点-4">注意点</a></li>
+        <li><a href="#处理建议">处理建议</a>
           <ul>
-            <li><a href="#版本限制">版本限制</a></li>
+            <li><a href="#策略一">策略一:</a></li>
+            <li><a href="#策略二">策略二:</a></li>
           </ul>
         </li>
-        <li><a href="#引用之间的比较">引用之间的比较</a></li>
-        <li><a href="#注意点-3">注意点:</a></li>
-      </ul>
-    </li>
-    <li><a href="#utf-8-and-utf-16-strings">UTF-8 and UTF-16 strings</a>
-      <ul>
-        <li><a href="#java-与-jni-编码不一致">Java 与 JNI 编码不一致</a>
+        <li><a href="#primitive-arrays">Primitive arrays</a>
           <ul>
-            <li><a href="#利弊">利弊</a></li>
+            <li><a href="#注意点-5">注意点</a></li>
+          </ul>
+        </li>
+        <li><a href="#region-calls">Region calls</a>
+          <ul>
+            <li><a href="#考虑一个场景-需要字节数组中的-len-长度的部分">考虑一个场景: 需要字节数组中的 len 长度的部分</a>
+              <ul>
+                <li><a href="#对比">对比</a></li>
+              </ul>
+            </li>
+            <li><a href="#注意点-6">注意点</a></li>
+          </ul>
+        </li>
+        <li><a href="#exceptions">Exceptions</a>
+          <ul>
+            <li><a href="#限制">限制</a></li>
+            <li><a href="#处理方式">处理方式</a></li>
+            <li><a href="#涉及到的-jni-方法">涉及到的 JNI 方法</a></li>
+            <li><a href="#注意点-7">注意点</a></li>
+          </ul>
+        </li>
+        <li><a href="#extended-checking">Extended checking</a>
+          <ul>
+            <li><a href="#注意点-8">注意点</a></li>
+          </ul>
+        </li>
+        <li><a href="#native-libraries">Native libraries</a>
+          <ul>
+            <li><a href="#加载动态库的方式">加载动态库的方式</a></li>
+            <li><a href="#确保运行时可以查找-native-方法">确保运行时可以查找 native 方法</a>
+              <ul>
+                <li><a href="#registernatives-显式的注册">RegisterNatives 显式的注册</a></li>
+                <li><a href="#使用-dlsym-动态查找">使用 dlsym 动态查找</a></li>
+              </ul>
+            </li>
+            <li><a href="#native-中加载-java-类">native 中加载 Java 类</a></li>
+            <li><a href="#注意点-9">注意点</a></li>
+          </ul>
+        </li>
+        <li><a href="#64-bit-considerations">64-bit considerations</a>
+          <ul>
+            <li><a href="#注意点-10">注意点</a></li>
           </ul>
         </li>
       </ul>
     </li>
-    <li><a href="#注意点-4">注意点</a></li>
-    <li><a href="#处理建议">处理建议</a>
+    <li><a href="#qa">QA</a>
       <ul>
-        <li><a href="#策略一">策略一:</a></li>
-        <li><a href="#策略二">策略二:</a></li>
-      </ul>
-    </li>
-    <li><a href="#primitive-arrays">Primitive arrays</a>
-      <ul>
-        <li><a href="#注意点-5">注意点</a></li>
-      </ul>
-    </li>
-    <li><a href="#region-calls">Region calls</a>
-      <ul>
-        <li><a href="#考虑一个场景-需要字节数组中的-len-长度的部分">考虑一个场景: 需要字节数组中的 len 长度的部分</a>
+        <li><a href="#unsatisfiedlinkerror-如何处理">UnsatisfiedLinkError 如何处理?</a>
           <ul>
-            <li><a href="#对比">对比</a></li>
+            <li><a href="#library-名字-not-found">Library 名字 not found</a></li>
+            <li><a href="#no-implementation-found-for-functionname">No implementation found for functionName</a></li>
           </ul>
         </li>
-        <li><a href="#注意点-6">注意点</a></li>
-      </ul>
-    </li>
-    <li><a href="#exceptions">Exceptions</a>
-      <ul>
-        <li><a href="#限制">限制</a></li>
-        <li><a href="#处理方式">处理方式</a></li>
-        <li><a href="#涉及到的-jni-方法">涉及到的 JNI 方法</a></li>
-        <li><a href="#注意点-7">注意点</a></li>
-      </ul>
-    </li>
-    <li><a href="#extended-checking">Extended checking</a>
-      <ul>
-        <li><a href="#注意点-8">注意点</a></li>
-      </ul>
-    </li>
-    <li><a href="#native-libraries">Native libraries</a>
-      <ul>
-        <li><a href="#加载动态库的方式">加载动态库的方式</a></li>
-        <li><a href="#确保运行时可以查找-native-方法">确保运行时可以查找 native 方法</a>
+        <li><a href="#findclass-失败">FindClass 失败</a>
           <ul>
-            <li><a href="#registernatives-显式的注册">RegisterNatives 显式的注册</a></li>
-            <li><a href="#使用-dlsym-动态查找">使用 dlsym 动态查找</a></li>
+            <li><a href="#解决方案">解决方案</a></li>
           </ul>
         </li>
-        <li><a href="#native-中加载-java-类">native 中加载 Java 类</a></li>
-        <li><a href="#注意点-9">注意点</a></li>
+        <li><a href="#native-层和-java-层共享原始数据">native 层和 Java 层共享原始数据</a></li>
       </ul>
     </li>
-    <li><a href="#64-bit-considerations">64-bit considerations</a>
-      <ul>
-        <li><a href="#注意点-10">注意点</a></li>
-      </ul>
-    </li>
-  </ul>
-
-  <ul>
-    <li><a href="#unsatisfiedlinkerror-如何处理">UnsatisfiedLinkError 如何处理?</a>
-      <ul>
-        <li><a href="#library-名字-not-found">Library 名字 not found</a></li>
-        <li><a href="#no-implementation-found-for-functionname">No implementation found for functionName</a></li>
-      </ul>
-    </li>
-    <li><a href="#findclass-失败">FindClass 失败</a>
-      <ul>
-        <li><a href="#解决方案">解决方案</a></li>
-      </ul>
-    </li>
-    <li><a href="#native-层和-java-层共享原始数据">native 层和 Java 层共享原始数据</a></li>
+    <li><a href="#参考文献">参考文献</a></li>
   </ul>
 </nav></div>
-            </div><div class="content" id="content"><h1 id="override">Override</h1>
+            </div><div class="content" id="content"><h2 id="override">Override</h2>
 <p>本篇是对于 <code>Google NDK GUIDES</code> 中 JNI tips 的总结,是关于 JNI <strong>开发过程</strong> 中的一些原则和注意点,没有原理. 所有的内容适用于 Java 和 Kotlin.</p>
 <p class="note note-primary">约定</p>
 - managed code (Java/kotlin编写的代码)
 - native code  (C/C++编写的代码)
-<h1 id="tips">Tips</h1>
-<h2 id="general">General</h2>
+<h2 id="tips">Tips</h2>
+<h3 id="general">General</h3>
 <p>整体上大的原则是: 尽量减少 JNI 层的操作. 故而有以下3点注意事项,重要性由高到低依次为:</p>
 <ol>
 <li>JNI 层调用传递的数据尽量少,调用的频率尽量低;</li>
@@ -249,12 +256,12 @@ JNI 层调用传递的数据尽量少,调用的频率尽量低; JNI Java 调用 
 <li>JNI 操作涉及到的线程越少越好.即使要用线程池,也是由线程池的管理者负责JNI之间的交互,而不是由工作线程直接负责交互;</li>
 <li>为了方便维护和重构, 保证JNI相关的代码在固定的位置,容易辨认,且接口尽量少;</li>
 </ol>
-<h2 id="javavm--jnienv">JavaVM &amp; JNIEnv</h2>
+<h3 id="javavm--jnienv">JavaVM &amp; JNIEnv</h3>
 <ul>
 <li>二者本质上都是指向函数表的<strong>指针的指针</strong>.</li>
 <li>虽然理论上来说,每个进程可以有多个 JavaVM 对象,但是 Android 规定,每个进程只能有一个 JavaVM ;</li>
 </ul>
-<h3 id="注意点">注意点</h3>
+<h4 id="注意点">注意点</h4>
 <ol>
 <li>JNIEnv 是个<strong>线程局部变量</strong>,线程不可共享,请勿在线程之间共享 JNIEnv 对象; 如若无其他方式获取 JNIEnv,可以采如下方式;</li>
 </ol>
@@ -271,7 +278,7 @@ JNI 层调用传递的数据尽量少,调用的频率尽量低; JNI Java 调用 
 </div><ol start="2">
 <li>由于 JavaVM &amp; JNIEnv 在 C 和 C++ 中的定义是不一样(&ldquo;jni.h&rdquo; 中包含了二者的不同定义,根据包含&quot;jni.h&quot;的是C还是C++),所以,如果头文件会在 C/C++ 中共享的话,则不能简单的 include,头文件中的方法声明就需要根据C/C++做区分处理;</li>
 </ol>
-<h2 id="thread">Thread</h2>
+<h3 id="thread">Thread</h3>
 <ul>
 <li>所有的线程都是 Linux 线程,都归属内核调度
 <ul>
@@ -305,13 +312,13 @@ JNI 层调用传递的数据尽量少,调用的频率尽量低; JNI Java 调用 
 </ul>
 </li>
 </ul>
-<h3 id="注意点-1">注意点</h3>
+<h4 id="注意点-1">注意点</h4>
 <ol>
 <li>在 native 层线程在未 attach 之前,是没有 JNIEnv 的,<strong>不能进行 JNI 操作</strong>;</li>
 <li>线程资源优先通过 Java 层创建;</li>
 <li>JNI 调用的 native 方法过于耗时会影响 CPU 调度,间接影响主线程,注意 native 方法的耗时;</li>
 </ol>
-<h2 id="jclass-jmethodid-and-jfieldid">jclass, jmethodID, and jfieldID</h2>
+<h3 id="jclass-jmethodid-and-jfieldid">jclass, jmethodID, and jfieldID</h3>
 <ul>
 <li>
 <p>JNI native 层访问 Java 层的<strong>属性</strong>的时候,则需要以下三个步骤;</p>
@@ -339,7 +346,7 @@ JNI 层调用传递的数据尽量少,调用的频率尽量低; JNI Java 调用 
 <p>jfieldID 和 jmethodID  只要 class 没有被卸载,是一直有效的; 但是在 Android 上,虽然概率很低,但是 class 也是可能被卸载的,所以,需要做好安全防护工作;</p>
 </li>
 </ul>
-<h3 id="注意点-2">注意点</h3>
+<h4 id="注意点-2">注意点</h4>
 <ol>
 <li>为了性能考虑,缓存 jfieldID 和 jmethodID; 因为每个进程只有一个 JavaVM,所以在 native 代码中的 static 存储区域中缓存是合适的.</li>
 <li>与 jfieldID 和 jmethodID 不同,jclass 是个 class 的引用,缓存的时候,必须用 <strong>GlobalRef</strong> 进行保护;</li>
@@ -370,7 +377,7 @@ JNI 层调用传递的数据尽量少,调用的频率尽量低; JNI Java 调用 
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>在 C/C++ 层面实现 nativeInit 方法,进行 ID 的查找和缓存,这样只会在 class 加载时候调用一次,卸载重新加载也会得到调用,可以保证安全;</p>
-<h2 id="local-and-global-references">Local and global references</h2>
+<h3 id="local-and-global-references">Local and global references</h3>
 <p>该特性适用于所有继承了 jobject 类的对象: jclass,jstring,jarray;
 <img
         class="lazyload"
@@ -381,28 +388,28 @@ JNI 层调用传递的数据尽量少,调用的频率尽量低; JNI Java 调用 
         alt="https://docs.oracle.com/javase/7/docs/technotes/guides/jni/spec/images/types4.gif"
         title="jobject的继承关系" />
 如未特殊说明,以下的对象也都是指的 jobject 或者其子类对应的对象;</p>
-<h3 id="local-references">Local references</h3>
+<h4 id="local-references">Local references</h4>
 <p>通过 JNI 传递到 native 方法的所有 object 参数以及 native 方法返回的 object 对象,都是 <strong>&ldquo;local reference&rdquo;</strong>.
 特点: 在 <strong>当前线程</strong> 的 <strong>当前 native 方法生命周期内</strong> (条件),该 &ldquo;local reference&rdquo; 是有效的.不满足这个条件,即使对象依旧存活,依然是无效的. 换句话说:在 return java 之前都是有效的;</p>
-<h4 id="local-的限制">Local 的限制</h4>
+<h5 id="local-的限制">Local 的限制</h5>
 <p>native 函数结束之后, local 引用就会失效,但是有时候需要使用大量的 local 引用.典型的像在遍历数组的时候,需要大量创建 local 引用,这时就需要手动释放(DeleteLocalRef),而不应该依赖 JNI 处理.</p>
 <ul>
 <li>例外:
 一个 native 创建的线程,执行过 AttachCurrentThread 操作,在 detach 之前,程序并不会自动删除 local 引用,创建的任何local 都需要自己手动删除.</li>
 </ul>
-<h5 id="80-之前和具体版本相关">8.0 之前(和具体版本相关)</h5>
+<h6 id="80-之前和具体版本相关">8.0 之前(和具体版本相关)</h6>
 <p>只预留了 16 个了 local 引用的 slot(槽位),超过的,要自己手动释放,否则会crash.也可以使用 EnsureLocalCapacity/PushLocalFrame 来增加槽位.
 实测下来: 每个槽位对应 32 个引用,所以,16个槽位,可以存放 512 个 local 引用;</p>
-<h5 id="80-之后">8.0 之后</h5>
+<h6 id="80-之后">8.0 之后</h6>
 <p>不限制数量.</p>
-<h3 id="global-references">global references</h3>
+<h4 id="global-references">global references</h4>
 <p>global 正好是为了突破 local 所产生的限制: 当前线程 与 当前 native 方法;
 通过  NewGlobalRef 和 NewWeakGlobalRef (可以接收 local 和 global 引用作为参数) 来创建 global 引用,只有调用在 DeleteGlobalRef 之后才会失效;</p>
-<h3 id="引用的适用范围">引用的适用范围</h3>
+<h4 id="引用的适用范围">引用的适用范围</h4>
 <p>对于接收引用的 native 方法,可以接收 local 引用 和 global 引用,除了生命周期以外,用法一致;</p>
-<h4 id="版本限制">版本限制</h4>
+<h5 id="版本限制">版本限制</h5>
 <p>从 Android4.0 开始,weak global 引用才可像其他的引用一样使用,在此之前,只可用于 NewLocalRef, NewGlobalRef, and DeleteWeakGlobalRef.</p>
-<h3 id="引用之间的比较">引用之间的比较</h3>
+<h4 id="引用之间的比较">引用之间的比较</h4>
 <p>对于指向<strong>相同对象</strong>的<strong>不同引用</strong>的<strong>值是很可能不一样</strong>的.例如,针对同一个对象连续调用 NewGlobalRef 返回的引用,值就可能不同.所以对于两个不同的引用,判断是否指向同一个对象,用 <strong>IsSameObject</strong> 函数判断,千万不要用 <strong>==</strong> .</p>
 <ul>
 <li>特性带来的影响:</li>
@@ -413,7 +420,7 @@ JNI 层调用传递的数据尽量少,调用的频率尽量低; JNI Java 调用 
 <li>不同对象的引用可能具有相同的值;</li>
 </ol>
 <p>故而,切勿将 jobject 作为键;</p>
-<h3 id="注意点-3">注意点:</h3>
+<h4 id="注意点-3">注意点:</h4>
 <ol>
 <li>引用仅针对 jobject 及其子类. 而 jfieldID 和  jmethodID 不适用,不应该传递给 NewGlobalRef</li>
 <li>GetStringUTFChars 和 GetByteArrayElements 返回的是原始数据指针,非对象引用,他们可以在线程间传递,在执行对应的 release 之前,一直有效</li>
@@ -432,18 +439,18 @@ JNI 层调用传递的数据尽量少,调用的频率尽量低; JNI Java 调用 
 </span></span><span class="line"><span class="cl"><span class="n">jclass</span> <span class="n">globalClass</span> <span class="o">=</span> <span class="k">reinterpret_cast</span><span class="o">&lt;</span><span class="n">jclass</span><span class="o">&gt;</span><span class="p">(</span><span class="n">env</span><span class="o">-&gt;</span><span class="n">NewGlobalRef</span><span class="p">(</span><span class="n">localClass</span><span class="p">));</span>
 </span></span></code></pre></td></tr></table>
 </div>
-</div><h2 id="utf-8-and-utf-16-strings">UTF-8 and UTF-16 strings</h2>
-<h3 id="java-与-jni-编码不一致">Java 与 JNI 编码不一致</h3>
+</div><h3 id="utf-8-and-utf-16-strings">UTF-8 and UTF-16 strings</h3>
+<h4 id="java-与-jni-编码不一致">Java 与 JNI 编码不一致</h4>
 <ul>
 <li>Java 中用的字符编码是 UTF-16</li>
 <li>JNI 为了方便起见,采用的是 Modified UTF-8(将 \u0000 编码成 <em>0xc0 0x80</em> ,而不是 <em>0x00</em>,这样得到的字符串,就是一个 C-style 的字符串)</li>
 </ul>
-<h4 id="利弊">利弊</h4>
+<h5 id="利弊">利弊</h5>
 <ul>
 <li>优点: JNI 中可以直接用 libc 字符串相关的函数;</li>
 <li>缺点: 标准的 UTF-8 的数据传递给 JNI 函数时,可能无法正常工作;</li>
 </ul>
-<h2 id="注意点-4">注意点</h2>
+<h3 id="注意点-4">注意点</h3>
 <ol>
 <li>如果可行的话,就全部转成 UTF-16,这样操作的最快.</li>
 <li>GetStringChars:返回的是 UTF-16 的数据,UTF-16 的字符串是没有结尾的符号的,C style 的字符串函数是没法判断结尾的,所以,如果用 UTF-16 的话,需要自己维护一个字符串<strong>长度</strong>和 jchar 指针.</li>
@@ -451,13 +458,13 @@ JNI 层调用传递的数据尽量少,调用的频率尽量低; JNI Java 调用 
 <li>GetStringChars 返回值是 jchar 指针,GetStringUTFChars 返回的是 char*,都是原始数据的指针,而不是前一个section里的 reference,在调用对应的 release 方法之前,都是有效的,不用担心作用域问题;相应的,不用时,及时 release;</li>
 <li>NewStringUTF:参数必须是 Modified UTF-8 格式的,切勿将文件流或者网络下载的标准 UTF-8 格式的数据直接传;</li>
 </ol>
-<h2 id="处理建议">处理建议</h2>
-<h3 id="策略一">策略一:</h3>
+<h3 id="处理建议">处理建议</h3>
+<h4 id="策略一">策略一:</h4>
 <p>JNI jstring 通过 Java 层的 String 的 getBytes(&ldquo;UTF-8&rdquo;) 方法来获取标准 UTF-8 格式的字符串;
 当 JNI 返回 Java 层数据时,Java 层可以通过 String 对应的构造方法处理;</p>
-<h3 id="策略二">策略二:</h3>
+<h4 id="策略二">策略二:</h4>
 <p>在 native 层面进行编码的转换,JNI 不变,依旧使用 Modified UTF-8,通过算法处理编码转换.</p>
-<h2 id="primitive-arrays">Primitive arrays</h2>
+<h3 id="primitive-arrays">Primitive arrays</h3>
 <p>JNI 提供的数组操作需要一个一个的操作,有些麻烦.原生数组可以使得数组像被 native 中定义的数组一样,可以被直接操作.</p>
 <p>为了高效 Get<PrimitiveType>ArrayElements(array,isCopy) 系列的函数,既可以返回真实数组的指针,也可以分配内存,拷贝到 native;</p>
 <ol>
@@ -488,15 +495,15 @@ JNI 层调用传递的数据尽量少,调用的频率尽量低; JNI Java 调用 
 </ol>
 <p>一个常见的错误是: 如果 isCopy 是 false,则可以省略 release 操作,这个是非常错误的做法,因为不进行 release 的话,则原始数据将会一直固定,得不到回收器的回收.
 其次需要注意: JNI_ABORT 并不会释放数组,需要以其他的 mode 再次调用 release 进行释放,这个是很容易犯错的;比如, JNI_ABORT 之后,再调用 0;</p>
-<h3 id="注意点-5">注意点</h3>
+<h4 id="注意点-5">注意点</h4>
 <ol>
 <li>根据需求,决定 Get<PrimitiveType>ArrayElements 是否 copy 数组到 native</li>
 <li>无论何种方式获取的数组,都需要 release</li>
 <li>release(JNI_ABORT) 并不会释放数组,需要再调用 release(0)</li>
 </ol>
-<h2 id="region-calls">Region calls</h2>
+<h3 id="region-calls">Region calls</h3>
 <p>如对 Get<PrimitiveType>ArrayElements 和 GetStringChars 的需求都是 <strong>copy=true</strong> 的话,则 Region call 会是个不错的替代方案,提供了更多的灵活性和更好的性能.</p>
-<h3 id="考虑一个场景-需要字节数组中的-len-长度的部分">考虑一个场景: 需要字节数组中的 len 长度的部分</h3>
+<h4 id="考虑一个场景-需要字节数组中的-len-长度的部分">考虑一个场景: 需要字节数组中的 len 长度的部分</h4>
 <ol>
 <li>采用 Get<PrimitiveType>ArrayElements</li>
 </ol>
@@ -529,7 +536,7 @@ JNI 层调用传递的数据尽量少,调用的频率尽量低; JNI Java 调用 
 <pre tabindex="0" class="chroma"><code class="language-C++" data-lang="C++"><span class="line"><span class="cl">    <span class="n">env</span><span class="o">-&gt;</span><span class="n">GetByteArrayRegion</span><span class="p">(</span><span class="n">array</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">len</span><span class="p">,</span> <span class="n">buffer</span><span class="p">);</span>
 </span></span></code></pre></td></tr></table>
 </div>
-</div><h4 id="对比">对比</h4>
+</div><h5 id="对比">对比</h5>
 <table>
 <thead>
 <tr>
@@ -555,36 +562,36 @@ JNI 层调用传递的数据尽量少,调用的频率尽量低; JNI Java 调用 
 </tbody>
 </table>
 <p>有 Get,也同样有对应的 Set 方法,用于将数据复制回数组或者字符串;</p>
-<h3 id="注意点-6">注意点</h3>
+<h4 id="注意点-6">注意点</h4>
 <ol>
 <li>当需要对数组或者字符串进行<strong>copy</strong>操作时候,优先用对应的 Region 操作</li>
 </ol>
-<h2 id="exceptions">Exceptions</h2>
-<h3 id="限制">限制</h3>
+<h3 id="exceptions">Exceptions</h3>
+<h4 id="限制">限制</h4>
 <ol>
 <li>当发生异常的时候,大多数的 JNI 方法将不能调用,只有固定的几个方法能调用,参见 <a href="https://developer.android.com/training/articlesperf-jni#exceptions_1" target="_blank" rel="noopener noreffer ">仍可以调用的方法</a></li>
 <li>由代码中断触发的异常,并不会释放 native 的栈信息,Android 目前也不支持 C++ 的 Exception; JNI 通过 Throw 和 ThrowNew 指令,只是在当前的线程中设置了一个异常的指针,等到 native 方法结束,返回 Java 层的时候,这时候才会被处理.</li>
 <li>JNI 无法持有 Throwable 这个对象,如果需要在 native 层处理异常,需要 findclass Java 层的 Throwable 类,通过相关方法处理.</li>
 </ol>
-<h3 id="处理方式">处理方式</h3>
+<h4 id="处理方式">处理方式</h4>
 <ol>
 <li>少部分可以通过检查返回值,检查比较简单,比如 NewString,判断返回值是否为 null,进行判断.</li>
 <li>大部分需要主动检查异常,比如 CallObjectMethod 函数,因为一旦抛出异常,此时的返回值是无效的.</li>
 </ol>
-<h3 id="涉及到的-jni-方法">涉及到的 JNI 方法</h3>
+<h4 id="涉及到的-jni-方法">涉及到的 JNI 方法</h4>
 <ol start="5">
 <li>ExceptionCheck 与 ExceptionOccurred, 进行异常的检查和捕获.</li>
 <li>ExceptionClear 可以清除异常,但是清除异常不是一个好的处理手段.</li>
 </ol>
-<h3 id="注意点-7">注意点</h3>
+<h4 id="注意点-7">注意点</h4>
 <ol>
 <li>通过 ExceptionCheck 检测是否有异常,通过 Throw 抛出到 Java 层进行处理.</li>
 <li>如果异常是可以忽略的,先 ExceptionClear,再继续执行其他 JNI 操作,否则会 crash.</li>
 </ol>
-<h2 id="extended-checking">Extended checking</h2>
+<h3 id="extended-checking">Extended checking</h3>
 <p>JNI 对错误的检查很少,所以 Android 提供了一种称为 <strong>CheckJNI</strong> 的模式,通过修改 <em>JavaVM</em> 和 <em>JNIEnv</em> 的函数表指针,实现在调用所有的 JNI 函数之前,都会进行一系列的检查.</p>
 <p><a href="https://developer.android.google.cn/training/articles/perf-jni#extended-checking" target="_blank" rel="noopener noreffer ">具体的检查项</a>:</p>
-<h3 id="注意点-8">注意点</h3>
+<h4 id="注意点-8">注意点</h4>
 <ol>
 <li>
 <p>模拟器: 默认开启</p>
@@ -624,8 +631,8 @@ JNI 层调用传递的数据尽量少,调用的频率尽量低; JNI Java 调用 
 <li>针对单个App进行检查
 android:debuggable 设置为 true 即可,正常的 debug版本不需要手动配置,Android build-tool 会自动设置;</li>
 </ol>
-<h2 id="native-libraries">Native libraries</h2>
-<h3 id="加载动态库的方式">加载动态库的方式</h3>
+<h3 id="native-libraries">Native libraries</h3>
+<h4 id="加载动态库的方式">加载动态库的方式</h4>
 <p>以下以打包出的动态so文件为: <strong>lib名字.so</strong> 为例.</p>
 <ol>
 <li>系统默认方式加载</li>
@@ -659,8 +666,8 @@ android:debuggable 设置为 true 即可,正常的 debug版本不需要手动配
 ReLinker 不能解决 so 依赖问题, <a href="https://github.com/facebook/SoLoader" target="_blank" rel="noopener noreffer ">SoLoader</a> 可以解决这个问题.
 PS: 接入复杂,我还没玩过.可以参考 Facebook 的 RN 和 fresco.</li>
 </ol>
-<h3 id="确保运行时可以查找-native-方法">确保运行时可以查找 native 方法</h3>
-<h4 id="registernatives-显式的注册">RegisterNatives 显式的注册</h4>
+<h4 id="确保运行时可以查找-native-方法">确保运行时可以查找 native 方法</h4>
+<h5 id="registernatives-显式的注册">RegisterNatives 显式的注册</h5>
 <ol>
 <li>实现  JNIEXPORT jint JNI_OnLoad(JavaVM* vm, void* reserved)</li>
 <li>在 JNI_OnLoad 方法中,使用 RegisterNatives 注册所有的 native方法</li>
@@ -717,7 +724,7 @@ PS: 接入复杂,我还没玩过.可以参考 Facebook 的 RN 和 fresco.</li>
 <li>前端即可检查方法是否存在.</li>
 <li>可以仅导出 JNI_OnLoad 方法,使得共享库更小,更快.</li>
 </ul>
-<h4 id="使用-dlsym-动态查找">使用 dlsym 动态查找</h4>
+<h5 id="使用-dlsym-动态查找">使用 dlsym 动态查找</h5>
 <ol>
 <li>Java 类中声明一个 native 标识的方法.</li>
 <li>借助 AndroidStudio 自动生成对应的 native 方法,方法名的生成规则为: <em>Java_点全部换成下划线的packageName_methodName</em>.
@@ -749,7 +756,7 @@ PS: 接入复杂,我还没玩过.可以参考 Facebook 的 RN 和 fresco.</li>
 缺点:</li>
 <li>即使是一个参数的错误,也只能等到运行时调用的时候,才能发现.</li>
 </ul>
-<h3 id="native-中加载-java-类">native 中加载 Java 类</h3>
+<h4 id="native-中加载-java-类">native 中加载 Java 类</h4>
 <ul>
 <li>
 <p>JNI_OnLoad 方法中的 FindClass
@@ -766,21 +773,21 @@ FindClass 函数的调用,用来查找和加载 Java 类所用的 classloader �
 <blockquote>
 <p>所以,在 JNI_OnLoad 中,查找出所有的 jclass,并进行缓存,是最好的选择.一旦成功获取 jclass,可以任何线程中共享 jclass;</p>
 </blockquote>
-<h3 id="注意点-9">注意点</h3>
+<h4 id="注意点-9">注意点</h4>
 <ol>
 <li>优先选择 ReLinker 进行 so 文件加载.</li>
 <li>如果只有一个类有 native 的方法,so 文件的加载,则可以选择放在在该类的静态代码块中进行加载;否则,请在 Application 中进行加载,以确保 App 调用native 方法前,so 文件已经得到正确的加载.</li>
 <li>方法的注册,看自己的选择. RegisterNatives 优点相对明显些,如果 native 方法数量不多,二者皆可.</li>
 <li>native 如果用到 jclass,建议在 JNI_OnLoad 方法中进行缓存,避免出错.</li>
 </ol>
-<h2 id="64-bit-considerations">64-bit considerations</h2>
-<h3 id="注意点-10">注意点</h3>
+<h3 id="64-bit-considerations">64-bit considerations</h3>
+<h4 id="注意点-10">注意点</h4>
 <ol>
 <li>为了支持 64 位的架构,Java 层存储 native 层的指针时,需要用 <strong>long</strong> 类型,而不是 <strong>int</strong>类型.</li>
 </ol>
-<h1 id="qa">QA</h1>
-<h2 id="unsatisfiedlinkerror-如何处理">UnsatisfiedLinkError 如何处理?</h2>
-<h3 id="library-名字-not-found">Library 名字 not found</h3>
+<h2 id="qa">QA</h2>
+<h3 id="unsatisfiedlinkerror-如何处理">UnsatisfiedLinkError 如何处理?</h3>
+<h4 id="library-名字-not-found">Library 名字 not found</h4>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
@@ -795,7 +802,7 @@ FindClass 函数的调用,用来查找和加载 Java 类所用的 classloader �
 通过 <em>adb shell ls -l <path></em> 检查 so 文件是否存在,并检查App 是否有访问的权限;</li>
 <li>so 库不是通过 NDK 打包的,库中有些函数,在设备上找不到.</li>
 </ol>
-<h3 id="no-implementation-found-for-functionname">No implementation found for functionName</h3>
+<h4 id="no-implementation-found-for-functionname">No implementation found for functionName</h4>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
@@ -825,17 +832,17 @@ b. 显式注册时,签名不对.</li>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>这个命令可以检查Java方法的签名.</p>
-<h2 id="findclass-失败">FindClass 失败</h2>
+<h3 id="findclass-失败">FindClass 失败</h3>
 <ol>
 <li>检查类名,方法名,签名等字符串是否写错,同时检查是否被混淆;</li>
 <li>classloader 的问题: findclass 想在 native 代码关联的 classloader 中搜索类.如果此时是自己创建的 native 线程,再 attach 到 javavm 上,则会在系统 classloader 中查找,如果是自定义的类,必然失败;</li>
 </ol>
-<h3 id="解决方案">解决方案</h3>
+<h4 id="解决方案">解决方案</h4>
 <ol>
 <li>JNI_OnLoad 中执行一次 FindClass 查找，然后缓存类引用,各个线程则可以放心使用,<strong>优先推荐</strong>.</li>
 <li>通过声明 native 方法来获取 Class 参数: 声明一个有 class 参数的 native 方法,Java 层将 class 传入.这个有些麻烦.</li>
 </ol>
-<h2 id="native-层和-java-层共享原始数据">native 层和 Java 层共享原始数据</h2>
+<h3 id="native-层和-java-层共享原始数据">native 层和 Java 层共享原始数据</h3>
 <p>存在以下几种方式</p>
 <ol>
 <li>
@@ -854,7 +861,7 @@ Java 层处理起来是很快的,但是 native 层是无法保证不进行 copy 
 <li>这部分数据最终是否需要传给系统 API?这部分 API 接收的数据格式是什么?(例如，如果数据最终传递给采用 byte[] 的函数，则采用 ByteBuffer 就不合适)</li>
 </ol>
 <p>如果二者差不多,优先使用直接字节缓存.</p>
-<h1 id="参考文献">参考文献</h1>
+<h2 id="参考文献">参考文献</h2>
 <ul>
 <li><a href="https://developer.android.google.cn/training/articles/perf-jni#top_of_page" target="_blank" rel="noopener noreffer ">Android JNI Tip</a></li>
 <li><a href="https://docs.oracle.com/javase/7/docs/technotes/guides/jni/spec/jniTOC.html" target="_blank" rel="noopener noreffer ">Java Native Interface Specification</a></li>

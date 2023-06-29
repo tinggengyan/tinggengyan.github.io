@@ -1,11 +1,11 @@
 # IPC_Binder_java_2
 
-# 概述
+## 概述
 本文作为第一篇的补充,补充一下第一篇遗漏的内容,主要谈一下,缺少的概念,技术背景等内容.
 
 <!-- more -->
 
-# Why为什么需要Binder
+## Why为什么需要Binder
 
 Binder 是 Android 系统进程间通信（IPC）方式之一。Android 是基于 Linux 内核的,Linux 已经有很多 IPC 方式,为何还需要一个新的 IPC 方式.
 Linux已经拥有
@@ -25,7 +25,7 @@ Client-Server 方式的广泛采用对进程间通信（IPC）机制是一个挑
 
 只有socket支持Client-Server的通信方式。当然也可以在这些底层机制上架设一套协议来实现Client-Server通信，但这样增加了系统的复杂性，在手机这种条件复杂，资源稀缺的环境下可靠性也难以保证.
 
-## 传输性能角度：
+### 传输性能角度：
 
 - socket作为一款通用接口，其传输效率低，开销大，主要用在跨网络的进程间通信和本机上进程间的低速通信。
 
@@ -35,7 +35,7 @@ Client-Server 方式的广泛采用对进程间通信（IPC）机制是一个挑
 
 
 
-## 安全性角度：
+### 安全性角度：
 Android作为一个开放式，拥有众多开发者的的平台，应用程序的来源广泛，确保智能终端的安全是非常重要的。终端用户不希望从网上下载的程序在不知情的情况下偷窥隐私数据，连接无线网络，长期操作底层设备导致电池很快耗尽等等。
 1.  传统IPC没有任何安全措施，完全依赖上层协议来确保。
 2.  传统IPC的接收方无法获得对方进程可靠的UID/PID（用户ID/进程ID），从而无法鉴别对方身份。Android为每个安装好的应用程序分配了自己的UID，故进程的UID是鉴别进程身份的重要标志。使用传统IPC只能由用户在数据包里填入UID/PID，但这样不可靠，容易被恶意程序利用。可靠的身份标记只有由IPC机制本身在内核中添加才能确保安全性。
@@ -43,11 +43,11 @@ Android作为一个开放式，拥有众多开发者的的平台，应用程序�
 
 
 
-## 效率角度
+### 效率角度
 ![IPC 内存拷贝次数对比](https://github.com/tinggengyan/tinggengyan.github.io/blob/source/imgur/IPC%E6%96%B9%E5%BC%8F%E6%95%B0%E6%8D%AE%E6%8B%B7%E8%B4%9D%E6%AC%A1%E6%95%B0.png?raw=true)
 从对比图可以看出,Binder 在效率上是有优势的.
 
-# What Binder 是什么
+## What Binder 是什么
 
 因为 Binder 也是 CS 架构的一种,而 CS 架构最典型的就是 TCP/IP 请求了.下面做个对比,顺带类比以下 Binder 中的几个关键的概念.
 ![TCP/IP访问过程](https://github.com/tinggengyan/tinggengyan.github.io/blob/source/imgur/TCP%252FIP%E8%AE%BF%E9%97%AE%E8%BF%87%E7%A8%8B.png?raw=true)
@@ -55,11 +55,11 @@ Android作为一个开放式，拥有众多开发者的的平台，应用程序�
 ![Binder类比TCP请求](https://github.com/tinggengyan/tinggengyan.github.io/blob/source/imgur/Binder%E7%B1%BB%E6%AF%94TCP%E8%BF%87%E7%A8%8B.png?raw=true)
 
 
-# 背景
+## 背景
 
 在开发中，经常需要通过 getSystemService 的方式获取一个系统服务,那么这些系统服务的 Binder 引用是如何传递给客户端的呢？要知道，系统服务并不是通过 startService() 启动的。
 
-# ServiceManager 管理的服务
+## ServiceManager 管理的服务
 
 ServiceManager 是一个独立进程，其作用如名称所示，管理各种系统服务.
 
@@ -223,7 +223,7 @@ BinderInternal.getContextObject() 方法就是用于获取 ServiceManager 对应
 至于关于 注册 服务，等到分析 Framework 启动过程的时候描述。
 
 
-## 理解 Manager
+### 理解 Manager
 
 ServiceManager 所管理的所有 Service 都是以相应的 Manager 返回给客户端，所以简述下 Framework 层对于 Manager 的定义。在Android 中，Manager 的含义类似于现实生活中的经纪人，Manager 所 manage 的对象是服务本身，因为每个具体的服务一般都会提供多个 API 接口，而 manager 所 manage 的正式这些 API。客户端一般不能直接通过  Binder  引用去访问具体的服务，而是要警告一个 Manager，相应的 Manager 类对客户端是可见的，而远程的服务端对客户端来说则是隐藏的。
 
@@ -234,5 +234,5 @@ ServiceManager 所管理的所有 Service 都是以相应的 Manager 返回给�
 
 
 
-# 感激,非常感激，万分的感激！
+## 感激,非常感激，万分的感激！
 * [柯元旦](https://book.douban.com/subject/6811238/)

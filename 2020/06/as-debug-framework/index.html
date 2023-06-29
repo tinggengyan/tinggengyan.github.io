@@ -122,38 +122,44 @@
                 </div>
                 <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
   <ul>
-    <li><a href="#使用无-aosp-的代码java层">使用无 AOSP 的代码(Java层)</a></li>
-    <li><a href="#小结">小结</a>
+    <li><a href="#概述">概述</a>
       <ul>
-        <li><a href="#可能遇到的问题">可能遇到的问题</a></li>
+        <li><a href="#使用无-aosp-的代码java层">使用无 AOSP 的代码(Java层)</a></li>
+        <li><a href="#小结">小结</a>
+          <ul>
+            <li><a href="#可能遇到的问题">可能遇到的问题</a></li>
+          </ul>
+        </li>
       </ul>
     </li>
-  </ul>
-
-  <ul>
-    <li><a href="#生成-androidipr-文件">生成 android.ipr 文件</a></li>
-    <li><a href="#修改-androidiml-文件">修改 android.iml 文件</a></li>
-    <li><a href="#as-打开-ipr-文件">AS 打开 ipr 文件</a>
+    <li><a href="#使用-aosp-的源码进行调试">使用 AOSP 的源码进行调试</a>
       <ul>
-        <li><a href="#可能遇到问题">可能遇到问题</a></li>
+        <li><a href="#生成-androidipr-文件">生成 android.ipr 文件</a></li>
+        <li><a href="#修改-androidiml-文件">修改 android.iml 文件</a></li>
+        <li><a href="#as-打开-ipr-文件">AS 打开 ipr 文件</a>
+          <ul>
+            <li><a href="#可能遇到问题">可能遇到问题</a></li>
+          </ul>
+        </li>
+        <li><a href="#代码索引跳转">代码索引跳转</a></li>
+        <li><a href="#让模拟器使用自定义的rom">让模拟器使用自定义的ROM</a>
+          <ul>
+            <li><a href="#附我还没试过">附,我还没试过</a></li>
+          </ul>
+        </li>
       </ul>
     </li>
-    <li><a href="#代码索引跳转">代码索引跳转</a></li>
-    <li><a href="#让模拟器使用自定义的rom">让模拟器使用自定义的ROM</a>
+    <li><a href="#方案对比">方案对比</a>
       <ul>
-        <li><a href="#附我还没试过">附,我还没试过</a></li>
+        <li><a href="#ref">Ref</a></li>
       </ul>
     </li>
-  </ul>
-
-  <ul>
-    <li><a href="#ref">Ref</a></li>
   </ul>
 </nav></div>
-            </div><div class="content" id="content"><h1 id="概述">概述</h1>
+            </div><div class="content" id="content"><h2 id="概述">概述</h2>
 <p>debug 是学习流程最快的方式,也是验证想法最好的方法.记录 Androidstudio 如何debug Android framework的代码.</p>
 <!-- more -->
-<h2 id="使用无-aosp-的代码java层">使用无 AOSP 的代码(Java层)</h2>
+<h3 id="使用无-aosp-的代码java层">使用无 AOSP 的代码(Java层)</h3>
 <p>这是最简单方便的方式了.</p>
 <ol>
 <li>下载某个版本的 Android Source code</li>
@@ -230,9 +236,9 @@
         data-sizes="auto"
         alt="/img/as_debug_framework/9e039bde.png"
         title="9e039bde.png" /></p>
-<h2 id="小结">小结</h2>
+<h3 id="小结">小结</h3>
 <p>至此,经过如上操作,就可以对某个类进行debug操作了.对于分析framework代码也是方便的很.</p>
-<h3 id="可能遇到的问题">可能遇到的问题</h3>
+<h4 id="可能遇到的问题">可能遇到的问题</h4>
 <p>有时候还是会遇到代码行号不匹配,debug定位的代码行号不对,目前原因未知,应该是source code 和生成模拟器镜像的代码有出入.
 没有好的解决办法,有个替代的方案.</p>
 <ol>
@@ -240,10 +246,10 @@
 <li>找到最早一个可以定位准备行号的函数;</li>
 <li>针对这个函数进行 findByUsage,在查出的结果中,查找stack信息指引的函数.</li>
 </ol>
-<h1 id="使用-aosp-的源码进行调试">使用 AOSP 的源码进行调试</h1>
+<h2 id="使用-aosp-的源码进行调试">使用 AOSP 的源码进行调试</h2>
 <p>上述的方法基本能满足常见的debug需求了.但是有个前提是,debug的设备基本只能是模拟器或者装了官方release镜像的亲儿子.
 对于有修改ROM需求的情况下,debug 则需要导入 aosp 中framework 的代码. 对应的运行设备得是运行了自定义ROM的设备.</p>
-<h2 id="生成-androidipr-文件">生成 android.ipr 文件</h2>
+<h3 id="生成-androidipr-文件">生成 android.ipr 文件</h3>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
@@ -261,12 +267,12 @@
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>这个文件就代表了AS里的一个project.</p>
-<h2 id="修改-androidiml-文件">修改 android.iml 文件</h2>
+<h3 id="修改-androidiml-文件">修改 android.iml 文件</h3>
 <p>同时还会生成一个 iml文件,代表了project的配置情况,可以用于配置加载哪些配置.
 AOSP巨大,可以只加载需要关注的模块,如 framework 和 Package 部分.
 所以需要修改 android.iml 文件,将不需要的文件进行exclude.</p>
-<h2 id="as-打开-ipr-文件">AS 打开 ipr 文件</h2>
-<h3 id="可能遇到问题">可能遇到问题</h3>
+<h3 id="as-打开-ipr-文件">AS 打开 ipr 文件</h3>
+<h4 id="可能遇到问题">可能遇到问题</h4>
 <p>导入可能遇到问题 <code>External file changes sync may be slow: The current inotify(7) watch limit is too low.</code></p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
@@ -281,7 +287,7 @@ AOSP巨大,可以只加载需要关注的模块,如 framework 和 Package 部分
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>重启即可;</p>
-<h2 id="代码索引跳转">代码索引跳转</h2>
+<h3 id="代码索引跳转">代码索引跳转</h3>
 <p>为了跳转到aosp的Java文件,而不是android.jar的class文件,需要调整 project struct.</p>
 <ol>
 <li>新建一个 jdk,此处为 jdk_none, 删除所有的path;</li>
@@ -310,7 +316,7 @@ AOSP巨大,可以只加载需要关注的模块,如 framework 和 Package 部分
 <p>project 依赖的sdk切换成第2步新建的SDK即可;</p>
 </li>
 </ol>
-<h2 id="让模拟器使用自定义的rom">让模拟器使用自定义的ROM</h2>
+<h3 id="让模拟器使用自定义的rom">让模拟器使用自定义的ROM</h3>
 <ol>
 <li>source ./build/envsetup.sh</li>
 <li>lunch ,选择对应的 模拟器需要的API</li>
@@ -319,7 +325,7 @@ AOSP巨大,可以只加载需要关注的模块,如 framework 和 Package 部分
 <blockquote>
 <p>自己编译编译出的ROM位置&quot; &hellip;&hellip;/aosp/out/target/product/generic_x86_64</p>
 </blockquote>
-<h3 id="附我还没试过">附,我还没试过</h3>
+<h4 id="附我还没试过">附,我还没试过</h4>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
@@ -328,12 +334,12 @@ AOSP巨大,可以只加载需要关注的模块,如 framework 和 Package 部分
 <pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">$ emulator -avd Nexus5-API22 -verbose -no-boot-anim -system <span class="o">(</span>the path of system.img<span class="o">)</span>
 </span></span></code></pre></td></tr></table>
 </div>
-</div><h1 id="方案对比">方案对比</h1>
+</div><h2 id="方案对比">方案对比</h2>
 <ol>
 <li>第一种自然是方便的,要求比较低,对机器的性能要求也不高.有个劣势: 对于AIDL编译生成的Java文件,无法进行索引和导航.但是,可以借助官方的代码搜索网站进行弥补,搜索网站可以索引soong编译期间生成的Java代码: <a href="https://cs.android.com/android/platform/superproject" target="_blank" rel="noopener noreffer ">https://cs.android.com/android/platform/superproject</a></li>
 <li>AOSP的方式是灵活性更大,中间代码索引也方便. 就是性能要求比较高.</li>
 </ol>
-<h2 id="ref">Ref</h2>
+<h3 id="ref">Ref</h3>
 <ol>
 <li><a href="https://www.jianshu.com/p/a19dcb06cd53" target="_blank" rel="noopener noreffer ">导入AOSP</a></li>
 </ol>

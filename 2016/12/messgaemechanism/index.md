@@ -1,14 +1,14 @@
 # Android消息机制_Java层
 
-# 概述
+## 概述
 本文记录 Android 的消息机制在 java 层的原理分析.
 
 <!-- more -->
 
-# 背景
+## 背景
 在学习 Binder,IPC 的时候,涉及到消息机制,顺带整理一下.
 
-## 概述
+### 概述
 进程:系统进行资源分配和调度的基本单位.
 在 Andrid 中,对于每个 App 运行时前,系统都会为其创建一个进程，App 就运行在一个进程中.
 
@@ -18,16 +18,16 @@
 Android 主线程: 一个进程中就一个主线程,这个主线程负责更新 UI.
 
 
-# Why
+## Why
 目前对为什么需要消息机制,还没认真的研究,个人觉得系统的运转和程序的运行说到底都是消息的传递,如何让这些程序的消息传递高效地的运转,于是产生了消息机制一说.
 
-# What
+## What
 什么是消息机制?消息机制的三大要素:
 - 消息队列 
 - 消息循环
 - 消息类型
 
-# How
+## How
 在 Android 中是如何使用消息机制的? Android 中典型的消息机制就是 Handler.
 以下是我们平时使用 Handler 经常使用的方式.
 ```java
@@ -54,7 +54,7 @@ mHandler.post(new Runnable() {
 ```
 
 
-# 原理
+## 原理
 前面的概述中说到,对于系统而言,无论是线程还是进程,对其而言,都是一段可执行的代码而已,没有那么既然是可执行的代码,执行完,线程生命周期也就结束了.
 在 Android 中,对于主线程，我们是绝不希望会被运行一段时间就结束了，我们希望它能一直的运行下去,直到用户主动的退出 APP 或者出现其他意外.
 那如何才能实现这样的效果呢?不就是为了能一直运行吗?死循环便能保证不会被退出.
@@ -81,7 +81,7 @@ ActivityThread 并不是线程，并没有真正继承 Thread 类，只是运行
 从这里的代码可以看到,主线程是一个死循环,主线程的死循环一直运行是不是特别消耗 CPU 资源呢？ 其实不然，这里就涉及到 Linux pipe/epoll 机制.下面分析 loop 函数的时候遇到再说.
 下面分别看下消息机制的三个要素.
 
-## Looper
+### Looper
 
 对于 looper 的典型例子:
 
@@ -245,7 +245,7 @@ public static void loop() {
 注意 Message msg = queue.next(); // might block 这里的注释，说可能产生 block （阻塞）。这个涉及到 MessageQueue，native 层 和 epoll 机制，当队列中没有消息的时候，这个时候，就会被阻塞挂起，直到下个消息到达,或者被唤醒,这个下面分析队列的时候再看,这时候 CPU 就会被释放，去做其他任务，这样就不会浪费 CPU 资源。
 
 
-## MessageQueue:
+### MessageQueue:
 
 对于期初构造 looper 的时候传递了一个参数，表示了是否可以退出，在构造 looper 的时候 ，这个参数，也会传递到 MessageQueue  的构造方法中。
 looper 中的 quit 方法最终调用的是 MessageQueue 中的 quit 方法，在 quit 方法中，假如当初传递的参数是 false，则会抛出异常，即表示不能退出的含义。
@@ -463,7 +463,7 @@ boolean enqueueMessage(Message msg, long when) {
 这个方法的目的是找到当前加入的这个消息在消息队列中合适的位置，是立即执行，亦或者插入到消息队列中。
 其中会根据当前的消息循环 next 是否被阻塞，决定是否执行唤醒操作。
 
-## Handler:
+### Handler:
 
 看下 Handler 的构造函数
 ```java
@@ -567,12 +567,12 @@ private boolean enqueueMessage(MessageQueue queue, Message msg, long uptimeMilli
 从分析中可以看出，Handler 本身没有太多实质性的操作，都是借助于 Meesage ，MessageQueue ，Looper 这个几个类。说明 Handler 只是一个很强的辅助类而已，方便开发者 产生消息->发送消息->处理消息。
 
 
-## 其他:
+### 其他:
 
-### IdleHandler:
+#### IdleHandler:
 空闲时处理器，这个只有在 looper 执行消息循环的第一次会执行。
 
-### Message：
+#### Message：
 作为消息的封装类，是消息的载体。
 ```java
 public Message() {
@@ -649,10 +649,10 @@ void recycleUnchecked() {
 当调用回收方法的时候，就会将当前的消息插入到静态变量 sPool 的头部，实现循环利用。
 
 
-## 期待
+### 期待
 下次总结 Binder 在 Java 层的知识.
 
-# 感激,非常感激，万分的感激！
+## 感激,非常感激，万分的感激！
 感谢以下的文章以及其作者和翻译的开发者们,排名不分先后
 * [柯元旦](https://book.douban.com/subject/6811238/)
 * [gityuan](http://gityuan.com/2015/12/26/handler-message-framework/)

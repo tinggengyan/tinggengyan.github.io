@@ -114,75 +114,99 @@
                 </div>
                 <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
   <ul>
-    <li><a href="#作用">作用</a></li>
-    <li><a href="#过程">过程</a></li>
-  </ul>
-
-  <ul>
-    <li><a href="#http-常见的-header">HTTP 常见的 header</a>
+    <li><a href="#概述">概述</a></li>
+    <li><a href="#输入-url-到页面展示经历的过程">输入 url 到页面展示，经历的过程</a></li>
+    <li><a href="#dns">DNS</a>
       <ul>
-        <li><a href="#keep-alive-的原理">keep-alive 的原理</a></li>
+        <li><a href="#作用">作用</a></li>
+        <li><a href="#过程">过程</a></li>
       </ul>
     </li>
-    <li><a href="#常见问题">常见问题</a></li>
-  </ul>
-
-  <ul>
-    <li><a href="#h1-的优缺点">H1 的优缺点</a></li>
-    <li><a href="#h2-优化点">H2 优化点</a>
+    <li><a href="#http">Http</a>
       <ul>
-        <li><a href="#头部压缩">头部压缩</a></li>
-        <li><a href="#二进制格式">二进制格式</a></li>
-        <li><a href="#并发传输">并发传输</a></li>
-        <li><a href="#服务器推送">服务器推送</a></li>
-      </ul>
-    </li>
-    <li><a href="#h2-的缺点">H2 的缺点</a></li>
-  </ul>
-
-  <ul>
-    <li><a href="#quic">quic</a></li>
-  </ul>
-
-  <ul>
-    <li><a href="#https-连接建立过程">https 连接建立过程</a></li>
-    <li><a href="#证书校验">证书校验</a></li>
-    <li><a href="#https-如何保证数据的完整性">HTTPS 如何保证数据的完整性</a></li>
-    <li><a href="#https-安全吗">HTTPS 安全吗？</a></li>
-  </ul>
-
-  <ul>
-    <li><a href="#tcp-和-udp-的区别联系">TCP 和 UDP 的区别联系</a></li>
-    <li><a href="#建连">建连</a></li>
-    <li><a href="#断连">断连</a></li>
-    <li><a href="#tcp-保活机制">TCP 保活机制</a></li>
-    <li><a href="#重传机制">重传机制</a>
-      <ul>
-        <li><a href="#超时重传">超时重传</a></li>
-        <li><a href="#快速重传摆脱时间因素">快速重传：摆脱时间因素</a></li>
-        <li><a href="#sackselective-acknowledge">SACK：selective acknowledge</a></li>
-        <li><a href="#dsack">DSACK</a></li>
-      </ul>
-    </li>
-    <li><a href="#滑动窗口">滑动窗口</a></li>
-    <li><a href="#拥塞控制">拥塞控制</a>
-      <ul>
-        <li><a href="#慢启动">慢启动</a></li>
-        <li><a href="#拥塞避免">拥塞避免</a></li>
-        <li><a href="#发生拥塞如何是好">发生拥塞如何是好?</a>
+        <li><a href="#http-常见的-header">HTTP 常见的 header</a>
           <ul>
-            <li><a href="#拥塞发生算法---超时重传对应的算法">拥塞发生算法 - 超时重传对应的算法</a></li>
-            <li><a href="#快速恢复算法---快速重传对应的算法">快速恢复算法 - 快速重传对应的算法</a></li>
+            <li><a href="#keep-alive-的原理">keep-alive 的原理</a></li>
           </ul>
         </li>
+        <li><a href="#常见问题">常见问题</a></li>
       </ul>
     </li>
-    <li><a href="#流量控制">流量控制</a></li>
-    <li><a href="#tcp-socket-编程">TCP socket 编程</a></li>
-    <li><a href="#google-bbr">Google BBR</a></li>
+    <li><a href="#h1-和-h2-的区别联系">H1 和 H2 的区别联系</a>
+      <ul>
+        <li><a href="#h1-的优缺点">H1 的优缺点</a></li>
+        <li><a href="#h2-优化点">H2 优化点</a>
+          <ul>
+            <li><a href="#头部压缩">头部压缩</a></li>
+            <li><a href="#二进制格式">二进制格式</a></li>
+            <li><a href="#并发传输">并发传输</a></li>
+            <li><a href="#服务器推送">服务器推送</a></li>
+          </ul>
+        </li>
+        <li><a href="#h2-的缺点">H2 的缺点</a></li>
+      </ul>
+    </li>
+    <li><a href="#h3">H3</a>
+      <ul>
+        <li><a href="#quic">quic</a></li>
+      </ul>
+    </li>
+    <li><a href="#https">Https</a>
+      <ul>
+        <li><a href="#https-连接建立过程">https 连接建立过程</a></li>
+        <li><a href="#证书校验">证书校验</a></li>
+        <li><a href="#https-如何保证数据的完整性">HTTPS 如何保证数据的完整性</a></li>
+        <li><a href="#https-安全吗">HTTPS 安全吗？</a></li>
+      </ul>
+    </li>
+    <li><a href="#可靠连接">可靠连接</a></li>
+    <li><a href="#tcp">TCP</a>
+      <ul>
+        <li><a href="#tcp-和-udp-的区别联系">TCP 和 UDP 的区别联系</a></li>
+        <li><a href="#建连">建连</a></li>
+        <li><a href="#断连">断连</a></li>
+        <li><a href="#tcp-保活机制">TCP 保活机制</a></li>
+        <li><a href="#重传机制">重传机制</a>
+          <ul>
+            <li><a href="#超时重传">超时重传</a></li>
+            <li><a href="#快速重传摆脱时间因素">快速重传：摆脱时间因素</a></li>
+            <li><a href="#sackselective-acknowledge">SACK：selective acknowledge</a></li>
+            <li><a href="#dsack">DSACK</a></li>
+          </ul>
+        </li>
+        <li><a href="#滑动窗口">滑动窗口</a></li>
+        <li><a href="#拥塞控制">拥塞控制</a>
+          <ul>
+            <li><a href="#慢启动">慢启动</a></li>
+            <li><a href="#拥塞避免">拥塞避免</a></li>
+            <li><a href="#发生拥塞如何是好">发生拥塞如何是好?</a>
+              <ul>
+                <li><a href="#拥塞发生算法---超时重传对应的算法">拥塞发生算法 - 超时重传对应的算法</a></li>
+                <li><a href="#快速恢复算法---快速重传对应的算法">快速恢复算法 - 快速重传对应的算法</a></li>
+              </ul>
+            </li>
+          </ul>
+        </li>
+        <li><a href="#流量控制">流量控制</a></li>
+        <li><a href="#tcp-socket-编程">TCP socket 编程</a></li>
+        <li><a href="#google-bbr">Google BBR</a></li>
+      </ul>
+    </li>
+    <li><a href="#子网掩码">子网掩码</a></li>
+    <li><a href="#广播地址">广播地址</a></li>
+    <li><a href="#ipv6">IPV6</a></li>
+    <li><a href="#icmp">ICMP</a></li>
+    <li><a href="#bgp">BGP</a></li>
+    <li><a href="#跨域问题">跨域问题</a></li>
+    <li><a href="#断点续传">断点续传</a></li>
+    <li><a href="#protobuf">protobuf</a></li>
+    <li><a href="#中间人攻击">中间人攻击</a></li>
+    <li><a href="#arp">ARP</a></li>
+    <li><a href="#问题">问题</a></li>
+    <li><a href="#socket-编程">Socket 编程</a></li>
   </ul>
 </nav></div>
-            </div><div class="content" id="content"><h1 id="概述">概述</h1>
+            </div><div class="content" id="content"><h2 id="概述">概述</h2>
 <p>受到《计算机网络-自顶向下方法》 的启发，按照网络请求的过程，总结自己的网络知识，按照时间线，画了一张图，xmind 导出的图比较大，后续持续更新，迭代这部分的内容。</p>
 <p><img
         class="lazyload"
@@ -195,7 +219,7 @@
 <p style="text-align:center;color:#8EC0E4;font-size:1.5em;font-weight: bold;">
 下面是一些常见的知识,将会慢慢补充进思维导图内
 </p>
-<h1 id="输入-url-到页面展示经历的过程">输入 url 到页面展示，经历的过程</h1>
+<h2 id="输入-url-到页面展示经历的过程">输入 url 到页面展示，经历的过程</h2>
 <ul>
 <li><a href="https://xiaolincoding.com/network/3_tcp/tcp_interview.html#%E4%B8%BA%E4%BB%80%E4%B9%88%E6%98%AF%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B-%E4%B8%8D%E6%98%AF%E4%B8%A4%E6%AC%A1%E3%80%81%E5%9B%9B%E6%AC%A1" target="_blank" rel="noopener noreffer ">参考链接1</a></li>
 <li><a href="https://mp.weixin.qq.com/s?__biz=MzUxODAzNDg4NQ==&amp;mid=2247483989&amp;idx=1&amp;sn=7e2ed852770743d3955ef9d5561fcef3&amp;scene=21#wechat_redirect" target="_blank" rel="noopener noreffer ">参考链接2</a></li>
@@ -255,10 +279,10 @@
 </ol>
 </li>
 </ol>
-<h1 id="dns">DNS</h1>
-<h2 id="作用">作用</h2>
+<h2 id="dns">DNS</h2>
+<h3 id="作用">作用</h3>
 <p>域名解析，将网址中的域名解析成协议栈的 IP 地址。</p>
-<h2 id="过程">过程</h2>
+<h3 id="过程">过程</h3>
 <p>DNS 域名解析的过程蛮有意思的，整个过程就和我们日常生活中找人问路的过程类似，<strong>只指路不带路</strong>。</p>
 <p><img
         class="lazyload"
@@ -279,7 +303,7 @@
 <li>权威 DNS 服务器查询后将对应的 IP 地址 X.X.X.X 告诉本地 DNS。</li>
 <li>本地 DNS 再将 IP 地址返回客户端，客户端和目标建立连接。</li>
 </ol>
-<h1 id="http">Http</h1>
+<h2 id="http">Http</h2>
 <p><img
         class="lazyload"
         src="/svg/loading.min.svg"
@@ -307,7 +331,7 @@
         data-sizes="auto"
         alt="https://cdn.xiaolincoding.com/gh/xiaolincoder/ImageHost/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/HTTP/6-%E4%BA%94%E5%A4%A7%E7%B1%BBHTTP%E7%8A%B6%E6%80%81%E7%A0%81.png"
         title="常见的状态码" /></p>
-<h2 id="http-常见的-header">HTTP 常见的 header</h2>
+<h3 id="http-常见的-header">HTTP 常见的 header</h3>
 <p>在 HTTP 中，header 是用于描述请求或响应的元数据，提供了有关请求或响应的信息。以下是一些常见的 HTTP 请求和响应头:</p>
 <p>通用 Headers (适用于请求和响应):</p>
 <ol>
@@ -346,9 +370,9 @@
 <li>WWW-Authenticate: 要求客户端进行身份验证。</li>
 </ol>
 <p>这只是 HTTP header 的一部分，实际上有更多的 header 用于定制和控制 HTTP 请求和响应。每个应用程序和服务器可能会使用不同的 header。</p>
-<h3 id="keep-alive-的原理">keep-alive 的原理</h3>
+<h4 id="keep-alive-的原理">keep-alive 的原理</h4>
 <p><strong>keep-alive</strong> 机制：若开启后，在一次 http 请求中，服务器进行响应后，不再直接断开 TCP 连接，而是将 TCP 连接维持一段时间。在这段时间内，如果同一客户端再次向服务端发起 http 请求，便可以复用此 TCP 连接，向服务端发起请求，并重置 timeout 时间计数器，在接下来一段时间内还可以继续复用。这样无疑省略了反复创建和销毁 TCP 连接的损耗。</p>
-<h2 id="常见问题">常见问题</h2>
+<h3 id="常见问题">常见问题</h3>
 <p><strong>GET 和 POST 有什么区别？</strong></p>
 <ul>
 <li>根据 RFC 规范，<em>GET 的语义是从服务器获取指定的资源</em>，这个资源可以是静态的文本、页面、图片视频等。GET 请求的参数位置一般是写在 URL 中，URL 规定只能支持 ASCII，所以 GET 请求的参数只允许 ASCII 字符 ，而且浏览器会对 URL 的长度有限制（HTTP协议本身对 URL长度并没有做任何规定）。</li>
@@ -383,8 +407,8 @@ RFC 并没有规定 Get 请求不可以带 body，看具体的网络库的实现
 </li>
 </ul>
 <p><em>强制缓存</em>是基于时间实现的，<em>协商缓存</em>是基于一个唯一标识实现的，相对来说后者可以更加准确地判断文件内容是否被修改，避免由于时间篡改导致的不可靠问题。</p>
-<h1 id="h1-和-h2-的区别联系">H1 和 H2 的区别联系</h1>
-<h2 id="h1-的优缺点">H1 的优缺点</h2>
+<h2 id="h1-和-h2-的区别联系">H1 和 H2 的区别联系</h2>
+<h3 id="h1-的优缺点">H1 的优缺点</h3>
 <p><strong>优点</strong></p>
 <ol>
 <li>简单。header + body，header 还是 kv 形式；</li>
@@ -403,8 +427,8 @@ RFC 并没有规定 Get 请求不可以带 body，看具体的网络库的实现
 <li>没有请求优先级控制；</li>
 <li>请求只能从客户端开始，服务器只能被动响应。</li>
 </ol>
-<h2 id="h2-优化点">H2 优化点</h2>
-<h3 id="头部压缩">头部压缩</h3>
+<h3 id="h2-优化点">H2 优化点</h3>
+<h4 id="头部压缩">头部压缩</h4>
 <ul>
 <li>H1 是明文的，多个请求发送的 header 可能存在大量的重复，header 越多，越大，浪费越严重；</li>
 <li>H2 通信的双方共同维护索引表，传输的 header 只需要发送索引表中的索引即可；</li>
@@ -415,7 +439,7 @@ RFC 并没有规定 Get 请求不可以带 body，看具体的网络库的实现
 <li>双方维护一张头信息表；</li>
 <li>各自只发送信息表中的索引号；</li>
 </ul>
-<h3 id="二进制格式">二进制格式</h3>
+<h4 id="二进制格式">二进制格式</h4>
 <ul>
 <li>H1 是明文传输，传输的报文更大，增加了传输成本。</li>
 <li>H2 改成了二进制格式，传输的报文更小，降低了传输的成本。</li>
@@ -426,22 +450,22 @@ RFC 并没有规定 Get 请求不可以带 body，看具体的网络库的实现
 <p>比如状态码 200 ，在 HTTP/1.1 是用 &lsquo;2&rsquo;&lsquo;0&rsquo;&lsquo;0&rsquo; 三个字符来表示（二进制：00110010 00110000 00110000），共用了 3 个字节。
 在 HTTP/2 对于状态码 200 的二进制编码是 10001000，只用了 1 字节就能表示，相比于 HTTP/1.1 节省了 2 个字节。</p>
 </blockquote>
-<h3 id="并发传输">并发传输</h3>
+<h4 id="并发传输">并发传输</h4>
 <p>我们都知道 HTTP/1.1 的实现是基于请求-响应模型的。同一个连接中，HTTP 完成一个事务（请求与响应），才能处理下一个事务，也就是说在发出请求等待响应的过程中，是没办法做其他事情的，如果响应迟迟不来，那么后续的请求是无法发送的，也造成了队头阻塞的问题。</p>
 <p>HTTP/2 就很牛逼了，引出了 Stream 概念，多个 Stream 复用在一条 TCP 连接。1 个 TCP 连接包含多个 Stream，Stream 里可以包含 1 个或多个 Message，Message 对应 HTTP/1 中的请求或响应，由 HTTP 头部和包体构成。Message 里包含一条或者多个 Frame，Frame 是 HTTP/2 最小单位，以二进制压缩格式存放 HTTP/1 中的内容（头部和包体）。</p>
 <p>针对不同的 HTTP 请求用独一无二的 Stream ID 来区分，接收端可以通过 Stream ID 有序组装成 HTTP 消息，不同 Stream 的帧是可以乱序发送的，因此可以并发不同的 Stream ，也就是 HTTP/2 可以并行交错地发送请求和响应。
 服务端并行交错地发送了两个响应： Stream 1 和 Stream 3，这两个 Stream 都是跑在一个 TCP 连接上，客户端收到后，会根据相同的 Stream ID 有序组装成 HTTP 消息。</p>
-<h3 id="服务器推送">服务器推送</h3>
+<h4 id="服务器推送">服务器推送</h4>
 <p>HTTP/2 还在一定程度上改善了传统的「请求 - 应答」工作模式，服务端不再是被动地响应，可以主动向客户端发送消息。
 客户端和服务器双方都可以建立 Stream， Stream ID 也是有区别的，客户端建立的 Stream 必须是奇数号，而服务器建立的 Stream 必须是偶数号。</p>
-<h2 id="h2-的缺点">H2 的缺点</h2>
+<h3 id="h2-的缺点">H2 的缺点</h3>
 <ul>
 <li>H2 解决了 H1 的 HTTP 层面的队头阻塞；</li>
 <li>但是依旧面临 TCP 的队头阻塞；
 HTTP/2 是基于 TCP 协议来传输数据的，TCP 是字节流协议，TCP 层必须保证收到的字节数据是完整且连续的，这样内核才会将缓冲区里的数据返回给 HTTP 应用，那么当「前 1 个字节数据」没有到达时，后收到的字节数据只能存放在内核缓冲区里，只有等到这 1 个字节数据到达时，HTTP/2 应用层才能从内核中拿到数据，这就是 HTTP/2 队头阻塞问题。</li>
 </ul>
 <p>一旦发生了丢包现象，就会触发 TCP 的重传机制，这样在一个 TCP 连接中的所有的 HTTP 请求都必须等待这个丢了的包被重传回来。</p>
-<h1 id="h3">H3</h1>
+<h2 id="h3">H3</h2>
 <p>HTTP/3 的核心原理是基于 UDP 而不是 TCP,它采用 QUIC 协议。QUIC 是 Google 开发的一种传输层网络协议,用于优化网络延迟,提高网络连接利用率。QUIC 协议相比 TCP 主要有以下几点改进:</p>
 <ol>
 <li>基于 UDP。QUIC 协议基于 UDP 而不是 TCP,可以避开 TCP 的拥塞控制和流量管理机制,获得更低的延迟和更高的吞吐量。</li>
@@ -452,7 +476,7 @@ HTTP/2 是基于 TCP 协议来传输数据的，TCP 是字节流协议，TCP 层
 <li>零延迟 resumed 的连接。QUIC 允许连接处于静默状态一段时间后快速恢复,而不需要像 TCP 那样重新完成三次握手。这可以进一步减少延迟。
 总之,HTTP/3 基于 UDP 和 QUIC 协议,在减少延迟,提高网络利用率和连接迅速建立等方面有很大提高,这使得基于 HTTP/3 的应用可以获得很好的性能提升和用户体验。</li>
 </ol>
-<h2 id="quic">quic</h2>
+<h3 id="quic">quic</h3>
 <p><img
         class="lazyload"
         src="/svg/loading.min.svg"
@@ -471,7 +495,7 @@ HTTP/2 是基于 TCP 协议来传输数据的，TCP 是字节流协议，TCP 层
 <p>QUIC 协议没有用四元组的方式来“绑定”连接，而是通过连接 ID 来标记通信的两个端点，客户端和服务器可以各自选择一组 ID 来标记自己，因此即使移动设备的网络变化后，导致 IP 地址变化了，只要仍保有上下文信息（比如连接 ID、TLS 密钥等），就可以“无缝”地复用原连接，消除重连的成本，没有丝毫卡顿感，达到了连接迁移的功能。</p>
 <p>QUIC 是新协议，对于很多网络设备，根本不知道什么是 QUIC，只会当做 UDP，这样会出现新的问题，因为有的网络设备是会丢掉 UDP 包的，而 QUIC 是基于 UDP 实现的，那么如果网络设备无法识别这个是 QUIC 包，那么就会当作 UDP包，然后被丢弃。</p>
 <p>HTTP/3 现在普及的进度非常的缓慢，不知道未来 UDP 是否能够逆袭 TCP。</p>
-<h1 id="https">Https</h1>
+<h2 id="https">Https</h2>
 <p><strong>区别</strong></p>
 <ol>
 <li>HTTP 是明文传输，HTTPS 是密文传输。</li>
@@ -524,7 +548,7 @@ HTTP/2 是基于 TCP 协议来传输数据的，TCP 是字节流协议，TCP 层
 <p>所以非对称加密的用途主要在于通过「私钥加密，公钥解密」的方式，来<em>确认消息的身份</em>，我们常说的<em>数字签名算法</em>，就是用的是这种方式，不过私钥加密内容不是内容本身，而是对内容的哈希值加密。</p>
 <p><em>数字证书</em>
 由 CA 签发的证书，通信的时候，不仅会发送签名、公钥，还会发送证书。接收方会去 CA 校验证书的合法性。</p>
-<h2 id="https-连接建立过程">https 连接建立过程</h2>
+<h3 id="https-连接建立过程">https 连接建立过程</h3>
 <p><img
         class="lazyload"
         src="/svg/loading.min.svg"
@@ -575,7 +599,7 @@ HTTP/2 是基于 TCP 协议来传输数据的，TCP 是字节流协议，TCP 层
 <li>用 HTTP 协议传输加密的数据；</li>
 </ol>
 <p>TLS 的目的就在于获取那个<strong>会话密钥</strong>。</p>
-<h2 id="证书校验">证书校验</h2>
+<h3 id="证书校验">证书校验</h3>
 <p><img
         class="lazyload"
         src="/svg/loading.min.svg"
@@ -600,7 +624,7 @@ CA 签发证书的过程，如上图左边部分：</p>
 向上溯源到最后的根证书，现校验根证书，再向下一级一级校验。</p>
 <p><strong>为何不全由根证书签名</strong>
 应该是为了分摊风险。</p>
-<h2 id="https-如何保证数据的完整性">HTTPS 如何保证数据的完整性</h2>
+<h3 id="https-如何保证数据的完整性">HTTPS 如何保证数据的完整性</h3>
 <p>TLS 在实现上分为<strong>握手协议</strong>和<strong>记录协议</strong>两层：</p>
 <ul>
 <li>TLS 握手协议就是我们前面说的 TLS 四次握手的过程，负责协商加密算法和生成对称密钥，后续用此密钥来保护应用程序数据（即 HTTP 数据）；</li>
@@ -623,7 +647,7 @@ CA 签发证书的过程，如上图左边部分：</p>
 <li>最后，上述经过加密的数据再加上由数据类型、版本号、压缩后的长度组成的报头就是最终的报文数据。</li>
 </ul>
 <p>记录协议完成后，最终的报文数据将传递到传输控制协议 (TCP) 层进行传输。</p>
-<h2 id="https-安全吗">HTTPS 安全吗？</h2>
+<h3 id="https-安全吗">HTTPS 安全吗？</h3>
 <p>目前 https 是安全的，除非是用户 client 端，自己接受了中间人的证书。协议自身是安全的。
 <strong>为何抓包工具可以</strong>
 很多抓包工具 之所以可以明文看到 HTTPS 数据，工作原理与中间人一致的。</p>
@@ -639,7 +663,7 @@ CA 签发证书的过程，如上图左边部分：</p>
 <p>不用解释，抓包工具只能使用第三种方式取得中间人的身份。
 使用抓包工具进行 HTTPS 抓包的时候，需要在客户端安装 Fiddler 的根证书，这里实际上起认证中心（CA）的作用。
 抓包工具能够抓包的关键是客户端会往系统受信任的根证书列表中导入抓包工具生成的证书，而这个证书会被浏览器信任，也就是抓包工具给自己创建了一个认证中心 CA，客户端拿着中间人签发的证书去中间人自己的 CA 去认证，当然认为这个证书是有效的。</p>
-<h1 id="可靠连接">可靠连接</h1>
+<h2 id="可靠连接">可靠连接</h2>
 <ol>
 <li>数据不会损坏；</li>
 <li>数据按照顺序传输交付；</li>
@@ -647,7 +671,7 @@ CA 签发证书的过程，如上图左边部分：</p>
 <blockquote>
 <p>TCP 可靠性由三个机制保证：1. 序号（TCP 报文的序号）2. 确认（ACK 机制）3. 重传（超时或者冗余的 ACK）</p>
 </blockquote>
-<h1 id="tcp">TCP</h1>
+<h2 id="tcp">TCP</h2>
 <p>![[Pasted image 20230517204640.png]]</p>
 <p><img
         class="lazyload"
@@ -666,7 +690,7 @@ CA 签发证书的过程，如上图左边部分：</p>
 <li>可靠的：无论的网络链路中出现了怎样的链路变化，TCP 都可以保证一个报文一定能够到达接收端；</li>
 <li>字节流：用户消息通过 TCP 协议传输时，消息可能会被操作系统「分组」成多个的 TCP 报文，如果接收方的程序如果不知道「消息的边界」，是无法读出一个有效的用户消息的。并且 TCP 报文是「有序的」，当「前一个」TCP 报文没有收到的时候，即使它先收到了后面的 TCP 报文，那么也不能扔给应用层去处理，同时对「重复」的 TCP 报文会自动丢弃。</li>
 </ul>
-<h2 id="tcp-和-udp-的区别联系">TCP 和 UDP 的区别联系</h2>
+<h3 id="tcp-和-udp-的区别联系">TCP 和 UDP 的区别联系</h3>
 <ol>
 <li>连接</li>
 </ol>
@@ -769,7 +793,7 @@ UDP Data的长度= IP总长度 - IP Header长度 - UDP Header长度。</p>
         data-sizes="auto"
         alt="https://cdn.xiaolincoding.com/gh/xiaolincoder/network/port/tcp%E5%92%8Cudp%E6%A8%A1%E5%9D%97.jpeg"
         title="网络数据的处理流程" /></p>
-<h2 id="建连">建连</h2>
+<h3 id="建连">建连</h3>
 <p>简单来说就是，用于保证可靠性和流量控制维护的某些状态信息，这些信息的组合，包括 Socket、序列号和窗口大小称为<strong>连接</strong>。</p>
 <p>TCP 四元组可以唯一的确定一个连接，四元组包括如下：</p>
 <ul>
@@ -950,7 +974,7 @@ RFC793 提到初始化序列号 ISN 随机生成算法：ISN = M + F(localhost, 
 <li>开启 tcp_syncookies；</li>
 <li>减少 SYN+ACK 重传次数</li>
 </ul>
-<h2 id="断连">断连</h2>
+<h3 id="断连">断连</h3>
 <p><img
         class="lazyload"
         src="/svg/loading.min.svg"
@@ -1083,7 +1107,7 @@ RFC793 提到初始化序列号 ISN 随机生成算法：ISN = M + F(localhost, 
 <li>第三个原因：第 4 步没有做，通过 accpet 获取已连接的 socket 后，没有将其注册到 epoll，导致后续收到 FIN 报文的时候，服务端没办法感知这个事件，那服务端就没机会调用 close 函数了。</li>
 <li>第四个原因：第 6 步没有做，当发现客户端关闭连接后，服务端没有执行 close 函数，可能是因为代码漏处理，或者是在执行 close 函数之前，代码卡在某一个逻辑，比如发生死锁等等。</li>
 </ul>
-<h2 id="tcp-保活机制">TCP 保活机制</h2>
+<h3 id="tcp-保活机制">TCP 保活机制</h3>
 <p><strong>如果已经建立了连接，但是客户端突然出现故障了怎么办？</strong>
 客户端出现故障指的是客户端的主机发生了宕机，或者断电的场景。发生这种情况的时候，如果服务端一直不会发送数据给客户端，那么服务端是永远无法感知到客户端宕机这个事件的，也就是服务端的 TCP 连接将一直处于 ESTABLISH 状态，占用着系统资源。
 为了避免这种情况，TCP 搞了个保活机制。这个机制的原理是这样的：
@@ -1109,7 +1133,7 @@ RFC793 提到初始化序列号 ISN 随机生成算法：ISN = M + F(localhost, 
 <p>也就是说在 Linux 系统中，最少需要经过 2 小时 11 分 15 秒才可以发现一个「死亡」连接。</p>
 <p><strong>如果已经建立了连接，但是服务端的进程崩溃会发生什么？</strong>
 TCP 的连接信息是由内核维护的，所以当服务端的进程崩溃后，内核需要回收该进程的所有 TCP 连接资源，于是内核会发送第一次挥手 FIN 报文，后续的挥手过程也都是在内核完成，并不需要进程的参与，所以即使服务端的进程退出了，还是能与客户端完成 TCP 四次挥手的过程。</p>
-<h2 id="重传机制">重传机制</h2>
+<h3 id="重传机制">重传机制</h3>
 <p>常见的重传机制：</p>
 <ul>
 <li>超时重传</li>
@@ -1117,7 +1141,7 @@ TCP 的连接信息是由内核维护的，所以当服务端的进程崩溃后�
 <li>SACK</li>
 <li>D-SACK</li>
 </ul>
-<h3 id="超时重传">超时重传</h3>
+<h4 id="超时重传">超时重传</h4>
 <p>需要超时重传的情况</p>
 <ul>
 <li>数据包丢失；</li>
@@ -1139,12 +1163,12 @@ TCP 的连接信息是由内核维护的，所以当服务端的进程崩溃后�
 </ul>
 <p><strong>存在的问题</strong>
 和时间相关，超时的周期可能相对较长。</p>
-<h3 id="快速重传摆脱时间因素">快速重传：摆脱时间因素</h3>
+<h4 id="快速重传摆脱时间因素">快速重传：摆脱时间因素</h4>
 <p>快速重传（Fast Retransmit）机制，它不以时间为驱动，而是以数据驱动重传。</p>
 <p>快速重传的工作方式是当收到三个相同的 ACK 报文时，会在定时器过期之前，重传丢失的报文段。</p>
 <p><strong>存在的问题</strong>
 快速重传机制只解决了一个问题，就是超时时间的问题，但是它依然面临着另外一个问题。就是重传的时候，是重传之前的一个，还是重传所有的问题。</p>
-<h3 id="sackselective-acknowledge">SACK：selective acknowledge</h3>
+<h4 id="sackselective-acknowledge">SACK：selective acknowledge</h4>
 <p>这种方式需要在 TCP 头部「选项」字段里加一个 SACK 的东西，它可以将缓存的地图发送给发送方，这样发送方就可以知道哪些数据收到了，哪些数据没收到，知道了这些信息，就可以只重传丢失的数据。
 如果要支持 SACK，必须双方都要支持。在 Linux 下，可以通过 net.ipv4.tcp_sack 参数打开这个功能（Linux 2.4 后默认打开）。
 <img
@@ -1155,14 +1179,14 @@ TCP 的连接信息是由内核维护的，所以当服务端的进程崩溃后�
         data-sizes="auto"
         alt="https://mmbiz.qpic.cn/mmbiz_png/J0g14CUwaZeuicRMlA8rKvl5AVLibhibDhg3RbEZItSOQY1TadJpUTuibIDziaibALaEmk7JO0Ill7iaeiaGI94Wyia0NXA/640?wx_fmt=png&amp;wxfrom=5&amp;wx_lazy=1&amp;wx_co=1"
         title="https://mmbiz.qpic.cn/mmbiz_png/J0g14CUwaZeuicRMlA8rKvl5AVLibhibDhg3RbEZItSOQY1TadJpUTuibIDziaibALaEmk7JO0Ill7iaeiaGI94Wyia0NXA/640?wx_fmt=png&amp;wxfrom=5&amp;wx_lazy=1&amp;wx_co=1" /></p>
-<h3 id="dsack">DSACK</h3>
+<h4 id="dsack">DSACK</h4>
 <p>Duplicate SACK 又称 <code>D-SACK</code>，其主要<strong>使用了 SACK 来告诉「发送方」有哪些数据被重复接收了。</strong></p>
 <p>两个很像</p>
 <ul>
 <li>ack 大于 sack：有重复的包被发送；</li>
 <li>ack 小于 sack：有丢失的包；</li>
 </ul>
-<h2 id="滑动窗口">滑动窗口</h2>
+<h3 id="滑动窗口">滑动窗口</h3>
 <p><strong>为什么引入</strong>
 如果以数据包为维度进行发送和确认应答，那么效率会很低，RTT 越长，效率越低。
 故而 TCP 引入了窗口的概念。</p>
@@ -1215,7 +1239,7 @@ TCP 的连接信息是由内核维护的，所以当服务端的进程崩溃后�
 <li>当窗口右边沿向右移动时将允许发送更多的数据，我们称之为窗口张开。这种现象发 生在另一端的接收进程读取已经确认的数据并释放了 T C P 的接收缓存时。</li>
 <li>当右边沿向左移动时，我们称之为窗口收缩。 Host Requirements RFC强烈建议不要使 用这种方式。但 T C P 必须能够在某一端产生这种情况时进行处理。第 2 2 . 3 节 给 出 了 这 样 的 一 个 例子，一端希望向左移动右边沿来收缩窗口，但没能够这样做。</li>
 </ol>
-<h2 id="拥塞控制">拥塞控制</h2>
+<h3 id="拥塞控制">拥塞控制</h3>
 <ul>
 <li><a href="https://mp.weixin.qq.com/s/Tc09ovdNacOtnMOMeRc_uA" target="_blank" rel="noopener noreffer ">参考连接1</a>
 TCP 还会做拥塞控制，对于真正的通路堵车不堵车，它无能为力，唯一能做的就是控制自己，也即控制发送的速度。不能改变世界，就改变自己嘛。</li>
@@ -1236,7 +1260,7 @@ TCP 还会做拥塞控制，对于真正的通路堵车不堵车，它无能为�
 </ul>
 <p><strong>如何识别拥塞</strong>
 其实只要「发送方」没有在规定时间内接收到 ACK 应答报文，也就是<em>发生了超时重传</em>，就会认为网络出现了用拥塞。</p>
-<h3 id="慢启动">慢启动</h3>
+<h4 id="慢启动">慢启动</h4>
 <p>TCP 在刚建立连接完成后，首先是有个慢启动的过程，这个慢启动的意思就是一点一点的提高发送数据包的数量，如果一上来就发大量的数据，这不是给网络添堵吗？</p>
 <p>慢启动的算法记住一个规则就行：当发送方每收到一个 ACK，就拥塞窗口 cwnd 的大小就会加 1。</p>
 <p>虽然叫慢启动，但是发包的个数是指数性地增长。</p>
@@ -1246,17 +1270,17 @@ TCP 还会做拥塞控制，对于真正的通路堵车不堵车，它无能为�
 <li>当 cwnd &gt;= ssthresh 时，就会使用「拥塞避免算法」</li>
 </ul>
 <p>一般来说 ssthresh 的大小是 65535 字节。</p>
-<h3 id="拥塞避免">拥塞避免</h3>
+<h4 id="拥塞避免">拥塞避免</h4>
 <p>那么进入拥塞避免算法后，它的规则是：每当收到一个 ACK 时，cwnd 增加 1/cwnd。
 拥塞避免算法就是将原本慢启动算法的指数增长变成了<strong>线性增长</strong>，还是增长阶段，但是增长速度缓慢了一些。</p>
-<h3 id="发生拥塞如何是好">发生拥塞如何是好?</h3>
+<h4 id="发生拥塞如何是好">发生拥塞如何是好?</h4>
 <p>拥塞窗口一直增长的话，下个阶段就可能触发拥塞，出现丢包现象，这时候就会进行数据包的重传。
 重传的机制有两个</p>
 <ol>
 <li>超时重传；</li>
 <li>快速重传；</li>
 </ol>
-<h4 id="拥塞发生算法---超时重传对应的算法">拥塞发生算法 - 超时重传对应的算法</h4>
+<h5 id="拥塞发生算法---超时重传对应的算法">拥塞发生算法 - 超时重传对应的算法</h5>
 <p><img
         class="lazyload"
         src="/svg/loading.min.svg"
@@ -1271,7 +1295,7 @@ TCP 还会做拥塞控制，对于真正的通路堵车不堵车，它无能为�
 <li>cwnd 重置为 1 ；
 接着，就重新开始慢启动，慢启动是会突然减少数据流的。这真是一旦「超时重传」，<em>马上回到解放前</em>。但是这种方式太激进了，反应也很强烈，会造成网络卡顿。</li>
 </ul>
-<h4 id="快速恢复算法---快速重传对应的算法">快速恢复算法 - 快速重传对应的算法</h4>
+<h5 id="快速恢复算法---快速重传对应的算法">快速恢复算法 - 快速重传对应的算法</h5>
 <p>TCP 认为你还能收到 3 个重复 ACK 说明网络也不那么糟糕，这种情况不严重，因为大部分没丢，只丢了一小部分，所以没有必要像 RTO 超时那么强烈，则 ssthresh 和 cwnd 变化如下：</p>
 <ul>
 <li>cwnd = cwnd/2 ，也就是设置为原来的一半;</li>
@@ -1290,7 +1314,7 @@ TCP 还会做拥塞控制，对于真正的通路堵车不堵车，它无能为�
 <li>也就是没有像「超时重传」一夜回到解放前，而是还在比较高的值，后续呈线性增长。</li>
 <li>从当前的一半位置开始线性增长尝试，但是最高不超过当前拥塞的状态。</li>
 </ul>
-<h2 id="流量控制">流量控制</h2>
+<h3 id="流量控制">流量控制</h3>
 <p>TCP 要做流量控制，通信双方各声明一个窗口（缓存大小），标识自己当前能够的处理能力，别发送的太快，撑死我，也别发的太慢，饿死我。
 如果无脑发送数据，接收方处理不及时，就会触发重传机制，浪费带宽，降低效率，同时性能也降低。</p>
 <p>TCP 提供一种机制可以让「发送方」根据「接收方」的实际接收能力控制发送的数据量，这就是所谓的<strong>流量控制</strong>。</p>
@@ -1366,7 +1390,7 @@ TCP 还会做拥塞控制，对于真正的通路堵车不堵车，它无能为�
 </ol>
 <p>另外，Nagle 算法默认是打开的，如果对于一些需要小数据包交互的场景的程序，比如，telnet 或 ssh 这样的交互性比较强的程序，则需要关闭 Nagle 算法。
 可以在 Socket 设置 TCP_NODELAY 选项来关闭这个算法（关闭 Nagle 算法没有全局参数，需要根据每个应用自己的特点来关闭）</p>
-<h2 id="tcp-socket-编程">TCP socket 编程</h2>
+<h3 id="tcp-socket-编程">TCP socket 编程</h3>
 <p><img
         class="lazyload"
         src="/svg/loading.min.svg"
@@ -1421,7 +1445,7 @@ TCP 还会做拥塞控制，对于真正的通路堵车不堵车，它无能为�
 <li>服务端收到 ACK 确认包后，就进入了最后的 CLOSE 状态；</li>
 <li>客户端经过 <code>2MSL</code> 时间之后，也进入 CLOSE 状态；</li>
 </ul>
-<h2 id="google-bbr">Google BBR</h2>
+<h3 id="google-bbr">Google BBR</h3>
 <blockquote>
 <p>这一节的内容是来自于 chatGPT 和 new bing 的问答；</p>
 </blockquote>
@@ -1457,7 +1481,7 @@ Google BBR算法主要适用于高速、长距离网络环境，例如数据中�
 <li>远程办公场景：在远程办公场景中，BBR算法可以优化视频会议、文件传输等网络通信，提高网络性能和稳定性，从而提高工作效率。</li>
 </ol>
 <p>总体来说，Google BBR算法适用于高速、长距离网络环境，特别是在对网络性能和用户体验有较高要求的场景中，可以发挥出其优秀的拥塞控制和带宽利用效果。</p>
-<h1 id="子网掩码">子网掩码</h1>
+<h2 id="子网掩码">子网掩码</h2>
 <blockquote>
 <p>子网掩码是一个32位的2进制数， 其对应网络地址的所有位都置为1，对应于主机地址的所有位置都为0。子网掩码告知路由器，地址的哪一部分是网络地址，哪一部分是主机地址，使路由器正确判断任意IP地址是否是本网段的，从而正确地进行路由。子网掩码由1和0组成，且1和0分别连续。</p>
 </blockquote>
@@ -1465,7 +1489,7 @@ Google BBR算法主要适用于高速、长距离网络环境，例如数据中�
 <li>将子网掩码和 IP 地址按位计算 AND，就可得到网络号。如果网络地址相同，表明接受方在本网络上，那么可以把数据包直接发送到目标主机。路由器寻址工作中，也就是通过这样的方式来找到对应的网络号的，进而把数据包转发给对应的网络内。</li>
 <li>划分子网，数量是 2 的子网位数 减去 2，这 2 指的是，全 1 的广播地址和全 0 的网络地址；</li>
 </ul>
-<h1 id="广播地址">广播地址</h1>
+<h2 id="广播地址">广播地址</h2>
 <p>广播是一种同时向网络上的所有设备发送消息的方法。 广播地址是一个特殊地址，用于向给定网段上的所有设备发送消息。</p>
 <p><strong>适用的场景</strong></p>
 <ul>
@@ -1479,7 +1503,7 @@ Google BBR算法主要适用于高速、长距离网络环境，例如数据中�
 <li>然后将 ip 地址与子网掩码进行与操作，可以获知主机号中挪用几位作为子网号；</li>
 <li>子网号进行组合，每个组合中主机号全部位 1 的就是广播地址；</li>
 </ol>
-<h1 id="ipv6">IPV6</h1>
+<h2 id="ipv6">IPV6</h2>
 <p>IPv4 的地址是 32 位的，大约可以提供 42 亿个地址，但是早在 2011 年 IPv4 地址就已经被分配完了。
 但是 IPv6 的地址是 <code>128</code> 位的，这可分配的地址数量是大的惊人，说个段子 <strong>IPv6 可以保证地球上的每粒沙子都能被分配到一个 IP 地址。</strong></p>
 <p>但 IPv6 除了有更多的地址之外，还有更好的安全性和扩展性，说简单点就是 IPv6 相比于 IPv4 能带来更好的网络体验。</p>
@@ -1490,7 +1514,7 @@ Google BBR算法主要适用于高速、长距离网络环境，例如数据中�
 <li><strong>取消了分片/重新组装相关字段。</strong> 分片与重组是耗时的过程，IPv6 不允许在中间路由器进行分片与重组，这种操作只能在源与目标主机，这将大大提高了路由器转发的速度。</li>
 <li><strong>取消选项字段。</strong> 选项字段不再是标准 IP 首部的一部分了，但它并没有消失，而是可能出现在 IPv6 首部中的「下一个首部」指出的位置上。删除该选项字段使的 IPv6 的首部成为固定长度的 <code>40</code> 字节。</li>
 </ul>
-<h1 id="icmp">ICMP</h1>
+<h2 id="icmp">ICMP</h2>
 <p>ICMP 全称是 <strong>Internet Control Message Protocol</strong>，也就是<strong>互联网控制报文协议</strong>。</p>
 <p><code>ICMP</code> 主要的功能包括：<strong>确认 IP 包是否成功送达目标地址、报告发送过程中 IP 包被废弃的原因和改善网络设置等。</strong></p>
 <p>在 <code>IP</code> 通信中如果某个 <code>IP</code> 包因为某种原因未能达到目标地址，那么这个具体的原因将<strong>由 ICMP 负责通知</strong>。</p>
@@ -1502,7 +1526,7 @@ Google BBR算法主要适用于高速、长距离网络环境，例如数据中�
         data-sizes="auto"
         alt="https://cdn.xiaolincoding.com/gh/xiaolincoder/ImageHost/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/IP/40.jpg"
         title="https://cdn.xiaolincoding.com/gh/xiaolincoder/ImageHost/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/IP/40.jpg" /></p>
-<h1 id="bgp">BGP</h1>
+<h2 id="bgp">BGP</h2>
 <p><strong>BGP</strong></p>
 <ul>
 <li>BGP协议的核心就是通过BGP对等关系不断地交换路由信息,选择和传播最佳路径,从而实现网络之间的互联互通。这是Internet能够稳定运行的基石。 </li>
@@ -1517,7 +1541,7 @@ Google BBR算法主要适用于高速、长距离网络环境，例如数据中�
 <li>BGP可以支持不同AS之间进行路由传播,所以BGP可以实现Internet这样庞大复杂网络的互联互通。</li>
 <li>BGP还支持各种路由策略,如设置本地优先级、过滤某个对等方的路由等,这使得网络管理员可以很灵活地控制路由选择和路由传播。</li>
 </ol>
-<h1 id="跨域问题">跨域问题</h1>
+<h2 id="跨域问题">跨域问题</h2>
 <p><strong>summary</strong></p>
 <ul>
 <li>浏览器为了保护数据安全而采用的一种称为“同源策略”的机制，当跨域进行网络请时，浏览器将会进行拦截；</li>
@@ -1595,7 +1619,7 @@ Google BBR算法主要适用于高速、长距离网络环境，例如数据中�
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>服务端根据 Origin 头决定是否同意请求。</p>
-<h1 id="断点续传">断点续传</h1>
+<h2 id="断点续传">断点续传</h2>
 <p><strong>what</strong>
 断点续传是一种文件下载技术。它允许你在下载中断的情况下,从中断的地方继续下载,而不是重新下载整个文件。这个技术的工作原理是:</p>
 <ol>
@@ -1640,7 +1664,7 @@ Google BBR算法主要适用于高速、长距离网络环境，例如数据中�
 <li>客户端接收到响应,将数据写入文件,并更新下载任务的相关信息,如已下载大小等。</li>
 <li>客户端可以随时因为各种原因中断下载,并在需要时发起新的请求继续下载,直到整个文件下载完成。</li>
 </ol>
-<h1 id="protobuf">protobuf</h1>
+<h2 id="protobuf">protobuf</h2>
 <ul>
 <li><a href="https://colobu.com/2019/10/03/protobuf-ultimate-tutorial-in-go/" target="_blank" rel="noopener noreffer ">参考链接1</a></li>
 <li><a href="https://zhuanlan.zhihu.com/p/348831252" target="_blank" rel="noopener noreffer ">参考链接2</a></li>
@@ -1687,7 +1711,7 @@ Google BBR算法主要适用于高速、长距离网络环境，例如数据中�
 <li>默认值省略。如果某个字段的值等于它的默认值,那么这些字段在序列化后的数据中会被省略,不会被编码进去。这也可以减少编码后数据的大小。</li>
 <li>嵌套对象支撑。Protobuf 支持嵌套的消息(message)和枚举(enum),这使得它能够高效的序列化复杂的结构化数据。嵌套的消息和枚举也使用相同的空间节约技术,所以效率不会降低。</li>
 </ol>
-<h1 id="中间人攻击">中间人攻击</h1>
+<h2 id="中间人攻击">中间人攻击</h2>
 <p><img
         class="lazyload"
         src="/svg/loading.min.svg"
@@ -1706,7 +1730,7 @@ Google BBR算法主要适用于高速、长距离网络环境，例如数据中�
 <p>从客户端的角度看，其实并不知道网络中存在中间人服务器这个角色。那么中间人就可以解开浏览器发起的 HTTPS 请求里的数据，也可以解开服务端响应给浏览器的 HTTPS 响应数据。相当于，中间人能够 “偷看” 浏览器与服务端之间的 HTTPS 请求和响应的数据。</p>
 <p>但是要发生这种场景是有前提的，前提是用户点击接受了中间人服务器的证书。</p>
 <p>中间人服务器与客户端在 TLS 握手过程中，实际上发送了自己伪造的证书给浏览器，而这个伪造的证书是能被浏览器（客户端）识别出是非法的，于是就会提醒用户该证书存在问题。</p>
-<h1 id="arp">ARP</h1>
+<h2 id="arp">ARP</h2>
 <p>在传输一个 IP 数据报的时候，确定了源 IP 地址和目标 IP 地址后，就会通过主机「路由表」确定 IP 数据包下一跳。然而，网络层的下一层是数据链路层，所以我们还要知道「下一跳」的 MAC 地址。</p>
 <p>由于主机的路由表中可以找到下一跳的 IP 地址，所以可以通过 ARP 协议，求得下一跳的 MAC 地址。</p>
 <p><strong>过程</strong></p>
@@ -1714,7 +1738,7 @@ Google BBR算法主要适用于高速、长距离网络环境，例如数据中�
 <li>主机会通过<strong>广播发送 ARP 请求</strong>，这个包中包含了想要知道的 MAC 地址的主机 IP 地址。</li>
 <li>当同个链路中的所有设备收到 ARP 请求时，会去拆开 ARP 请求包里的内容，如果 ARP 请求包中的目标 IP 地址与自己的 IP 地址一致，那么这个设备就将自己的 MAC 地址塞入 <strong>ARP 响应包</strong>返回给主机。</li>
 </ul>
-<h1 id="问题">问题</h1>
+<h2 id="问题">问题</h2>
 <ul>
 <li>通用知识：
 <ul>
@@ -1836,7 +1860,7 @@ Google BBR算法主要适用于高速、长距离网络环境，例如数据中�
 </ul>
 </li>
 </ul>
-<h1 id="socket-编程">Socket 编程</h1>
+<h2 id="socket-编程">Socket 编程</h2>
 <p><a href="https://www.cnblogs.com/skynet/archive/2010/12/12/1903949.html" target="_blank" rel="noopener noreffer ">https://www.cnblogs.com/skynet/archive/2010/12/12/1903949.html</a></p>
 </div><div class="post-footer" id="post-footer">
     <div class="post-info">

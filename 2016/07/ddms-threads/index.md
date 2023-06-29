@@ -1,28 +1,28 @@
 # DDMS_Threads的简单使用
 
-# 概述
+## 概述
 本文记录在 DDMS 如何查看线程的状态,以及状态表达的含义.
 
 <!-- more -->
 
-# 使用 DDMS 查看进程中的线程状态
+## 使用 DDMS 查看进程中的线程状态
 
-## 简介
+### 简介
 
 DDMS(Dalvik Debug Monitor Service),是 Android 开发的调试工具。
 
-## 如何工作
+### 如何工作
 
 在 Android 系统中每个应用都是在单独的一个进程中运行，DDMS 可以将一个进程通过 adb 和 IDE 连接，进行调试。
 
-## 面板讲解
+### 面板讲解
 
 ![DDMS面板](https://github.com/tinggengyan/tinggengyan.github.io/blob/source/imgur/ddms_panel.png?raw=true)
 
-### Threads
+#### Threads
 在左侧选中想要监控的进程，点击上方左起第五个图标(Update Threads) ,在对应的右侧打开 Threads 面板，就可以看到当前进程中的 线程状态。
 
-#### 字段讲解
+##### 字段讲解
 
 >* ID: 线程ID，是当前进程分配的唯一的线程ID.在 Dalvik 虚拟机中，这些值是从奇数3开始计数。
 >* Tid: Linux 线程 ID， 对于一个进程的主线程而言，这个 ID 对应了进程 ID 。
@@ -45,13 +45,13 @@ DDMS(Dalvik Debug Monitor Service),是 Android 开发的调试工具。
 
 ------
 
-### VM Heap
+#### VM Heap
 
 展示一些堆的统计数据，在 gc 的过程中会进程更新。如果选中一个 进程的时候，堆信息视图提示堆更新不可用，点击工具栏左上角的 "Show heap updates" 按钮，再回到 VM 堆视图，点击 "Cause GC" 进行垃圾回收，更新堆统计信息。
 
 
 
-## 参考文献
+### 参考文献
 [Using Dalvik Debug Monitor Service (DDMS)](http://www.linuxtopia.org/online_books/android/devguide/guide/developing/tools/ddms.html)
 
 

@@ -11,10 +11,10 @@
     <author>Tinggeng</author>
     <guid>https://tinggengyan.github.io/2021/06/cronet-build/</guid>
     <description><![CDATA[概述 记录编译Cronet for Android 的过程和步骤.
-准备工具 install depot_tools 1 2 # 下载 $ git clone https://chromium.googlesource.com/chromium/tools/depot_tools.git 添加进path,或者 .bashrc/.zshrc 1 2 # 将 /path/to/depot_tools 天换成自己安装的目录即可 $ export PATH=&#34;$PATH:/path/to/depot_tools&#34; 如果安装的位置是home目录下,上述命令切勿使用 ~,使用绝对路径或者 HOME 替代.
+准备工具 install depot_tools 1 2 ## 下载 $ git clone https://chromium.googlesource.com/chromium/tools/depot_tools.git 添加进path,或者 .bashrc/.zshrc 1 2 ## 将 /path/to/depot_tools 天换成自己安装的目录即可 $ export PATH=&#34;$PATH:/path/to/depot_tools&#34; 如果安装的位置是home目录下,上述命令切勿使用 ~,使用绝对路径或者 HOME 替代.
 1 $ export PATH=&#34;$PATH:${HOME}/depot_tools&#34; 我的安装路径是 ~/ide/depot_tools
 所以,我执行的命令是
-1 $ export PATH=&#34;$PATH:${HOME}/ide/depot_tools&#34; 下载代码 找个目录,clone代码,我选择的是 ~/workspace/chromium 拉取代码,因为我不想要history,如果想要history,去掉 &ndash;no-history 即可. 1 2 # 这个命令是第一次拉取代码使用 $ fetch --nohooks --no-history chromium 根据网速,快的话办小时,慢的话,数小时之后完成. 20G的东西，我的网速很慢，过了一夜吧，也没具体看多久，这个工具有个问题，没有进度条。。。 当命令结束之后,目录下就会出现隐藏文件.gclient 和 文件夹 src. ​ 假如中间中断过，或者直接拷贝了一份已有的源码，非第一次拉取代码,可能会提示如下内容。 ​ 非初次同步,则执行同步代码的命令 1 $ gclient sync 进入漫长的等待&hellip;]]></description>
+1 $ export PATH=&#34;$PATH:${HOME}/ide/depot_tools&#34; 下载代码 找个目录,clone代码,我选择的是 ~/workspace/chromium 拉取代码,因为我不想要history,如果想要history,去掉 &ndash;no-history 即可. 1 2 ## 这个命令是第一次拉取代码使用 $ fetch --nohooks --no-history chromium 根据网速,快的话办小时,慢的话,数小时之后完成. 20G的东西，我的网速很慢，过了一夜吧，也没具体看多久，这个工具有个问题，没有进度条。。。 当命令结束之后,目录下就会出现隐藏文件.gclient 和 文件夹 src. ​ 假如中间中断过，或者直接拷贝了一份已有的源码，非第一次拉取代码,可能会提示如下内容。 ​ 非初次同步,则执行同步代码的命令 1 $ gclient sync 进入漫长的等待&hellip;]]></description>
 </item>
 </channel>
 </rss>

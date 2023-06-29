@@ -47,7 +47,7 @@ Java 线程之间的通信由 Java内存模型(JMM)控制,JMM 决定了一个线
         "mainEntityOfPage": {
             "@type": "WebPage",
             "@id": "https:\/\/tinggengyan.github.io\/2017\/01\/javamemorymodel1\/"
-        },"image": ["https:\/\/tinggengyan.github.io\/images\/Apple-Devices-Preview.png"],"genre": "posts","keywords": "JMM","wordcount":  339 ,
+        },"image": ["https:\/\/tinggengyan.github.io\/images\/Apple-Devices-Preview.png"],"genre": "posts","keywords": "JMM","wordcount":  340 ,
         "url": "https:\/\/tinggengyan.github.io\/2017\/01\/javamemorymodel1\/","datePublished": "2017-01-15T17:11:02+00:00","dateModified": "2017-01-15T17:11:02+00:00","publisher": {
             "@type": "Organization",
             "name": "xxxx","logo": "https:\/\/tinggengyan.github.io\/img\/avatar.png"},"author": {
@@ -121,7 +121,7 @@ Java 线程之间的通信由 Java内存模型(JMM)控制,JMM 决定了一个线
             <div class="toc-content" id="toc-content-auto"></div>
         </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">Java 内存模型_1</h1><div class="post-meta">
             <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Tinggeng</a></span>&nbsp;<span class="post-category">included in <a href="/categories/programming/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Programming</a>&nbsp;<a href="/categories/java/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Java</a></span></div>
-            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2017-01-15">2017-01-15</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;339 words&nbsp;
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2017-01-15">2017-01-15</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;340 words&nbsp;
                 <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;2 minutes&nbsp;<span id="/2017/01/javamemorymodel1/" class="leancloud_visitors" data-flag-title="Java 内存模型_1">
                         <i class="far fa-eye fa-fw" aria-hidden="true"></i>&nbsp;<span class=leancloud-visitors-count></span>&nbsp;views
                     </span>&nbsp;</div>
@@ -132,37 +132,37 @@ Java 线程之间的通信由 Java内存模型(JMM)控制,JMM 决定了一个线
                 </div>
                 <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
   <ul>
-    <li><a href="#为什么需要理解-java-内存模型">为什么需要理解 Java 内存模型</a></li>
-    <li><a href="#java-采用的共享内存模型是什么样的">Java 采用的共享内存模型是什么样的</a></li>
-    <li><a href="#重排序即-java-如何实现同步">重排序(即 java 如何实现同步)</a>
+    <li><a href="#概述">概述</a>
       <ul>
-        <li>
+        <li><a href="#为什么需要理解-java-内存模型">为什么需要理解 Java 内存模型</a></li>
+        <li><a href="#java-采用的共享内存模型是什么样的">Java 采用的共享内存模型是什么样的</a></li>
+        <li><a href="#重排序即-java-如何实现同步">重排序(即 java 如何实现同步)</a>
           <ul>
-            <li><a href="#为什么需要重排序">为什么需要重排序</a></li>
-            <li><a href="#什么是重排序">什么是重排序</a></li>
-            <li><a href="#如何避免重排序带来的问题">如何避免重排序带来的问题</a>
+            <li>
               <ul>
-                <li><a href="#一个例子说明重排序产生的问题">一个例子,说明重排序产生的问题</a></li>
-                <li><a href="#处理器重排序">处理器重排序</a></li>
-                <li><a href="#内存屏障指令">内存屏障指令</a>
+                <li><a href="#为什么需要重排序">为什么需要重排序</a></li>
+                <li><a href="#什么是重排序">什么是重排序</a></li>
+                <li><a href="#如何避免重排序带来的问题">如何避免重排序带来的问题</a>
                   <ul>
-                    <li><a href="#happens-before">happens-before</a></li>
+                    <li><a href="#一个例子说明重排序产生的问题">一个例子,说明重排序产生的问题</a></li>
+                    <li><a href="#处理器重排序">处理器重排序</a></li>
+                    <li><a href="#内存屏障指令">内存屏障指令</a></li>
                   </ul>
                 </li>
               </ul>
             </li>
           </ul>
         </li>
+        <li><a href="#感激非常感激万分的感激">感激,非常感激，万分的感激！</a></li>
       </ul>
     </li>
-    <li><a href="#感激非常感激万分的感激">感激,非常感激，万分的感激！</a></li>
   </ul>
 </nav></div>
-            </div><div class="content" id="content"><h1 id="概述">概述</h1>
+            </div><div class="content" id="content"><h2 id="概述">概述</h2>
 <p><a href="http://www.infoq.com/cn/articles/java-memory-model-1" target="_blank" rel="noopener noreffer ">本文记录 Java 中的内存模型的基础部分1。</a>
 本篇作为学习 Java 内存模型基础部分的笔记,加上些许自己的理解和解释.</p>
 <!-- more -->
-<h2 id="为什么需要理解-java-内存模型">为什么需要理解 Java 内存模型</h2>
+<h3 id="为什么需要理解-java-内存模型">为什么需要理解 Java 内存模型</h3>
 <p>结论:并发产生的内存可见性问题.</p>
 <p>并发编程中的两个关键问题:</p>
 <ul>
@@ -181,7 +181,7 @@ Java 线程之间的通信由 Java内存模型(JMM)控制,JMM 决定了一个线
 </ul>
 <p>java 采用的是共享内存模型,而 java 线程之间的通信总是隐式进行,整个通信过程对程序员完全是透明的.
 对于 java 程序员而言,如果不了解 java 内存模型,在编写多线程程序的时候,就会遇到各种各样的内存可见性的问题.所以,对 java 的内存模型需要有一定的了解.</p>
-<h2 id="java-采用的共享内存模型是什么样的">Java 采用的共享内存模型是什么样的</h2>
+<h3 id="java-采用的共享内存模型是什么样的">Java 采用的共享内存模型是什么样的</h3>
 <blockquote>
 <p>Java 采用的是共享内存模型作为线程间的通信机制.</p>
 </blockquote>
@@ -211,19 +211,19 @@ Java 线程之间的通信由 Java内存模型(JMM)控制,JMM 决定了一个线
         title="内存模型案例" /></p>
 <p>本地内存 A 和本地内存 B 都有主内存中共享的变量 x 的副本.假设初始时,这个三个内存中的 x 的值都是 0.线程 A 在执行时,把已经更新的 x 值(假设为1) 临时存放在自己的本地内存 A 中. 当线程 A 和线程 B 需要通信的时,线程 A 首先会把本地内存中修改后的 x 值刷新到主内存中,此时主内存中的 x 值变为 1.随后,线程 B 到主内存中读取线程 A 更新之后的 x 值,此时线程 B 的本地内存的 x 值也变为 1.</p>
 <p>从整体上看,这两个步骤实质上是线程 A 在向线程 B 发送消息,而且这个通信过程必须经过主内存.JMM 通过控制主内存与每个线程的本地内存之间的交互,来为 java 程序员提供内存可见性保证.</p>
-<h2 id="重排序即-java-如何实现同步">重排序(即 java 如何实现同步)</h2>
-<h4 id="为什么需要重排序">为什么需要重排序</h4>
+<h3 id="重排序即-java-如何实现同步">重排序(即 java 如何实现同步)</h3>
+<h5 id="为什么需要重排序">为什么需要重排序</h5>
 <p>在执行程序的时候,为了提高性能,<strong>编译器 和 处理器</strong> 常常会对指令做重排序.有三种重排序.</p>
-<h4 id="什么是重排序">什么是重排序</h4>
+<h5 id="什么是重排序">什么是重排序</h5>
 <ol>
 <li>编译器优化重排序(编译器重排序).编译器在不改变单线程<strong>程序语义</strong>的前提下,重新安排语句的<strong>执行顺序</strong>.</li>
 <li>指令级并行重排序(处理器重排序).现代处理器采用<strong>指令级并行</strong>技术来执行多条指令<strong>重叠执行</strong>.在不存在<strong>数据依赖</strong>的前提下,处理器可以改变语句对应的指令的执行顺序.</li>
 <li>内存系统的重排序(处理器重排序).由于处理器使用缓存和读写缓冲区,这使得加载和存储操作看上去可能是在错乱执行.
 所以,从 java 源代码到执行阶段,会一次经过三个重排序.以上所述的三个重排序,一个属于编译器重排序,两个属于处理器重排序.</li>
 </ol>
-<h4 id="如何避免重排序带来的问题">如何避免重排序带来的问题</h4>
+<h5 id="如何避免重排序带来的问题">如何避免重排序带来的问题</h5>
 <p>三个重排序,都可能导致多线程出现内存可见性的问题.</p>
-<h5 id="一个例子说明重排序产生的问题">一个例子,说明重排序产生的问题</h5>
+<h6 id="一个例子说明重排序产生的问题">一个例子,说明重排序产生的问题</h6>
 <p><img
         class="lazyload"
         src="/svg/loading.min.svg"
@@ -251,7 +251,7 @@ Java 线程之间的通信由 Java内存模型(JMM)控制,JMM 决定了一个线
 <p>这里的关键是，由于写缓冲区仅对自己的处理器可见，它会导致处理器执行内存操作的顺序可能会与内存实际的操作执行顺序不一致。由于现代的处理器都会使用写缓冲区，因此现代的处理器都会允许对写-读操作重排序。
 对于编译器, JMM 的编译器重排序规则会禁止特定类型的<strong>编译器重排序</strong>(并不是所有的编译器重排序都需要被禁止的).
 对于处理器, JMM 的处理器重排序规则会要求 java 编译器在生成指令序列的时候,插入指定类型的<strong>内存屏障指令</strong>,通过内存屏障指令来禁止特定类型的处理器重排序(不是所有的处理器重排序都要禁止的).</p>
-<h5 id="处理器重排序">处理器重排序</h5>
+<h6 id="处理器重排序">处理器重排序</h6>
 <blockquote>
 <p>现代处理器使用写缓冲区来临时保存向内存写入的数据.写缓冲区可以保障指令流水线持续运行,它可以避免由于处理器停顿下来等待向内存写入数据而产生延迟.同时通过以批处理的方式刷新写缓冲区,以及合并写缓冲区中对同一个内存地址的多次写,可以减少对内存总线的占用.</p>
 </blockquote>
@@ -272,7 +272,7 @@ Java 线程之间的通信由 Java内存模型(JMM)控制,JMM 决定了一个线
 <li>注3：由于 ARM 处理器的内存模型与 PowerPC 处理器的内存模型非常类似，本文将忽略它。</li>
 <li>注4：数据依赖性后文会专门说明。</li>
 </ol>
-<h5 id="内存屏障指令">内存屏障指令</h5>
+<h6 id="内存屏障指令">内存屏障指令</h6>
 <p>为了保证内存可见性，java 编译器在生成指令序列的适当位置会插入内存屏障指令来禁止特定类型的处理器重排序。JMM 把内存屏障指令分为下列四类：
 <img
         class="lazyload"
@@ -283,7 +283,7 @@ Java 线程之间的通信由 Java内存模型(JMM)控制,JMM 决定了一个线
         alt="https://github.com/tinggengyan/tinggengyan.github.io/blob/source/imgur/JMM_Barriers.png?raw=true"
         title="内存屏障" /></p>
 <p>StoreLoad Barriers 是一个“全能型”的屏障，它同时具有其他三个屏障的效果。现代的多处理器大都支持该屏障（其他类型的屏障不一定被所有处理器支持）。执行该屏障开销会很昂贵，因为当前处理器通常要把写缓冲区中的数据全部刷新到内存中（buffer fully flush）。</p>
-<h6 id="happens-before">happens-before</h6>
+<p>####### happens-before</p>
 <p>从 JDK5 开始，java 使用新的 JSR -133 内存模型,JSR-133 使用 happens-before 的概念来阐述操作之间的内存可见性。在 JMM 中，如果一个操作执行的<strong>结果</strong>需要对另一个操作可见，那么这两个操作之间必须要存在 happens-before 关系。这里提到的两个操作既可以是在一个线程之内，也可以是在不同线程之间。
 与程序员密切相关的 happens-before 规则如下：</p>
 <ul>
@@ -303,7 +303,7 @@ Java 线程之间的通信由 Java内存模型(JMM)控制,JMM 决定了一个线
         title="happens-before与JMM的关系" />
 happens-before 与 JMM 的关系.</p>
 <p>如上图所示，一个 happens-before 规则通常对应于多个编译器和处理器重排序规则。对于 java 程序员来说，happens-before 规则简单易懂，它避免 java 程序员为了理解 JMM 提供的内存可见性保证而去学习复杂的重排序规则以及这些规则的具体实现。</p>
-<h2 id="感激非常感激万分的感激">感激,非常感激，万分的感激！</h2>
+<h3 id="感激非常感激万分的感激">感激,非常感激，万分的感激！</h3>
 <p>感谢以下的文章以及其作者和翻译的开发者们,排名不分先后</p>
 <ul>
 <li><a href="http://www.infoq.com/cn/articles/java-memory-model-1" target="_blank" rel="noopener noreffer ">深入理解Java内存模型（一）——基础</a></li>

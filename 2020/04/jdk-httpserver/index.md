@@ -1,21 +1,21 @@
 # jdk携带的一个HttpServer实现
 
-# 概述
+## 概述
 记录一个意外发现的一个类 `com.sun.net.httpserver.HttpsServer`. 一个 Http 的 Server 端.
 
 <!-- more -->
 
-# 用处
+## 用处
 1. 适用于泛前端类开发者,在无后端服务的情况下,可以用来mock数据或者mock后端行为,非常灵活.
 2. 适用于网络库的开发者,测试库的行为;
 
-# 缺点
+## 缺点
 1. 目前不支持`HTTP2`协议.
 
-# 分类
-## HTTP 协议
+## 分类
+### HTTP 协议
 
-### 自定义一个 HTTP 服务;
+#### 自定义一个 HTTP 服务;
 
 ```java
         HttpsServer server = HttpsServer.create(new InetSocketAddress(8500), 0);
@@ -28,7 +28,7 @@
 
 该 Http 服务,是在本机的 `8500` 端口启动的; 根目录为 `example`. 所以,直接通过 `http://127.0.0.1:8500/example` 即可访问.
 
-### Server 的行为定义
+#### Server 的行为定义
 
 ```java
     public class CustomHttpHandler implements HttpHandler {
@@ -92,13 +92,13 @@
     }
 ```
 
-## Https
+### Https
 
 > 生成自签的证书的命令如下: 
 > keytool -genkey -alias alias -keyalg RSA -keystore keystore.jks -keysize 2048
 
 
-### 自定义一个 Https 服务;
+#### 自定义一个 Https 服务;
 
 ```java
         try {
@@ -155,7 +155,7 @@
 ```
 
 
-### 自定义Https服务处理
+#### 自定义Https服务处理
 
 ```java
       public class SimpleHttpsServer {
@@ -227,6 +227,6 @@
       }
 ```
 
-# 末尾
+## 末尾
 
 如果知道实现了Http2的,还望告知.

@@ -118,12 +118,19 @@ how CookieManager 存在一个静态方法,可以打开 file 协议的 cookie.
                     <span>Contents</span>
                     <span><i class="details-icon fas fa-angle-right" aria-hidden="true"></i></span>
                 </div>
-                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents"></nav></div>
-            </div><div class="content" id="content"><h1 id="why">why</h1>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#why">why</a></li>
+    <li><a href="#what">what</a></li>
+    <li><a href="#how">how</a></li>
+    <li><a href="#参考文献">参考文献</a></li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><h2 id="why">why</h2>
 <p>在做 hybrid 框架的时候,发现以 file 协议打开的文件,存在 cookie 跨域的问题.以做记录.</p>
-<h1 id="what">what</h1>
+<h2 id="what">what</h2>
 <p>以 file 协议打开的文件,页面内存在新的跳转,跳转数据通过 cookie 传递,发现cookie 不能正常传递.</p>
-<h1 id="how">how</h1>
+<h2 id="how">how</h2>
 <p>CookieManager 存在一个静态方法,可以打开 file 协议的 cookie.</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
@@ -134,7 +141,7 @@ how CookieManager 存在一个静态方法,可以打开 file 协议的 cookie.
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>这是个静态方法,打开之后,整个 APP 的 webview 就都打开了.</p>
-<h1 id="参考文献">参考文献</h1>
+<h2 id="参考文献">参考文献</h2>
 <ul>
 <li>[官方文档](<a href="https://developer.android.com/reference/android/webkit/CookieManager.html#allowFileSchemeCookies%28%29" target="_blank" rel="noopener noreffer ">https://developer.android.com/reference/android/webkit/CookieManager.html#allowFileSchemeCookies()</a></li>
 </ul>

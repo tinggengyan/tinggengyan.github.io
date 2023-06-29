@@ -134,91 +134,96 @@ ReactiveX.io 给的定义是，Rx 是一个使用可观察数据流进行异步�
                 </div>
                 <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
   <ul>
-    <li><a href="#why-技术产生的背景">Why 技术产生的背景</a></li>
-    <li><a href="#what-reactivex是什么">What ReactiveX是什么</a></li>
-    <li><a href="#rxjava与传统的java的不同">RxJava与传统的Java的不同</a>
+    <li><a href="#概述">概述</a></li>
+    <li><a href="#rxjava-以及响应式函数思想篇">RxJava 以及响应式函数思想篇</a>
       <ul>
-        <li><a href="#与传统观察者的不同">与传统观察者的不同</a></li>
-        <li><a href="#与传统的iterable的不同">与传统的Iterable的不同</a></li>
-        <li><a href="#举个例子">举个例子：</a></li>
-      </ul>
-    </li>
-    <li><a href="#概念">概念</a>
-      <ul>
-        <li><a href="#observable">Observable</a></li>
-        <li><a href="#observer">Observer</a></li>
-        <li><a href="#subscriber">Subscriber</a></li>
-        <li><a href="#subjects">Subjects</a></li>
-      </ul>
-    </li>
-    <li><a href="#how怎么使用">How怎么使用</a>
-      <ul>
-        <li><a href="#创建observable">创建Observable</a>
+        <li><a href="#why-技术产生的背景">Why 技术产生的背景</a></li>
+        <li><a href="#what-reactivex是什么">What ReactiveX是什么</a></li>
+        <li><a href="#rxjava与传统的java的不同">RxJava与传统的Java的不同</a>
           <ul>
-            <li><a href="#create之从头创建">Create之从头创建</a></li>
-            <li><a href="#from">From</a></li>
-            <li><a href="#just">Just</a></li>
-            <li><a href="#repeat">Repeat</a></li>
-            <li><a href="#defer">defer</a></li>
-            <li><a href="#range-从一个指定的数字x开始发射n个数字">range 从一个指定的数字X开始发射N个数字</a></li>
-            <li><a href="#interval--重复轮训操作">interval  重复轮训操作</a></li>
-            <li><a href="#timer-一段时间之后才发射的observable">timer 一段时间之后才发射的Observable</a></li>
+            <li><a href="#与传统观察者的不同">与传统观察者的不同</a></li>
+            <li><a href="#与传统的iterable的不同">与传统的Iterable的不同</a></li>
+            <li><a href="#举个例子">举个例子：</a></li>
           </ul>
         </li>
-        <li><a href="#可观测序列的本质过滤">可观测序列的本质：过滤</a>
+        <li><a href="#概念">概念</a>
           <ul>
-            <li><a href="#filter函数进行内容的过滤">filter函数，进行内容的过滤</a></li>
-            <li><a href="#take取序列的前n个元素">Take,取序列的前N个元素</a></li>
-            <li><a href="#takelast取序列的最后的n个元素">takeLast,取序列的最后的N个元素</a></li>
-            <li><a href="#distinct-有且仅有一个">Distinct 有且仅有一个</a></li>
-            <li><a href="#distinctuntilschanged-改变的时候就记录">DistinctUntilsChanged 改变的时候就记录</a></li>
-            <li><a href="#first-and-last">First And Last</a></li>
-            <li><a href="#skip-and-skiplast">Skip And SkipLast</a></li>
-            <li><a href="#elementat-观察指定位置的数据">elementAt 观察指定位置的数据</a></li>
-            <li><a href="#sample-每隔一段时间取最近的数据">sample 每隔一段时间取最近的数据</a></li>
-            <li><a href="#timeout-超时操作">timeout 超时操作</a></li>
-            <li><a href="#debounce-除去发射过快的数据">debounce 除去发射过快的数据</a></li>
+            <li><a href="#observable">Observable</a></li>
+            <li><a href="#observer">Observer</a></li>
+            <li><a href="#subscriber">Subscriber</a></li>
+            <li><a href="#subjects">Subjects</a></li>
           </ul>
         </li>
-        <li><a href="#转换observables">转换Observables</a>
+        <li><a href="#how怎么使用">How怎么使用</a>
           <ul>
-            <li><a href="#map">Map</a></li>
-            <li><a href="#flatmap-铺平序列">FlatMap 铺平序列</a></li>
-            <li><a href="#concatmap-保证有序的铺平">ConcatMap 保证有序的铺平</a></li>
-            <li><a href="#flatmapiterable">FlatMapIterable</a></li>
-            <li><a href="#switchmap-切换数据流喜新厌旧">SwitchMap 切换数据流(喜新厌旧)</a></li>
-            <li><a href="#scan">Scan</a></li>
-            <li><a href="#groupby-分组">groupBy 分组</a></li>
-            <li><a href="#buffer">buffer</a></li>
-            <li><a href="#window">window</a></li>
-            <li><a href="#cast">cast</a></li>
+            <li><a href="#创建observable">创建Observable</a>
+              <ul>
+                <li><a href="#create之从头创建">Create之从头创建</a></li>
+                <li><a href="#from">From</a></li>
+                <li><a href="#just">Just</a></li>
+                <li><a href="#repeat">Repeat</a></li>
+                <li><a href="#defer">defer</a></li>
+                <li><a href="#range-从一个指定的数字x开始发射n个数字">range 从一个指定的数字X开始发射N个数字</a></li>
+                <li><a href="#interval--重复轮训操作">interval  重复轮训操作</a></li>
+                <li><a href="#timer-一段时间之后才发射的observable">timer 一段时间之后才发射的Observable</a></li>
+              </ul>
+            </li>
+            <li><a href="#可观测序列的本质过滤">可观测序列的本质：过滤</a>
+              <ul>
+                <li><a href="#filter函数进行内容的过滤">filter函数，进行内容的过滤</a></li>
+                <li><a href="#take取序列的前n个元素">Take,取序列的前N个元素</a></li>
+                <li><a href="#takelast取序列的最后的n个元素">takeLast,取序列的最后的N个元素</a></li>
+                <li><a href="#distinct-有且仅有一个">Distinct 有且仅有一个</a></li>
+                <li><a href="#distinctuntilschanged-改变的时候就记录">DistinctUntilsChanged 改变的时候就记录</a></li>
+                <li><a href="#first-and-last">First And Last</a></li>
+                <li><a href="#skip-and-skiplast">Skip And SkipLast</a></li>
+                <li><a href="#elementat-观察指定位置的数据">elementAt 观察指定位置的数据</a></li>
+                <li><a href="#sample-每隔一段时间取最近的数据">sample 每隔一段时间取最近的数据</a></li>
+                <li><a href="#timeout-超时操作">timeout 超时操作</a></li>
+                <li><a href="#debounce-除去发射过快的数据">debounce 除去发射过快的数据</a></li>
+              </ul>
+            </li>
+            <li><a href="#转换observables">转换Observables</a>
+              <ul>
+                <li><a href="#map">Map</a></li>
+                <li><a href="#flatmap-铺平序列">FlatMap 铺平序列</a></li>
+                <li><a href="#concatmap-保证有序的铺平">ConcatMap 保证有序的铺平</a></li>
+                <li><a href="#flatmapiterable">FlatMapIterable</a></li>
+                <li><a href="#switchmap-切换数据流喜新厌旧">SwitchMap 切换数据流(喜新厌旧)</a></li>
+                <li><a href="#scan">Scan</a></li>
+                <li><a href="#groupby-分组">groupBy 分组</a></li>
+                <li><a href="#buffer">buffer</a></li>
+                <li><a href="#window">window</a></li>
+                <li><a href="#cast">cast</a></li>
+              </ul>
+            </li>
+            <li><a href="#组合observable">组合Observable</a>
+              <ul>
+                <li><a href="#merge">merge</a></li>
+                <li><a href="#zip">zip</a></li>
+                <li><a href="#join-todo-待详细验证用途">join TODO 待详细验证用途</a></li>
+                <li><a href="#combinelatest">combineLatest</a></li>
+                <li><a href="#startwith">startWith</a></li>
+              </ul>
+            </li>
+            <li><a href="#schedulers-随时切换运行的线程">Schedulers 随时切换运行的线程</a>
+              <ul>
+                <li><a href="#rxjava提供的五种调度器">RxJava提供的五种调度器</a></li>
+                <li><a href="#subscribeon-and-observeon指定线程线程切换">SubscribeOn and ObserveOn，指定线程，线程切换</a></li>
+              </ul>
+            </li>
+            <li><a href="#retrofit">Retrofit</a></li>
           </ul>
         </li>
-        <li><a href="#组合observable">组合Observable</a>
-          <ul>
-            <li><a href="#merge">merge</a></li>
-            <li><a href="#zip">zip</a></li>
-            <li><a href="#join-todo-待详细验证用途">join TODO 待详细验证用途</a></li>
-            <li><a href="#combinelatest">combineLatest</a></li>
-            <li><a href="#startwith">startWith</a></li>
-          </ul>
-        </li>
-        <li><a href="#schedulers-随时切换运行的线程">Schedulers 随时切换运行的线程</a>
-          <ul>
-            <li><a href="#rxjava提供的五种调度器">RxJava提供的五种调度器</a></li>
-            <li><a href="#subscribeon-and-observeon指定线程线程切换">SubscribeOn and ObserveOn，指定线程，线程切换</a></li>
-          </ul>
-        </li>
-        <li><a href="#retrofit">Retrofit</a></li>
       </ul>
     </li>
   </ul>
 </nav></div>
-            </div><div class="content" id="content"><h1 id="概述">概述</h1>
+            </div><div class="content" id="content"><h2 id="概述">概述</h2>
 <p>本文记录 RxJava 的概念.</p>
 <!-- more -->
-<h1 id="rxjava-以及响应式函数思想篇">RxJava 以及响应式函数思想篇</h1>
-<h2 id="why-技术产生的背景">Why 技术产生的背景</h2>
+<h2 id="rxjava-以及响应式函数思想篇">RxJava 以及响应式函数思想篇</h2>
+<h3 id="why-技术产生的背景">Why 技术产生的背景</h3>
 <p>在编程中，经常需要切换线程，为了能对结果进行相应处理，经常需要进行回调，随着业务需求的增加，嵌套的回调也会随之增加，不仅增加了代码量，也增加了逻辑的复杂性，增加了理解和维护的难度。
 所以就需要一种</p>
 <ul>
@@ -227,7 +232,7 @@ ReactiveX.io 给的定义是，Rx 是一个使用可观察数据流进行异步�
 <li>又可以简化代码的逻辑，方便维护，</li>
 <li>还不需要回调。</li>
 </ul>
-<h2 id="what-reactivex是什么">What ReactiveX是什么</h2>
+<h3 id="what-reactivex是什么">What ReactiveX是什么</h3>
 <p>Reactive Extensions,简称 RX，原来只是微软开发的一个 LINQ 的一个扩展。</p>
 <p>微软给的定义是，Rx 是一个函数库，让开发者可以利用<strong>可观察序列</strong>和<strong>LINQ风格查询操作符</strong>来编写<strong>异步</strong>和基于<strong>事件</strong>的程序，使用 Rx，开发者可以用Observables 表示异步数据流，用 LINQ 操作符查询异步数据流，用 Schedulers 参数化异步数据流的并发处理，Rx 可以这样定义：<strong>Rx = Observables + LINQ + Schedulers。</strong></p>
 <p>ReactiveX.io 给的定义是，Rx 是一个使用可观察数据流进行异步编程的<strong>编程接口</strong>，ReactiveX 结合了观察者模式、迭代器模式和函数式编程的精华。</p>
@@ -245,16 +250,16 @@ ReactiveX.io 给的定义是，Rx 是一个使用可观察数据流进行异步�
 <li>一种更好的方式来避免回调地狱。</li>
 <li>一种响应式方法。</li>
 </ul>
-<h2 id="rxjava与传统的java的不同">RxJava与传统的Java的不同</h2>
+<h3 id="rxjava与传统的java的不同">RxJava与传统的Java的不同</h3>
 <p>在 Rx 中，开发者用 Observables 模拟可被观察的异步数据流，从纯 Java 的观点看，RxJava 的 Observable 类源自于经典的 Gang Of Four 的观察者模式。</p>
-<h3 id="与传统观察者的不同">与传统观察者的不同</h3>
+<h4 id="与传统观察者的不同">与传统观察者的不同</h4>
 <p>它添加了三个缺少的功能：</p>
 <ul>
 <li>生产者在没有更多数据可用时能够发出信号通知：onCompleted()事件。</li>
 <li>生产者在发生错误时能够发出信号通知：onError()事件。</li>
 <li>RxJava Observables 能够组合而不是嵌套，从而避免开发者陷入回调地狱。</li>
 </ul>
-<h3 id="与传统的iterable的不同">与传统的Iterable的不同</h3>
+<h4 id="与传统的iterable的不同">与传统的Iterable的不同</h4>
 <p>Observables 和 IterablesAPI 是很相似的：我们在 Iterable 可以执行的许多操作也都同样可以在 Observables 上执行。当然，由于 Observables 流的本质，没有如Iterable.remove() 这样相应的方法,因为数据可能已经发射出去了，remove 也没有任何意义。</p>
 <p>使用 Iterable 时，消费者从生产者那里以同步的方式得到值，在这些值得到之前线程处于阻塞状态。相反，使用 Observable 时，生产者以异步的方式把值 push 给观察者，无论何时，这些值都是可用的。这种方法之所以更灵活是因为即便值是同步或异步方式到达，消费者在这两种场景都可以根据自己的需要来处理。</p>
 <table>
@@ -306,21 +311,21 @@ ReactiveX.io 给的定义是，Rx 是一个使用可观察数据流进行异步�
 </tbody>
 </table>
 <p>所以，由以上这些新增的特点，开发者只要简单的去请求，当请求完成的时候，会得到一个通知。开发者需要对可能发生的每个事件提供一个清晰的响应链。</p>
-<h3 id="举个例子">举个例子：</h3>
+<h4 id="举个例子">举个例子：</h4>
 <p>用户提交完用户名和密码，我们可以用 observable 模拟这个登录的数据流，而后我们需要对可能发生的情况进行定义；</p>
 <ul>
 <li>用户名密码正确，登录成功，转到登录成功界面。</li>
 <li>用户名和密码匹配不成功，登录失败，给用户个提示。</li>
 </ul>
 <p>这样，我们不需要等待结果，等到有结果的时候，会有通知，这个过程是异步的。这中间可以做很多其他的事情，保存到缓存，显示进度条等等。</p>
-<h2 id="概念">概念</h2>
-<h3 id="observable">Observable</h3>
+<h3 id="概念">概念</h3>
+<h4 id="observable">Observable</h4>
 <p>当我们异步执行一些复杂的事情，Java 提供了传统的类，例如 Thread、Future、FutureTask、CompletableFuture 来处理这些问题。当复杂度提升，这些方案就会变得麻烦和难以维护。最糟糕的是，它们都不支持链式调用。RxJava Observables 可以解决这些问题。它可以作用于单个结果程序上，也可以作用于序列上。无论何时你想发射单个标量值，或者一连串值，甚至是无穷个数值流，你都可以使用 Observable。和传统的观察者模式一样，也有冷热之分。</p>
 <ul>
 <li>热的 observable，只要创建了 observable，就开始发射数据了，所以，后续订阅他的 observer 可能从中间某个位置开始接收数据。</li>
 <li>冷的 observable，等到有订阅的时候才开始发射数据。</li>
 </ul>
-<h3 id="observer">Observer</h3>
+<h4 id="observer">Observer</h4>
 <p>观察者，订阅 observable 发射的数据，对其做出相应，对可能出现的情况的定义就在这里。</p>
 <p>三个重要的回调方法 (onNext, onCompleted, onError)
 通过Subscribe方法可以将观察者连接到 Observable，观察者需要实现以下方法的一个子集:</p>
@@ -330,13 +335,13 @@ ReactiveX.io 给的定义是，Rx 是一个使用可观察数据流进行异步�
 <li>onComplete:正常终止，如果没有遇到错误，Observable 在最后一次调用 onNext 之后调用此方法。</li>
 </ul>
 <p>根据 Observable 协议的定义，onNext 可能会被调用<strong>零次或者很多次</strong>，最后会有一次 onCompleted 或 onError 调用（不会同时），传递数据给 onNext 通常被称作发射，onCompleted 和 onError 被称作通知。</p>
-<h3 id="subscriber">Subscriber</h3>
+<h4 id="subscriber">Subscriber</h4>
 <p>Observers 和 Subscribers 是两个“消费”实体。Subscriber 是一个实现了 Observer 的一个抽象类。相对于基本的 Observer，提供了手动解开订阅的方法 unsubscribe 和在 subscribe 刚开始，而事件还未发送之前被调用的方法 onStart。其他的使用方式是一样的。</p>
-<h3 id="subjects">Subjects</h3>
+<h4 id="subjects">Subjects</h4>
 <p>Subject = Observable + Observer。
 subject 是一个神奇的对象，它可以是一个 Observable 同时也可以是一个 Observer：它作为连接这两个世界的一座桥梁。一个 Subject 可以订阅一个 Observable，就像一个观察者，并且它可以发射新的数据，或者传递它接受到的数据，就像一个 Observable。很明显，作为一个 Observable，观察者们或者其它 Subject 都可以订阅它。
 一旦 Subject 订阅了 Observable，它将会触发 Observable 开始发射。如果原始的 Observable 是“冷”的，这将会对订阅一个“热”的 Observable 变量产生影响。</p>
-<h2 id="how怎么使用">How怎么使用</h2>
+<h3 id="how怎么使用">How怎么使用</h3>
 <p>接下来讨论他的具体使用方法。首先是需要搭建环境，我们就以 AS 为例。</p>
 <ul>
 <li>因为就是为了 Android 开发所学的，在 module 的 gradle 中添加 RxAndroid 的仓库地址,RxAndroid 本身是依赖 RxJava 的，所以会自动下载 RxJava 的依赖包。</li>
@@ -349,8 +354,8 @@ subject 是一个神奇的对象，它可以是一个 Observable 同时也可以
 <pre tabindex="0" class="chroma"><code class="language-groovy" data-lang="groovy"><span class="line"><span class="cl"><span class="n">compile</span> <span class="s1">&#39;io.reactivex:rxandroid:1.1.0&#39;</span>
 </span></span></code></pre></td></tr></table>
 </div>
-</div><h3 id="创建observable">创建Observable</h3>
-<h4 id="create之从头创建">Create之从头创建</h4>
+</div><h4 id="创建observable">创建Observable</h4>
+<h5 id="create之从头创建">Create之从头创建</h5>
 <p>这个操作符传递一个<strong>含有观察者作为参数的函数</strong>的对象，编写这个函数让它的行为表现为一个 Observable &ndash;恰当的调用观察者的 onNext，onError 和 onCompleted 方法。下面是个非常简单的一个例子，先有个直观的大致的认识。</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
@@ -414,13 +419,13 @@ subject 是一个神奇的对象，它可以是一个 Observable 同时也可以
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="n">observable</span><span class="o">.</span><span class="na">subscribe</span><span class="o">(</span><span class="n">subscriber</span><span class="o">);</span>
 </span></span></code></pre></td></tr></table>
 </div>
-</div><h4 id="from">From</h4>
+</div><h5 id="from">From</h5>
 <p>这个操作符需要传入数组或者列表等可以迭代的类型，将会返回一个 Observable 对象，这个 Observable 会迭代列表里的数据，然后将数据一个一个的发射出去。</p>
-<h4 id="just">Just</h4>
+<h5 id="just">Just</h5>
 <p>这个操作符会返回一个 Observable，这个 Observable 将传入的对象直接发射出去。这个操作符对于进行旧版本的改造非常有用，对于暂时不想做过多操作的函数，可以直接传入到 just 操作符中，这样就自动构造出了一个数据流。</p>
-<h4 id="repeat">Repeat</h4>
+<h5 id="repeat">Repeat</h5>
 <p>这个操作符需要一个整形数字作为参数，代表了重复发射的次数，比如发射“123”三次，就会变成发射&quot;123123123&quot;。</p>
-<h4 id="defer">defer</h4>
+<h5 id="defer">defer</h5>
 <p>这个操作符可以延迟 Observable 的创建，当有订阅者的时候才开始创建，这个对于一些不是每次都需要创建的数据流而言，很有用。怎么理解呢，我们简单的看个例子。</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
@@ -635,70 +640,70 @@ subject 是一个神奇的对象，它可以是一个 Observable 同时也可以
 </span></span><span class="line"><span class="cl"><span class="o">}</span>
 </span></span></code></pre></td></tr></table>
 </div>
-</div><h4 id="range-从一个指定的数字x开始发射n个数字">range 从一个指定的数字X开始发射N个数字</h4>
+</div><h5 id="range-从一个指定的数字x开始发射n个数字">range 从一个指定的数字X开始发射N个数字</h5>
 <p>range() 函数用两个数字作为参数：第一个是起始点，第二个是我们想发射数字的个数。目前未发现在实际项目中的用处。</p>
-<h4 id="interval--重复轮训操作">interval  重复轮训操作</h4>
+<h5 id="interval--重复轮训操作">interval  重复轮训操作</h5>
 <p>interval() 函数的两个参数：一个指定两次发射的时间间隔，另一个是用到的时间单位。需要创建一个轮询程序时非常好用</p>
-<h4 id="timer-一段时间之后才发射的observable">timer 一段时间之后才发射的Observable</h4>
+<h5 id="timer-一段时间之后才发射的observable">timer 一段时间之后才发射的Observable</h5>
 <p>接受两个参数，一个是延迟发射的时间，第二个参数是时间的。</p>
-<h3 id="可观测序列的本质过滤">可观测序列的本质：过滤</h3>
+<h4 id="可观测序列的本质过滤">可观测序列的本质：过滤</h4>
 <p>过滤：如何从发射的 Observable 中选取我们想要的值，如何获取有限个数的值，如何处理溢出的场景，以及更多的有用的技巧。</p>
-<h4 id="filter函数进行内容的过滤">filter函数，进行内容的过滤</h4>
+<h5 id="filter函数进行内容的过滤">filter函数，进行内容的过滤</h5>
 <p>接受一个参数，对数据流中的每个数据进行过滤。</p>
-<h4 id="take取序列的前n个元素">Take,取序列的前N个元素</h4>
+<h5 id="take取序列的前n个元素">Take,取序列的前N个元素</h5>
 <p>take() 函数用整数N来作为一个参数，从原始的序列中发射前 N 个元素</p>
-<h4 id="takelast取序列的最后的n个元素">takeLast,取序列的最后的N个元素</h4>
+<h5 id="takelast取序列的最后的n个元素">takeLast,取序列的最后的N个元素</h5>
 <p>如果我们想要最后 N 个元素，接给 takeLast
 函数传入 N 作为参数。有一点值得注意，为了得到最后的数据，所以 takeLast 方法只能作用于一组有限的序列（发射元素），它只能应用于一个完整的序列。否则他无从知晓最后到哪。</p>
-<h4 id="distinct-有且仅有一个">Distinct 有且仅有一个</h4>
+<h5 id="distinct-有且仅有一个">Distinct 有且仅有一个</h5>
 <p>distinct 函数去掉重复的。就像 takeLast 一样，distinct 也必须作用于一个完整的序列，然后得到重复的过滤项，它需要记录每一个发射的值。如果你在处理一大堆序列或者大的数据记得关注内存使用情况。</p>
-<h4 id="distinctuntilschanged-改变的时候就记录">DistinctUntilsChanged 改变的时候就记录</h4>
+<h5 id="distinctuntilschanged-改变的时候就记录">DistinctUntilsChanged 改变的时候就记录</h5>
 <p>如果我们想在一个可观测序列发射一个不同于之前的一个新值时，让我们得到通知，就可以用这个操作符。</p>
-<h4 id="first-and-last">First And Last</h4>
+<h5 id="first-and-last">First And Last</h5>
 <p>从 Observable 中只发射第一个元素或者最后一个元素。这两个都可以传 Func1 作为参数，：一个可以确定我们感兴趣的第一个或者最后一个的谓词。
 与 first()和 last()相似的变量有：firstOrDefault() 和 lastOrDefault().这两个函数当可观测序列完成时不再发射任何值时用得上。在这种场景下，如果 Observable 不再发射任何值时我们可以指定发射一个默认的值</p>
-<h4 id="skip-and-skiplast">Skip And SkipLast</h4>
+<h5 id="skip-and-skiplast">Skip And SkipLast</h5>
 <p>它们用整数 N 作参数，从本质上来说，它们不让 Observable 发射前 N 个或者后 N 个值。这个和上面的 First 和 Last 正好相反。</p>
-<h4 id="elementat-观察指定位置的数据">elementAt 观察指定位置的数据</h4>
+<h5 id="elementat-观察指定位置的数据">elementAt 观察指定位置的数据</h5>
 <p>elementAt() 函数仅从一个序列中发射第 n 个元素然后就完成了。
 如果我们想查找第五个元素但是可观测序列只有三个元素可供发射时该怎么办？我们可以使用 elementAtOrDefault()。</p>
-<h4 id="sample-每隔一段时间取最近的数据">sample 每隔一段时间取最近的数据</h4>
+<h5 id="sample-每隔一段时间取最近的数据">sample 每隔一段时间取最近的数据</h5>
 <p>创建一个新的可观测序列，它将在一个指定的时间间隔里由 Observable 发射最近一次的数值。
 如果我们想让它定时发射第一个元素而不是最近的一个元素，我们可以使用 throttleFirst()。</p>
-<h4 id="timeout-超时操作">timeout 超时操作</h4>
+<h5 id="timeout-超时操作">timeout 超时操作</h5>
 <p>使用 timeout() 函数来监听源可观测序列,就是在我们设定的时间间隔内如果没有得到一个值则发射一个错误。</p>
-<h4 id="debounce-除去发射过快的数据">debounce 除去发射过快的数据</h4>
+<h5 id="debounce-除去发射过快的数据">debounce 除去发射过快的数据</h5>
 <p>debounce() 函数过滤掉由 Observable 发射的速率过快的数据；如果在一个指定的时间间隔过去了仍旧没有发射一个，那么它将发射最后的那个。</p>
-<h3 id="转换observables">转换Observables</h3>
-<h4 id="map">Map</h4>
+<h4 id="转换observables">转换Observables</h4>
+<h5 id="map">Map</h5>
 <p>转换发射的数据，将发射数据 A 的 Observable 变换成发射数据 B 的 Observable。适用于对数据的再加工场景。</p>
-<h4 id="flatmap-铺平序列">FlatMap 铺平序列</h4>
+<h5 id="flatmap-铺平序列">FlatMap 铺平序列</h5>
 <p>这样的 Observable：它发射一个数据序列，这些数据本身也可以发射 Observable。等于是说发射的数据可以再发射数据。flatMap 函数提供一种铺平序列的方式，然后合并这些 Observables 发射的数据，最后将合并后的结果作为最终的 Observable.</p>
 <p>当我们在处理可能有大量的 Observables 时，重要是记住任何一个 Observables 发生错误的情况，flatMap 将会触发它自己的 onError 函数并放弃整个链。</p>
 <p>重要的一点提示是关于合并部分：它允许交叉。正如上图所示，这意味着 flatMap 不能够保证在最终生成的 Observable 中源 Observables 确切的发射顺序。</p>
-<h4 id="concatmap-保证有序的铺平">ConcatMap 保证有序的铺平</h4>
+<h5 id="concatmap-保证有序的铺平">ConcatMap 保证有序的铺平</h5>
 <p>和上面的 FlatMap 一样，就是弥补了交叉这个一个特点。</p>
-<h4 id="flatmapiterable">FlatMapIterable</h4>
+<h5 id="flatmapiterable">FlatMapIterable</h5>
 <p>它将源数据两两结成对并生成 Iterable，而不是原始数据项和生成的 Observables。</p>
-<h4 id="switchmap-切换数据流喜新厌旧">SwitchMap 切换数据流(喜新厌旧)</h4>
+<h5 id="switchmap-切换数据流喜新厌旧">SwitchMap 切换数据流(喜新厌旧)</h5>
 <p>switchMap() 和 flatMap() 很像，除了一点：每当源 Observable 发射一个新的数据项（Observable）时，它将取消订阅并停止监视之前那个数据项产生的 Observable，并开始监视当前发射的这一个。</p>
-<h4 id="scan">Scan</h4>
+<h5 id="scan">Scan</h5>
 <p>RxJava 的 scan() 函数可以看做是一个累积函数。scan 函数对原始 Observable 发射的每一项数据都应用一个函数，计算出函数的结果值，并将该值填充回可观测序列，等待和下一次发射的数据一起使用。简单的说是每次可以处理的数据有本次的和上次的数据。</p>
-<h4 id="groupby-分组">groupBy 分组</h4>
+<h5 id="groupby-分组">groupBy 分组</h5>
 <p>接受一个方法，在方法里进行分组操作，返回一个自定义的值，系统将根据这个值将进行分组。</p>
-<h4 id="buffer">buffer</h4>
+<h5 id="buffer">buffer</h5>
 <p>每次发射一组值，是一个列表，而不是一个个的发射。接受一个整形参数 N，表示 N 个一组进行发射。也可以接受两个参数，SKIP，表示 SKIP 个值中取 N 个一组进行发射。</p>
-<h4 id="window">window</h4>
+<h5 id="window">window</h5>
 <p>和 buffer 类似，但是他发射的不是一个列表，而是一个 Observable。</p>
-<h4 id="cast">cast</h4>
+<h5 id="cast">cast</h5>
 <p>和 map 类似，不同的是将数据进行转换成一个新的类型。TODO 目前测试未发现怎么使用。</p>
-<h3 id="组合observable">组合Observable</h3>
+<h4 id="组合observable">组合Observable</h4>
 <p>以上的内容是对 Observable 的发射数据进行过滤，接下来谈谈怎么组合数据流。</p>
-<h4 id="merge">merge</h4>
+<h5 id="merge">merge</h5>
 <p>将多个 Observable 发射的值进行合并成一个新的 Observable 然后再发射。中途合并的时候出现任何一个错误都会导致链条断裂，如果想延迟这样的错误处理，可以用 mergeDelayError。</p>
-<h4 id="zip">zip</h4>
+<h5 id="zip">zip</h5>
 <p>这个操作符和 merge 一样，也是合并两个 Observable 的数据；不一样的是，他是将两个未进行打包的数据根据传入的谓词规则进行合并成一个新的数据,再进行发射。值得注意的是，两个数据流的长度必须一样，多余的数据将会因为不能打包而得不到发射。</p>
-<h4 id="join-todo-待详细验证用途">join TODO 待详细验证用途</h4>
+<h5 id="join-todo-待详细验证用途">join TODO 待详细验证用途</h5>
 <p>有四个参数，</p>
 <ul>
 <li>第一个参数为，Observable，表示和源 Observable 结合的数据流。</li>
@@ -706,13 +711,13 @@ subject 是一个神奇的对象，它可以是一个 Observable 同时也可以
 <li>Func1参数：在指定的由时间窗口定义时间间隔内，第二个 Observable 发射的数据和从源 Observable 发射的数据相互配合返回的 Observable。</li>
 <li>Func2参数：定义已发射的数据如何与新发射的数据项相结合。</li>
 </ul>
-<h4 id="combinelatest">combineLatest</h4>
+<h5 id="combinelatest">combineLatest</h5>
 <p>和 Zip 一样，去组合两个数据流发射的数据，并且进行组合，合并成一个新的数据进行发射，不同的是，Zip 发射的是最近未进行打包的，而 combineLatest 走的是相反的路线，打包最近发射的数据，不管是否已经打包过了。这样的话，就会弥补 Zip 的长度限制，全部得到发射。</p>
-<h4 id="startwith">startWith</h4>
+<h5 id="startwith">startWith</h5>
 <p>Observable 开始发射他们的数据之前， startWith() 通过传递一个参数来先发射一个数据序列。 表示发射之前先将传入的参数法发射出去。</p>
-<h3 id="schedulers-随时切换运行的线程">Schedulers 随时切换运行的线程</h3>
+<h4 id="schedulers-随时切换运行的线程">Schedulers 随时切换运行的线程</h4>
 <p>这里大致说一下有哪几种情况，因为在 Java 中的情况和 Android 稍有差异，并且必须结合实例才能明白这个好处。</p>
-<h4 id="rxjava提供的五种调度器">RxJava提供的五种调度器</h4>
+<h5 id="rxjava提供的五种调度器">RxJava提供的五种调度器</h5>
 <ul>
 <li>.io()
 这个调度器时用于 I/O 操作。它基于根据需要，增长或缩减来自适应的线程池。由于它专用于 I/O 操作，所以并不是 RxJava 的默认方法；正确的使用它是由开发者决定的。重点需要注意的是线程池是无限制的，大量的 I/O 调度操作将创建许多个线程并占用内存。</li>
@@ -726,12 +731,12 @@ subject 是一个神奇的对象，它可以是一个 Observable 同时也可以
 当我们想在当前线程执行一个任务时，并不是立即，我们可以用
 .trampoline 将它入队。这个调度器将会处理它的队列并且按序运行队列中每一个任务。它是 repeat()和 retry() 方法默认的调度器。</li>
 </ul>
-<h4 id="subscribeon-and-observeon指定线程线程切换">SubscribeOn and ObserveOn，指定线程，线程切换</h4>
+<h5 id="subscribeon-and-observeon指定线程线程切换">SubscribeOn and ObserveOn，指定线程，线程切换</h5>
 <p>subscribeOn() 方法来用于每个 Observable 对象。subscribeOn() 方法用 Scheduler 来作为参数并在这个 Scheduler 上执行 Observable 调用。
 observeOn() 方法将会在指定的调度器上返回结果。observeOn() 方法用 Scheduler 来作为参数，在指定的线程上返回结果，观察者在返回结果的线程上消费这个结果。</p>
-<h3 id="retrofit">Retrofit</h3>
+<h4 id="retrofit">Retrofit</h4>
 <p>Retrofit 完美的支持 Rx 编程，可以完美的结合。</p>
-<p>##感激,非常感激，万分的感激！</p>
+<p>###感激,非常感激，万分的感激！</p>
 <p>感谢以下的文章以及其作者和翻译的开发者们,排名不分先后</p>
 <ul>
 <li><a href="http://rxjava.yuxingxin.com/" target="_blank" rel="noopener noreffer ">RxJava Essentials 中文翻译版</a></li>

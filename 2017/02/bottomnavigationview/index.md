@@ -1,15 +1,15 @@
 # BottomNavigationView 的使用
 
-# why
+## why
 BottomNavigationView 这个概念很早之前就被提出,之后出一个第三方库.但是一直未有官方的支持,今天正好看到有官方支持,记录一下.
 
 <!-- more -->
 
 
-# what
+## what
 [BottomNavigationView](https://material.io/guidelines/components/bottom-navigation.html)  是 material design 中的设计的实现，这种设计很早就出现了。
 
-# how
+## how
 1. 添加依赖
 ```groovy
 compile 'com.android.support:design:25.1.1'
@@ -83,7 +83,7 @@ this.bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigati
     }
 });
 ```
-#　Ｃonclusion
+##　Ｃonclusion
 官方的这个支持，可扩展性不强，也没什么特别的新意，可参考学习第三方库[BottomBar](https://github.com/roughike/BottomBar/).
 
 

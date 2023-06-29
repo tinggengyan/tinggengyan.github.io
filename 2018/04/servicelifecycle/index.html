@@ -118,47 +118,56 @@
                 </div>
                 <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
   <ul>
-    <li><a href="#触发-startservice-方法">触发 startService 方法</a></li>
-    <li><a href="#退出app">退出APP</a></li>
-    <li><a href="#再次进入app触发startservice-方法">再次进入APP，触发startService 方法</a></li>
-    <li><a href="#杀死-app-进程">杀死 App 进程</a></li>
-    <li><a href="#调用-stop-方法">调用 stop 方法</a></li>
-    <li><a href="#小结">小结</a></li>
-  </ul>
-
-  <ul>
-    <li><a href="#触发-bindservice-方法">触发 bindService 方法</a></li>
-    <li><a href="#多次触发-bindservice-方法">多次触发 bindService 方法</a></li>
-    <li><a href="#退出app-1">退出APP</a></li>
-    <li><a href="#退出前主动调用-unbind-方法">退出前，主动调用 unbind 方法</a></li>
-    <li><a href="#小结-1">小结</a></li>
-  </ul>
-
-  <ul>
-    <li><a href="#触发-startservice-方法再触发--bindservice-方法">触发 startService 方法，再触发  bindService 方法</a></li>
-    <li><a href="#退出app-2">退出APP</a></li>
-    <li><a href="#调用--unbind-方法">调用  unbind 方法</a></li>
-    <li><a href="#在-unbind-之前调用-stop-方法">在 unbind 之前，调用 stop 方法</a></li>
-    <li><a href="#调用-stop-方法再调-unbind">调用 stop 方法，再调 unbind</a></li>
-    <li><a href="#调用-unbind再调用-stop-方法">调用 unbind，再调用 stop 方法</a></li>
-    <li><a href="#小结-2">小结</a></li>
-  </ul>
-
-  <ul>
-    <li><a href="#触发-bindservice-方法再触发--startservice-方法">触发 bindService 方法，再触发  startService 方法</a></li>
-    <li><a href="#退出app-3">退出APP</a></li>
-    <li><a href="#调用--unbind-方法-1">调用  unbind 方法</a></li>
-    <li><a href="#在-unbind-之前调用-stop-方法-1">在 unbind 之前，调用 stop 方法</a></li>
-    <li><a href="#调用-stop-方法再调-unbind-1">调用 stop 方法，再调 unbind</a></li>
-    <li><a href="#调用-unbind再调用-stop-方法-1">调用 unbind，再调用 stop 方法</a></li>
-    <li><a href="#小结-3">小结</a></li>
+    <li><a href="#概述">概述</a></li>
+    <li><a href="#仅-startservice">仅 startService</a>
+      <ul>
+        <li><a href="#触发-startservice-方法">触发 startService 方法</a></li>
+        <li><a href="#退出app">退出APP</a></li>
+        <li><a href="#再次进入app触发startservice-方法">再次进入APP，触发startService 方法</a></li>
+        <li><a href="#杀死-app-进程">杀死 App 进程</a></li>
+        <li><a href="#调用-stop-方法">调用 stop 方法</a></li>
+        <li><a href="#小结">小结</a></li>
+      </ul>
+    </li>
+    <li><a href="#仅-bindservice">仅 bindService</a>
+      <ul>
+        <li><a href="#触发-bindservice-方法">触发 bindService 方法</a></li>
+        <li><a href="#多次触发-bindservice-方法">多次触发 bindService 方法</a></li>
+        <li><a href="#退出app-1">退出APP</a></li>
+        <li><a href="#退出前主动调用-unbind-方法">退出前，主动调用 unbind 方法</a></li>
+        <li><a href="#小结-1">小结</a></li>
+      </ul>
+    </li>
+    <li><a href="#先-startservice-再-bindservice">先 startService ，再 bindService</a>
+      <ul>
+        <li><a href="#触发-startservice-方法再触发--bindservice-方法">触发 startService 方法，再触发  bindService 方法</a></li>
+        <li><a href="#退出app-2">退出APP</a></li>
+        <li><a href="#调用--unbind-方法">调用  unbind 方法</a></li>
+        <li><a href="#在-unbind-之前调用-stop-方法">在 unbind 之前，调用 stop 方法</a></li>
+        <li><a href="#调用-stop-方法再调-unbind">调用 stop 方法，再调 unbind</a></li>
+        <li><a href="#调用-unbind再调用-stop-方法">调用 unbind，再调用 stop 方法</a></li>
+        <li><a href="#小结-2">小结</a></li>
+      </ul>
+    </li>
+    <li><a href="#先-bindservice-再-startservice">先 bindService ，再 startService</a>
+      <ul>
+        <li><a href="#触发-bindservice-方法再触发--startservice-方法">触发 bindService 方法，再触发  startService 方法</a></li>
+        <li><a href="#退出app-3">退出APP</a></li>
+        <li><a href="#调用--unbind-方法-1">调用  unbind 方法</a></li>
+        <li><a href="#在-unbind-之前调用-stop-方法-1">在 unbind 之前，调用 stop 方法</a></li>
+        <li><a href="#调用-stop-方法再调-unbind-1">调用 stop 方法，再调 unbind</a></li>
+        <li><a href="#调用-unbind再调用-stop-方法-1">调用 unbind，再调用 stop 方法</a></li>
+        <li><a href="#小结-3">小结</a></li>
+      </ul>
+    </li>
+    <li><a href="#总结">总结</a></li>
   </ul>
 </nav></div>
-            </div><div class="content" id="content"><h1 id="概述">概述</h1>
+            </div><div class="content" id="content"><h2 id="概述">概述</h2>
 <p>Service 有两种启动方式,一种是 startService ;一种是 bindService.这两种的启动的 Service 的生命周期有些许差异,并且当二者混用的时候,有一些需要注意的地方.这里用打印 log 日志的方式记录下生命周期的差异.</p>
 <!-- more -->
-<h1 id="仅-startservice">仅 startService</h1>
-<h2 id="触发-startservice-方法">触发 startService 方法</h2>
+<h2 id="仅-startservice">仅 startService</h2>
+<h3 id="触发-startservice-方法">触发 startService 方法</h3>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
@@ -169,9 +178,9 @@
 </span></span></span><span class="line"><span class="cl"><span class="go">D/ServiceLifeService: onStartCommand() called with: intent = [Intent { cmp=cn.steve.study/cn.steve.servicelifecycle.ServiceLifeService }], flags = [0], startId = [1]
 </span></span></span></code></pre></td></tr></table>
 </div>
-</div><h2 id="退出app">退出APP</h2>
+</div><h3 id="退出app">退出APP</h3>
 <p>无回调</p>
-<h2 id="再次进入app触发startservice-方法">再次进入APP，触发startService 方法</h2>
+<h3 id="再次进入app触发startservice-方法">再次进入APP，触发startService 方法</h3>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
@@ -180,7 +189,7 @@
 <pre tabindex="0" class="chroma"><code class="language-console" data-lang="console"><span class="line"><span class="cl"><span class="go">D/ServiceLifeService: onStartCommand() called with: intent = [Intent { cmp=cn.steve.study/cn.steve.servicelifecycle.ServiceLifeService }], flags = [0], startId = [2]
 </span></span></span></code></pre></td></tr></table>
 </div>
-</div><h2 id="杀死-app-进程">杀死 App 进程</h2>
+</div><h3 id="杀死-app-进程">杀死 App 进程</h3>
 <p>没有回调，直接被系统杀死。只有一些AMS系统回调</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
@@ -192,7 +201,7 @@
 </span></span></span><span class="line"><span class="cl"><span class="go">I/ActivityManager: Force stopping service ServiceRecord{38ffaacf u0 cn.steve.study/cn.steve.servicelifecycle.ServiceLifeService}
 </span></span></span></code></pre></td></tr></table>
 </div>
-</div><h2 id="调用-stop-方法">调用 stop 方法</h2>
+</div><h3 id="调用-stop-方法">调用 stop 方法</h3>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
@@ -201,7 +210,7 @@
 <pre tabindex="0" class="chroma"><code class="language-console" data-lang="console"><span class="line"><span class="cl"><span class="go">D/ServiceLifeService: onDestroy() called
 </span></span></span></code></pre></td></tr></table>
 </div>
-</div><h2 id="小结">小结</h2>
+</div><h3 id="小结">小结</h3>
 <p>对于 startService 而言</p>
 <ul>
 <li>当要启动的 Service 没有创建时，就会创建，而后回调 onCreate  和 onStartCommand  方法；</li>
@@ -209,8 +218,8 @@
 <li>退出 App，Service 依旧存活</li>
 <li>调用 stop 方法，回调 onDestroy</li>
 </ul>
-<h1 id="仅-bindservice">仅 bindService</h1>
-<h2 id="触发-bindservice-方法">触发 bindService 方法</h2>
+<h2 id="仅-bindservice">仅 bindService</h2>
+<h3 id="触发-bindservice-方法">触发 bindService 方法</h3>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
@@ -223,10 +232,10 @@
 </span></span></span><span class="line"><span class="cl"><span class="go">D/ServiceLifeService: onServiceConnected() called with: name = [ComponentInfo{cn.steve.study/cn.steve.servicelifecycle.ServiceLifeService}], service = [ServiceBinder:cn.steve.servicelifecycle.ServiceLifeService$ServiceBinder@4bb38ec]
 </span></span></span></code></pre></td></tr></table>
 </div>
-</div><h2 id="多次触发-bindservice-方法">多次触发 bindService 方法</h2>
+</div><h3 id="多次触发-bindservice-方法">多次触发 bindService 方法</h3>
 <p>对于同一个 ServiceConnection 只会进行一次 ServiceConnection 中的方法回调。
 若不同的 ServiceConnection ，则会进行 ServiceConnection 中的 方法回调</p>
-<h2 id="退出app-1">退出APP</h2>
+<h3 id="退出app-1">退出APP</h3>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
@@ -237,7 +246,7 @@
 </span></span></span><span class="line"><span class="cl"><span class="go">D/ServiceLifeService: onDestroy() called
 </span></span></span></code></pre></td></tr></table>
 </div>
-</div><h2 id="退出前主动调用-unbind-方法">退出前，主动调用 unbind 方法</h2>
+</div><h3 id="退出前主动调用-unbind-方法">退出前，主动调用 unbind 方法</h3>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
@@ -248,7 +257,7 @@
 </span></span></span><span class="line"><span class="cl"><span class="go">D/ServiceLifeService: onDestroy() called
 </span></span></span></code></pre></td></tr></table>
 </div>
-</div><h2 id="小结-1">小结</h2>
+</div><h3 id="小结-1">小结</h3>
 <p>对于 bindService 而言</p>
 <ul>
 <li>当要启动的 Service 没有创建时，就会创建，而后回调 onCreate  和 onBind  方法；</li>
@@ -256,8 +265,8 @@
 <li>退出 App，Service 将自动解绑，并回调 onDestroy 方法</li>
 <li>退出 App 和主动 unbind 的回调一致</li>
 </ul>
-<h1 id="先-startservice-再-bindservice">先 startService ，再 bindService</h1>
-<h2 id="触发-startservice-方法再触发--bindservice-方法">触发 startService 方法，再触发  bindService 方法</h2>
+<h2 id="先-startservice-再-bindservice">先 startService ，再 bindService</h2>
+<h3 id="触发-startservice-方法再触发--bindservice-方法">触发 startService 方法，再触发  bindService 方法</h3>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
@@ -272,7 +281,7 @@
 </span></span></span><span class="line"><span class="cl"><span class="go">D/ServiceLifeService: onServiceConnected() called with: name = [ComponentInfo{cn.steve.study/cn.steve.servicelifecycle.ServiceLifeService}], service =[ServiceBinder:cn.steve.servicelifecycle.ServiceLifeService$ServiceBinder@598f7d8]
 </span></span></span></code></pre></td></tr></table>
 </div>
-</div><h2 id="退出app-2">退出APP</h2>
+</div><h3 id="退出app-2">退出APP</h3>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
@@ -281,7 +290,7 @@
 <pre tabindex="0" class="chroma"><code class="language-console" data-lang="console"><span class="line"><span class="cl"><span class="go">D/ServiceLifeService: onUnbind() called with: intent = [Intent { cmp=cn.steve.study/cn.steve.servicelifecycle.ServiceLifeService }]
 </span></span></span></code></pre></td></tr></table>
 </div>
-</div><h2 id="调用--unbind-方法">调用  unbind 方法</h2>
+</div><h3 id="调用--unbind-方法">调用  unbind 方法</h3>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
@@ -290,9 +299,9 @@
 <pre tabindex="0" class="chroma"><code class="language-console" data-lang="console"><span class="line"><span class="cl"><span class="go">D/ServiceLifeService: onUnbind() called with: intent = [Intent { cmp=cn.steve.study/cn.steve.servicelifecycle.ServiceLifeService }]
 </span></span></span></code></pre></td></tr></table>
 </div>
-</div><h2 id="在-unbind-之前调用-stop-方法">在 unbind 之前，调用 stop 方法</h2>
+</div><h3 id="在-unbind-之前调用-stop-方法">在 unbind 之前，调用 stop 方法</h3>
 <p>无回调</p>
-<h2 id="调用-stop-方法再调-unbind">调用 stop 方法，再调 unbind</h2>
+<h3 id="调用-stop-方法再调-unbind">调用 stop 方法，再调 unbind</h3>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
@@ -303,7 +312,7 @@
 </span></span></span><span class="line"><span class="cl"><span class="go">D/ServiceLifeService: onDestroy() called
 </span></span></span></code></pre></td></tr></table>
 </div>
-</div><h2 id="调用-unbind再调用-stop-方法">调用 unbind，再调用 stop 方法</h2>
+</div><h3 id="调用-unbind再调用-stop-方法">调用 unbind，再调用 stop 方法</h3>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
@@ -314,14 +323,14 @@
 </span></span></span><span class="line"><span class="cl"><span class="go">D/ServiceLifeService: onDestroy() called
 </span></span></span></code></pre></td></tr></table>
 </div>
-</div><h2 id="小结-2">小结</h2>
+</div><h3 id="小结-2">小结</h3>
 <p>和前面的方式类似，有以下几点需要注意</p>
 <ul>
 <li>bindService 只会导致 Service 回调 onBind 方法，因为 Service本身已经存在，所以，不会再回调 onCreate 方法，也说明 Service 是同一个 Service</li>
 <li>退出 App 后只会让 Service 回调 onUnbind 方法，受 startService 方法的影响， Service 依旧存活，故而不会回调 onDestroy。</li>
 </ul>
-<h1 id="先-bindservice-再-startservice">先 bindService ，再 startService</h1>
-<h2 id="触发-bindservice-方法再触发--startservice-方法">触发 bindService 方法，再触发  startService 方法</h2>
+<h2 id="先-bindservice-再-startservice">先 bindService ，再 startService</h2>
+<h3 id="触发-bindservice-方法再触发--startservice-方法">触发 bindService 方法，再触发  startService 方法</h3>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
@@ -336,7 +345,7 @@
 </span></span></span><span class="line"><span class="cl"><span class="go">D/ServiceLifeService: onStartCommand() called with: intent = [Intent { cmp=cn.steve.study/cn.steve.servicelifecycle.ServiceLifeService }], flags = [0], startId = [1]
 </span></span></span></code></pre></td></tr></table>
 </div>
-</div><h2 id="退出app-3">退出APP</h2>
+</div><h3 id="退出app-3">退出APP</h3>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
@@ -345,7 +354,7 @@
 <pre tabindex="0" class="chroma"><code class="language-console" data-lang="console"><span class="line"><span class="cl"><span class="go">D/ServiceLifeService: onUnbind() called with: intent = [Intent { cmp=cn.steve.study/cn.steve.servicelifecycle.ServiceLifeService }]
 </span></span></span></code></pre></td></tr></table>
 </div>
-</div><h2 id="调用--unbind-方法-1">调用  unbind 方法</h2>
+</div><h3 id="调用--unbind-方法-1">调用  unbind 方法</h3>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
@@ -354,9 +363,9 @@
 <pre tabindex="0" class="chroma"><code class="language-console" data-lang="console"><span class="line"><span class="cl"><span class="go">D/ServiceLifeService: onUnbind() called with: intent = [Intent { cmp=cn.steve.study/cn.steve.servicelifecycle.ServiceLifeService }]
 </span></span></span></code></pre></td></tr></table>
 </div>
-</div><h2 id="在-unbind-之前调用-stop-方法-1">在 unbind 之前，调用 stop 方法</h2>
+</div><h3 id="在-unbind-之前调用-stop-方法-1">在 unbind 之前，调用 stop 方法</h3>
 <p>无回调</p>
-<h2 id="调用-stop-方法再调-unbind-1">调用 stop 方法，再调 unbind</h2>
+<h3 id="调用-stop-方法再调-unbind-1">调用 stop 方法，再调 unbind</h3>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
@@ -367,7 +376,7 @@
 </span></span></span><span class="line"><span class="cl"><span class="go">D/ServiceLifeService: onDestroy() called
 </span></span></span></code></pre></td></tr></table>
 </div>
-</div><h2 id="调用-unbind再调用-stop-方法-1">调用 unbind，再调用 stop 方法</h2>
+</div><h3 id="调用-unbind再调用-stop-方法-1">调用 unbind，再调用 stop 方法</h3>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
@@ -378,14 +387,14 @@
 </span></span></span><span class="line"><span class="cl"><span class="go">D/ServiceLifeService: onDestroy() called
 </span></span></span></code></pre></td></tr></table>
 </div>
-</div><h2 id="小结-3">小结</h2>
+</div><h3 id="小结-3">小结</h3>
 <p>和前面的方式类似，有以下几点需要注意</p>
 <ul>
 <li>bindService 调用产生的回调和单独 调用 bindService 一样；</li>
 <li>startService 调用时，因为 Service 对象已经存在，所以只回调 onStartCommand 方法</li>
 <li>退出 App 后只会让 Service 回调 onUnbind 方法，受 startService 方法的影响， Service 依旧存活，故而不会回调 onDestroy。</li>
 </ul>
-<h1 id="总结">总结</h1>
+<h2 id="总结">总结</h2>
 <ul>
 <li>已经创建成功的 Service，在运行期间，无论是 start 还是 bind，都不会调用 onCreate；</li>
 <li>Service 在运行期间，每次调用 start 都会触发 onStartCommand 方法；而多次用同一个 ServiceConnection 进行bind 调用时，只会触发一次 onBind ；对于用不同的 ServiceConnection 进行 bind 时，都会触发 ServiceConnection 中的 onServiceConnected 方法，但并不会触发 onBind 方法，所以，相遇于多次触发 onStartCommand 触发，对于 bind 操作来说，onBind 只会触发一次。</li>

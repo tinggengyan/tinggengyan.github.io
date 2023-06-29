@@ -1,11 +1,11 @@
 # Mac下 Understand 的初步配置
 
-# 概述
+## 概述
 之前一直寻找一款类似于windows上的sourceinsight的软件,后来无意发现 Understand,感觉挺好,熟悉一下,可以用来看代码.体验不错.
 
 <!-- more -->
 
-## 导入流程
+### 导入流程
 和sourceinsight一样,都是新建一个project,在此基础上进行代码的阅读和修改;
 ![e5d3267c.png](/img/efficiency_tool_understand/e5d3267c.png)
 ![e34dd270.png](/img/efficiency_tool_understand/e34dd270.png)
@@ -13,7 +13,7 @@
 1. new project 
 2. import project files
 
-## 部分实用快捷键
+### 部分实用快捷键
 
 1. command + F:
 
@@ -36,7 +36,7 @@
 返回前一个/下一个修改的地方
 
 
-## 部分实用的操作
+### 部分实用的操作
 
 1. 绘图能力
 ![a520cff1.png](/img/efficiency_tool_understand/a520cff1.png)
@@ -75,7 +75,7 @@
 通过选中方法右击 `explore` -> `explore called by/Calls`,可以看不到方法被谁调用,自身又调用了谁,非常非常实用.
 
 
-## 缺陷
+### 缺陷
 1. 文件的检索,快捷键
 目前试用,有几个点比较不舒适,文件的检索能力,没有找到对应的快捷键,能迅速的搜索文件.
 退而求其次,采用为`Entity Filter` 自定义快捷键的方式,来达到此目的.

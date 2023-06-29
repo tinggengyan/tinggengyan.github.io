@@ -120,32 +120,39 @@ Exploded aar caches aar 缓存以文件夹的形式展现。有两种类型的�
                 </div>
                 <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
   <ul>
-    <li><a href="#为何关心-build-cache">为何关心 build cache?</a></li>
-    <li><a href="#how-does-it-make-the-build-faster">How does it make the build faster?</a></li>
-    <li><a href="#exploded-aar-caches">Exploded aar caches</a></li>
-    <li><a href="#dexed-caches">Dexed caches</a></li>
-    <li><a href="#multidex-and-api-level-21">Multidex and API level 21</a></li>
-    <li><a href="#performance-measurements">Performance measurements</a></li>
-  </ul>
-
-  <ul>
-    <li><a href="#introduction">Introduction</a></li>
-    <li><a href="#how-to-use-the-build-cache">How to use the Build Cache</a>
+    <li><a href="#why">Why</a></li>
+    <li><a href="#using-build-cache-in-android-studio-makes-gradle-build-faster">Using build cache in Android Studio makes Gradle build faster</a>
       <ul>
-        <li><a href="#step-0">Step 0</a></li>
-        <li><a href="#step-1">Step 1</a></li>
-        <li><a href="#step-2">Step 2</a></li>
+        <li><a href="#为何关心-build-cache">为何关心 build cache?</a></li>
+        <li><a href="#how-does-it-make-the-build-faster">How does it make the build faster?</a></li>
+        <li><a href="#exploded-aar-caches">Exploded aar caches</a></li>
+        <li><a href="#dexed-caches">Dexed caches</a></li>
+        <li><a href="#multidex-and-api-level-21">Multidex and API level 21</a></li>
+        <li><a href="#performance-measurements">Performance measurements</a></li>
       </ul>
     </li>
+    <li><a href="#build-cache">Build Cache</a>
+      <ul>
+        <li><a href="#introduction">Introduction</a></li>
+        <li><a href="#how-to-use-the-build-cache">How to use the Build Cache</a>
+          <ul>
+            <li><a href="#step-0">Step 0</a></li>
+            <li><a href="#step-1">Step 1</a></li>
+            <li><a href="#step-2">Step 2</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <li><a href="#感激非常感激万分的感激">感激,非常感激，万分的感激！</a></li>
   </ul>
 </nav></div>
-            </div><div class="content" id="content"><h1 id="why">Why</h1>
+            </div><div class="content" id="content"><h2 id="why">Why</h2>
 <p>AndroidStudio 编译速度慢,已经是人神共愤的事情了.本文是一篇译文，讲述如果利用 build cache 技术加快编译速度。分成两部分,一部分是第三方博文,另外一部分是官方文档.援引文章在结尾给出.</p>
 <!-- more -->
-<h1 id="using-build-cache-in-android-studio-makes-gradle-build-faster">Using build cache in Android Studio makes Gradle build faster</h1>
-<h2 id="为何关心-build-cache">为何关心 build cache?</h2>
+<h2 id="using-build-cache-in-android-studio-makes-gradle-build-faster">Using build cache in Android Studio makes Gradle build faster</h2>
+<h3 id="为何关心-build-cache">为何关心 build cache?</h3>
 <p>因为 build cache 可以加快 clean 和 build 的速度。当你执行 &lsquo;gradle clean build&rsquo; 或者类似的命令的时候。</p>
-<h2 id="how-does-it-make-the-build-faster">How does it make the build faster?</h2>
+<h3 id="how-does-it-make-the-build-faster">How does it make the build faster?</h3>
 <p>通过缓存已经分包的 libraries，这个过程是不在 Gradle 的缓存管理范围内的。无论是通过 Android studio 或者 命令行的方式执行 clean 操作，build-cache 内的包都会被保留，等到下次 build apk 的时候，被复用。可以在 build-cache 目录下查看缓存的结构。</p>
 <p><img
         class="lazyload"
@@ -156,7 +163,7 @@ Exploded aar caches aar 缓存以文件夹的形式展现。有两种类型的�
         alt="https://zeroturnaround.com/wp-content/uploads/2016/12/android-studio-android-build-cache-dir.png"
         title="缓存文件夹" /></p>
 <p>这是文件夹下列出的是一系列命名比较奇怪的文件和文件夹。文件大小是 0 字节的文件是用来锁定文件使用的。这个是非常必要的，因为同一个缓存文件可以被不同的项目使用。锁文件，可以防止两个项目同时对一个缓存文件进行读写操作。</p>
-<h2 id="exploded-aar-caches">Exploded aar caches</h2>
+<h3 id="exploded-aar-caches">Exploded aar caches</h3>
 <p>aar 缓存以文件夹的形式展现。有两种类型的缓存，一种是 dex 缓存，一种是解压完的 aar 形式的缓存。解压完的 aar 将直接保存在对应的 output 文件夹下。比如 <em>220674f5fc7186b424e032744f0eeb413d469b54</em> 文件夹的  <em>input 文件</em> 包含以下内容：</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
@@ -169,7 +176,7 @@ Exploded aar caches aar 缓存以文件夹的形式展现。有两种类型的�
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>文件夹的名字是 <em>input file</em> 的 <em>sha1sum</em> 值。在这个例子里，就是 <em>android-maps-utils</em> 库。解压完的 aar 在依赖的分析过程中（若未被缓存）会被缓存。</p>
-<h2 id="dexed-caches">Dexed caches</h2>
+<h3 id="dexed-caches">Dexed caches</h3>
 <p>对于分包缓存，有着和 aar 缓存相似的结构。</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
@@ -230,12 +237,12 @@ Exploded aar caches aar 缓存以文件夹的形式展现。有两种类型的�
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>如你所见，这个只是文件夹结构和 classes.dex 文件。</p>
-<h2 id="multidex-and-api-level-21">Multidex and API level 21</h2>
+<h3 id="multidex-and-api-level-21">Multidex and API level 21</h3>
 <p>根据 multidex  和 target API 是否高于 21 的不同组合，分包缓存的使用方式也不一样。</p>
 <p>第一种情况是，不使用分包。在这种情况下，API 级别无论是否高于 21 都无关。将会使用分包缓存，也会进行 dex 文件的 merge 操作。在 apk 文件中，我们将会看到只有一个 classes.dex 文件，这个 classes.dex 包含了所有的 application 类和 libraries。</p>
 <p>第二种情况是，minSdkVersion 低于 21 并且 multidex 无法使用 build cache 下的 predex libraries .这是因为兼容包里的 multidex 并不支持 predex.Gradle 插件总是将所有的 application 和 library classes 都放到一个 dex 包里.</p>
 <p>最后一种情况是使用了 multidex 并且 API 级别高于 21.在这种情况下,build-cache文件夹下的分包文件将会被直接打包进 apk 文件中.每个库都将分别拥有一个将被打包进 apk 中的 classes.dex 文件.这也是为什么 API 21 是<a href="https://developer.android.com/studio/build/multidex.html#dev-build" target="_blank" rel="noopener noreffer ">编译时期最佳的选择</a> .</p>
-<h2 id="performance-measurements">Performance measurements</h2>
+<h3 id="performance-measurements">Performance measurements</h3>
 <p>针对2015年的 iosched app 在没有 multidex 和 API 最低版本 21 下分别进行测试.打开 Gradle 守护进程,启用和禁用 build cache,分别在命令行下运行 5 次 clean,build 操作.以下是五次运行结果的中位数报告.</p>
 <p><img
         class="lazyload"
@@ -258,16 +265,16 @@ Exploded aar caches aar 缓存以文件夹的形式展现。有两种类型的�
 <!-- more -->
 <hr>
 <p>下面是官方的译文.</p>
-<h1 id="build-cache">Build Cache</h1>
-<h2 id="introduction">Introduction</h2>
+<h2 id="build-cache">Build Cache</h2>
+<h3 id="introduction">Introduction</h3>
 <p>在 <em>Android Studio 2.2 Beta3</em> 中介绍了一种可以减少编译时间的新 <em>build cache</em>  缓存特性，这个新特性可以加快包括全量编译，增量编译和 instant run 的编译时间，通过保存和复用前一次由同一个项目或者其他项目 build 产生的文件或者文件夹。
 <em>build cache</em> 目的是为了在所有的 Android 项目中共用。开发者可以通过修改 <em>gradle.properties</em> 文件，实现是否启用 <em>build cache</em> 和指定缓存的位置。当前 <em>build cache</em>  只包含 <em>pre-dexed</em> 库，未来，<em>Android studio</em> 团队会支持其他类型的文件。</p>
 <p><strong>注意</strong>：<em>build cache</em>  的实现是和  <em>gradle cache</em>  管理（例如,reporting up-to-date statuses）是相互独立的。当执行一个 task 的时候，无论是否使用 <em>build cache</em>  对于 Gradle 而言都是未知的（即：即使命中了缓存，Gradle 也不会认为是 up-to-date）。然而，当使用 <em>build cache</em> 的时候，还是希望加快编译速度的。
 即使目前还未发现有任何问题，我们希望给社区更多的时间以提供更多的反馈。目前这个特性仍旧作为实验性的特性，目前默认还是禁用的。（Android Studio 2.3 Canary 1 开始默认启用）。根据未来的反馈情况，当我们觉得这个特性稳定了，将会在 Android Studio 2.3 或者 2.4 中默认启动。</p>
-<h2 id="how-to-use-the-build-cache">How to use the Build Cache</h2>
-<h3 id="step-0">Step 0</h3>
+<h3 id="how-to-use-the-build-cache">How to use the Build Cache</h3>
+<h4 id="step-0">Step 0</h4>
 <p>确保 <a href="http://google.github.io/android-gradle-dsl/current/com.android.build.gradle.internal.dsl.DexOptions.html#com.android.build.gradle.internal.dsl.DexOptions:preDexLibraries" target="_blank" rel="noopener noreffer ">android.dexOptions.preDexLibraries</a>已经设置为 <strong>true</strong>。否则 <em>libraries</em> 不会被 <em>pre-dexed</em>，因而 <em>build cache</em> 并不会被使用。</p>
-<h3 id="step-1">Step 1</h3>
+<h4 id="step-1">Step 1</h4>
 <p>在 Android 项目中打开 <em>gradle.properties</em>，添加以下两个参数</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
@@ -281,7 +288,7 @@ Exploded aar caches aar 缓存以文件夹的形式展现。有两种类型的�
 </span></span><span class="line"><span class="cl"><span class="n">android</span><span class="o">.</span><span class="na">buildCacheDir</span><span class="o">=&lt;</span><span class="n">path</span><span class="o">-</span><span class="n">to</span><span class="o">-</span><span class="n">build</span><span class="o">-</span><span class="n">cache</span><span class="o">-</span><span class="n">directory</span><span class="o">&gt;</span> <span class="err">#</span> <span class="err">这个是个可选项，用来指定</span> <span class="n">build</span> <span class="n">cache</span> <span class="err">目录的绝对路径。如果设置成项目路径，那么是项目于项目的根目录而言的。如果这个参数未被设置，那么默认的目录是</span> <span class="o">&lt;</span><span class="n">user</span><span class="o">-</span><span class="n">home</span><span class="o">-</span><span class="n">directory</span><span class="o">&gt;</span><span class="s">/.android/</span><span class="n">build</span><span class="o">-</span><span class="n">cache</span><span class="err">。如果使用相同的缓存目录，那么多个项目可以共用相同的缓存，所以，推荐使用默认的路径或者使用一个项目外的绝对路径。任何情况下，</span><span class="n">build</span> <span class="n">cache</span> <span class="err">的路径都不应该放在</span> <span class="s2">&#34;build&#34;</span> <span class="err">文件夹下，除非每次运行</span> <span class="n">clean</span> <span class="err">之后，都能删除</span> <span class="n">build</span> <span class="n">cache</span> <span class="err">。如果</span> <span class="n">android</span><span class="o">.</span><span class="na">enableBuildCache</span> <span class="err">被设置成</span> <span class="kc">false</span><span class="err">，则这个参数将会被忽略。</span>
 </span></span></code></pre></td></tr></table>
 </div>
-</div><h3 id="step-2">Step 2</h3>
+</div><h4 id="step-2">Step 2</h4>
 <p>build 项目，或者在命令行下执行 <em>./gradlew assemble</em>,检查以下位置，查看 build cache 是否起作用。</p>
 <ul>
 <li>缓存的文件被存储在了上述  android.buildCacheDir 指定的文件夹下。默认情况下，是在 <em><user-home-directory>/.android/build-cache.</em></li>
@@ -301,7 +308,7 @@ Exploded aar caches aar 缓存以文件夹的形式展现。有两种类型的�
 <pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">./gradlew cleanBuildCache
 </span></span></code></pre></td></tr></table>
 </div>
-</div><h1 id="感激非常感激万分的感激">感激,非常感激，万分的感激！</h1>
+</div><h2 id="感激非常感激万分的感激">感激,非常感激，万分的感激！</h2>
 <p>感谢以下的文章以及其作者和翻译的开发者们,排名不分先后</p>
 <ul>
 <li><a href="http://tools.android.com/tech-docs/build-cache" target="_blank" rel="noopener noreffer ">Build Cache</a></li>

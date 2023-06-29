@@ -1,11 +1,11 @@
 # Service之IntentService
 
-# 概述
+## 概述
 本文记录 IntentService 的使用方式,以及可能产生的问题.
 
 <!-- more -->
 
-# IntentService
+## IntentService
 
 关于IntentService本身的使用很简单，官方的解释也说的很清楚。IntentService是Service类的子类，用来处理异步请求。和正常启动一个Service一样，可以通过startService(Intent)方法启动一个IntentService，同时通过Intent传递数据。IntentService在onCreate()函数中通过HandlerThread开启一个线程来处理Intent请求对象，这样就可以在非主线程执行任务。这里处理消息的时候，也是通过为新创建的线程新建了Handler和Looper对象从消息队列中取出消息进行执行。处理每个Intent所对应的事务都需要调用 onHandleIntent 这个抽象方法。所以，将对不同任务的不同操作通过实现 onHandleIntent 方法就可完成。
 执行完这个任务(Intent)就会自动停止 Service 。这里有一点需要注意，如果这个任务的执行本身就是异步的，所以，假如添加的任务也是异步的，很难保证能正常执行结束。
@@ -87,6 +87,6 @@ public static void startActionBaz(Context context, String param1, String param2)
 
 发现每次都是新建 IntentService 对象，执行完后就会销往。
 
-# 总结
+## 总结
 系统为我们提供这个 IntentService 能在完成任务后自动停止销往，不需要我们手动停止，但是这个特性只能对一些简单的同步任务而已，对于异步任务，还是需要我们手动去 stop 。
 

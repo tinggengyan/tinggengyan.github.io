@@ -1,18 +1,18 @@
 # 一个开源的Java版的mockserver
 
-# 概述
+## 概述
 记录另外一个mockserver的库使用方式. API 更加丰富.
 <!-- more -->
 
-# 添加依赖
+## 添加依赖
 
 ```groovy
 compile group: 'org.mock-server', name: 'mockserver-netty', version: '5.6.1'
 compile group: 'log4j', name: 'log4j', version: '1.2.17'
 ```
 
-# 使用方式
-## 最简单的使用方式, 请求 -> 返回mock的response
+## 使用方式
+### 最简单的使用方式, 请求 -> 返回mock的response
 
 - Server端
 
@@ -79,6 +79,6 @@ public class MockTestClient {
 以上先记录最简单的使用,还有forward,callback,verify,retrieve,感觉用的不多,暂不记录,需要的时候再说吧.
 
 
-# 参考
+## 参考
 1. [mockserverRepo](https://github.com/jamesdbloom/mockserver)
 2. [mockserverPage](http://www.mock-server.com/#what-is-mockserver)
