@@ -590,6 +590,8 @@ ignoreErrors = ["error-remote-getjson", "error-missing-instagram-accesstoken"]
     # Yandex Metrica
     [params.analytics.yandexMetrica]
       id = ""
+    [params.analytics.baidu]
+      id = "94c71fc4afacda3d2bffa4e863357892"
 
   # Cookie consent config
   # Cookie 许可配置
