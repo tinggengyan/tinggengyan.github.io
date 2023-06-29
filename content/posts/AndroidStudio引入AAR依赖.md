@@ -4,15 +4,15 @@ date: 2016-08-10 00:25:57
 tags: [aar]
 categories: [Tool,Gradle]
 ---
-# 概述
+## 概述
 
 本文介绍 AndroidStudio 项目如何如何进行 aar 包依赖.
 
 <!-- more -->
 
-# AndroidStudio如何引用aar依赖
+## AndroidStudio如何引用aar依赖
 
-## 未成功方案
+### 未成功方案
 
 google 了一圈，网上的方法基本都是以下这种，在 *module/build.gradle* 文件中添加如下代码.同时将 aar 文件 copy 到 libs 文件夹下.
 
@@ -27,7 +27,7 @@ compile(name:'aarName', ext:'aar')
 
 我尝试了很多次,没有成功.
 
-## 亲测有效方案
+### 亲测有效方案
 
 采用了以下方法成功了,和上面的内容一致,只是位置不一样.
 

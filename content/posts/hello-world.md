@@ -9,6 +9,6 @@ thumbnail: https://developers.google.cn/china/images/android.png
 
 希望我的内容不会浪费大家的时间，不会增加大家筛选有用信息的时间。
 
-# 规则
+## 规则
 
 之后所有的总结分享类的文章脉络，应该遵循Why->What->How的原则总结。

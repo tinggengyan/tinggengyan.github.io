@@ -5,21 +5,21 @@ tags: [DataBinding]
 categories: [Mobile,Android]
 ---
 
-# 概述
+## 概述
 本文介绍 DataBinding 的基本概念和接入流程
 
 <!-- more -->
 
-# DataBinding出现的背景
+## DataBinding出现的背景
 作为一种 MVVM 的实现方式出现.
 
-# 概念
+## 概念
 
 将数据的 provider 和 consumer 进行绑定，而后进行二者之间同步的一种技术。实现逻辑层和表现层的绑定。
 
 ------
 
-### 注意事项：
+#### 注意事项：
 
 * 使用的编译工具必须是 gradle，并且使用的 Android gradle 插件版本依旧官方所说，不能低于 Android Plugin for Gradle 1.3.0-beta4；
 * 在使用的 module 的 gradle 文件中添加 apply plugin: 'com.android.databinding'；
@@ -41,9 +41,9 @@ categories: [Mobile,Android]
 -----
 
 
-# 如何使用
+## 如何使用
 
-## 工作的流程原理
+### 工作的流程原理
 
 1. 在编译的时候，dataBinding 回去布局文件中进行文件的解析，然后获取关于 dataBinding 的设置，然后为对应的 view 设置 tag，
 然后删除关于 dataBinding 的所有内容。

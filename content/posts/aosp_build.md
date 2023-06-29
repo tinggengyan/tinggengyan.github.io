@@ -7,11 +7,11 @@ categories:
 date: 2020-09-06 15:09:42
 ---
 
-# override 
+## override 
 最近给电脑换了块SSD，装了Ubuntu 18.04。之前的aosp也不想copy过来了，直接重新编译一份，顺带看下新的SSD带来的提效。
 因为手机是 nexus 6p，aosp 最后支持到 8.1. 记录下编译需要的操作。
 
-# 步骤
+## 步骤
 
 1. open jdk(https://openjdk.java.net/install/)
 ```shell
@@ -50,7 +50,7 @@ sudo apt install python
 
 cd aosp
 
-# 切换指定版本分支 
+## 切换指定版本分支 
 repo init -u https://mirrors.tuna.tsinghua.edu.cn/git/AOSP/platform/manifest -b android-8.1.0_r52 --depth=1 --repo-url=https://mirrors.tuna.tsinghua.edu.cn/git/git-repo/ --repo-branch=stable
 
 repo sync --current-branch
@@ -95,10 +95,10 @@ adb reboot bootloader
 
 fastboot devices
 
-#下面这条命令可选
-#fastboot flashall -w
-#-w 选项会清除设备上的 /data 分区；
-#该选项在您第一次刷写特定设备时非常有用，但在其他情况下则没必要使用。
+##下面这条命令可选
+##fastboot flashall -w
+##-w 选项会清除设备上的 /data 分区；
+##该选项在您第一次刷写特定设备时非常有用，但在其他情况下则没必要使用。
 
 fastboot flash vendor vendor.img
 fastboot flash boot boot.img
@@ -112,7 +112,7 @@ fastboot reboot
 ```
 
 
-## emulator
+### emulator
 需要编译对应的模拟器的镜像。
 
 ```shell
@@ -141,7 +141,7 @@ emulator
 
 
 
-# other
+## other
 
 1. 可能出现的错误
 ```shell
@@ -155,7 +155,7 @@ sudo usermod -aG plugdev $LOGNAME
 
 [ref](https://developer.android.com/studio/run/device)
 
-# ref
+## ref
 
 [sony developer](https://developer.sony.com/develop/open-devices/guides/aosp-build-instructions/build-aosp-nougat-8-1-oreo-4-4/#tutorial-step-2)
 [version branch AOSP tags](https://source.android.com/setup/start/build-numbers#source-code-tags-and-builds)

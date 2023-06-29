@@ -4,17 +4,17 @@ date: 2016-06-14 16:07:10
 tags: [RxJava,Source,Thread]
 categories: [Mobile,Android]
 ---
-# 概述
+## 概述
 本文仅作记录如何在上层使用代码进行 RxJava 的线程切换.
 
 <!-- more -->
 
-# RxJava 线程管理
+## RxJava 线程管理
 
 RxJava 中通过两个关键的方法 subscribeOn 和 observeOn 实现线程的切换，都说 RxJava 是可以任性的随意切换线程，到底可以多任性呢，在哪任性呢，代码上怎么体现呢？下面通过一个非常简单的例子
 演示一下如何使用，源码讨论请移步另一篇文章。
 
-##　测试代码
+###　测试代码
 
 ```java
 
@@ -96,7 +96,7 @@ RxJava 中通过两个关键的方法 subscribeOn 和 observeOn 实现线程的�
 
 
 
-## 日志输出
+### 日志输出
 
 对于直接运行测试代码，产生的log日志是如下的。
 
@@ -129,14 +129,14 @@ RxJava 中通过两个关键的方法 subscribeOn 和 observeOn 实现线程的�
 ```
 
 
-## 结论
+### 结论
 
-### 说明
+#### 说明
 这里约定一下描述的规则，我们接下来讲的远近，上下指的是代码物理位置上。
 响应式编程有个消息的概念，这里消息的产生是从下往上的，当调用了subscribe 的时候，就会产生，接着往上，我们可以通过代码和log可以看出，依次执行了 doOnSubscribe1 -  doOnSubscribe4，最后到达create处。
 对于数据流，则是从上往下的，经过每个继承 lift 产生的操作符，例如map, reduce,filter等。
 
-### 所以
+#### 所以
 
 - 要想指定create所在的线程，需要在create的下方调用 subscribeOn 方法，他受他下方遇到的第一个 subscribeOn 的影响，反正也可以说subscribeOn影响的是在他上方的消息传递的线程，直到遇到下一个subscribeOn为止。假如全程没有一处调用subscribeOn，则消息的传递是在调用subscribe所在的线程。
 
@@ -144,6 +144,6 @@ RxJava 中通过两个关键的方法 subscribeOn 和 observeOn 实现线程的�
 
 - 至于二者均未指定，则可以推导出运行在调用subscribe所在的线程。
 
-## 结尾
+### 结尾
 
 至于源码解释参见另外一篇。

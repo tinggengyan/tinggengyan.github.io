@@ -5,7 +5,7 @@ tags: [Activity,Task]
 categories: [Mobile,Android]
 ---
 
-# why
+## why
 
 在项目中，比如推送了一个具体的产品，肯定是打算显示具体的产品详情页，这时候点击返回，也自然打算让用户返回首页,还是让用户留在 APP 内。
 最近项目在接入华为推送的时候，遇到一个问题,我们的默认启动 Activity 是一个广告页,在从详情页返回到主页的时候,在主页再返回,出现了广告页.
@@ -16,7 +16,7 @@ categories: [Mobile,Android]
 <!-- more -->
 
 
-# How
+## How
 看到这个现象猜测,是不是当栈中有 Activity 实例的时候,进程是会自动重启.为此做了一个实验，A->B，在 B 中关闭虚拟机，这时候，虚拟机自动重启。打开了 A 页面。
 
 A->B->C，在 C 中关闭虚拟机。
@@ -33,7 +33,7 @@ A->B->C，在 C 中关闭虚拟机。
 ![重启按下返回键栈信息](https://raw.githubusercontent.com/tinggengyan/tinggengyan.github.io/source/imgur/task_a.png)
 
 
-# Conclusion
+## Conclusion
 
 1. 为何会出现欢迎页
 目前发现,华为推送在点击通知的时候,会自动启动 APP 的默认 Activity.

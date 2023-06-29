@@ -4,7 +4,7 @@ date: 2016-02-23 22:25:09
 tags: [LayoutInflater]
 categories: [Mobile,Android]
 ---
-# 概述
+## 概述
 本文记录 LayoutInflater 的 inflate 方法的三个参数的含义.
 
 <!-- more -->
@@ -196,6 +196,6 @@ public class LayoutInflaterActivity extends AppCompatActivity {
 ```
 效果就是加载的布局宽宽高均为布局中设置的 25dp，并且添加到了当前的布局中。
 
-## 总结
+### 总结
 
 所以，要能在 getview 中，自定义宽高，办法有两个，一个是在最外层再套一层布局，然后 parent 设为 null。另一个是指定 parent，将 attachToRoot 设为 false。

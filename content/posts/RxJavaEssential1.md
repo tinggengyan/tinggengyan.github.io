@@ -4,15 +4,15 @@ date: 2016-03-04 00:23:15
 tags: [RxJava,Source]
 categories: [Mobile,Android]
 ---
-# 概述
+## 概述
 本文目的是从源码的角度讲解 Rxjava 的重要概念 Observable.
 
 <!-- more -->
 
-# RxJava要点解析
+## RxJava要点解析
 对于 Rxjava 还是有很多不理解的地方，加上又有点好奇心，就看看源码，记录在此，水平有限，肯定存在错误的地方，望路过的同行不吝赐教。
 
-## lift变换操作的原理
+### lift变换操作的原理
 看下lift源码,直接拷贝的源码，未做删减。
 ```java
 public final <R> Observable<R> lift(final Operator<? extends R, ? super T> operator) {
@@ -125,14 +125,14 @@ public final <R> Observable<R> lift(final Operator<? extends R, ? super T> opera
  这下基本清晰了，每次源observable发射的数据都被OperatorFilter内新的subscriber给接收了，然后根据传入到OperatorFilter我们自己定义的过滤规则进行判断，通过的，就给child发射过去，这样实现了过滤的作用，实现了新的subscriber将数据传送到了我们自定义的subscriber。
 
 
-## Scheduler 线程切换的原理
+### Scheduler 线程切换的原理
 注意：以下的版本是rxjava1.1.1(上下两部分的总结时间不一样，也不去考证是哪个版本了)
 上面说到了变换的时候，用到的线程的切换的问题，那到底是怎么切换的线程呢？
 说到线程切换，必须说到两个操作。
 - subscribeOn：指定observable调用obsubsriber发射数据所在的线程。
 - observeOn： 指定订阅者进行订阅处理所在的线程。
 
-### subscribeOn分析
+#### subscribeOn分析
 
 ```java
 public final Observable<T> subscribeOn(Scheduler scheduler) {
@@ -351,11 +351,11 @@ public final class OperatorSubscribeOn<T> implements OnSubscribe<T> {
 ```
 注释直接表明，这个类是用来在指定的线程上订阅subscriber。最主要的方法是call方法，在这个方法里，创建了一个Worker对象，Worker对象调用schedule方法传入一个Action0,在这里Action0的call方法被调用的时候，首先记录当前调用Action0的call方法的线程。在内部用传入的原始subscriber创建一个新的Subscriber对象s(两个subscriber了),在这个s的内部又进行原始subscriber的onNext方法调用发射数据，又覆写了新的subscriber对象的setProducer方法，在覆写的时候对原始的subscriber对象设置一个新的Producer(两个Producer)，在这个新的生产者的request方法中，会判断当前的线程会否就是scheduler指定的线程(刚刚在Action0的call方法中记录了)，如果是，则立即执行；否则将交给scheduler对象指定的Worker对象重新安排这个任务，直到线程一致为止才执行。最后让执行subscribeOn产生的新的observable去订阅这个新产生的subscriber即可。
 
-####  subscribeOn总结：
+#####  subscribeOn总结：
 
 线程的切换是由Scheduler对象中的Worker对象负责安排这些任务，不同类型的Scheduler创建出对应的Worker对象，在Worker对象内部会在相应的线程上创建新的Subscriber，通过给新的subscriber设置Producer，通过新的Producer在指定的线程上请求数据，代理了实现发射线程的切换。
 
-### observeOn分析
+#### observeOn分析
 
 接下来分析observeOn,了解在异步线程上分发事件就可以知道线程切换的大致原理了。
 
@@ -504,11 +504,11 @@ schedule方法里是将当前的对象加入到任务安排中，我们知道sch
 在 for 循环里还有一个 while 循环，在 while 中给 Subscriber 对象发射数据。这样就是在 recursiveScheduler 中新的线程中发射的数据。这样就实现了 observeOn 中的线程切换。
 
 
-#### observeOn总结
+##### observeOn总结
 observeOn 的线程切换也是通过给自定义的 Subscriber 设置新的 Producer，在新的 Producer中 指定分发(subscriber.onNext())调用的线程,这样就实现了 observeOn 线程的切换。
 
 
-### subscribe分析
+#### subscribe分析
 
 再看看订阅的执行流程。
 
@@ -560,7 +560,7 @@ private static <T> Subscription subscribe(Subscriber<? super T> subscriber, Obse
 我们看到hook.onSubscribeStart(observable, observable.onSubscribe).call(subscriber);这就是所谓的只要在订阅的时候才会发射数据的原因。 subscriber 作为参数传递到调用 subscribe 方法的 observable 中 onSubscribe 的 call 方法了。也就是说最终的subscriber是被传递给了最后一个调用它的 observable 了，因为我们知道在整个操作链中，每个操作符都会返回一个新的 observable ，并且内部都是创建了一个新的 subscriber ，利用代理的方式调用我们自定义的 subscriber。
 
 
-### 实例讲解流程
+#### 实例讲解流程
 ```java
 private void simpleFilter() {
     Observable.create(new Observable.OnSubscribe<Integer>() {

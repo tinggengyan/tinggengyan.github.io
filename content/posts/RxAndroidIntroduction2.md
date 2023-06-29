@@ -4,14 +4,14 @@ date: 2016-02-26 22:50:26
 tags: [RxJava,Android,RxAndroid]
 categories: [Mobile,Android]
 ---
-# 概述
+## 概述
 本文记录 RxJava 中在 Android 中的应用,介绍 RxAndroid 的使用.
 
 <!-- more -->
 
-# More RxJava 及其在Android上的应用
+## More RxJava 及其在Android上的应用
 
-## 开发环境
+### 开发环境
 - 在 module 的 gradle 中添加 RxAndroid 的相关依赖，如果想体验 rx 在 Android 上的更方便的功能。可以添加 Jake 大神的兼容包 RxBinding。
 ```groovy
     //RXAndroid
@@ -25,7 +25,7 @@ categories: [Mobile,Android]
     //compile 'com.jakewharton.rxbinding:rxbinding-leanback-v17:0.3.0'
 ```
 
-## 以下开始用一个demo来演示
+### 以下开始用一个demo来演示
 
 目的地有三个 tab，每个 tab 内的详情用 RecyclerView 展示，下拉刷新用 SwipeRefreshLayout。
 布局界面如下
@@ -58,7 +58,7 @@ categories: [Mobile,Android]
 - 填充网络请求返回的数据到页面(UI 线程展示)；
 RxAndroid 是基于响应式的编程，我们考虑将以上的网络请求产生的结果作为一个事件，他产生的数据就可以定义为数据流了。
 
-### Observable&&create
+#### Observable&&create
 ```java
 //网络请求，从头开始，自定义创建一个数据流。自主决定数据流的发射时机。
     private Observable<DestinationDataModel> getDestinationDataObservable(final String url) {
@@ -121,14 +121,14 @@ RxAndroid 是基于响应式的编程，我们考虑将以上的网络请求产�
 我们定义了一个 Subscriber 对象，在上篇中讲到了什么是 Subscriber。这个是对数据流发射的相应，差不多对应了观察者模式中的观察者。当得到失败和成功的通知的时候，我们这里进行 log 的输出并且显示刷新的图标。当接收到数据的时候，我们就创建 recyclerview 的 adapter，进行列表的填充显示。
 
 
-### subscribe
+#### subscribe
 一旦我们订阅，就会执行数据的发射，默认的情况下，没有订阅操作，数据是不会被发射的。
 ```java
     getDestinationDataObservable(url).subscribe(subscriber);
 ```
 以上的操作就会完成订阅，正常的数据产生，发射，相应都会发生。但是，真当我们允许的时候，就会报错，原因是我们都知道，对 UI 的操作都必须在 UI 主线程中。
 
-### subscribeOn && observeOn
+#### subscribeOn && observeOn
 
 指定数据产生发射的线程和订阅响应的线程。
  ```java
@@ -138,12 +138,12 @@ RxAndroid 是基于响应式的编程，我们考虑将以上的网络请求产�
  observeOn 表示的订阅响应的线程，这里指的是填充发射过来的数据到列表中。
  运行就能看到我们想要的效果。到此我们学会了最基本的一些使用，基本上掌握了这几个就可以轻松地展开工作了。当然还有很多其他的技巧。
 
-### From && Just
+#### From && Just
 我们刚刚有说过，数据流不一定是连续的，那么肯定存在连续的，连续不断的弹射，更符合官方文档那种弹珠示意图。from 就是一个这样的操作符。
 这个目前未想到在当前这个模块的应用场景。
 
 
-### repeat
+#### repeat
 这个是重复，我们让当前的列表中的数据重复发送两次。
 ```java
 getDestinationDataObservableByCreate(url).repeat(2)
@@ -165,7 +165,7 @@ getDestinationDataObservableByCreate(url).repeat(2)
 ```
 上面的结果是，请求两次网络。我们会看到数据重复了，同样的数据被发送了两次，并且是从头到尾的重复了两次。
 
-### defer
+#### defer
 延迟操作，等到订阅的时候再准备数据流。这里尤其对 just 和 from 操作符的效果最为明显,以下是国外的一个 just 的例子说明，from 的原理一样。
 [借用一个国外的例子](http://blog.danlew.net/2015/07/23/deferring-observable-code-until-subscription-in-rxjava/)
 [国内的翻译](http://www.jianshu.com/p/c83996149f5b)
@@ -236,7 +236,7 @@ private Observable<Integer> getInt() {
 
 总之记住，defer 延迟的是参数 function 中的操作。只要将需要延迟创建的操作放到 function 函数中即可。这个对于数据的新鲜度有要求的操作很有用。
 
-### filter
+#### filter
 我们接受到的数据常常用些是不满足我们的需求的，这时候就可以用 filter 操作符。
 ```java
 getDestinationDataObservableByCreate(url).filter(new Func1<DestinationDataModel, Boolean>() {
@@ -250,7 +250,7 @@ getDestinationDataObservableByCreate(url).filter(new Func1<DestinationDataModel,
 ```
 比如我们可以对发射的数据中 null 数据进行过滤，虽然我们也可以在 onNext 或者在 subscriber 中进行过滤，那样就会破坏代码的业务逻辑，这样，每个函数只要注重自身的业务逻辑即可。
 
-### Map
+#### Map
 我们有时候随着需求的变更，版本的迭代，可能用同一套数据可能会做不用的用处，亦或者同一个功能的同一个数据源，但是上层的应用对数据结构的需求发生了变化。这时候，如果我们去变更数据提供层，或者让上层去适配，都会破坏代码逻辑。
 
 ```java
@@ -269,7 +269,7 @@ getDestinationDataObservableByCreate(url).map(new Func1<DestinationDataModel, St
 ```
 看上面，我们并没有修改 getDestinationDataObservableByCreate 的业务逻辑，这样就不会影响其他的代码逻辑，也不会去贸然修改底层数据提供，用 map 操作符，我们就将 getDestinationDataObservableByCreate 发射的 DestinationDataModel 类型的数据，一个个变换成了 String 类型。
 map适用于这些数据结构的变化的操作。
-### FlatMap && ConcatMap
+#### FlatMap && ConcatMap
 对于一些 Observable 本身也会返回 Observable，我们可以将这些子 Observable 发射的数据进行统一，合并这些 Observables 发射的数据，最后将合并后的结果作为最终的 Observable。
 这就是为什么叫做铺平的原因。
 提示：合并部分是允许交叉的。意味着 flatMap() 不能够保证在最终生成的 Observable 中源 Observables 确切的发射顺序。ConcatMap 可以保证顺序，用法和 flatMap 一样。
@@ -319,7 +319,7 @@ flatMap() 和 map() 有一个相同点：它也是把传入的参数转化之后
  3. 每一个创建出来的 Observable 发送的事件，都被汇入同一个 Observable ，而这个 Observable 负责将这些事件统一交给 Subscriber 的回调方法。
 这三个步骤，把事件拆成了两级，通过一组新创建的 Observable 将初始的对象『铺平』之后通过统一路径分发了下去。 而这个『铺平』就是 flatMap() 所谓的 flat。
 
-### SwitchMap
+#### SwitchMap
 和上面的操作符类似 ，都是 Observable 发射 Observable,不同的是，这个操作不会合并数据项中的所有数据，而是当遇到后一个 Observable 发射数据的时候，就停止对前一个 Observable 的接收。
 ```java
 getDestinationDataObservableByFlatMap(url).switchMap(new Func1<Observable<DestinationDataModel>, Observable<DestinationDataModel>>() {
@@ -332,7 +332,7 @@ getDestinationDataObservableByFlatMap(url).switchMap(new Func1<Observable<Destin
 ```
 只要换个操作符即可 switchMap，这里因为发射的数据只有一个，效果不明显，如果是列表，交叉发射的话，会很明显，效果回事丢失一部分数据。
 
-### GroupBy
+#### GroupBy
 
 我们对数据按照某个依据进行分组。
 ```java
@@ -346,7 +346,7 @@ Observable<GroupedObservable<String, DestinationDataModel>> groupedObservableObs
 ```
 以上依旧版本号对数据进行分组，一组的将在一起当做一个 Observable 发射。
 
-### merge
+#### merge
 对数据进行整合一起发射。
 ```java
 Observable<DestinationDataModel> merge1 = getDestinationDataObservableByCreate(url);
@@ -356,7 +356,7 @@ merge.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).sub
 ```
 merge 作为一个可观测序列，发射源 merge1，merge2 中的所有数据。注意发射的数据被交叉合并到一个 Observable 里面。如果同步的合并 Observable，它们将连接在一起并且不会交叉。
 
-### zip $$ join && combineLatest
+#### zip $$ join && combineLatest
 上面的数据，是原样的放在一个可观测序列中进行发射的，然而如果我们想对源数据中两两的进行操作后再放到一个数据列中呢？
 ```java
 Observable<DestinationDataModel> zip1 = getDestinationDataObservableByCreate(url);
@@ -379,7 +379,7 @@ zip 作用于最近未打包的两个 Observables,还有一个需求就是我们
 join 操作符把类似于 combineLatest 操作符，也是两个 Observable 产生的结果进行合并，合并的结果组成一个新的 Observable，但是 join 操作符可以控制每个 Observable 产生结果的生命周期，在每个结果的生命周期内，可以与另一个 Observable 产生的结果按照一定的规则进行合并。
 
 
-## RxAndroid rxbinding
+### RxAndroid rxbinding
 Jake 为 Android 控件写的包，这个的使用就太多了。这个我们以一个登陆界面为例。
 ```xml
 <?xml version="1.0" encoding="utf-8"?>

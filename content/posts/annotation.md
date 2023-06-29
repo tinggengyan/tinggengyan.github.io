@@ -4,19 +4,19 @@ date: 2016-11-16 23:16:43
 tags: [Annotation]
 categories: [Programming,Java]
 ---
-# 概述
+## 概述
 
 本文记录注解 Annotation 的概念和使用. 
 
 <!-- more -->
 
-# Annotation 注解
+## Annotation 注解
 
-## Why 需要注解
+### Why 需要注解
 
 在代码中常有些重复的代码，这些代码纯手工太耗时。可以通过一定的标记，然后处理即可。
 
-## What 是注解? Annotation 分类
+### What 是注解? Annotation 分类
 
 1. 标准 Annotation
    包括 Override, Deprecated, SuppressWarnings，是 java 自带的几个注解，他们由编译器来识别，不会进行编译，不影响代码运行。
@@ -25,7 +25,7 @@ categories: [Programming,Java]
 3. 自定义 Annotation
    自定义的 Annotation。
 
-### 自定义的注解也分为三类，通过元Annotation - @Retention 定义：
+#### 自定义的注解也分为三类，通过元Annotation - @Retention 定义：
 
 >* @Retention(RetentionPolicy.SOURCE)
 
@@ -39,14 +39,14 @@ categories: [Programming,Java]
 
     编译时注解，在编译时被识别并处理的注解，相当于自动生成代码，没有反射，和正常的手写代码无二。
 
-## Annotation 的工作原理
+### Annotation 的工作原理
 
 APT(Annotation Processing Tool)
 根据不同类型的注解，采取不同的处理方式，对于 SOURCE 类型的注解，它只会存在代码中，当进行编译成 class 的时候，就会被抛弃了。
 RUNTIME 类型的则一直存到 class 文件中，一直存在虚拟机的运行期。CLASS 类型的注解只存到编译期，会根据 处理器的要求进行处理，生成代码或者其他处理方式，处理完只会，就不会存在了，而如果生成了文件，则会一直存在，被打包。
 
 
-### 术语解释
+#### 术语解释
 
 - Element:
 表示一个程序元素，比如包、类或者方法。每个元素都表示一个静态的语言级构造（不表示虚拟机的运行时构造）。 元素应该使用 equals(Object)方法进行比较。不保证总是使用相同的对象表示某个特定的元素。要实现基于 Element 对象类的操作，可以使用 visitor 或者使用 getKind() 方法的结果。使用 instanceof 确定此建模层次结构中某一对象的有效类未必可靠，因为一个实现可以选择让单个对象实现多个 Element 子接口。
@@ -59,7 +59,7 @@ TypeElement 表示一个类或接口程序元素。提供对有关类型及其�
 TypeElement 代表了一个 class 或者 interface 的 element 。 DeclaredType 表示一个类或接口类型，后者(DeclaredType)将成为前者(TypeElement)的一种使用（或调用）。这种区别对于一般的类型是最明显的，对于这些类型，单个元素可以定义一系列完整的类型。 例如，元素 java.util.Set 对应于参数化类型 java.util.Set<String> 和 java.util.Set<Number>（以及其他许多类型），还对应于原始类型 java.util.Set。
 
 
-#### TypeElement,DeclaredType
+##### TypeElement,DeclaredType
 
 - 为什么需要 [TypeElement](http://docs.oracle.com/javase/7/docs/api/javax/lang/model/element/TypeElement.html) 呢？
 TypeElement 表示一个类或接口程序元素,重点它是一个 element ，是类或者接口的 element。
@@ -84,7 +84,7 @@ messager.printMessage(Diagnostic.Kind.NOTE, "Annotation class : typeMirror insta
 这也就解释了为什么 oracle 文档上说的前者调用后者的意思。
 
 
-## How 使用，自定义注解
+### How 使用，自定义注解
 
 前提：自定义注解一定要是 Java library，不能用 Android library。
 IDE： AS 新建一个 Android Project
@@ -94,11 +94,11 @@ IDE： AS 新建一个 Android Project
 - 设置源路径，使注解处理器生成的代码能被 Android Studio 正确的引用
 
 
-### 编译时注解
+#### 编译时注解
 
 对于编译时注解，在编译项目之前执行的代码，可以生成代码或者生成其他文件，生成的文件将会被打包进项目，但是之前的注解将会被删除，不会进入 class 文件。
 
-#### 传统方式
+##### 传统方式
 
 1.  新建一个 Java module，设置该 module 的 gradle 文件
 ```groovy
@@ -182,7 +182,7 @@ public class NameGenerateProcessor extends AbstractProcessor {
 ![传统的结构第一步](https://raw.githubusercontent.com/tinggengyan/tinggengyan.github.io/source/imgur/annotation_tradition_step1.png)
 ![传统的结构第二步](https://raw.githubusercontent.com/tinggengyan/tinggengyan.github.io/source/imgur/annotation_tradition_step2.png)
 
-### 关键方法 process 解释
+#### 关键方法 process 解释
 
 ```java
     public boolean process(Set<? extends TypeElement> annotations, RoundEnvironment roundEnv) {
@@ -205,7 +205,7 @@ public class NameGenerateProcessor extends AbstractProcessor {
 
 
 
-### 对于注解循环引起的错误的解释
+#### 对于注解循环引起的错误的解释
 不做任何处理，直接运行上面的程序的话，就会在控制台输出一个错误。
 * Attempt to recreate a file for type com.steve.RouterList *
 此处解释引用自《深入Java虚拟机_JVM高级特性与最佳实践》P307。
@@ -229,7 +229,7 @@ build app 项目，就会生成对应的文件。文件的路径:\app\build\gene
 
 想在代码中使用生成的 java 文件很简单，像正常自己写的文件一样，直接引用即可。
 
-#### 借助 Google 和 square 的库
+##### 借助 Google 和 square 的库
 传统的方式，过程比较繁琐，借助 Google  的 auto-service 和 square 的 javapoet 可以省一些事。
 
 - Auto
@@ -346,9 +346,9 @@ javaFile.writeTo(filer); 输出到默认的目录下。
 
 ![采用 auto-service和javapoet的结构图](https://raw.githubusercontent.com/tinggengyan/tinggengyan.github.io/source/imgur/annotation_withautoservice.png)
 
-### 运行时注解
+#### 运行时注解
 
 对于运行时注解都是通过反射来实现的。
 
-### 源码注解
+#### 源码注解
 

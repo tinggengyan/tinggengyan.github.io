@@ -4,17 +4,17 @@ date: 2016-10-07 14:09:09
 tags: [Ubuntu,SublimeText3,输入法]
 categories: [ComputerFoundation,OS]
 ---
-# 概述
+## 概述
 本文记录在 ubuntu 如何修复 Sublime Text 不能输入中文的问题.
 
 <!-- more -->
 
-# 问题
+## 问题
 在 ubuntu 下安装完 Sublime Text之后,发现不能输入中文,也不能正常的切换成中文输入法.google 了一圈之后,看到网上的解决方案,记录下来,方便日后使用.
 
-# 解决方案
+## 解决方案
 
-## 1. 编译一段C代码.保存以下的代码,并将文件命名为 `sublime-imfix.c`
+### 1. 编译一段C代码.保存以下的代码,并将文件命名为 `sublime-imfix.c`
 ```C
 /*
 sublime-imfix.c
@@ -24,8 +24,8 @@ By Cjacker Huang
 gcc -shared -o libsublime-imfix.so sublime-imfix.c `pkg-config --libs --cflags gtk+-2.0` -fPIC
 LD_PRELOAD=./libsublime-imfix.so subl
 */
-#include 
-#include 
+##include 
+##include 
 typedef GdkSegment GdkRegionBox;
 
 struct _GdkRegion
@@ -98,20 +98,20 @@ void gtk_im_context_set_client_window (GtkIMContext *context,
 ```
 
 
-## 2. 因为要编译C代码,所以需要安装C的编译环境
+### 2. 因为要编译C代码,所以需要安装C的编译环境
 打开命令行,安装编译环境
 ```shell
 sudo apt-get install build-essential
 sudo apt-get install libgtk2.0-dev
 ```
 
-## 3. 编译如上说的C代码,会在当前目录下生成`libsublime-imfix.so`文件,并将`libsublime-imfix.so`复制到`/opt/sublime_text/`目录下.
+### 3. 编译如上说的C代码,会在当前目录下生成`libsublime-imfix.so`文件,并将`libsublime-imfix.so`复制到`/opt/sublime_text/`目录下.
 
 ```shell
 gcc -shared -o libsublime-imfix.so sublime-imfix.c `pkg-config --libs --cflags gtk+-2.0` -fPIC
 ```
 
-## 4. 修改`/usr/share/applications/sublime_text.desktop`
+### 4. 修改`/usr/share/applications/sublime_text.desktop`
 
 ```shell
 vim sublime_text.desktop
@@ -137,5 +137,5 @@ Exec=env LD_PRELOAD=/opt/sublime_text/libsublime-imfix.so /opt/sublime_text/subl
 ```
 
 
-# 参考
+## 参考
 * [ 完美解决 Linux 下 Sublime Text 中文输入 ](https://www.sinosky.org/linux-sublime-text-fcitx.html)
