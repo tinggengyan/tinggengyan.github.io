@@ -60,6 +60,8 @@
 * 使用基于 JSON-LD 格式 的 **SEO SCHEMA** 文件进行 SEO 优化
 * 支持 **[Google Analytics](https://analytics.google.com/analytics)**
 * 支持 **[Fathom Analytics](https://usefathom.com/)**
+* 支持 **[Plausible Analytics](https://plausible.io/)**
+* 支持 **[Yandex Metrica](https://metrica.yandex.com/)**
 * 支持搜索引擎的**网站验证** (Google, Bind, Yandex and Baidu)
 * 支持所有第三方库的 **CDN**
 * 基于 [lazysizes](https://github.com/aFarkas/lazysizes) 自动转换图片为**懒加载**
@@ -78,15 +80,16 @@
 
 * 支持 **[Gravatar](https://gravatar.com)** 头像
 * 支持本地**头像**
-* 支持多达 **64** 种社交链接
+* 支持多达 **73** 种社交链接
 * 支持多达 **24** 种网站分享
 * 支持 **[Disqus](https://disqus.com)** 评论系统
 * 支持 **[Gitalk](https://github.com/gitalk/gitalk)** 评论系统
 * 支持 **[Valine](https://valine.js.org/)** 评论系统
-* 支持 **[Facebook](https://developers.facebook.com/docs/plugins/comments/) 评论**系统
-* 支持 **[Telegram comments](https://comments.app/) 评论**系统
+* 支持 **[Facebook comments](https://developers.facebook.com/docs/plugins/comments/)** 评论系统
+* 支持 **[Telegram comments](https://comments.app/)** 评论系统
 * 支持 **[Commento](https://commento.io/)** 评论系统
-* 支持 **[Utterances](https://utteranc.es/)** 评论系统
+* 支持 **[utterances](https://utteranc.es/)** 评论系统
+* 支持 **[giscus](https://giscus.app/)** 评论系统
 
 ### 扩展功能
 
@@ -109,6 +112,7 @@
 * 支持**自定义脚本**的 shortcode
 * 支持基于 [TypeIt](https://typeitjs.com/) 的**打字动画** shortcode
 * 支持基于 [cookieconsent](https://github.com/osano/cookieconsent) 的 **Cookie 许可横幅**
+* 支持**人物标签**的 shortcode
 * ...
 
 ## [文档](https://hugoloveit.com/zh-cn/categories/documentation/)
@@ -136,6 +140,14 @@ LoveIt 支持下列语言:
 * 俄语
 * 罗马尼亚语
 * 越南语
+* 阿拉伯语
+* 加泰罗尼亚语
+* 泰语
+* 泰卢固语
+* 印尼语
+* 土耳其语
+* 韩语
+* 印地语
 * [贡献一种新的语言](https://github.com/dillonzq/LoveIt/pulls)
 
 [语言兼容性](https://hugoloveit.com/zh-cn/theme-documentation-basics/#language-compatibility)

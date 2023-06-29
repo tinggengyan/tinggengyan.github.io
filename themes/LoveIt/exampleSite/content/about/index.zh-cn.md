@@ -19,25 +19,27 @@ math:
 [![GitHub forks](https://img.shields.io/github/forks/dillonzq/LoveIt?style=social)](https://github.com/dillonzq/LoveIt/fork)
 {{< /style >}}
 
-> [:(far fa-kiss-wink-heart fa-fw): LoveIt](https://github.com/dillonzq/LoveIt) 是一个由 [Dillon](https://dillonzq.com) 开发的**简洁**、**优雅**且**高效**的 [Hugo](https://gohugo.io/) 博客主题。
+> [:(far fa-kiss-wink-heart fa-fw): LoveIt](https://github.com/dillonzq/LoveIt) 是一个由 {{< person "https://dillonzq.com/" Dillon "LoveIt 主题的作者" "/Dillon.png" >}} 开发的**简洁**、**优雅**且**高效**的 [Hugo](https://gohugo.io/) 博客主题。
 >
 > 它的原型基于 [LeaveIt 主题](https://github.com/liuzc/LeaveIt) 和 [KeepIt 主题](https://github.com/Fastbyte01/KeepIt)。
 
 ![Hugo 主题 LoveIt](/images/Apple-Devices-Preview.png "Hugo 主题 LoveIt")
 
-### 特性
+## 特性
 
-#### 性能和 SEO
+### 性能和 SEO
 
 * :(fas fa-rocket fa-fw): **性能**优化：在 [Google PageSpeed Insights](https://developers.google.com/speed/pagespeed/insights) 中， [99]/[100] 的移动设备得分和 [100]/[100] 的桌面设备得分
 * :(fab fa-searchengin fa-fw): 使用基于 JSON-LD 格式 的 **SEO SCHEMA** 文件进行 SEO 优化
 * :(fab fa-google fa-fw): 支持 **[Google Analytics](https://analytics.google.com/analytics)**
 * :(far fa-chart-bar fa-fw): 支持 **[Fathom Analytics](https://usefathom.com/)**
+* :(fas fa-chart-column fa-fw): 支持 **[Plausible Analytics](https://plausible.io/)**
+* :(fab fa-yandex-international fa-fw): 支持 **[Yandex Metrica](https://metrica.yandex.com/)**
 * :(fas fa-sitemap fa-fw): 支持搜索引擎的**网站验证** (Google, Bind, Yandex and Baidu)
 * :(fas fa-tachometer-alt fa-fw): 支持所有第三方库的 **CDN**
 * :(fas fa-cloud-download-alt fa-fw): 基于 [lazysizes](https://github.com/aFarkas/lazysizes) 自动转换图片为**懒加载**
 
-#### 外观和布局
+### 外观和布局
 
 * :(fas fa-mobile-screen fa-fw): **[桌面端]/[移动端] 响应式**布局
 * :(fas fa-circle-half-stroke fa-rotate-180 fa-fw): **[浅色]/[深色]** 主题模式
@@ -51,17 +53,18 @@ math:
 
 * :(far fa-user fa-fw): 支持 **[Gravatar](https://gravatar.com)** 头像
 * :(fas fa-user-circle fa-fw): 支持本地**头像**
-* :(far fa-id-card fa-fw): 支持多达 **64** 种社交链接
+* :(far fa-id-card fa-fw): 支持多达 **73** 种社交链接
 * :(fas fa-share-square fa-fw): 支持多达 **24** 种网站分享
 * :(far fa-comment fa-fw): 支持 **[Disqus](https://disqus.com)** 评论系统
 * :(far fa-comment-dots fa-fw): 支持 **[Gitalk](https://github.com/gitalk/gitalk)** 评论系统
 * :(far fa-comment-alt fa-fw): 支持 **[Valine](https://valine.js.org/)** 评论系统
-* :(far fa-comments fa-fw): 支持 **[Facebook](https://developers.facebook.com/docs/plugins/comments/) 评论**系统
-* :(fas fa-comment fa-fw): 支持 **[Telegram comments](https://comments.app/) 评论**系统
+* :(far fa-comments fa-fw): 支持 **[Facebook comments](https://developers.facebook.com/docs/plugins/comments/)** 评论系统
+* :(fas fa-comment fa-fw): 支持 **[Telegram comments](https://comments.app/)** 评论系统
 * :(fas fa-comment-dots fa-fw): 支持 **[Commento](https://commento.io/)** 评论系统
-* :(far fa-comment-alt fa-fw): 支持 **[Utterances](https://utteranc.es/)** 评论系统
+* :(far fa-comment-alt fa-fw): 支持 **[utterances](https://utteranc.es/)** 评论系统
+* :(fas fa-comments fa-fw): 支持 **[giscus](https://giscus.app/)** 评论系统
 
-#### 扩展功能
+### 扩展功能
 
 * :(fas fa-search fa-fw): 支持基于 [Lunr.js](https://lunrjs.com/) 或 [algolia](https://www.algolia.com/) 的**搜索**
 * :(far fa-grin-tongue-wink fa-fw): 支持 **Twemoji**
@@ -82,15 +85,16 @@ math:
 * :(fab fa-js-square fa-fw): 支持**自定义脚本**的 shortcode
 * :(fas fa-i-cursor fa-fw): 支持基于 [TypeIt](https://typeitjs.com/) 的**打字动画** shortcode
 * :(fas fa-cookie-bite fa-fw): 支持基于 [cookieconsent](https://github.com/osano/cookieconsent) 的 **Cookie 许可横幅**
+* :(far fa-user-circle fa-fw): 支持**人物标签**的 shortcode
 * ...
 
-### 许可协议
+## 许可协议
 
 LoveIt 根据 **MIT** 许可协议授权。
 
 更多信息请查看 [LICENSE 文件](https://github.com/dillonzq/LoveIt/blob/master/LICENSE)。
 
-### 特别感谢
+## 特别感谢
 
 LoveIt 主题中用到了以下项目，感谢它们的作者：
 
