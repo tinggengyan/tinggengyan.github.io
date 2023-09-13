@@ -443,8 +443,7 @@ TLS 记录协议主要负责消息（HTTP 数据）的**压缩，加密及数据
 2. 数据按照顺序传输交付；
 > TCP 可靠性由三个机制保证：1. 序号（TCP 报文的序号）2. 确认（ACK 机制）3. 重传（超时或者冗余的 ACK）
 ## TCP
-![[Pasted image 20230517204640.png]]
-
+![tcp establish and close](/img/net/tcp_open_close.png)
 
 ![tpc格式](https://mmbiz.qpic.cn/mmbiz_png/J0g14CUwaZdCwxNydn5YuT0s7aLuqWCvWT9m8xicZXKk6ayV6nKAiaUAhdpdicfibLGEYhHx9OBo7EocXKx8wgIgww/640?wx_fmt=png&wxfrom=5&wx_lazy=1&wx_co=1)
 
@@ -872,7 +871,7 @@ TCP 头里有一个字段叫 *Window*，也就是窗口大小。这个字段是�
 
 **接收方的滑动窗口**
 这部分的内容存疑，涉及累计确认信息。个人认为这里合理的说法应该是累计确认的窗口。
-![[Pasted image 20230412193237.png]]
+![window](/img/netreceive_window.png)
 **关于窗口滑动的几个术语**
 1. 称窗口左边沿向右边沿靠近为窗口合拢。这种现象发生在数据被发送和确认时。
 2. 当窗口右边沿向右移动时将允许发送更多的数据，我们称之为窗口张开。这种现象发 生在另一端的接收进程读取已经确认的数据并释放了 T C P 的接收缓存时。
