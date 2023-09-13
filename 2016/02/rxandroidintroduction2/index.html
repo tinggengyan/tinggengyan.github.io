@@ -381,7 +381,7 @@ observeOn 表示的订阅响应的线程，这里指的是填充发射过来的�
 </span><span class="lnt">3
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">getDestinationDataObservableByCreate</span><span class="o">(</span><span class="n">url</span><span class="o">).</span><span class="na">repeat</span><span class="o">(</span><span class="mi">2</span><span class="o">)</span>
+<pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">getDestinationDataObservableByCreate</span><span class="o">(</span><span class="n">url</span><span class="o">).</span><span class="na">repeat</span><span class="o">(</span><span class="n">2</span><span class="o">)</span>
 </span></span><span class="line"><span class="cl">            <span class="o">.</span><span class="na">subscribeOn</span><span class="o">(</span><span class="n">Schedulers</span><span class="o">.</span><span class="na">io</span><span class="o">()).</span><span class="na">observeOn</span><span class="o">(</span><span class="n">AndroidSchedulers</span><span class="o">.</span><span class="na">mainThread</span><span class="o">())</span>
 </span></span><span class="line"><span class="cl">            <span class="o">.</span><span class="na">subscribe</span><span class="o">(</span><span class="n">subscriber</span><span class="o">);</span>
 </span></span></code></pre></td></tr></table>
@@ -408,7 +408,7 @@ observeOn 表示的订阅响应的线程，这里指的是填充发射过来的�
 </span></span><span class="line"><span class="cl">                    <span class="n">destinationRecyclerView</span><span class="o">.</span><span class="na">setAdapter</span><span class="o">(</span><span class="n">adapter</span><span class="o">);</span>
 </span></span><span class="line"><span class="cl">                <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
 </span></span><span class="line"><span class="cl">                    <span class="n">DestinationRecyclerAdapter</span> <span class="n">adapter</span> <span class="o">=</span> <span class="o">(</span><span class="n">DestinationRecyclerAdapter</span><span class="o">)</span> <span class="n">destinationRecyclerView</span><span class="o">.</span><span class="na">getAdapter</span><span class="o">();</span>
-</span></span><span class="line"><span class="cl">                    <span class="n">adapter</span><span class="o">.</span><span class="na">datas</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="mi">0</span><span class="o">).</span><span class="na">getInfos</span><span class="o">().</span><span class="na">addAll</span><span class="o">(</span><span class="n">destinationDataModel</span><span class="o">.</span><span class="na">getDatas</span><span class="o">().</span><span class="na">get</span><span class="o">(</span><span class="mi">0</span><span class="o">).</span><span class="na">getInfos</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl">                    <span class="n">adapter</span><span class="o">.</span><span class="na">datas</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">0</span><span class="o">).</span><span class="na">getInfos</span><span class="o">().</span><span class="na">addAll</span><span class="o">(</span><span class="n">destinationDataModel</span><span class="o">.</span><span class="na">getDatas</span><span class="o">().</span><span class="na">get</span><span class="o">(</span><span class="n">0</span><span class="o">).</span><span class="na">getInfos</span><span class="o">());</span>
 </span></span><span class="line"><span class="cl">                <span class="o">}</span>
 </span></span><span class="line"><span class="cl">            <span class="o">}</span>
 </span></span></code></pre></td></tr></table>
@@ -516,7 +516,7 @@ just()，from() 这类能够创建 Observable 的操作符（译者注：创建 
 </span></span><span class="line"><span class="cl">                <span class="k">if</span> <span class="o">(</span><span class="n">subscriber</span><span class="o">.</span><span class="na">isUnsubscribed</span><span class="o">())</span> <span class="o">{</span>
 </span></span><span class="line"><span class="cl">                    <span class="k">return</span><span class="o">;</span>
 </span></span><span class="line"><span class="cl">                <span class="o">}</span>
-</span></span><span class="line"><span class="cl">                <span class="n">subscriber</span><span class="o">.</span><span class="na">onNext</span><span class="o">(</span><span class="mi">42</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">                <span class="n">subscriber</span><span class="o">.</span><span class="na">onNext</span><span class="o">(</span><span class="n">42</span><span class="o">);</span>
 </span></span><span class="line"><span class="cl">                <span class="n">subscriber</span><span class="o">.</span><span class="na">onCompleted</span><span class="o">();</span>
 </span></span><span class="line"><span class="cl">            <span class="o">}</span>
 </span></span><span class="line"><span class="cl">        <span class="o">});</span>
@@ -923,7 +923,7 @@ flatMap() 的原理是这样的：</p>
 <pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="c1">//两个事件源的时间间隔小于规定的时间单位的，都会被忽略。
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kd">private</span> <span class="kt">void</span> <span class="nf">simpleDebounce</span><span class="o">()</span> <span class="o">{</span>
 </span></span><span class="line"><span class="cl">        <span class="n">RxTextView</span><span class="o">.</span><span class="na">textChangeEvents</span><span class="o">(</span><span class="n">editTextRXAndroid</span><span class="o">)</span>
-</span></span><span class="line"><span class="cl">            <span class="o">.</span><span class="na">debounce</span><span class="o">(</span><span class="mi">400</span><span class="o">,</span> <span class="n">TimeUnit</span><span class="o">.</span><span class="na">MILLISECONDS</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">            <span class="o">.</span><span class="na">debounce</span><span class="o">(</span><span class="n">400</span><span class="o">,</span> <span class="n">TimeUnit</span><span class="o">.</span><span class="na">MILLISECONDS</span><span class="o">)</span>
 </span></span><span class="line"><span class="cl">            <span class="o">.</span><span class="na">observeOn</span><span class="o">(</span><span class="n">AndroidSchedulers</span><span class="o">.</span><span class="na">mainThread</span><span class="o">())</span>
 </span></span><span class="line"><span class="cl">            <span class="o">.</span><span class="na">subscribe</span><span class="o">(</span><span class="k">new</span> <span class="n">Observer</span><span class="o">&lt;</span><span class="n">TextViewTextChangeEvent</span><span class="o">&gt;()</span> <span class="o">{</span>
 </span></span><span class="line"><span class="cl">                <span class="nd">@Override</span>
@@ -1089,7 +1089,7 @@ flatMap() 的原理是这样的：</p>
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">private</span> <span class="kt">void</span> <span class="nf">simpleTimer</span><span class="o">()</span> <span class="o">{</span>
-</span></span><span class="line"><span class="cl">        <span class="n">Observable</span><span class="o">.</span><span class="na">timer</span><span class="o">(</span><span class="mi">2</span><span class="o">,</span> <span class="n">TimeUnit</span><span class="o">.</span><span class="na">SECONDS</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">        <span class="n">Observable</span><span class="o">.</span><span class="na">timer</span><span class="o">(</span><span class="n">2</span><span class="o">,</span> <span class="n">TimeUnit</span><span class="o">.</span><span class="na">SECONDS</span><span class="o">)</span>
 </span></span><span class="line"><span class="cl">            <span class="o">.</span><span class="na">subscribe</span><span class="o">(</span><span class="k">new</span> <span class="n">Observer</span><span class="o">&lt;</span><span class="n">Long</span><span class="o">&gt;()</span> <span class="o">{</span>
 </span></span><span class="line"><span class="cl">                <span class="nd">@Override</span>
 </span></span><span class="line"><span class="cl">                <span class="kd">public</span> <span class="kt">void</span> <span class="nf">onCompleted</span><span class="o">()</span> <span class="o">{</span>
@@ -1132,7 +1132,7 @@ flatMap() 的原理是这样的：</p>
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">private</span> <span class="kt">void</span> <span class="nf">simpleInterval</span><span class="o">()</span> <span class="o">{</span>
-</span></span><span class="line"><span class="cl">        <span class="n">Observable</span><span class="o">.</span><span class="na">interval</span><span class="o">(</span><span class="mi">2</span><span class="o">,</span> <span class="n">TimeUnit</span><span class="o">.</span><span class="na">SECONDS</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">        <span class="n">Observable</span><span class="o">.</span><span class="na">interval</span><span class="o">(</span><span class="n">2</span><span class="o">,</span> <span class="n">TimeUnit</span><span class="o">.</span><span class="na">SECONDS</span><span class="o">)</span>
 </span></span><span class="line"><span class="cl">            <span class="o">.</span><span class="na">subscribe</span><span class="o">(</span><span class="k">new</span> <span class="n">Observer</span><span class="o">&lt;</span><span class="n">Long</span><span class="o">&gt;()</span> <span class="o">{</span>
 </span></span><span class="line"><span class="cl">                <span class="nd">@Override</span>
 </span></span><span class="line"><span class="cl">                <span class="kd">public</span> <span class="kt">void</span> <span class="nf">onCompleted</span><span class="o">()</span> <span class="o">{</span>
@@ -1177,7 +1177,7 @@ flatMap() 的原理是这样的：</p>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl">    <span class="kd">private</span> <span class="kt">void</span> <span class="nf">simpleThrottleFirst</span><span class="o">()</span> <span class="o">{</span>
 </span></span><span class="line"><span class="cl">        <span class="n">RxView</span><span class="o">.</span><span class="na">clicks</span><span class="o">(</span><span class="n">LoginButton</span><span class="o">)</span>
-</span></span><span class="line"><span class="cl">            <span class="o">.</span><span class="na">throttleFirst</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span> <span class="n">TimeUnit</span><span class="o">.</span><span class="na">SECONDS</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">            <span class="o">.</span><span class="na">throttleFirst</span><span class="o">(</span><span class="n">1</span><span class="o">,</span> <span class="n">TimeUnit</span><span class="o">.</span><span class="na">SECONDS</span><span class="o">)</span>
 </span></span><span class="line"><span class="cl">            <span class="o">.</span><span class="na">subscribe</span><span class="o">(</span><span class="k">new</span> <span class="n">Subscriber</span><span class="o">&lt;</span><span class="n">Void</span><span class="o">&gt;()</span> <span class="o">{</span>
 </span></span><span class="line"><span class="cl">                <span class="nd">@Override</span>
 </span></span><span class="line"><span class="cl">                <span class="kd">public</span> <span class="kt">void</span> <span class="nf">onCompleted</span><span class="o">()</span> <span class="o">{</span>
@@ -1228,7 +1228,7 @@ flatMap() 的原理是这样的：</p>
                 Please enable JavaScript to view the comments powered by <a href="https://valine.js.org/">Valine</a>.
             </noscript></div></article></div>
             </main><footer class="footer">
-        <div class="footer-container"><div class="footer-line">Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.114.1">Hugo</a> | Theme - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.11"><i class="far fa-kiss-wink-heart fa-fw" aria-hidden="true"></i> LoveIt</a>
+        <div class="footer-container"><div class="footer-line">Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.118.2">Hugo</a> | Theme - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.11"><i class="far fa-kiss-wink-heart fa-fw" aria-hidden="true"></i> LoveIt</a>
                 </div><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright fa-fw" aria-hidden="true"></i><span itemprop="copyrightYear">2019 - 2023</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank">Tinggeng</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
         </div>
     </footer></div>

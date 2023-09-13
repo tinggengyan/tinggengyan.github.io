@@ -29,7 +29,7 @@
         "mainEntityOfPage": {
             "@type": "WebPage",
             "@id": "https:\/\/tinggengyan.github.io\/2022\/05\/net-process\/"
-        },"image": ["https:\/\/tinggengyan.github.io\/images\/Apple-Devices-Preview.png"],"genre": "posts","keywords": "TCP, Http, Net","wordcount":  2991 ,
+        },"image": ["https:\/\/tinggengyan.github.io\/images\/Apple-Devices-Preview.png"],"genre": "posts","keywords": "TCP, Http, Net","wordcount":  2985 ,
         "url": "https:\/\/tinggengyan.github.io\/2022\/05\/net-process\/","datePublished": "2022-05-17T16:09:59+00:00","dateModified": "2022-05-17T16:09:59+00:00","publisher": {
             "@type": "Organization",
             "name": "xxxx","logo": "https:\/\/tinggengyan.github.io\/img\/avatar.png"},"author": {
@@ -103,7 +103,7 @@
             <div class="toc-content" id="toc-content-auto"></div>
         </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">一张思维导图看网络【持续迭代】</h1><div class="post-meta">
             <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Tinggeng</a></span>&nbsp;<span class="post-category">included in <a href="/categories/network/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Network</a></span></div>
-            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2022-05-17">2022-05-17</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;2991 words&nbsp;
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2022-05-17">2022-05-17</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;2985 words&nbsp;
                 <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;15 minutes&nbsp;<span id="/2022/05/net-process/" class="leancloud_visitors" data-flag-title="一张思维导图看网络【持续迭代】">
                         <i class="far fa-eye fa-fw" aria-hidden="true"></i>&nbsp;<span class=leancloud-visitors-count></span>&nbsp;views
                     </span>&nbsp;</div>
@@ -672,7 +672,14 @@ CA 签发证书的过程，如上图左边部分：</p>
 <p>TCP 可靠性由三个机制保证：1. 序号（TCP 报文的序号）2. 确认（ACK 机制）3. 重传（超时或者冗余的 ACK）</p>
 </blockquote>
 <h2 id="tcp">TCP</h2>
-<p>![[Pasted image 20230517204640.png]]</p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="/img/net/tcp_open_close.png"
+        data-srcset="/img/net/tcp_open_close.png, /img/net/tcp_open_close.png 1.5x, /img/net/tcp_open_close.png 2x"
+        data-sizes="auto"
+        alt="/img/net/tcp_open_close.png"
+        title="tcp establish and close" /></p>
 <p><img
         class="lazyload"
         src="/svg/loading.min.svg"
@@ -1232,7 +1239,14 @@ TCP 的连接信息是由内核维护的，所以当服务端的进程崩溃后�
 <p>那么可用窗口大小的计算就可以是：<em>可用窗口大 = SND.WND -（SND.NXT - SND.UNA）</em></p>
 <p><strong>接收方的滑动窗口</strong>
 这部分的内容存疑，涉及累计确认信息。个人认为这里合理的说法应该是累计确认的窗口。
-![[Pasted image 20230412193237.png]]
+<img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="/img/netreceive_window.png"
+        data-srcset="/img/netreceive_window.png, /img/netreceive_window.png 1.5x, /img/netreceive_window.png 2x"
+        data-sizes="auto"
+        alt="/img/netreceive_window.png"
+        title="window" />
 <strong>关于窗口滑动的几个术语</strong></p>
 <ol>
 <li>称窗口左边沿向右边沿靠近为窗口合拢。这种现象发生在数据被发送和确认时。</li>
@@ -1892,7 +1906,7 @@ Google BBR算法主要适用于高速、长距离网络环境，例如数据中�
                 Please enable JavaScript to view the comments powered by <a href="https://valine.js.org/">Valine</a>.
             </noscript></div></article></div>
             </main><footer class="footer">
-        <div class="footer-container"><div class="footer-line">Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.114.1">Hugo</a> | Theme - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.11"><i class="far fa-kiss-wink-heart fa-fw" aria-hidden="true"></i> LoveIt</a>
+        <div class="footer-container"><div class="footer-line">Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.118.2">Hugo</a> | Theme - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.11"><i class="far fa-kiss-wink-heart fa-fw" aria-hidden="true"></i> LoveIt</a>
                 </div><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright fa-fw" aria-hidden="true"></i><span itemprop="copyrightYear">2019 - 2023</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank">Tinggeng</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
         </div>
     </footer></div>

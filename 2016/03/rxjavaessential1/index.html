@@ -325,7 +325,7 @@ lift变换操作的原理 看下lift源码,直接拷贝的源码，未做删减�
 </span></span><span class="line"><span class="cl">                        <span class="n">child</span><span class="o">.</span><span class="na">onNext</span><span class="o">(</span><span class="n">t</span><span class="o">);</span>
 </span></span><span class="line"><span class="cl">                    <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
 </span></span><span class="line"><span class="cl">                        <span class="c1">// TODO consider a more complicated version that batches these
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span>                        <span class="n">request</span><span class="o">(</span><span class="mi">1</span><span class="o">);</span>
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>                        <span class="n">request</span><span class="o">(</span><span class="n">1</span><span class="o">);</span>
 </span></span><span class="line"><span class="cl">                    <span class="o">}</span>
 </span></span><span class="line"><span class="cl">                <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">Throwable</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
 </span></span><span class="line"><span class="cl">                    <span class="n">Exceptions</span><span class="o">.</span><span class="na">throwOrReport</span><span class="o">(</span><span class="n">e</span><span class="o">,</span> <span class="n">child</span><span class="o">,</span> <span class="n">t</span><span class="o">);</span>
@@ -541,7 +541,7 @@ lift变换操作的原理 看下lift源码,直接拷贝的源码，未做删减�
 </span></span></span><span class="line"><span class="cl"><span class="cm">     */</span>
 </span></span><span class="line"><span class="cl">    <span class="kd">static</span> <span class="kd">final</span> <span class="kd">class</span> <span class="nc">ScalarAsyncProducer</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span> <span class="kd">extends</span> <span class="n">AtomicBoolean</span> <span class="kd">implements</span> <span class="n">Producer</span><span class="o">,</span> <span class="n">Action0</span> <span class="o">{</span>
 </span></span><span class="line"><span class="cl">        <span class="cm">/** */</span>
-</span></span><span class="line"><span class="cl">        <span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="kt">long</span> <span class="n">serialVersionUID</span> <span class="o">=</span> <span class="o">-</span><span class="mi">2466317989629281651L</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">        <span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="kt">long</span> <span class="n">serialVersionUID</span> <span class="o">=</span> <span class="o">-</span><span class="n">2466317989629281651L</span><span class="o">;</span>
 </span></span><span class="line"><span class="cl">        <span class="kd">final</span> <span class="n">Subscriber</span><span class="o">&lt;?</span> <span class="kd">super</span> <span class="n">T</span><span class="o">&gt;</span> <span class="n">actual</span><span class="o">;</span>
 </span></span><span class="line"><span class="cl">        <span class="kd">final</span> <span class="n">T</span> <span class="n">value</span><span class="o">;</span>
 </span></span><span class="line"><span class="cl">        <span class="kd">final</span> <span class="n">Func1</span><span class="o">&lt;</span><span class="n">Action0</span><span class="o">,</span> <span class="n">Subscription</span><span class="o">&gt;</span> <span class="n">onSchedule</span><span class="o">;</span>
@@ -554,10 +554,10 @@ lift变换操作的原理 看下lift源码,直接拷贝的源码，未做删减�
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl">        <span class="nd">@Override</span>
 </span></span><span class="line"><span class="cl">        <span class="kd">public</span> <span class="kt">void</span> <span class="nf">request</span><span class="o">(</span><span class="kt">long</span> <span class="n">n</span><span class="o">)</span> <span class="o">{</span>
-</span></span><span class="line"><span class="cl">            <span class="k">if</span> <span class="o">(</span><span class="n">n</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="n">L</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="k">if</span> <span class="o">(</span><span class="n">n</span> <span class="o">&lt;</span> <span class="n">0L</span><span class="o">)</span> <span class="o">{</span>
 </span></span><span class="line"><span class="cl">                <span class="k">throw</span> <span class="k">new</span> <span class="n">IllegalArgumentException</span><span class="o">(</span><span class="s">&#34;n &gt;= 0 required but it was &#34;</span> <span class="o">+</span> <span class="n">n</span><span class="o">);</span>
 </span></span><span class="line"><span class="cl">            <span class="o">}</span>
-</span></span><span class="line"><span class="cl">            <span class="k">if</span> <span class="o">(</span><span class="n">n</span> <span class="o">!=</span> <span class="mi">0</span> <span class="o">&amp;&amp;</span> <span class="n">compareAndSet</span><span class="o">(</span><span class="kc">false</span><span class="o">,</span> <span class="kc">true</span><span class="o">))</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="k">if</span> <span class="o">(</span><span class="n">n</span> <span class="o">!=</span> <span class="n">0</span> <span class="o">&amp;&amp;</span> <span class="n">compareAndSet</span><span class="o">(</span><span class="kc">false</span><span class="o">,</span> <span class="kc">true</span><span class="o">))</span> <span class="o">{</span>
 </span></span><span class="line"><span class="cl">                <span class="n">actual</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">onSchedule</span><span class="o">.</span><span class="na">call</span><span class="o">(</span><span class="k">this</span><span class="o">));</span>
 </span></span><span class="line"><span class="cl">            <span class="o">}</span>
 </span></span><span class="line"><span class="cl">        <span class="o">}</span>
@@ -876,7 +876,7 @@ lift变换操作的原理 看下lift源码,直接拷贝的源码，未做删减�
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl">                <span class="nd">@Override</span>
 </span></span><span class="line"><span class="cl">                <span class="kd">public</span> <span class="kt">void</span> <span class="nf">request</span><span class="o">(</span><span class="kt">long</span> <span class="n">n</span><span class="o">)</span> <span class="o">{</span>
-</span></span><span class="line"><span class="cl">                    <span class="k">if</span> <span class="o">(</span><span class="n">n</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="n">L</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">                    <span class="k">if</span> <span class="o">(</span><span class="n">n</span> <span class="o">&gt;</span> <span class="n">0L</span><span class="o">)</span> <span class="o">{</span>
 </span></span><span class="line"><span class="cl">                        <span class="n">BackpressureUtils</span><span class="o">.</span><span class="na">getAndAddRequest</span><span class="o">(</span><span class="n">requested</span><span class="o">,</span> <span class="n">n</span><span class="o">);</span>
 </span></span><span class="line"><span class="cl">                        <span class="n">schedule</span><span class="o">();</span>
 </span></span><span class="line"><span class="cl">                    <span class="o">}</span>
@@ -912,7 +912,7 @@ schedule 方法就是执行在指定的异步线程上的。我们看到在 onNe
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">protected</span> <span class="kt">void</span> <span class="nf">schedule</span><span class="o">()</span> <span class="o">{</span>
-</span></span><span class="line"><span class="cl">            <span class="k">if</span> <span class="o">(</span><span class="n">counter</span><span class="o">.</span><span class="na">getAndIncrement</span><span class="o">()</span> <span class="o">==</span> <span class="mi">0</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="k">if</span> <span class="o">(</span><span class="n">counter</span><span class="o">.</span><span class="na">getAndIncrement</span><span class="o">()</span> <span class="o">==</span> <span class="n">0</span><span class="o">)</span> <span class="o">{</span>
 </span></span><span class="line"><span class="cl">                <span class="n">recursiveScheduler</span><span class="o">.</span><span class="na">schedule</span><span class="o">(</span><span class="k">this</span><span class="o">);</span>
 </span></span><span class="line"><span class="cl">            <span class="o">}</span>
 </span></span><span class="line"><span class="cl">        <span class="o">}</span>
@@ -985,9 +985,9 @@ schedule 方法就是执行在指定的异步线程上的。我们看到在 onNe
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@Override</span>
 </span></span><span class="line"><span class="cl">        <span class="kd">public</span> <span class="kt">void</span> <span class="nf">call</span><span class="o">()</span> <span class="o">{</span>
-</span></span><span class="line"><span class="cl">            <span class="kt">long</span> <span class="n">emitted</span> <span class="o">=</span> <span class="mi">0</span><span class="n">L</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">            <span class="kt">long</span> <span class="n">emitted</span> <span class="o">=</span> <span class="n">0L</span><span class="o">;</span>
 </span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">            <span class="kt">long</span> <span class="n">missed</span> <span class="o">=</span> <span class="mi">1L</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">            <span class="kt">long</span> <span class="n">missed</span> <span class="o">=</span> <span class="n">1L</span><span class="o">;</span>
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl">            <span class="c1">// these are accessed in a tight loop around atomics so
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span>            <span class="c1">// loading them into local variables avoids the mandatory re-reading
@@ -1007,9 +1007,9 @@ schedule 方法就是执行在指定的异步线程上的。我们看到在 onNe
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl">                <span class="kt">long</span> <span class="n">requestAmount</span> <span class="o">=</span> <span class="n">requested</span><span class="o">.</span><span class="na">get</span><span class="o">();</span>
 </span></span><span class="line"><span class="cl">                <span class="kt">boolean</span> <span class="n">unbounded</span> <span class="o">=</span> <span class="n">requestAmount</span> <span class="o">==</span> <span class="n">Long</span><span class="o">.</span><span class="na">MAX_VALUE</span><span class="o">;</span>
-</span></span><span class="line"><span class="cl">                <span class="kt">long</span> <span class="n">currentEmission</span> <span class="o">=</span> <span class="mi">0</span><span class="n">L</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">                <span class="kt">long</span> <span class="n">currentEmission</span> <span class="o">=</span> <span class="n">0L</span><span class="o">;</span>
 </span></span><span class="line"><span class="cl">                
-</span></span><span class="line"><span class="cl">                <span class="k">while</span> <span class="o">(</span><span class="n">requestAmount</span> <span class="o">!=</span> <span class="mi">0</span><span class="n">L</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">                <span class="k">while</span> <span class="o">(</span><span class="n">requestAmount</span> <span class="o">!=</span> <span class="n">0L</span><span class="o">)</span> <span class="o">{</span>
 </span></span><span class="line"><span class="cl">                    <span class="kt">boolean</span> <span class="n">done</span> <span class="o">=</span> <span class="n">finished</span><span class="o">;</span>
 </span></span><span class="line"><span class="cl">                    <span class="n">Object</span> <span class="n">v</span> <span class="o">=</span> <span class="n">q</span><span class="o">.</span><span class="na">poll</span><span class="o">();</span>
 </span></span><span class="line"><span class="cl">                    <span class="kt">boolean</span> <span class="n">empty</span> <span class="o">=</span> <span class="n">v</span> <span class="o">==</span> <span class="kc">null</span><span class="o">;</span>
@@ -1029,17 +1029,17 @@ schedule 方法就是执行在指定的异步线程上的。我们看到在 onNe
 </span></span><span class="line"><span class="cl">                    <span class="n">emitted</span><span class="o">++;</span>
 </span></span><span class="line"><span class="cl">                <span class="o">}</span>
 </span></span><span class="line"><span class="cl">                
-</span></span><span class="line"><span class="cl">                <span class="k">if</span> <span class="o">(</span><span class="n">currentEmission</span> <span class="o">!=</span> <span class="mi">0</span><span class="n">L</span> <span class="o">&amp;&amp;</span> <span class="o">!</span><span class="n">unbounded</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">                <span class="k">if</span> <span class="o">(</span><span class="n">currentEmission</span> <span class="o">!=</span> <span class="n">0L</span> <span class="o">&amp;&amp;</span> <span class="o">!</span><span class="n">unbounded</span><span class="o">)</span> <span class="o">{</span>
 </span></span><span class="line"><span class="cl">                    <span class="n">requested</span><span class="o">.</span><span class="na">addAndGet</span><span class="o">(</span><span class="n">currentEmission</span><span class="o">);</span>
 </span></span><span class="line"><span class="cl">                <span class="o">}</span>
 </span></span><span class="line"><span class="cl">                
 </span></span><span class="line"><span class="cl">                <span class="n">missed</span> <span class="o">=</span> <span class="n">counter</span><span class="o">.</span><span class="na">addAndGet</span><span class="o">(-</span><span class="n">missed</span><span class="o">);</span>
-</span></span><span class="line"><span class="cl">                <span class="k">if</span> <span class="o">(</span><span class="n">missed</span> <span class="o">==</span> <span class="mi">0</span><span class="n">L</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">                <span class="k">if</span> <span class="o">(</span><span class="n">missed</span> <span class="o">==</span> <span class="n">0L</span><span class="o">)</span> <span class="o">{</span>
 </span></span><span class="line"><span class="cl">                    <span class="k">break</span><span class="o">;</span>
 </span></span><span class="line"><span class="cl">                <span class="o">}</span>
 </span></span><span class="line"><span class="cl">            <span class="o">}</span>
 </span></span><span class="line"><span class="cl">            
-</span></span><span class="line"><span class="cl">            <span class="k">if</span> <span class="o">(</span><span class="n">emitted</span> <span class="o">!=</span> <span class="mi">0</span><span class="n">L</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="k">if</span> <span class="o">(</span><span class="n">emitted</span> <span class="o">!=</span> <span class="n">0L</span><span class="o">)</span> <span class="o">{</span>
 </span></span><span class="line"><span class="cl">                <span class="n">request</span><span class="o">(</span><span class="n">emitted</span><span class="o">);</span>
 </span></span><span class="line"><span class="cl">            <span class="o">}</span>
 </span></span><span class="line"><span class="cl">        <span class="o">}</span>
@@ -1196,7 +1196,7 @@ schedule 方法就是执行在指定的异步线程上的。我们看到在 onNe
 </span></span><span class="line"><span class="cl">      <span class="nd">@Override</span>
 </span></span><span class="line"><span class="cl">      <span class="kd">public</span> <span class="kt">void</span> <span class="nf">call</span><span class="o">(</span><span class="n">Subscriber</span><span class="o">&lt;?</span> <span class="kd">super</span> <span class="n">Integer</span><span class="o">&gt;</span> <span class="n">subscriber</span><span class="o">)</span> <span class="o">{</span>
 </span></span><span class="line"><span class="cl">        <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&#34;Observable:&#34;</span> <span class="o">+</span> <span class="n">Thread</span><span class="o">.</span><span class="na">currentThread</span><span class="o">());</span>
-</span></span><span class="line"><span class="cl">        <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="mi">10</span><span class="o">;</span> <span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="n">0</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">10</span><span class="o">;</span> <span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
 </span></span><span class="line"><span class="cl">          <span class="n">subscriber</span><span class="o">.</span><span class="na">onNext</span><span class="o">(</span><span class="n">i</span><span class="o">);</span>
 </span></span><span class="line"><span class="cl">        <span class="o">}</span>
 </span></span><span class="line"><span class="cl">        <span class="n">subscriber</span><span class="o">.</span><span class="na">onCompleted</span><span class="o">();</span>
@@ -1211,7 +1211,7 @@ schedule 方法就是执行在指定的异步线程上的。我们看到在 onNe
 </span></span><span class="line"><span class="cl">          <span class="nd">@Override</span>
 </span></span><span class="line"><span class="cl">          <span class="kd">public</span> <span class="n">Boolean</span> <span class="nf">call</span><span class="o">(</span><span class="n">Integer</span> <span class="n">integer</span><span class="o">)</span> <span class="o">{</span>
 </span></span><span class="line"><span class="cl">            <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&#34;filter:&#34;</span> <span class="o">+</span> <span class="n">Thread</span><span class="o">.</span><span class="na">currentThread</span><span class="o">());</span>
-</span></span><span class="line"><span class="cl">            <span class="k">if</span> <span class="o">(</span><span class="n">integer</span> <span class="o">&gt;</span> <span class="mi">2</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="k">if</span> <span class="o">(</span><span class="n">integer</span> <span class="o">&gt;</span> <span class="n">2</span><span class="o">)</span> <span class="o">{</span>
 </span></span><span class="line"><span class="cl">              <span class="k">return</span> <span class="kc">true</span><span class="o">;</span>
 </span></span><span class="line"><span class="cl">            <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
 </span></span><span class="line"><span class="cl">              <span class="k">return</span> <span class="kc">false</span><span class="o">;</span>
@@ -1266,7 +1266,7 @@ schedule 方法就是执行在指定的异步线程上的。我们看到在 onNe
                 Please enable JavaScript to view the comments powered by <a href="https://valine.js.org/">Valine</a>.
             </noscript></div></article></div>
             </main><footer class="footer">
-        <div class="footer-container"><div class="footer-line">Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.114.1">Hugo</a> | Theme - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.11"><i class="far fa-kiss-wink-heart fa-fw" aria-hidden="true"></i> LoveIt</a>
+        <div class="footer-container"><div class="footer-line">Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.118.2">Hugo</a> | Theme - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.11"><i class="far fa-kiss-wink-heart fa-fw" aria-hidden="true"></i> LoveIt</a>
                 </div><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright fa-fw" aria-hidden="true"></i><span itemprop="copyrightYear">2019 - 2023</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank">Tinggeng</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
         </div>
     </footer></div>

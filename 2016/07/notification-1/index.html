@@ -182,7 +182,7 @@ TaskStackBuilder 简介 Utility class for constructing synthetic back stacks for
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"> <span class="n">PendingIntent</span> <span class="n">pendingIntent</span> <span class="o">=</span> <span class="n">TaskStackBuilder</span><span class="o">.</span><span class="na">create</span><span class="o">(</span><span class="k">this</span><span class="o">)</span>
 </span></span><span class="line"><span class="cl">            <span class="o">.</span><span class="na">addNextIntentWithParentStack</span><span class="o">(</span><span class="n">resultIntent</span><span class="o">)</span>
-</span></span><span class="line"><span class="cl">            <span class="o">.</span><span class="na">getPendingIntent</span><span class="o">(</span><span class="mi">0</span><span class="o">,</span> <span class="n">PendingIntent</span><span class="o">.</span><span class="na">FLAG_UPDATE_CURRENT</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">            <span class="o">.</span><span class="na">getPendingIntent</span><span class="o">(</span><span class="n">0</span><span class="o">,</span> <span class="n">PendingIntent</span><span class="o">.</span><span class="na">FLAG_UPDATE_CURRENT</span><span class="o">);</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><ol start="4">
@@ -209,7 +209,7 @@ TaskStackBuilder 简介 Utility class for constructing synthetic back stacks for
 </span></span><span class="line"><span class="cl">        <span class="n">mBuilder</span><span class="o">.</span><span class="na">setContentIntent</span><span class="o">(</span><span class="n">pendingIntent</span><span class="o">);</span>
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl">        <span class="n">NotificationManager</span> <span class="n">mNotificationManager</span> <span class="o">=</span> <span class="o">(</span><span class="n">NotificationManager</span><span class="o">)</span> <span class="n">getSystemService</span><span class="o">(</span><span class="n">Context</span><span class="o">.</span><span class="na">NOTIFICATION_SERVICE</span><span class="o">);</span>
-</span></span><span class="line"><span class="cl">        <span class="n">mNotificationManager</span><span class="o">.</span><span class="na">notify</span><span class="o">(</span><span class="mi">0</span><span class="o">,</span> <span class="n">mBuilder</span><span class="o">.</span><span class="na">build</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl">        <span class="n">mNotificationManager</span><span class="o">.</span><span class="na">notify</span><span class="o">(</span><span class="n">0</span><span class="o">,</span> <span class="n">mBuilder</span><span class="o">.</span><span class="na">build</span><span class="o">());</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><h3 id="总结">总结</h3>
@@ -244,7 +244,7 @@ TaskStackBuilder 简介 Utility class for constructing synthetic back stacks for
                 Please enable JavaScript to view the comments powered by <a href="https://valine.js.org/">Valine</a>.
             </noscript></div></article></div>
             </main><footer class="footer">
-        <div class="footer-container"><div class="footer-line">Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.114.1">Hugo</a> | Theme - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.11"><i class="far fa-kiss-wink-heart fa-fw" aria-hidden="true"></i> LoveIt</a>
+        <div class="footer-container"><div class="footer-line">Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.118.2">Hugo</a> | Theme - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.11"><i class="far fa-kiss-wink-heart fa-fw" aria-hidden="true"></i> LoveIt</a>
                 </div><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright fa-fw" aria-hidden="true"></i><span itemprop="copyrightYear">2019 - 2023</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank">Tinggeng</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
         </div>
     </footer></div>

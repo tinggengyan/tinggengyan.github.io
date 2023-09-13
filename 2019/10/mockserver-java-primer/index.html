@@ -183,10 +183,10 @@
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
 </span></span><span class="line"><span class="cl">        <span class="c1">// 1. 8000端口启动服务
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="n">ClientAndServer</span><span class="o">.</span><span class="na">startClientAndServer</span><span class="o">(</span><span class="mi">8000</span><span class="o">);</span>
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="n">ClientAndServer</span><span class="o">.</span><span class="na">startClientAndServer</span><span class="o">(</span><span class="n">8000</span><span class="o">);</span>
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl">        <span class="c1">// 2. new 一个操作服务端行为的实例
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="n">MockServerClient</span> <span class="n">serverClient</span> <span class="o">=</span> <span class="k">new</span> <span class="n">MockServerClient</span><span class="o">(</span><span class="s">&#34;localhost&#34;</span><span class="o">,</span> <span class="mi">8000</span><span class="o">);</span>
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="n">MockServerClient</span> <span class="n">serverClient</span> <span class="o">=</span> <span class="k">new</span> <span class="n">MockServerClient</span><span class="o">(</span><span class="s">&#34;localhost&#34;</span><span class="o">,</span> <span class="n">8000</span><span class="o">);</span>
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl">        <span class="c1">// 3. 定义服务端的行为
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="n">serverClient</span>
@@ -194,7 +194,7 @@
 </span></span><span class="line"><span class="cl">                        <span class="o">.</span><span class="na">withMethod</span><span class="o">(</span><span class="s">&#34;GET&#34;</span><span class="o">)</span>
 </span></span><span class="line"><span class="cl">                        <span class="o">.</span><span class="na">withPath</span><span class="o">(</span><span class="s">&#34;/path1/function1&#34;</span><span class="o">))</span>
 </span></span><span class="line"><span class="cl">                <span class="o">.</span><span class="na">respond</span><span class="o">(</span><span class="n">response</span><span class="o">()</span>
-</span></span><span class="line"><span class="cl">                        <span class="o">.</span><span class="na">withStatusCode</span><span class="o">(</span><span class="mi">200</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">                        <span class="o">.</span><span class="na">withStatusCode</span><span class="o">(</span><span class="n">200</span><span class="o">)</span>
 </span></span><span class="line"><span class="cl">                        <span class="o">.</span><span class="na">withBody</span><span class="o">(</span><span class="s">&#34;body200&#34;</span><span class="o">));</span>
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl">
@@ -205,7 +205,7 @@
 </span></span><span class="line"><span class="cl">                        <span class="o">.</span><span class="na">withCookies</span><span class="o">(</span><span class="n">cookie</span><span class="o">(</span><span class="s">&#34;session&#34;</span><span class="o">,</span> <span class="s">&#34;4930456C-C718-476F-971F-CB8E047AB349&#34;</span><span class="o">))</span>
 </span></span><span class="line"><span class="cl">                        <span class="o">.</span><span class="na">withQueryStringParameters</span><span class="o">(</span><span class="n">param</span><span class="o">(</span><span class="s">&#34;cartId&#34;</span><span class="o">,</span> <span class="s">&#34;055CA455-1DF7-45BB-8535-4F83E7266092&#34;</span><span class="o">)))</span>
 </span></span><span class="line"><span class="cl">                <span class="o">.</span><span class="na">respond</span><span class="o">(</span><span class="n">response</span><span class="o">()</span>
-</span></span><span class="line"><span class="cl">                        <span class="o">.</span><span class="na">withStatusCode</span><span class="o">(</span><span class="mi">307</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">                        <span class="o">.</span><span class="na">withStatusCode</span><span class="o">(</span><span class="n">307</span><span class="o">)</span>
 </span></span><span class="line"><span class="cl">                        <span class="o">.</span><span class="na">withBody</span><span class="o">(</span><span class="s">&#34;body307&#34;</span><span class="o">));</span>
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl">    <span class="o">}</span>
@@ -296,7 +296,7 @@
                 Please enable JavaScript to view the comments powered by <a href="https://valine.js.org/">Valine</a>.
             </noscript></div></article></div>
             </main><footer class="footer">
-        <div class="footer-container"><div class="footer-line">Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.114.1">Hugo</a> | Theme - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.11"><i class="far fa-kiss-wink-heart fa-fw" aria-hidden="true"></i> LoveIt</a>
+        <div class="footer-container"><div class="footer-line">Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.118.2">Hugo</a> | Theme - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.11"><i class="far fa-kiss-wink-heart fa-fw" aria-hidden="true"></i> LoveIt</a>
                 </div><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright fa-fw" aria-hidden="true"></i><span itemprop="copyrightYear">2019 - 2023</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank">Tinggeng</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
         </div>
     </footer></div>

@@ -288,10 +288,10 @@ What 什么是消息机制?消息机制的三大要素:
 </span></span><span class="line"><span class="cl"><span class="o">};</span>
 </span></span><span class="line"><span class="cl"><span class="n">Looper</span><span class="o">.</span><span class="na">loop</span><span class="o">();</span>
 </span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="err">上面就是一个典型的</span> <span class="n">Looper</span> <span class="err">的使用步骤</span>
-</span></span><span class="line"><span class="cl"><span class="o">-</span> <span class="err">调用</span> <span class="n">prepare</span> <span class="err">方法</span>
-</span></span><span class="line"><span class="cl"><span class="o">-</span> <span class="err">创建</span> <span class="n">Handler</span> <span class="err">对象</span>
-</span></span><span class="line"><span class="cl"><span class="o">-</span> <span class="err">调用</span> <span class="n">loop</span> <span class="err">方法</span>
+</span></span><span class="line"><span class="cl"><span class="n">上面就是一个典型的</span> <span class="n">Looper</span> <span class="n">的使用步骤</span>
+</span></span><span class="line"><span class="cl"><span class="o">-</span> <span class="n">调用</span> <span class="n">prepare</span> <span class="n">方法</span>
+</span></span><span class="line"><span class="cl"><span class="o">-</span> <span class="n">创建</span> <span class="n">Handler</span> <span class="n">对象</span>
+</span></span><span class="line"><span class="cl"><span class="o">-</span> <span class="n">调用</span> <span class="n">loop</span> <span class="n">方法</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>对于 prepare 方法，每个线程只能执行一次，当检测到当前的线程已经执行过这个方法，则会抛出异常。</p>
@@ -433,7 +433,7 @@ What 什么是消息机制?消息机制的三大要素:
 </span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="o">(</span><span class="n">FIND_POTENTIAL_LEAKS</span><span class="o">)</span> <span class="o">{</span>
 </span></span><span class="line"><span class="cl">        <span class="kd">final</span> <span class="n">Class</span><span class="o">&lt;?</span> <span class="kd">extends</span> <span class="n">Handler</span><span class="o">&gt;</span> <span class="n">klass</span> <span class="o">=</span> <span class="n">getClass</span><span class="o">();</span>
 </span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="o">((</span><span class="n">klass</span><span class="o">.</span><span class="na">isAnonymousClass</span><span class="o">()</span> <span class="o">||</span> <span class="n">klass</span><span class="o">.</span><span class="na">isMemberClass</span><span class="o">()</span> <span class="o">||</span> <span class="n">klass</span><span class="o">.</span><span class="na">isLocalClass</span><span class="o">())</span> <span class="o">&amp;&amp;</span>
-</span></span><span class="line"><span class="cl">                <span class="o">(</span><span class="n">klass</span><span class="o">.</span><span class="na">getModifiers</span><span class="o">()</span> <span class="o">&amp;</span> <span class="n">Modifier</span><span class="o">.</span><span class="na">STATIC</span><span class="o">)</span> <span class="o">==</span> <span class="mi">0</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">                <span class="o">(</span><span class="n">klass</span><span class="o">.</span><span class="na">getModifiers</span><span class="o">()</span> <span class="o">&amp;</span> <span class="n">Modifier</span><span class="o">.</span><span class="na">STATIC</span><span class="o">)</span> <span class="o">==</span> <span class="n">0</span><span class="o">)</span> <span class="o">{</span>
 </span></span><span class="line"><span class="cl">            <span class="n">Log</span><span class="o">.</span><span class="na">w</span><span class="o">(</span><span class="n">TAG</span><span class="o">,</span> <span class="s">&#34;The following Handler class should be static or leaks might occur: &#34;</span> <span class="o">+</span>
 </span></span><span class="line"><span class="cl">                <span class="n">klass</span><span class="o">.</span><span class="na">getCanonicalName</span><span class="o">());</span>
 </span></span><span class="line"><span class="cl">        <span class="o">}</span>
@@ -538,13 +538,13 @@ What 什么是消息机制?消息机制的三大要素:
 </span></span><span class="line"><span class="cl">        <span class="o">}</span>
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl">        <span class="kd">final</span> <span class="kt">long</span> <span class="n">traceTag</span> <span class="o">=</span> <span class="n">me</span><span class="o">.</span><span class="na">mTraceTag</span><span class="o">;</span>
-</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="o">(</span><span class="n">traceTag</span> <span class="o">!=</span> <span class="mi">0</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="o">(</span><span class="n">traceTag</span> <span class="o">!=</span> <span class="n">0</span><span class="o">)</span> <span class="o">{</span>
 </span></span><span class="line"><span class="cl">            <span class="n">Trace</span><span class="o">.</span><span class="na">traceBegin</span><span class="o">(</span><span class="n">traceTag</span><span class="o">,</span> <span class="n">msg</span><span class="o">.</span><span class="na">target</span><span class="o">.</span><span class="na">getTraceName</span><span class="o">(</span><span class="n">msg</span><span class="o">));</span>
 </span></span><span class="line"><span class="cl">        <span class="o">}</span>
 </span></span><span class="line"><span class="cl">        <span class="k">try</span> <span class="o">{</span>
 </span></span><span class="line"><span class="cl">            <span class="n">msg</span><span class="o">.</span><span class="na">target</span><span class="o">.</span><span class="na">dispatchMessage</span><span class="o">(</span><span class="n">msg</span><span class="o">);</span>
 </span></span><span class="line"><span class="cl">        <span class="o">}</span> <span class="k">finally</span> <span class="o">{</span>
-</span></span><span class="line"><span class="cl">            <span class="k">if</span> <span class="o">(</span><span class="n">traceTag</span> <span class="o">!=</span> <span class="mi">0</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="k">if</span> <span class="o">(</span><span class="n">traceTag</span> <span class="o">!=</span> <span class="n">0</span><span class="o">)</span> <span class="o">{</span>
 </span></span><span class="line"><span class="cl">                <span class="n">Trace</span><span class="o">.</span><span class="na">traceEnd</span><span class="o">(</span><span class="n">traceTag</span><span class="o">);</span>
 </span></span><span class="line"><span class="cl">            <span class="o">}</span>
 </span></span><span class="line"><span class="cl">        <span class="o">}</span>
@@ -750,14 +750,14 @@ looper 中的 quit 方法最终调用的是 MessageQueue 中的 quit 方法，�
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="c1">// This can happen if the application tries to restart a looper after quit
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="c1">// which is not supported.
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="kd">final</span> <span class="kt">long</span> <span class="n">ptr</span> <span class="o">=</span> <span class="n">mPtr</span><span class="o">;</span>
-</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="o">(</span><span class="n">ptr</span> <span class="o">==</span> <span class="mi">0</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="o">(</span><span class="n">ptr</span> <span class="o">==</span> <span class="n">0</span><span class="o">)</span> <span class="o">{</span>
 </span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="kc">null</span><span class="o">;</span>
 </span></span><span class="line"><span class="cl">    <span class="o">}</span>
 </span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">    <span class="kt">int</span> <span class="n">pendingIdleHandlerCount</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="o">;</span> <span class="c1">// -1 only during first iteration
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="kt">int</span> <span class="n">nextPollTimeoutMillis</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">int</span> <span class="n">pendingIdleHandlerCount</span> <span class="o">=</span> <span class="o">-</span><span class="n">1</span><span class="o">;</span> <span class="c1">// -1 only during first iteration
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="kt">int</span> <span class="n">nextPollTimeoutMillis</span> <span class="o">=</span> <span class="n">0</span><span class="o">;</span>
 </span></span><span class="line"><span class="cl">    <span class="k">for</span> <span class="o">(;;)</span> <span class="o">{</span>
-</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="o">(</span><span class="n">nextPollTimeoutMillis</span> <span class="o">!=</span> <span class="mi">0</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="o">(</span><span class="n">nextPollTimeoutMillis</span> <span class="o">!=</span> <span class="n">0</span><span class="o">)</span> <span class="o">{</span>
 </span></span><span class="line"><span class="cl">            <span class="n">Binder</span><span class="o">.</span><span class="na">flushPendingCommands</span><span class="o">();</span>
 </span></span><span class="line"><span class="cl">        <span class="o">}</span>
 </span></span><span class="line"><span class="cl">
@@ -794,7 +794,7 @@ looper 中的 quit 方法最终调用的是 MessageQueue 中的 quit 方法，�
 </span></span><span class="line"><span class="cl">                <span class="o">}</span>
 </span></span><span class="line"><span class="cl">            <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
 </span></span><span class="line"><span class="cl">                <span class="c1">// No more messages.
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span>                <span class="n">nextPollTimeoutMillis</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="o">;</span>
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>                <span class="n">nextPollTimeoutMillis</span> <span class="o">=</span> <span class="o">-</span><span class="n">1</span><span class="o">;</span>
 </span></span><span class="line"><span class="cl">            <span class="o">}</span>
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl">            <span class="c1">// Process the quit message now that all pending messages have been handled.
@@ -806,25 +806,25 @@ looper 中的 quit 方法最终调用的是 MessageQueue 中的 quit 方法，�
 </span></span><span class="line"><span class="cl">            <span class="c1">// If first time idle, then get the number of idlers to run.
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span>            <span class="c1">// Idle handles only run if the queue is empty or if the first message
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span>            <span class="c1">// in the queue (possibly a barrier) is due to be handled in the future.
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span>            <span class="k">if</span> <span class="o">(</span><span class="n">pendingIdleHandlerCount</span> <span class="o">&lt;</span> <span class="mi">0</span>
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>            <span class="k">if</span> <span class="o">(</span><span class="n">pendingIdleHandlerCount</span> <span class="o">&lt;</span> <span class="n">0</span>
 </span></span><span class="line"><span class="cl">                    <span class="o">&amp;&amp;</span> <span class="o">(</span><span class="n">mMessages</span> <span class="o">==</span> <span class="kc">null</span> <span class="o">||</span> <span class="n">now</span> <span class="o">&lt;</span> <span class="n">mMessages</span><span class="o">.</span><span class="na">when</span><span class="o">))</span> <span class="o">{</span>
 </span></span><span class="line"><span class="cl">                <span class="n">pendingIdleHandlerCount</span> <span class="o">=</span> <span class="n">mIdleHandlers</span><span class="o">.</span><span class="na">size</span><span class="o">();</span>
 </span></span><span class="line"><span class="cl">            <span class="o">}</span>
-</span></span><span class="line"><span class="cl">            <span class="k">if</span> <span class="o">(</span><span class="n">pendingIdleHandlerCount</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="k">if</span> <span class="o">(</span><span class="n">pendingIdleHandlerCount</span> <span class="o">&lt;=</span> <span class="n">0</span><span class="o">)</span> <span class="o">{</span>
 </span></span><span class="line"><span class="cl">                <span class="c1">// No idle handlers to run.  Loop and wait some more.
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span>                <span class="n">mBlocked</span> <span class="o">=</span> <span class="kc">true</span><span class="o">;</span>
 </span></span><span class="line"><span class="cl">                <span class="k">continue</span><span class="o">;</span>
 </span></span><span class="line"><span class="cl">            <span class="o">}</span>
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl">            <span class="k">if</span> <span class="o">(</span><span class="n">mPendingIdleHandlers</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
-</span></span><span class="line"><span class="cl">                <span class="n">mPendingIdleHandlers</span> <span class="o">=</span> <span class="k">new</span> <span class="n">IdleHandler</span><span class="o">[</span><span class="n">Math</span><span class="o">.</span><span class="na">max</span><span class="o">(</span><span class="n">pendingIdleHandlerCount</span><span class="o">,</span> <span class="mi">4</span><span class="o">)];</span>
+</span></span><span class="line"><span class="cl">                <span class="n">mPendingIdleHandlers</span> <span class="o">=</span> <span class="k">new</span> <span class="n">IdleHandler</span><span class="o">[</span><span class="n">Math</span><span class="o">.</span><span class="na">max</span><span class="o">(</span><span class="n">pendingIdleHandlerCount</span><span class="o">,</span> <span class="n">4</span><span class="o">)];</span>
 </span></span><span class="line"><span class="cl">            <span class="o">}</span>
 </span></span><span class="line"><span class="cl">            <span class="n">mPendingIdleHandlers</span> <span class="o">=</span> <span class="n">mIdleHandlers</span><span class="o">.</span><span class="na">toArray</span><span class="o">(</span><span class="n">mPendingIdleHandlers</span><span class="o">);</span>
 </span></span><span class="line"><span class="cl">        <span class="o">}</span>
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl">        <span class="c1">// Run the idle handlers.
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="c1">// We only ever reach this code block during the first iteration.
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">pendingIdleHandlerCount</span><span class="o">;</span> <span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="n">0</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">pendingIdleHandlerCount</span><span class="o">;</span> <span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
 </span></span><span class="line"><span class="cl">            <span class="kd">final</span> <span class="n">IdleHandler</span> <span class="n">idler</span> <span class="o">=</span> <span class="n">mPendingIdleHandlers</span><span class="o">[</span><span class="n">i</span><span class="o">];</span>
 </span></span><span class="line"><span class="cl">            <span class="n">mPendingIdleHandlers</span><span class="o">[</span><span class="n">i</span><span class="o">]</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span> <span class="c1">// release the reference to the handler
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span>
@@ -843,11 +843,11 @@ looper 中的 quit 方法最终调用的是 MessageQueue 中的 quit 方法，�
 </span></span><span class="line"><span class="cl">        <span class="o">}</span>
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl">        <span class="c1">// Reset the idle handler count to 0 so we do not run them again.
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="n">pendingIdleHandlerCount</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="n">pendingIdleHandlerCount</span> <span class="o">=</span> <span class="n">0</span><span class="o">;</span>
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl">        <span class="c1">// While calling an idle handler, a new message could have been delivered
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="c1">// so go back and look again for a pending message without waiting.
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="n">nextPollTimeoutMillis</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="n">nextPollTimeoutMillis</span> <span class="o">=</span> <span class="n">0</span><span class="o">;</span>
 </span></span><span class="line"><span class="cl">    <span class="o">}</span>
 </span></span><span class="line"><span class="cl"><span class="o">}</span>
 </span></span></code></pre></td></tr></table>
@@ -945,7 +945,7 @@ looper 中的 quit 方法最终调用的是 MessageQueue 中的 quit 方法，�
 </span></span><span class="line"><span class="cl">        <span class="n">msg</span><span class="o">.</span><span class="na">when</span> <span class="o">=</span> <span class="n">when</span><span class="o">;</span>
 </span></span><span class="line"><span class="cl">        <span class="n">Message</span> <span class="n">p</span> <span class="o">=</span> <span class="n">mMessages</span><span class="o">;</span>
 </span></span><span class="line"><span class="cl">        <span class="kt">boolean</span> <span class="n">needWake</span><span class="o">;</span>
-</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="o">(</span><span class="n">p</span> <span class="o">==</span> <span class="kc">null</span> <span class="o">||</span> <span class="n">when</span> <span class="o">==</span> <span class="mi">0</span> <span class="o">||</span> <span class="n">when</span> <span class="o">&lt;</span> <span class="n">p</span><span class="o">.</span><span class="na">when</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="o">(</span><span class="n">p</span> <span class="o">==</span> <span class="kc">null</span> <span class="o">||</span> <span class="n">when</span> <span class="o">==</span> <span class="n">0</span> <span class="o">||</span> <span class="n">when</span> <span class="o">&lt;</span> <span class="n">p</span><span class="o">.</span><span class="na">when</span><span class="o">)</span> <span class="o">{</span>
 </span></span><span class="line"><span class="cl">            <span class="c1">// New head, wake up the event queue if blocked.
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span>            <span class="n">msg</span><span class="o">.</span><span class="na">next</span> <span class="o">=</span> <span class="n">p</span><span class="o">;</span>
 </span></span><span class="line"><span class="cl">            <span class="n">mMessages</span> <span class="o">=</span> <span class="n">msg</span><span class="o">;</span>
@@ -1017,7 +1017,7 @@ looper 中的 quit 方法最终调用的是 MessageQueue 中的 quit 方法，�
 </span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="o">(</span><span class="n">FIND_POTENTIAL_LEAKS</span><span class="o">)</span> <span class="o">{</span>
 </span></span><span class="line"><span class="cl">        <span class="kd">final</span> <span class="n">Class</span><span class="o">&lt;?</span> <span class="kd">extends</span> <span class="n">Handler</span><span class="o">&gt;</span> <span class="n">klass</span> <span class="o">=</span> <span class="n">getClass</span><span class="o">();</span>
 </span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="o">((</span><span class="n">klass</span><span class="o">.</span><span class="na">isAnonymousClass</span><span class="o">()</span> <span class="o">||</span> <span class="n">klass</span><span class="o">.</span><span class="na">isMemberClass</span><span class="o">()</span> <span class="o">||</span> <span class="n">klass</span><span class="o">.</span><span class="na">isLocalClass</span><span class="o">())</span> <span class="o">&amp;&amp;</span>
-</span></span><span class="line"><span class="cl">                <span class="o">(</span><span class="n">klass</span><span class="o">.</span><span class="na">getModifiers</span><span class="o">()</span> <span class="o">&amp;</span> <span class="n">Modifier</span><span class="o">.</span><span class="na">STATIC</span><span class="o">)</span> <span class="o">==</span> <span class="mi">0</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">                <span class="o">(</span><span class="n">klass</span><span class="o">.</span><span class="na">getModifiers</span><span class="o">()</span> <span class="o">&amp;</span> <span class="n">Modifier</span><span class="o">.</span><span class="na">STATIC</span><span class="o">)</span> <span class="o">==</span> <span class="n">0</span><span class="o">)</span> <span class="o">{</span>
 </span></span><span class="line"><span class="cl">            <span class="n">Log</span><span class="o">.</span><span class="na">w</span><span class="o">(</span><span class="n">TAG</span><span class="o">,</span> <span class="s">&#34;The following Handler class should be static or leaks might occur: &#34;</span> <span class="o">+</span>
 </span></span><span class="line"><span class="cl">                <span class="n">klass</span><span class="o">.</span><span class="na">getCanonicalName</span><span class="o">());</span>
 </span></span><span class="line"><span class="cl">        <span class="o">}</span>
@@ -1105,17 +1105,17 @@ looper 中的 quit 方法最终调用的是 MessageQueue 中的 quit 方法，�
 </span></span><span class="line"><span class="cl"><span class="o">}</span>
 </span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">final</span> <span class="kt">boolean</span> <span class="nf">sendMessage</span><span class="o">(</span><span class="n">Message</span> <span class="n">msg</span><span class="o">)</span>
 </span></span><span class="line"><span class="cl"><span class="o">{</span>
-</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">sendMessageDelayed</span><span class="o">(</span><span class="n">msg</span><span class="o">,</span> <span class="mi">0</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">sendMessageDelayed</span><span class="o">(</span><span class="n">msg</span><span class="o">,</span> <span class="n">0</span><span class="o">);</span>
 </span></span><span class="line"><span class="cl"><span class="o">}</span>
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">final</span> <span class="kt">boolean</span> <span class="nf">sendEmptyMessage</span><span class="o">(</span><span class="kt">int</span> <span class="n">what</span><span class="o">)</span>
 </span></span><span class="line"><span class="cl"><span class="o">{</span>
-</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">sendEmptyMessageDelayed</span><span class="o">(</span><span class="n">what</span><span class="o">,</span> <span class="mi">0</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">sendEmptyMessageDelayed</span><span class="o">(</span><span class="n">what</span><span class="o">,</span> <span class="n">0</span><span class="o">);</span>
 </span></span><span class="line"><span class="cl"><span class="o">}</span>
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">final</span> <span class="kt">boolean</span> <span class="nf">post</span><span class="o">(</span><span class="n">Runnable</span> <span class="n">r</span><span class="o">)</span>
 </span></span><span class="line"><span class="cl"><span class="o">{</span>
-</span></span><span class="line"><span class="cl">  <span class="k">return</span>  <span class="n">sendMessageDelayed</span><span class="o">(</span><span class="n">getPostMessage</span><span class="o">(</span><span class="n">r</span><span class="o">),</span> <span class="mi">0</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">  <span class="k">return</span>  <span class="n">sendMessageDelayed</span><span class="o">(</span><span class="n">getPostMessage</span><span class="o">(</span><span class="n">r</span><span class="o">),</span> <span class="n">0</span><span class="o">);</span>
 </span></span><span class="line"><span class="cl"><span class="o">}</span>
 </span></span></code></pre></td></tr></table>
 </div>
@@ -1201,7 +1201,7 @@ looper 中的 quit 方法最终调用的是 MessageQueue 中的 quit 方法，�
 </span></span><span class="line"><span class="cl"><span class="n">Handler</span> <span class="n">target</span><span class="o">;</span>
 </span></span><span class="line"><span class="cl"><span class="n">Runnable</span> <span class="n">callback</span><span class="o">;</span>
 </span></span><span class="line"><span class="cl"><span class="kd">private</span> <span class="kd">static</span> <span class="n">Message</span> <span class="n">sPool</span><span class="o">;</span>
-</span></span><span class="line"><span class="cl"><span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="kt">int</span> <span class="n">MAX_POOL_SIZE</span> <span class="o">=</span> <span class="mi">50</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="kt">int</span> <span class="n">MAX_POOL_SIZE</span> <span class="o">=</span> <span class="n">50</span><span class="o">;</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>以上是 Message 的构造方法和比较重要的属性。
@@ -1230,7 +1230,7 @@ looper 中的 quit 方法最终调用的是 MessageQueue 中的 quit 方法，�
 </span></span><span class="line"><span class="cl">            <span class="n">Message</span> <span class="n">m</span> <span class="o">=</span> <span class="n">sPool</span><span class="o">;</span>
 </span></span><span class="line"><span class="cl">            <span class="n">sPool</span> <span class="o">=</span> <span class="n">m</span><span class="o">.</span><span class="na">next</span><span class="o">;</span>
 </span></span><span class="line"><span class="cl">            <span class="n">m</span><span class="o">.</span><span class="na">next</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
-</span></span><span class="line"><span class="cl">            <span class="n">m</span><span class="o">.</span><span class="na">flags</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="c1">// clear in-use flag
+</span></span><span class="line"><span class="cl">            <span class="n">m</span><span class="o">.</span><span class="na">flags</span> <span class="o">=</span> <span class="n">0</span><span class="o">;</span> <span class="c1">// clear in-use flag
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span>            <span class="n">sPoolSize</span><span class="o">--;</span>
 </span></span><span class="line"><span class="cl">            <span class="k">return</span> <span class="n">m</span><span class="o">;</span>
 </span></span><span class="line"><span class="cl">        <span class="o">}</span>
@@ -1291,13 +1291,13 @@ looper 中的 quit 方法最终调用的是 MessageQueue 中的 quit 方法，�
 </span></span><span class="line"><span class="cl">    <span class="c1">// Mark the message as in use while it remains in the recycled object pool.
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="c1">// Clear out all other details.
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">flags</span> <span class="o">=</span> <span class="n">FLAG_IN_USE</span><span class="o">;</span>
-</span></span><span class="line"><span class="cl">    <span class="n">what</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
-</span></span><span class="line"><span class="cl">    <span class="n">arg1</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
-</span></span><span class="line"><span class="cl">    <span class="n">arg2</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">what</span> <span class="o">=</span> <span class="n">0</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">arg1</span> <span class="o">=</span> <span class="n">0</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">arg2</span> <span class="o">=</span> <span class="n">0</span><span class="o">;</span>
 </span></span><span class="line"><span class="cl">    <span class="n">obj</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
 </span></span><span class="line"><span class="cl">    <span class="n">replyTo</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
-</span></span><span class="line"><span class="cl">    <span class="n">sendingUid</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="o">;</span>
-</span></span><span class="line"><span class="cl">    <span class="n">when</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">sendingUid</span> <span class="o">=</span> <span class="o">-</span><span class="n">1</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">when</span> <span class="o">=</span> <span class="n">0</span><span class="o">;</span>
 </span></span><span class="line"><span class="cl">    <span class="n">target</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
 </span></span><span class="line"><span class="cl">    <span class="n">callback</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
 </span></span><span class="line"><span class="cl">    <span class="n">data</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
@@ -1351,7 +1351,7 @@ looper 中的 quit 方法最终调用的是 MessageQueue 中的 quit 方法，�
                 Please enable JavaScript to view the comments powered by <a href="https://valine.js.org/">Valine</a>.
             </noscript></div></article></div>
             </main><footer class="footer">
-        <div class="footer-container"><div class="footer-line">Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.114.1">Hugo</a> | Theme - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.11"><i class="far fa-kiss-wink-heart fa-fw" aria-hidden="true"></i> LoveIt</a>
+        <div class="footer-container"><div class="footer-line">Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.118.2">Hugo</a> | Theme - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.11"><i class="far fa-kiss-wink-heart fa-fw" aria-hidden="true"></i> LoveIt</a>
                 </div><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright fa-fw" aria-hidden="true"></i><span itemprop="copyrightYear">2019 - 2023</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank">Tinggeng</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
         </div>
     </footer></div>
