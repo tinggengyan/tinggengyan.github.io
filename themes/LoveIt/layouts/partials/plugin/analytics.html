@@ -22,7 +22,7 @@
 
     {{- /* Plausible Analytics */ -}}
     {{- with $analytics.plausible.dataDomain -}}
-        {{- dict "Source" "https://plausible.io/js/plausible.js" "Async" true "Defer" true "Attr" ($analytics.plausible.dataDomain | printf `data-domain="%v"`) | partial "plugin/script.html" -}}
+        {{- dict "Source" "http://www.steveyan.cn/js/script.js" "Async" true "Defer" true "Attr" ($analytics.plausible.dataDomain | printf `data-domain="%v"`) | partial "plugin/script.html" -}}
     {{- end -}}
 
     {{- /* Yandex Metrica */ -}}
